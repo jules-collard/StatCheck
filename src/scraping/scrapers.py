@@ -18,10 +18,8 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
        'periodDescriptor.number', 'periodDescriptor.periodType', 'periodDescriptor.maxRegulationPeriods', 'details.eventOwnerTeamId',
        'details.losingPlayerId', 'details.winningPlayerId', 'details.xCoord', 'details.yCoord', 'details.zoneCode',
        'details.hittingPlayerId', 'details.hitteePlayerId', 'details.blockingPlayerId', 'details.shootingPlayerId', 'details.reason',
-       'details.shotType', 'details.goalieInNetId', 'details.playerId', 'details.typeCode',
-       'details.descKey', 'details.duration', 'details.committedByPlayerId', 'details.drawnByPlayerId', 'details.scoringPlayerId',
-       'details.assist1PlayerId', 'details.assist2PlayerId']
-    
+       'details.shotType', 'details.goalieInNetId', 'details.playerId', 'details.duration', 'details.committedByPlayerId',
+       'details.drawnByPlayerId', 'details.scoringPlayerId', 'details.assist1PlayerId', 'details.assist2PlayerId']
 
     response = requests.get(url).json()
     pbp_df = pd.json_normalize(response["plays"])[cols]
@@ -33,11 +31,9 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
                                 },
                                 inplace=True)
     categorical_cols = ['homeTeamDefendingSide', 'typeDescKey', 'periodType', 'details.zoneCode', 'details.reason', 'details.shotType', 'details.typeCode', 'details.descKey']
-    
     pbp_df[categorical_cols] = pbp_df[categorical_cols].astype('category')
-
     # Add meta data (datetime of the execution)
-    pbp_df["meta_datetime"] = pd.to_datetime("now")
+    pbp_df["metaDateTime"] = pd.to_datetime("now")
 
     return pbp_df
 
@@ -51,13 +47,26 @@ def scrape_player(playerId: int) -> dict:
     """
 
     url = f"https://api-web.nhle.com/v1/player/{playerId}/landing"
+    cols = ['playerId', 'isActive', 'currentTeamId', 'firstName.default', 'lastName.default',
+            'sweaterNumber', 'position', 'headshot', 'heroImage', 'heightInInches', 'heightInCentimeters',
+            'weightInPounds', 'weightInKilograms', 'birthDate', 'birthCity.default', 'birthCountry',
+            'shootsCatches', 'draftDetails.year', 'draftDetails.teamAbbrev', 'draftDetails.round',
+            'draftDetails.pickInRound', 'draftDetails.overallPick', 'inTop100AllTime', 'inHHOF']
 
     response = requests.get(url).json()
-    keys = ['playerId', 'isActive', 'currentTeamId', 'firstName', 'lastName', 'sweaterNumber', 'position', 'headshot', 'heroImage', 'heightInInches', 'heightInCentimeters', 'weightInPounds', 'weightInKilograms', 'birthDate', 'birthCity', 'birthCountry', 'shootsCatches', 'draftDetails', 'inTop100AllTime', 'inHHOF', 'awards']
-    
-    details = {key:response[key] for key in keys}
+    player_df = pd.json_normalize(response)[cols]
+    player_df['metaDateTime'] = pd.to_datetime('now')
+    player_df.rename(columns = {'firstName.default':'firstName',
+                                'lastName.default':'lastName',
+                                'birthCity.default':'birthCity',
+                                'draftDetails.year':'draftYear',
+                                'draftDetails.teamAbbrev':'draftTeamAbbrev',
+                                'draftDetails.round':'draftRound',
+                                'draftDetails.pickInRound':'draftPickInRound',
+                                'draftDetails.overallPick':'draftOverallPick'},
+                    inplace=True)
 
-    return details
+    return player_df
 
 def scrape_schedule(date: str) -> pd.DataFrame:
     """
@@ -72,13 +81,25 @@ def scrape_schedule(date: str) -> pd.DataFrame:
     # Game Type: 2-REG, 3-POST
 
     url = f"https://api-web.nhle.com/v1/schedule/{date}"
-    response = requests.get(url).json()
+    cols = ['id', 'season', 'gameType', 'neutralSite', 'startTimeUTC', 'venueUTCOffset', 'gameState', 'gameScheduleState',
+            'venue.default', 'awayTeam.id', 'awayTeam.score', 'homeTeam.id', 'homeTeam.score', 'periodDescriptor.maxRegulationPeriods',
+            'gameOutcome.lastPeriodType', 'winningGoalie.playerId', 'winningGoalScorer.playerId']
 
-    cols = ['id', 'season', 'gameType', 'neutralSite', 'startTimeUTC', 'easternUTCOffset', 'venueUTCOffset', 'venueTimezone', 'gameState',
-       'gameScheduleState', 'venue.default', 'awayTeam.id', 'awayTeam.score', 'homeTeam.id', 'homeTeam.score', 'periodDescriptor.maxRegulationPeriods',
-       'gameOutcome.lastPeriodType', 'winningGoalie.playerId', 'winningGoalScorer.playerId']
+    response = requests.get(url).json()
     schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])[cols]
     schedule_df["date"] = date
+
+    schedule_df.rename(columns = {'venue.default':'defaultVenue',
+                                    'awayTeam.id':'awayTeamId', 'awayTeam.score':'awayTeamScore',
+                                    'homeTeam.id':'homeTeamId', 'homeTeam.score':'homeTeamScore',
+                                    'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods',
+                                    'gameOutcome.lastPeriodType':'lastPeriodType',
+                                    'winningGoalie.playerId':'winningGoalieId',
+                                    'winningGoalScorer.playerId':'winningGoalScorerId'},
+                                    inplace=True)
+    categorical_cols = ['season', 'gameState', 'gameScheduleState', 'lastPeriodType']
+    schedule_df[categorical_cols] = schedule_df[categorical_cols].astype('category')
+    schedule_df["metaDateTime"] = pd.to_datetime("now")
 
     return schedule_df
 
@@ -92,14 +113,14 @@ def scrape_shifts(gameId: int) -> pd.DataFrame:
     :rtype: pd.DataFrame
     """
 
-    cols = ['id', 'duration', 'startTime', 'endTime', 'eventNumber', 'gameId', 'period', 'playerId', 'shiftNumber', 'teamId', 'meta_datetime']
-
     url = f"https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId={gameId}"
+    cols = ['id', 'duration', 'startTime', 'endTime', 'eventNumber', 'gameId', 'period', 'playerId', 'shiftNumber', 'teamId', 'metaDateTime']
+
     response = requests.get(url).json()
     shifts_df = pd.json_normalize(response["data"])
 
     # Add meta data (datetime of the execution)
-    shifts_df["meta_datetime"] = pd.to_datetime("now")
+    shifts_df["metaDateTime"] = pd.to_datetime("now")
     # Remove goal events
     shifts_df = shifts_df[(shifts_df["detailCode"] == 0) & (shifts_df["typeCode"] == 517)]
     shifts_df = shifts_df[cols]
@@ -118,10 +139,9 @@ def scrape_teams() -> pd.DataFrame:
     url = "https://api.nhle.com/stats/rest/en/franchise?sort=fullName"
 
     response = requests.get(url).json()
-
     teams_df = pd.json_normalize(response["data"])
     # Add meta data (datetime of the execution)
-    teams_df["meta_datetime"] = pd.to_datetime("now")
+    teams_df["metaDateTime"] = pd.to_datetime("now")
 
     return teams_df
 
