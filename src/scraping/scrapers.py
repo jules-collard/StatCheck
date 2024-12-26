@@ -26,7 +26,8 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
     response = requests.get(url).json()
     pbp_df = pd.json_normalize(response["plays"])[cols]
     pbp_df["gameId"] = gameId
-    pbp_df.rename(columns = {'periodDescriptor.number':'period',
+    pbp_df.rename(columns = {'eventId':'id',
+                                'periodDescriptor.number':'period',
                                 'periodDescriptor.periodType':'periodType',
                                 'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods',
                                 },
@@ -40,7 +41,7 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
 
     return pbp_df
 
-def scrape_player(playerId: int):
+def scrape_player(playerId: int) -> dict:
     """
     Scrapes player data from the NHL website for a given player ID.
 
@@ -81,7 +82,7 @@ def scrape_schedule(date: str) -> pd.DataFrame:
 
     return schedule_df
 
-def scrape_shifts(gameId: int):
+def scrape_shifts(gameId: int) -> pd.DataFrame:
     """
     Scrapes shift data from the NHL website for a given game ID.
     
@@ -105,9 +106,29 @@ def scrape_shifts(gameId: int):
 
     return shifts_df
 
+def scrape_teams() -> pd.DataFrame:
+    """
+    Scrapes team data from the NHL website
+
+    Returns :
+    :return: A DataFrame containing the scraped team data.
+    :rtype: pd.DataFrame
+    """
+
+    url = "https://api.nhle.com/stats/rest/en/franchise?sort=fullName"
+
+    response = requests.get(url).json()
+
+    teams_df = pd.json_normalize(response["data"])
+    # Add meta data (datetime of the execution)
+    teams_df["meta_datetime"] = pd.to_datetime("now")
+
+    return teams_df
+
 if __name__ == "__main__":
-    # schedule_df = scrape_schedule("2024-12-21")
-    # shifts_df = scrape_shifts(2024020170)
-    # pbp_df = scrape_pbp(2024020170)
-    # player = scrape_player(8478402)
+    schedule_df = scrape_schedule("2024-12-21")
+    shifts_df = scrape_shifts(2024020170)
+    pbp_df = scrape_pbp(2024020170)
+    player = scrape_player(8478402)
+    teams = scrape_teams()
     pass
