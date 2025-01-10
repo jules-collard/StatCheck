@@ -30,7 +30,7 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
                                 'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods',
                                 },
                                 inplace=True)
-    categorical_cols = ['homeTeamDefendingSide', 'typeDescKey', 'periodType', 'details.zoneCode', 'details.reason', 'details.shotType', 'details.typeCode', 'details.descKey']
+    categorical_cols = ['homeTeamDefendingSide', 'typeDescKey', 'periodType', 'details.zoneCode', 'details.reason', 'details.shotType']
     pbp_df[categorical_cols] = pbp_df[categorical_cols].astype('category')
     # Add meta data (datetime of the execution)
     pbp_df["metaDateTime"] = pd.to_datetime("now")
@@ -146,9 +146,9 @@ def scrape_teams() -> pd.DataFrame:
     return teams_df
 
 if __name__ == "__main__":
-    schedule_df = scrape_schedule("2024-12-21")
-    shifts_df = scrape_shifts(2024020170)
+    schedule_df = scrape_schedule("2025-01-08")
+    # shifts_df = scrape_shifts(2024020170)
     pbp_df = scrape_pbp(2024020170)
-    player = scrape_player(8478402)
-    teams = scrape_teams()
+    # player = scrape_player(8478402)
+    # teams = scrape_teams()
     pass
