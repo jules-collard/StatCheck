@@ -8,6 +8,9 @@ def create_app():
     from app import db
     db.init_app(app)
 
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp)
+
     return app
 
 app = create_app()
