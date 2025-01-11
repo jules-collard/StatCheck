@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS teams (
     PRIMARY KEY("id")
 );
 
-
 CREATE TABLE IF NOT EXISTS players (
     id INTEGER,
     isActive INTEGER,
