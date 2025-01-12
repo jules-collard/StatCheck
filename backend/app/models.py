@@ -90,3 +90,52 @@ class Game(db.Model):
 
     def __repr__(self):
         return f"<{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
+    
+
+class EventType(db.Model):
+    __tablename__ = "event_types"
+
+    typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
+    typeDescKey: so.Mapped[str] = so.mapped_column()
+
+
+class Event(db.Model):
+    __tablename__ = "events"
+
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    timeInPeriod: so.Mapped[str] = so.mapped_column()
+    timeRemaining: so.Mapped[str] = so.mapped_column()
+    awayGoalie: so.Mapped[int] = so.mapped_column()
+    awaySkaters: so.Mapped[int] = so.mapped_column()
+    homeGoalie: so.Mapped[int] = so.mapped_column()
+    homeSkaters: so.Mapped[int] = so.mapped_column()
+    homeTeamDefendingSide: so.Mapped[str] = so.mapped_column()
+    typeCode: so.Mapped[int] = so.mapped_column(sa.ForeignKey(EventType.typeCode))
+    sortOrder: so.Mapped[int] = so.mapped_column()
+    period: so.Mapped[int] = so.mapped_column()
+    periodType: so.Mapped[int] = so.mapped_column()
+    eventOwnerTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), nullable=True)
+    losingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    winningPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    xCoord: so.Mapped[float] = so.mapped_column(nullable=True)
+    yCoord: so.Mapped[float] = so.mapped_column(nullable=True)
+    zoneCode: so.Mapped[str] = so.mapped_column(nullable=True)
+    hittingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    hitteePlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    blockingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    shootingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    reason: so.Mapped[str] = so.mapped_column(nullable=True)
+    shotType: so.Mapped[str] = so.mapped_column(nullable=True)
+    goalieInNetID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    eventOwnerPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    penaltyDuration: so.Mapped[str] = so.mapped_column(nullable=True)
+    committedByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    drawnByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    scoringPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    assist1PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    assist2PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
+    metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    def __repr__(self):
+        return f"<Event: {self.typeCode}>"
