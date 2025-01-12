@@ -58,6 +58,12 @@ class Player(db.Model):
     def __repr__(self):
         return f"<{self.firstName} {self.lastName}>"
     
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'name': f"{self.firstName} {self.lastName}"
+        }
+    
 
 class GameType(db.Model):
     __tablename__ = "game_types"
