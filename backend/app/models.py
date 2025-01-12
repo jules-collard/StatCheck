@@ -64,3 +64,29 @@ class GameType(db.Model):
 
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
     typeDescKey: so.Mapped[str] = so.mapped_column()
+
+
+class Game(db.Model):
+    __tablename__ = "games"
+
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    season: so.Mapped[int] = so.mapped_column()
+    gameType: so.Mapped[int] = so.mapped_column(sa.ForeignKey(GameType.typeCode))
+    inHHOF: so.Mapped[int] = so.mapped_column(nullable=True)
+    startTimeUTC: so.Mapped[datetime] = so.mapped_column()
+    venueUTCOffset: so.Mapped[int] = so.mapped_column()
+    gameState: so.Mapped[str] = so.mapped_column()
+    gameScheduleState: so.Mapped[str] = so.mapped_column()
+    defaultVenue: so.Mapped[str] = so.mapped_column()
+    awayTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
+    awayTeamScore: so.Mapped[int] = so.mapped_column()
+    homeTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
+    homeTeamScore: so.Mapped[int] = so.mapped_column()
+    maxRegulationPeriod: so.Mapped[int] = so.mapped_column()
+    lastPeriodType: so.Mapped[str] = so.mapped_column()
+    winningGoalieID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
+    winningGoalscorerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
+    metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    def __repr__(self):
+        return f"<{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
