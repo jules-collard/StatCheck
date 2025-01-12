@@ -150,5 +150,6 @@ if __name__ == "__main__":
     # shifts_df = scrape_shifts(2024020170)
     pbp_df = scrape_pbp(2024020170)
     # player = scrape_player(8478402)
-    # teams = scrape_teams()
+    teams = scrape_teams()
+    print(teams.head())
     pass
