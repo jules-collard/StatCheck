@@ -1,5 +1,4 @@
 from datetime import datetime, timezone, date
-from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
@@ -58,3 +57,10 @@ class Player(db.Model):
 
     def __repr__(self):
         return f"<{self.firstName} {self.lastName}>"
+    
+
+class GameType(db.Model):
+    __tablename__ = "game_types"
+
+    typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
+    typeDescKey: so.Mapped[str] = so.mapped_column()
