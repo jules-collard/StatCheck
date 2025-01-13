@@ -2,6 +2,7 @@ from datetime import datetime, timezone, date
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from app import db
+import inspect
 
 class Team(db.Model):
     __tablename__ = 'teams'
@@ -37,8 +38,8 @@ class Player(db.Model):
     lastName: so.Mapped[str] = so.mapped_column()
     sweaterNumber: so.Mapped[int] = so.mapped_column(nullable=True)
     position: so.Mapped[str] = so.mapped_column()
-    headshot: so.Mapped[str] = so.mapped_column()
-    heroImage: so.Mapped[str] = so.mapped_column()
+    headshot: so.Mapped[str] = so.mapped_column(nullable=True)
+    heroImage: so.Mapped[str] = so.mapped_column(nullable=True)
     heightInInches: so.Mapped[int] = so.mapped_column(nullable=True)
     heightInCentimeters: so.Mapped[int] = so.mapped_column(nullable=True)
     weightInPounds: so.Mapped[int] = so.mapped_column(nullable=True)
@@ -52,7 +53,7 @@ class Player(db.Model):
     draftRound: so.Mapped[int] = so.mapped_column(nullable=True)
     draftPickInRound: so.Mapped[int] = so.mapped_column(nullable=True)
     draftOverallPick: so.Mapped[str] = so.mapped_column(nullable=True)
-    inHHOF: so.Mapped[int] = so.mapped_column()
+    inHHOF: so.Mapped[int] = so.mapped_column(nullable=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -63,6 +64,13 @@ class Player(db.Model):
             'id':self.id,
             'name': f"{self.firstName} {self.lastName}"
         }
+    
+    def from_dict(self, data):
+        # Isolate class attributes
+        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
+        for field in attrs:
+            if field in data:
+                setattr(self, field, data[field])
     
 
 class GameType(db.Model):
