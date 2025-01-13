@@ -140,8 +140,7 @@ def scrape_teams() -> pd.DataFrame:
 
     response = requests.get(url).json()
     teams_df = pd.json_normalize(response["data"])
-    # Add meta data (datetime of the execution)
-    teams_df["metaDateTime"] = pd.to_datetime("now")
+    teams_df.rename({"teamCommonName":"commonName", "teamPlaceName":"placeName"}, inplace=True)
 
     return teams_df
 
@@ -152,4 +151,5 @@ if __name__ == "__main__":
     # player = scrape_player(8478402)
     teams = scrape_teams()
     print(teams.head())
+    print(teams.columns)
     pass
