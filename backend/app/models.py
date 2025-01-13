@@ -16,6 +16,19 @@ class Team(db.Model):
     def __repr__(self):
         return f"<{self.fullName}>"
     
+    def to_dict(self):
+        return {
+            'id':self.id,
+            'fullName': self.fullName
+        }
+    
+    def from_dict(self, data):
+        # Isolate class attributes
+        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
+        for field in attrs:
+            if field in data:
+                setattr(self, field, data[field])
+    
 
 class Player(db.Model):
     __tablename__ = 'players'

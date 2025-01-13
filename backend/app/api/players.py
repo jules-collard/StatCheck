@@ -1,6 +1,7 @@
 from app.api import bp, db
 from app.api.errors import bad_request
 from app.models import Player
+
 from flask import request
 import sqlalchemy as sa
 
