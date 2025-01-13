@@ -1,6 +1,7 @@
 from app.api import bp, db
 from app.api.errors import bad_request
 from app.models import Team
+from json import loads
 
 from flask import request
 import sqlalchemy as sa
@@ -11,7 +12,9 @@ def get_team(id):
 
 @bp.route('/teams', methods=['POST'])
 def add_team():
-    data = request.get_json()
+    data = loads(request.get_json())
+    print(data)
+    print(type(data))
     required_cols = {'id', 'fullName', 'commonName', 'placeName'}
 
     if not required_cols.issubset(data.keys()):
