@@ -140,7 +140,7 @@ def scrape_teams() -> pd.DataFrame:
 
     response = requests.get(url).json()
     teams_df = pd.json_normalize(response["data"])
-    teams_df.rename({"teamCommonName":"commonName", "teamPlaceName":"placeName"}, inplace=True)
+    teams_df.rename(columns = {"teamCommonName":"commonName", "teamPlaceName":"placeName"}, inplace=True)
 
     return teams_df
 
