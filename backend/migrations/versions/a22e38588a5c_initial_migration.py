@@ -1,8 +1,8 @@
-"""First migration
+"""initial migration
 
-Revision ID: 5aaed4cad1d4
+Revision ID: a22e38588a5c
 Revises: 
-Create Date: 2025-01-13 22:28:27.705272
+Create Date: 2025-01-14 17:05:48.853847
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5aaed4cad1d4'
+revision = 'a22e38588a5c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,9 +36,31 @@ def upgrade():
     sa.Column('metaDateTime', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('games',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('season', sa.Integer(), nullable=False),
+    sa.Column('gameType', sa.Integer(), nullable=False),
+    sa.Column('neutralSite', sa.Boolean(), nullable=False),
+    sa.Column('startTimeUTC', sa.DateTime(), nullable=False),
+    sa.Column('venueUTCOffset', sa.Integer(), nullable=False),
+    sa.Column('gameState', sa.String(), nullable=False),
+    sa.Column('gameScheduleState', sa.String(), nullable=False),
+    sa.Column('defaultVenue', sa.String(), nullable=False),
+    sa.Column('awayTeamID', sa.Integer(), nullable=False),
+    sa.Column('awayTeamScore', sa.Integer(), nullable=False),
+    sa.Column('homeTeamID', sa.Integer(), nullable=False),
+    sa.Column('homeTeamScore', sa.Integer(), nullable=False),
+    sa.Column('maxRegulationPeriods', sa.Integer(), nullable=False),
+    sa.Column('lastPeriodType', sa.String(), nullable=False),
+    sa.Column('metaDateTime', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['awayTeamID'], ['teams.id'], ),
+    sa.ForeignKeyConstraint(['gameType'], ['game_types.typeCode'], ),
+    sa.ForeignKeyConstraint(['homeTeamID'], ['teams.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('players',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('isActive', sa.Integer(), nullable=False),
+    sa.Column('isActive', sa.Boolean(), nullable=False),
     sa.Column('currentTeamID', sa.Integer(), nullable=False),
     sa.Column('firstName', sa.String(), nullable=False),
     sa.Column('lastName', sa.String(), nullable=False),
@@ -59,35 +81,8 @@ def upgrade():
     sa.Column('draftRound', sa.Integer(), nullable=True),
     sa.Column('draftPickInRound', sa.Integer(), nullable=True),
     sa.Column('draftOverallPick', sa.Integer(), nullable=True),
-    sa.Column('inHHOF', sa.Integer(), nullable=True),
     sa.Column('metaDateTime', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['currentTeamID'], ['teams.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('games',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('season', sa.Integer(), nullable=False),
-    sa.Column('gameType', sa.Integer(), nullable=False),
-    sa.Column('neutralSite', sa.Integer(), nullable=True),
-    sa.Column('startTimeUTC', sa.DateTime(), nullable=False),
-    sa.Column('venueUTCOffset', sa.Integer(), nullable=False),
-    sa.Column('gameState', sa.String(), nullable=False),
-    sa.Column('gameScheduleState', sa.String(), nullable=False),
-    sa.Column('defaultVenue', sa.String(), nullable=False),
-    sa.Column('awayTeamID', sa.Integer(), nullable=False),
-    sa.Column('awayTeamScore', sa.Integer(), nullable=False),
-    sa.Column('homeTeamID', sa.Integer(), nullable=False),
-    sa.Column('homeTeamScore', sa.Integer(), nullable=False),
-    sa.Column('maxRegulationPeriods', sa.Integer(), nullable=False),
-    sa.Column('lastPeriodType', sa.String(), nullable=False),
-    sa.Column('winningGoalieID', sa.Integer(), nullable=False),
-    sa.Column('winningGoalscorerID', sa.Integer(), nullable=True),
-    sa.Column('metaDateTime', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['awayTeamID'], ['teams.id'], ),
-    sa.ForeignKeyConstraint(['gameType'], ['game_types.typeCode'], ),
-    sa.ForeignKeyConstraint(['homeTeamID'], ['teams.id'], ),
-    sa.ForeignKeyConstraint(['winningGoalieID'], ['players.id'], ),
-    sa.ForeignKeyConstraint(['winningGoalscorerID'], ['players.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('events',
@@ -141,6 +136,23 @@ def upgrade():
     sa.ForeignKeyConstraint(['shootingPlayerID'], ['players.id'], ),
     sa.ForeignKeyConstraint(['typeCode'], ['event_types.typeCode'], ),
     sa.ForeignKeyConstraint(['winningPlayerID'], ['players.id'], ),
+    sa.PrimaryKeyConstraint('id', 'gameID')
+    )
+    op.create_table('shifts',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('durationSec', sa.Integer(), nullable=False),
+    sa.Column('startTimeSec', sa.Integer(), nullable=False),
+    sa.Column('endTimeSec', sa.Integer(), nullable=False),
+    sa.Column('eventNumber', sa.Integer(), nullable=False),
+    sa.Column('gameID', sa.Integer(), nullable=False),
+    sa.Column('period', sa.Integer(), nullable=False),
+    sa.Column('playerID', sa.Integer(), nullable=False),
+    sa.Column('shiftNumber', sa.Integer(), nullable=False),
+    sa.Column('teamID', sa.Integer(), nullable=False),
+    sa.Column('metaDateTime', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['gameID'], ['games.id'], ),
+    sa.ForeignKeyConstraint(['playerID'], ['players.id'], ),
+    sa.ForeignKeyConstraint(['teamID'], ['teams.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
@@ -148,9 +160,10 @@ def upgrade():
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_table('shifts')
     op.drop_table('events')
-    op.drop_table('games')
     op.drop_table('players')
+    op.drop_table('games')
     op.drop_table('teams')
     op.drop_table('game_types')
     op.drop_table('event_types')

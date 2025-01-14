@@ -34,7 +34,7 @@ class Player(db.Model):
     __tablename__ = 'players'
                      
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    isActive: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''isActive IN (0,1)'''))
+    isActive: so.Mapped[bool] = so.mapped_column()
     currentTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
     firstName: so.Mapped[str] = so.mapped_column()
     lastName: so.Mapped[str] = so.mapped_column()
@@ -55,7 +55,6 @@ class Player(db.Model):
     draftRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftRound > 0"), nullable=True)
     draftPickInRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftPickInRound > 0"), nullable=True)
     draftOverallPick: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftOverallPick > 0"), nullable=True)
-    inHHOF: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''inHHOF IN (0,1)'''), nullable=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -86,7 +85,7 @@ class Game(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     season: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("season > 0"))
     gameType: so.Mapped[int] = so.mapped_column(sa.ForeignKey(GameType.typeCode))
-    neutralSite: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''neutralSite IN (0,1)'''), nullable=True)
+    neutralSite: so.Mapped[bool] = so.mapped_column()
     startTimeUTC: so.Mapped[datetime] = so.mapped_column()
     venueUTCOffset: so.Mapped[int] = so.mapped_column()
     gameState: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''gameState = "OFF"'''))
@@ -98,8 +97,6 @@ class Game(db.Model):
     homeTeamScore: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeTeamScore >= 0"))
     maxRegulationPeriods: so.Mapped[int] = so.mapped_column()
     lastPeriodType: so.Mapped[str] = so.mapped_column()
-    winningGoalieID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
-    winningGoalscorerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -148,7 +145,7 @@ class Event(db.Model):
     scoringPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     assist1PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     assist2PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
-    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -160,10 +157,8 @@ class Shift(db.Model):
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     durationSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("durationSec >= 0"))
-    startTimeMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeMin >= 0 AND startTimeMin <= 20"))
-    startTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeSec >= 0 AND startTimeSec <= 60"))
-    endTimeMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeMin >= 0 AND endTimeMin <= 20"))
-    endTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeSec >= 0 AND endTimeSec <= 60"))
+    startTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeSec >= 0"))
+    endTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeSec >= 0"))
     eventNumber: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("eventNumber >= 0"))
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
     period: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("period > 0"))
