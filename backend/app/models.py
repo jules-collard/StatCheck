@@ -32,20 +32,9 @@ class Team(db.Model):
 
 class Player(db.Model):
     __tablename__ = 'players'
-    
-    """ NOT WORKING
-    __tableargs__ = (sa.CheckConstraint('''isActive IN (0,1)'''),
-                     sa.CheckConstraint("sweaterNumber >= 0"),
-                     sa.CheckConstraint("heightInInches >= 0"),
-                     sa.CheckConstraint("heightInCentimeters >= 0"),
-                     sa.CheckConstraint("weightInPounds >= 0"),
-                     sa.CheckConstraint("weightInKilograms >= 0"),
-                     sa.CheckConstraint('''shootsCatches IN ("L","R")'''),
-                     sa.CheckConstraint('''isActive IN (0,1)'''))
-    """
                      
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    isActive: so.Mapped[int] = so.mapped_column()
+    isActive: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''isActive IN (0,1)'''))
     currentTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
     firstName: so.Mapped[str] = so.mapped_column()
     lastName: so.Mapped[str] = so.mapped_column()
@@ -53,20 +42,20 @@ class Player(db.Model):
     position: so.Mapped[str] = so.mapped_column()
     headshot: so.Mapped[str] = so.mapped_column(nullable=True)
     heroImage: so.Mapped[str] = so.mapped_column(nullable=True)
-    heightInInches: so.Mapped[int] = so.mapped_column(nullable=True)
-    heightInCentimeters: so.Mapped[int] = so.mapped_column(nullable=True)
-    weightInPounds: so.Mapped[int] = so.mapped_column(nullable=True)
-    weightInKilograms: so.Mapped[int] = so.mapped_column(nullable=True)
+    heightInInches: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("heightInInches >= 0"), nullable=True)
+    heightInCentimeters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("heightInCentimeters >= 0"), nullable=True)
+    weightInPounds: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("weightInPounds >= 0"), nullable=True)
+    weightInKilograms: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("weightInKilograms >= 0"), nullable=True)
     birthDate: so.Mapped[date] = so.mapped_column()
     birthCity: so.Mapped[str] = so.mapped_column(nullable=True)
     birthCountry: so.Mapped[str] = so.mapped_column(nullable=True)
-    shootsCatches: so.Mapped[str] = so.mapped_column()
-    draftYear: so.Mapped[int] = so.mapped_column(nullable=True)
+    shootsCatches: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''shootsCatches IN ("L","R")'''))
+    draftYear: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftYear > 0"), nullable=True)
     draftTeamAbbrev: so.Mapped[str] = so.mapped_column(nullable=True)
-    draftRound: so.Mapped[int] = so.mapped_column(nullable=True)
-    draftPickInRound: so.Mapped[int] = so.mapped_column(nullable=True)
-    draftOverallPick: so.Mapped[str] = so.mapped_column(nullable=True)
-    inHHOF: so.Mapped[int] = so.mapped_column(nullable=True)
+    draftRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftRound > 0"), nullable=True)
+    draftPickInRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftPickInRound > 0"), nullable=True)
+    draftOverallPick: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftOverallPick > 0"), nullable=True)
+    inHHOF: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''inHHOF IN (0,1)'''), nullable=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
@@ -90,25 +79,25 @@ class GameType(db.Model):
     __tablename__ = "game_types"
 
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
-    typeDescKey: so.Mapped[str] = so.mapped_column()
+    typeDescKey: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''typeDescKey IN ("REG", "POST")'''))
 
 
 class Game(db.Model):
     __tablename__ = "games"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    season: so.Mapped[int] = so.mapped_column()
+    season: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("season > 0"))
     gameType: so.Mapped[int] = so.mapped_column(sa.ForeignKey(GameType.typeCode))
-    neutralSite: so.Mapped[int] = so.mapped_column(nullable=True)
+    neutralSite: so.Mapped[int] = so.mapped_column(sa.CheckConstraint('''neutralSite IN (0,1)'''), nullable=True)
     startTimeUTC: so.Mapped[datetime] = so.mapped_column()
     venueUTCOffset: so.Mapped[int] = so.mapped_column()
-    gameState: so.Mapped[str] = so.mapped_column()
-    gameScheduleState: so.Mapped[str] = so.mapped_column()
+    gameState: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''gameState = "OFF"'''))
+    gameScheduleState: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''gameScheduleState = "OK"'''))
     defaultVenue: so.Mapped[str] = so.mapped_column()
     awayTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
-    awayTeamScore: so.Mapped[int] = so.mapped_column()
+    awayTeamScore: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awayTeamScore >= 0"))
     homeTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
-    homeTeamScore: so.Mapped[int] = so.mapped_column()
+    homeTeamScore: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeTeamScore >= 0"))
     maxRegulationPeriods: so.Mapped[int] = so.mapped_column()
     lastPeriodType: so.Mapped[str] = so.mapped_column()
     winningGoalieID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
@@ -130,16 +119,16 @@ class Event(db.Model):
     __tablename__ = "events"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    timeInPeriod: so.Mapped[str] = so.mapped_column()
-    timeRemaining: so.Mapped[str] = so.mapped_column()
-    awayGoalie: so.Mapped[int] = so.mapped_column()
-    awaySkaters: so.Mapped[int] = so.mapped_column()
-    homeGoalie: so.Mapped[int] = so.mapped_column()
-    homeSkaters: so.Mapped[int] = so.mapped_column()
+    timeInPeriodMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodMin >= 0 AND timeInPeriodMin <= 20"))
+    timeInPeriodSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodSec >= 0 AND timeInPeriodSec <= 60"))
+    awayGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awayGoalie IN (0,1)"))
+    awaySkaters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awaySkaters >= 0"))
+    homeGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeGoalie IN (0,1)"))
+    homeSkaters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeSkaters >= 0"))
     homeTeamDefendingSide: so.Mapped[str] = so.mapped_column()
     typeCode: so.Mapped[int] = so.mapped_column(sa.ForeignKey(EventType.typeCode))
     sortOrder: so.Mapped[int] = so.mapped_column()
-    period: so.Mapped[int] = so.mapped_column()
+    period: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("period > 0"))
     periodType: so.Mapped[str] = so.mapped_column()
     eventOwnerTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), nullable=True)
     losingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
@@ -155,7 +144,7 @@ class Event(db.Model):
     shotType: so.Mapped[str] = so.mapped_column(nullable=True)
     goalieInNetID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     eventOwnerPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
-    penaltyDuration: so.Mapped[str] = so.mapped_column(nullable=True)
+    penaltyDuration: so.Mapped[int] = so.mapped_column(nullable=True)
     committedByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     drawnByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     scoringPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)

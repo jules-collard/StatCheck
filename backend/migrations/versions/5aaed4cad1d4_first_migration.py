@@ -1,8 +1,8 @@
-"""initial migration
+"""First migration
 
-Revision ID: 6e5e2e7f634b
+Revision ID: 5aaed4cad1d4
 Revises: 
-Create Date: 2025-01-13 18:29:23.041880
+Create Date: 2025-01-13 22:28:27.705272
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6e5e2e7f634b'
+revision = '5aaed4cad1d4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -58,7 +58,7 @@ def upgrade():
     sa.Column('draftTeamAbbrev', sa.String(), nullable=True),
     sa.Column('draftRound', sa.Integer(), nullable=True),
     sa.Column('draftPickInRound', sa.Integer(), nullable=True),
-    sa.Column('draftOverallPick', sa.String(), nullable=True),
+    sa.Column('draftOverallPick', sa.Integer(), nullable=True),
     sa.Column('inHHOF', sa.Integer(), nullable=True),
     sa.Column('metaDateTime', sa.DateTime(), nullable=False),
     sa.ForeignKeyConstraint(['currentTeamID'], ['teams.id'], ),
@@ -92,8 +92,8 @@ def upgrade():
     )
     op.create_table('events',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('timeInPeriod', sa.String(), nullable=False),
-    sa.Column('timeRemaining', sa.String(), nullable=False),
+    sa.Column('timeInPeriodMin', sa.Integer(), nullable=False),
+    sa.Column('timeInPeriodSec', sa.Integer(), nullable=False),
     sa.Column('awayGoalie', sa.Integer(), nullable=False),
     sa.Column('awaySkaters', sa.Integer(), nullable=False),
     sa.Column('homeGoalie', sa.Integer(), nullable=False),
@@ -117,7 +117,7 @@ def upgrade():
     sa.Column('shotType', sa.String(), nullable=True),
     sa.Column('goalieInNetID', sa.Integer(), nullable=True),
     sa.Column('eventOwnerPlayerID', sa.Integer(), nullable=True),
-    sa.Column('penaltyDuration', sa.String(), nullable=True),
+    sa.Column('penaltyDuration', sa.Integer(), nullable=True),
     sa.Column('committedByPlayerID', sa.Integer(), nullable=True),
     sa.Column('drawnByPlayerID', sa.Integer(), nullable=True),
     sa.Column('scoringPlayerID', sa.Integer(), nullable=True),
