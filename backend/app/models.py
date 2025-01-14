@@ -62,10 +62,8 @@ class Player(db.Model):
         return f"<{self.firstName} {self.lastName}>"
     
     def to_dict(self):
-        return {
-            'id':self.id,
-            'name': f"{self.firstName} {self.lastName}"
-        }
+        attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
+        return attrs_dict
     
     def from_dict(self, data):
         # Isolate class attributes
@@ -155,3 +153,21 @@ class Event(db.Model):
 
     def __repr__(self):
         return f"<Event: {self.typeCode}>"
+    
+
+class Shift(db.Model):
+    __tablename__ = "shifts"
+
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    durationSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("durationSec >= 0"))
+    startTimeMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeMin >= 0 AND startTimeMin <= 20"))
+    startTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeSec >= 0 AND startTimeSec <= 60"))
+    endTimeMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeMin >= 0 AND endTimeMin <= 20"))
+    endTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeSec >= 0 AND endTimeSec <= 60"))
+    eventNumber: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("eventNumber >= 0"))
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
+    period: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("period > 0"))
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
+    shiftNumber: so.Mapped[int] = so.mapped_column()
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
+    metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
