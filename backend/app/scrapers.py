@@ -78,7 +78,7 @@ def scrape_player(playerId: int) -> dict:
     # Parse birthdate
     player_df['birthDate'] = player_df['birthDate'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d').date())
 
-    return player_df
+    return player_df.to_dict(orient='records')[0]
 
 def scrape_schedule(date: str) -> pd.DataFrame:
     """
@@ -147,7 +147,7 @@ def scrape_shifts(gameId: int) -> pd.DataFrame:
 
     return shifts_df
 
-def scrape_teams() -> pd.DataFrame:
+def scrape_teams() -> list[dict]:
     """
     Scrapes team data from the NHL website
 
@@ -162,7 +162,7 @@ def scrape_teams() -> pd.DataFrame:
     teams_df = pd.json_normalize(response["data"])
     teams_df.rename(columns = {"teamCommonName":"commonName", "teamPlaceName":"placeName"}, inplace=True)
 
-    return teams_df
+    return teams_df.to_dict(orient='records')
 
 if __name__ == "__main__":
     schedule_df = scrape_schedule("2025-01-08")
@@ -170,4 +170,5 @@ if __name__ == "__main__":
     pbp_df = scrape_pbp(2024020170)
     player = scrape_player(8478402)
     teams = scrape_teams()
+    print(player)
     pass
