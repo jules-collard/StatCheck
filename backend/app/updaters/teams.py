@@ -20,5 +20,5 @@ def delete_all_teams():
 
 if __name__ == "__main__":
     app.app_context().push()
-    # import_teams()
-    delete_all_teams()
+    import_teams()
+    # delete_all_teams()
