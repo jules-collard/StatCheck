@@ -14,7 +14,7 @@ class Team(db.Model):
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
-        return f"<{self.fullName}>"
+        return f"Team: <{self.fullName}>"
     
     def to_dict(self):
         return {
@@ -58,7 +58,7 @@ class Player(db.Model):
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
-        return f"<{self.firstName} {self.lastName}>"
+        return f"Player: <{self.firstName} {self.lastName}>"
     
     def to_dict(self):
         attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
@@ -78,6 +78,11 @@ class GameType(db.Model):
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
     typeDescKey: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''typeDescKey IN ("REG", "POST")'''))
 
+    def from_dict(self, data):
+        attrs = ["typeCode", "typeDescKey"]
+        for field in attrs:
+            if field in data:
+                setattr(self, field, data[field])
 
 class Game(db.Model):
     __tablename__ = "games"
@@ -108,6 +113,12 @@ class EventType(db.Model):
 
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
     typeDescKey: so.Mapped[str] = so.mapped_column()
+
+    def from_dict(self, data):
+        attrs = ["typeCode", "typeDescKey"]
+        for field in attrs:
+            if field in data:
+                setattr(self, field, data[field])
 
 
 class Event(db.Model):
