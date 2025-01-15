@@ -84,6 +84,9 @@ class GameType(db.Model):
             if field in data:
                 setattr(self, field, data[field])
 
+    def __repr__(self):
+        return f"GameType: <{self.typeDescKey}>"
+
 class Game(db.Model):
     __tablename__ = "games"
 
