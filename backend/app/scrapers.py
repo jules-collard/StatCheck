@@ -80,7 +80,7 @@ def scrape_player(playerId: int) -> dict:
 
     return player_df.to_dict(orient='records')[0]
 
-def scrape_schedule(date: str) -> pd.DataFrame:
+def scrape_schedule(date: str):
     """
     Scrapes schedule data from the NHL website for a given date.
 
@@ -101,8 +101,8 @@ def scrape_schedule(date: str) -> pd.DataFrame:
     schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])[cols]
 
     schedule_df.rename(columns = {'venue.default':'defaultVenue',
-                                    'awayTeam.id':'awayTeamId', 'awayTeam.score':'awayTeamScore',
-                                    'homeTeam.id':'homeTeamId', 'homeTeam.score':'homeTeamScore',
+                                    'awayTeam.id':'awayTeamID', 'awayTeam.score':'awayTeamScore',
+                                    'homeTeam.id':'homeTeamID', 'homeTeam.score':'homeTeamScore',
                                     'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods',
                                     'gameOutcome.lastPeriodType':'lastPeriodType'},
                                     inplace=True)
@@ -114,7 +114,7 @@ def scrape_schedule(date: str) -> pd.DataFrame:
     schedule_df[['awayTeamScore', 'homeTeamScore']] = schedule_df[['awayTeamScore', 'homeTeamScore']].astype('Int64')
     schedule_df["date"] = schedule_df['startTimeUTC'].apply(lambda x: x.date())
 
-    return schedule_df
+    return schedule_df.to_dict(orient="records")
 
 def scrape_shifts(gameId: int) -> pd.DataFrame:
     """
@@ -151,7 +151,6 @@ def scrape_teams() -> list[dict]:
     """
     Scrapes team data from the NHL website
 
-    Returns :
     :return: A DataFrame containing the scraped team data.
     :rtype: pd.DataFrame
     """
@@ -164,11 +163,36 @@ def scrape_teams() -> list[dict]:
 
     return teams_df.to_dict(orient='records')
 
+def scrape_rosters(gameId: int):
+    """
+    Scrapes roster data from the NHL website for a given game ID.
+
+    Parameters :
+      - game_id (int) : The ID of the game you want to scrape the roster data for.
+
+      Returns :
+    :return: A DataFrame containing the scraped roster data.
+    :rtype: pd.Dataframe
+
+    """
+    url = f"https://api-web.nhle.com/v1/gamecenter/{gameId}/play-by-play"
+    response = requests.get(url).json()
+
+    rosters_df = pd.json_normalize(response['rosterSpots'])
+    rosters_df["gameID"] = gameId
+    rosters_df.rename(columns={"teamId":"teamID", "playerId":"playerID"}, inplace=True)
+
+    cols = ["gameID", "teamID", "playerID"]
+    rosters_df = rosters_df[cols]
+
+    return rosters_df
+
+
 if __name__ == "__main__":
-    schedule_df = scrape_schedule("2025-01-08")
+    schedule_df = scrape_schedule("2025-01-15")
     shifts_df = scrape_shifts(2024020170)
     pbp_df = scrape_pbp(2024020170)
     player = scrape_player(8478402)
     teams = scrape_teams()
-    print(player)
+    rosters_df = scrapeRosters(2024020170)
     pass

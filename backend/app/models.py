@@ -4,7 +4,16 @@ import sqlalchemy.orm as so
 from app import db
 import inspect
 
-class Team(db.Model):
+class Util():
+    def from_dict(self, data):
+        # Isolate class attributes
+        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
+        
+        for field in attrs:
+            if field in data:
+                setattr(self, field, data[field])
+
+class Team(db.Model, Util):
     __tablename__ = 'teams'
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -22,15 +31,8 @@ class Team(db.Model):
             'fullName': self.fullName
         }
     
-    def from_dict(self, data):
-        # Isolate class attributes
-        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
-        for field in attrs:
-            if field in data:
-                setattr(self, field, data[field])
-    
 
-class Player(db.Model):
+class Player(db.Model, Util):
     __tablename__ = 'players'
                      
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -64,13 +66,6 @@ class Player(db.Model):
         attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
         return attrs_dict
     
-    def from_dict(self, data):
-        # Isolate class attributes
-        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
-        for field in attrs:
-            if field in data:
-                setattr(self, field, data[field])
-    
 
 class GameType(db.Model):
     __tablename__ = "game_types"
@@ -87,7 +82,7 @@ class GameType(db.Model):
     def __repr__(self):
         return f"GameType: <{self.typeDescKey}>"
 
-class Game(db.Model):
+class Game(db.Model, Util):
     __tablename__ = "games"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -180,3 +175,11 @@ class Shift(db.Model):
     shiftNumber: so.Mapped[int] = so.mapped_column()
     teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+
+class PlayerGame(db.Model):
+    __tablename__ = "player_games"
+
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True)
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), primary_key=True)
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), primary_key=True)
