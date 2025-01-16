@@ -185,7 +185,7 @@ def scrape_rosters(gameId: int):
     cols = ["gameID", "teamID", "playerID"]
     rosters_df = rosters_df[cols]
 
-    return rosters_df
+    return rosters_df.to_dict(orient="records")
 
 
 if __name__ == "__main__":
@@ -194,5 +194,5 @@ if __name__ == "__main__":
     pbp_df = scrape_pbp(2024020170)
     player = scrape_player(8478402)
     teams = scrape_teams()
-    rosters_df = scrapeRosters(2024020170)
+    rosters_df = scrape_rosters(2024020170)
     pass
