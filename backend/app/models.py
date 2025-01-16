@@ -106,7 +106,7 @@ class Game(db.Model, Util):
         return f"<{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
     
 
-class EventType(db.Model):
+class EventType(db.Model, Util):
     __tablename__ = "event_types"
 
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -119,7 +119,7 @@ class EventType(db.Model):
                 setattr(self, field, data[field])
 
 
-class Event(db.Model):
+class Event(db.Model, Util):
     __tablename__ = "events"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -161,7 +161,7 @@ class Event(db.Model):
         return f"<Event: {self.typeCode}>"
     
 
-class Shift(db.Model):
+class Shift(db.Model, Util):
     __tablename__ = "shifts"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -177,7 +177,7 @@ class Shift(db.Model):
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
 
-class PlayerGame(db.Model):
+class PlayerGame(db.Model, Util):
     __tablename__ = "player_games"
 
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True)
