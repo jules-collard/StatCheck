@@ -123,8 +123,7 @@ class Event(db.Model, Util):
     __tablename__ = "events"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    timeInPeriodMin: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodMin >= 0 AND timeInPeriodMin <= 20"))
-    timeInPeriodSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodSec >= 0 AND timeInPeriodSec <= 60"))
+    timeInPeriodSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodSec >= 0"))
     awayGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awayGoalie IN (0,1)"))
     awaySkaters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awaySkaters >= 0"))
     homeGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeGoalie IN (0,1)"))

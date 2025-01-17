@@ -1,6 +1,7 @@
+from sched import Event
 from app import app, db
-from app.scrapers import scrape_schedule, scrape_rosters
-from app.models import Game, PlayerGame
+from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp
+from app.models import Game, PlayerGame, Event
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timedelta
 
@@ -38,6 +39,23 @@ def import_rosters(gameID: int):
         db.session.rollback()
         print(f"Unsuccessful roster import for game {gameID}")
 
+def import_play_by_play(gameID: int):
+    plays = scrape_pbp(gameID)
+    play_objs = []
+
+    for event in plays:
+        play_obj = Event()
+        play_obj.from_dict(event)
+        play_objs.append(play_obj)
+
+    try:
+        db.session.add_all(play_objs)
+        db.session.commit()
+        print(f"Events for Game {gameID} Imported")
+    except IntegrityError:
+        db.session.rollback()
+        print(f"Unsuccessful event import for game {gameID}")
+
 def delete_all_games():
     Game.query.delete()
     db.session.commit()
@@ -46,8 +64,16 @@ def delete_all_player_games():
     PlayerGame.query.delete()
     db.session.commit()
 
+def delete_all_events(gameID = None):
+    if gameID is not None:
+        Event.query.filter_by(gameID=gameID).delete()
+    else:
+        Event.query.delete()
+    db.session.commit()
+
 
 if __name__ == "__main__":
     app.app_context().push()
     # import_games(datetime.today() - timedelta(days=1))
-    import_rosters(2024020170)
+    import_play_by_play(2024020170)
+    # delete_all_events()

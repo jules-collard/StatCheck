@@ -2,16 +2,7 @@ import requests
 import pandas as pd
 from datetime import datetime
 
-def scrape_pbp(gameId: int) -> pd.DataFrame:
-    """
-    Scrapes play-by-play data from the NHL website for a given game ID.
-
-    :param gameId: The ID of the game to scrape
-    :type gameID: int
-    :return: Dataframe with play-by-play data
-    :rtype: pd.Dataframe
-    """
-
+def scrape_pbp(gameId: int):
     # Situation Code: *away G* *away skaters* *home skaters* *home G*
 
     url = f"https://api-web.nhle.com/v1/gamecenter/{gameId}/play-by-play"
@@ -25,7 +16,7 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
     response = requests.get(url).json()
     pbp_df = pd.json_normalize(response["plays"])[cols]
     
-    pbp_df["gameId"] = gameId
+    pbp_df["gameID"] = gameId
     
     # Parse time in period
     timeInPeriodSec = [int(i.split(":")[0]) * 60 + int(i.split(":")[1]) for i in pbp_df['timeInPeriod']]
@@ -35,25 +26,18 @@ def scrape_pbp(gameId: int) -> pd.DataFrame:
                                 'timeInPeriod':'timeInPeriodSec',
                                 'periodDescriptor.number':'period',
                                 'periodDescriptor.periodType':'periodType',
-                                'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods',
-                                },
+                                'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods'},
                                 inplace=True)
+    pbp_df.rename(columns = lambda x: x.replace("details.", ""), inplace=True)
+    pbp_df.rename(columns = lambda x: x.replace("Id", "ID") if x.endswith("Id") else x, inplace=True)
     pbp_df['awayGoalie'] = pbp_df['situationCode'].apply(lambda x: int(x[0]))
     pbp_df['awaySkaters'] = pbp_df['situationCode'].apply(lambda x: int(x[1]))
     pbp_df['homeSkaters'] = pbp_df['situationCode'].apply(lambda x: int(x[2]))
     pbp_df['homeGoalie'] = pbp_df['situationCode'].apply(lambda x: int(x[3]))
 
-    return pbp_df
+    return pbp_df.to_dict(orient='records')
 
 def scrape_player(playerId: int) -> dict:
-    """
-    Scrapes player data from the NHL website for a given player ID.
-
-    :param playerId: The ID of the player to scrape data for
-    :type playerId: int
-    :return: A dictionary containing the scraped player data.
-    """
-
     url = f"https://api-web.nhle.com/v1/player/{playerId}/landing"
     cols = ['playerId', 'isActive', 'currentTeamId', 'firstName.default', 'lastName.default',
             'sweaterNumber', 'position', 'headshot', 'heroImage', 'heightInInches', 'heightInCentimeters',
