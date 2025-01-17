@@ -124,3 +124,5 @@
 2025-01-17 15:45:11,028 - INFO     - Inserting Event: <506:shot-on-goal>
 2025-01-17 15:45:11,029 - INFO     - Inserted EventType: <506:shot-on-goal>
 2025-01-17 15:45:11,060 - INFO     - Events Inserted for Game 2024020705
+2025-01-17 17:58:55,186 - INFO     - Deleted ALL Teams
+2025-01-17 17:59:28,106 - INFO     - Inserted Teams

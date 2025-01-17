@@ -1,5 +1,6 @@
-from app import app
+from app import app, db
 from app.updaters import games, players, ref_types, teams, logger
+from app.models import Player, Team
 
 from datetime import datetime, timedelta
 
@@ -9,6 +10,7 @@ def initialise_db():
     ref_types.insert_game_types()
 
 def clear_db():
+    logger.warning('CLEARING DATABASE')
     games.delete_all_events()
     games.delete_all_games()
     games.delete_all_player_games()
@@ -20,5 +22,4 @@ def clear_db():
 if __name__ == "__main__":
     app.app_context().push()
     # Commands HERE
-    day = datetime.today() - timedelta(days=2)
-    games.insert_events(2024020705)
+    teams.insert_teams()
