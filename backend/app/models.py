@@ -13,6 +13,7 @@ class Util():
             if field in data:
                 setattr(self, field, data[field])
 
+
 class Team(db.Model, Util):
     __tablename__ = 'teams'
 
@@ -21,6 +22,8 @@ class Team(db.Model, Util):
     commonName: so.Mapped[str] = so.mapped_column()
     placeName: so.Mapped[str] = so.mapped_column()
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='team')
 
     def __repr__(self):
         return f"Team: <{self.fullName}>"
@@ -58,6 +61,8 @@ class Player(db.Model, Util):
     draftPickInRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftPickInRound > 0"), nullable=True)
     draftOverallPick: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftOverallPick > 0"), nullable=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    team: so.Mapped[Team] = so.relationship(back_populates='players')
 
     def __repr__(self):
         return f"Player: <{self.firstName} {self.lastName}>"
