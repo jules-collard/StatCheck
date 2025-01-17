@@ -80,7 +80,7 @@ class GameType(db.Model):
                 setattr(self, field, data[field])
 
     def __repr__(self):
-        return f"GameType: <{self.typeDescKey}>"
+        return f"GameType: <{self.typeCode}:{self.typeDescKey}>"
 
 class Game(db.Model, Util):
     __tablename__ = "games"
@@ -103,7 +103,7 @@ class Game(db.Model, Util):
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     def __repr__(self):
-        return f"<{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
+        return f"Game: <{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
     
 
 class EventType(db.Model, Util):
@@ -115,6 +115,9 @@ class EventType(db.Model, Util):
     def from_tuple(self, tup):
         self.typeCode = tup[0]
         self.typeDescKey = tup[1]
+
+    def __repr__(self):
+        return f"EventType: <{self.typeCode}:{self.typeDescKey}>"
 
 
 class Event(db.Model, Util):
@@ -180,3 +183,6 @@ class PlayerGame(db.Model, Util):
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True)
     teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), primary_key=True)
     playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), primary_key=True)
+
+    def __repr__(self):
+        return f"Player {self.playerID} - Team {self.teamID} - Game {self.gameID}"
