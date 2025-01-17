@@ -1,7 +1,7 @@
 from app import app, db
 from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp
-from app.models import Game, PlayerGame, Event, EventType
-from app.updaters.ref_types import import_event_type
+from app.models import Game, PlayerGame, Event, EventType, Player
+from app.updaters import ref_types, players
 
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timedelta
@@ -27,18 +27,26 @@ def import_rosters(gameID: int, insert_new_player=True):
     player_games = scrape_rosters(gameID)
     player_game_objs = []
 
+    # Add new players to database
+    if insert_new_player:
+        existing_player_ids = set(i[0] for i in db.session.query(Player.id).all())
+        new_player_ids = set(appearance['playerID'] for appearance in player_games) - existing_player_ids
+        for id in new_player_ids:
+            players.insert_or_update_player(id)
+    
+    # Add player appearances
     for appearance in player_games:
         player_game = PlayerGame()
         player_game.from_dict(appearance)
         player_game_objs.append(player_game)
 
-    try:
-        db.session.add_all(player_game_objs)
-        db.session.commit()
-        print(f"Rosters for Game {gameID} Imported")
-    except IntegrityError:
-        db.session.rollback()
-        print(f"Unsuccessful roster import for game {gameID}")
+    #try:
+    db.session.add_all(player_game_objs)
+    db.session.commit()
+    print(f"Rosters for Game {gameID} Imported")
+    #except IntegrityError:
+        #db.session.rollback()
+        #print(f"Unsuccessful roster import for game {gameID}")
 
 def import_play_by_play(gameID: int, insert_new_event_codes=True):
     plays = scrape_pbp(gameID)
@@ -47,13 +55,11 @@ def import_play_by_play(gameID: int, insert_new_event_codes=True):
     if insert_new_event_codes:
         # Add new event codes if not already in database
         existing_event_codes = set(i[0] for i in db.session.query(EventType.typeCode).all())
-        print(existing_event_codes)
         new_event_codes = set(play['typeCode'] for play in plays) - existing_event_codes
-        print(new_event_codes)
         new_event_tuples = set((play['typeCode'],play['typeDescKey']) for play in plays if play['typeCode'] in new_event_codes)
 
         for tup in new_event_tuples:
-            import_event_type(tup)
+            ref_types.import_event_type(tup)
 
     # Insert events
     for event in plays:
@@ -88,5 +94,7 @@ def delete_all_events(gameID = None):
 if __name__ == "__main__":
     app.app_context().push()
     # import_games(datetime.today() - timedelta(days=1))
-    import_play_by_play(2024020170)
+    # import_play_by_play(2024020170)
+    import_rosters(2024020170)
+    # delete_all_player_games()
     # delete_all_events(2024020170)

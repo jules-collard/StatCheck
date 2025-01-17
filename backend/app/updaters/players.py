@@ -4,6 +4,7 @@ from app.models import Player
 from sqlalchemy.exc import IntegrityError
 
 def insert_or_update_player(id: int):
+    print(id)
     player_data = scrape_player(id)
     player = Player()
     player.from_dict(player_data)

@@ -46,7 +46,8 @@ def scrape_player(playerId: int) -> dict:
             'draftDetails.pickInRound', 'draftDetails.overallPick']
 
     response = requests.get(url).json()
-    player_df = pd.json_normalize(response)[cols]
+    player_df = pd.json_normalize(response)
+    player_df = player_df[[col for col in cols if col in player_df.columns]]
     player_df.rename(columns = {'playerId':'id',
                                 'currentTeamId':'currentTeamID',
                                 'firstName.default':'firstName',
