@@ -1,9 +1,12 @@
-from sqlite3 import IntegrityError
 from app import scrapers
-from app import app, db
+from app import db
 from app.models import Team
+from app.updaters import logger, log_error
 
-def import_teams():
+from sqlalchemy.exc import IntegrityError
+
+def insert_teams():
+    logger.info('Inserting Teams')
     team_dicts = scrapers.scrape_teams()
     team_objects = []
 
@@ -15,15 +18,13 @@ def import_teams():
     try:
         db.session.add_all(team_objects)
         db.session.commit()
-        print("Teams successfully imported")
-    except IntegrityError:
+        logger.info('Inserted Teams')
+    except IntegrityError as e:
         db.session.rollback()
-        print("Unsuccessful import")
+        logger.error('Failed to Insert Teams')
+        log_error(e)
 
 def delete_all_teams():
     Team.query.delete()
     db.session.commit()
-
-if __name__ == "__main__":
-    app.app_context().push()
-    import_teams()
+    logger.info('Deleted ALL Teams')

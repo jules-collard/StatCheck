@@ -1,15 +1,15 @@
-from app import app, db
+from app import db
 from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp
 from app.models import Game, PlayerGame, Event, EventType, Player
-from app.updaters import ref_types, players
-from app.updaters import logger
+from app.updaters import log_error, ref_types, players
+from app.updaters import logger, log_error
 
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
 def insert_games(date: datetime):
     date_string = date.date().strftime("%Y-%m-%d")
-    logger.info('Inserting Games for %(date_string)s')
+    logger.info(f'Inserting Games for {date_string}')
     game_dicts = scrape_schedule(date_string)
     game_objects = []
 
@@ -21,15 +21,14 @@ def insert_games(date: datetime):
     try:
         db.session.add_all(game_objects)
         db.session.commit()
-        logger.info('Games Inserted for %(date_string)s')
+        logger.info(f'Games Inserted for {date_string}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error('Failed to insert games for %(date_string)s')
-        logger.debug(e.statement)
-        logger.debug(e.orig)
+        logger.error(f'Failed to insert games for {date_string}')
+        log_error(e)
 
 def insert_rosters(gameID: int, insert_new_players=True):
-    logger.info('Inserting Rosters for Game %(gameID)d')
+    logger.info(f'Inserting Rosters for Game {gameID}')
     player_games = scrape_rosters(gameID)
     player_game_objs = []
 
@@ -49,15 +48,14 @@ def insert_rosters(gameID: int, insert_new_players=True):
     try:
         db.session.add_all(player_game_objs)
         db.session.commit()
-        logger.info('Rosters Inserted for Game %(gameID)d')
+        logger.info(f'Rosters Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error('Failed to insert rosters for Game %(gameID)d')
-        logger.debug(e.statement)
-        logger.debug(e.orig)
+        logger.error(f'Failed to insert rosters for Game {gameID}')
+        log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
-    logger.info('Inserting Events for Game %(gameID)d')
+    logger.info(f'Inserting Events for Game {gameID}')
     plays = scrape_pbp(gameID)
     play_objs = []
 
@@ -79,12 +77,11 @@ def insert_events(gameID: int, insert_new_event_codes=True):
     try:
         db.session.add_all(play_objs)
         db.session.commit()
-        logger.info('Events Inserted for Game %(gameID)d')
+        logger.info(f'Events Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error('Failed to insert events for Game %(gameID)d')
-        logger.debug(e.statement)
-        logger.debug(e.orig)
+        logger.error(f'Failed to insert events for Game {gameID}')
+        log_error(e)
 
 def delete_all_games():
     Game.query.delete()
@@ -99,17 +96,8 @@ def delete_all_player_games():
 def delete_all_events(gameID = None):
     if gameID is not None:
         Event.query.filter_by(gameID=gameID).delete()
-        logger.info('Deleted events for Game %(gameID)d')
+        logger.info(f'Deleted events for Game {gameID}')
     else:
         Event.query.delete()
         logger.info('Deleted ALL Events')
     db.session.commit()
-
-
-if __name__ == "__main__":
-    app.app_context().push()
-    # import_games(datetime.today() - timedelta(days=1))
-    # import_play_by_play(2024020170)
-    insert_rosters(2024020170)
-    # delete_all_player_games()
-    # delete_all_events(2024020170)

@@ -1,8 +1,11 @@
-from app import app, db
+from app import db
 from app.models import GameType, EventType
+from app.updaters import logger, log_error
+
 from sqlalchemy.exc import IntegrityError
 
-def import_game_types():
+def insert_game_types():
+    logger.info('Inserting Game Types')
     reg = GameType()
     reg.from_dict({"typeCode": 2, "typeDescKey": "REG"})
     post = GameType()
@@ -12,32 +15,32 @@ def import_game_types():
         db.session.add(reg)
         db.session.add(post)
         db.session.commit()
-        print("Game types successfully imported")
-    except IntegrityError:
+        logger.info('Game Types Inserted')
+    except IntegrityError as e:
         db.session.rollback()
-        print("Unsuccessful import")
+        logger.error('Failed to Inserted Game Types')
+        log_error(e)
 
-
-def import_event_type(tup: tuple[int, str]):
+def insert_event_type(tup: tuple[int, str]):
+    logger.info(f'Inserting Event: <{tup[0]}:{tup[1]}>')
     event = EventType()
     event.from_tuple(tup)
 
     try:
         db.session.add(event)
         db.session.commit()
-        print(f"<{tup}> event successfully imported")
-    except IntegrityError:
+        logger.info(f'Inserted {event}')
+    except IntegrityError as e:
         db.session.rollback()
-        print(f"Unsuccessful event type import: {tup}")
+        logger.error(f'Failed to insert {event}')
+        log_error(e)
 
 def delete_all_event_types():
     EventType.query.delete()
     db.session.commit()
+    logger.info(f'Deleted ALL Event Types')
 
 def delete_all_game_types():
     GameType.query.delete()
     db.session.commit()
-
-if __name__ == "__main__":
-    app.app_context().push()
-    delete_all_event_types()
+    logger.info(f'Deleted ALL Game Types')
