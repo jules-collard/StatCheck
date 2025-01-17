@@ -18,9 +18,9 @@ class Team(db.Model, Util):
     __tablename__ = 'teams'
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    franchiseID: so.Mapped[int] = so.mapped_column(nullable=True)
     fullName: so.Mapped[str] = so.mapped_column()
-    commonName: so.Mapped[str] = so.mapped_column()
-    placeName: so.Mapped[str] = so.mapped_column()
+    triCode: so.Mapped[str] = so.mapped_column()
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='team')

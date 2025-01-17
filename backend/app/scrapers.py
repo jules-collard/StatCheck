@@ -132,7 +132,7 @@ def scrape_shifts(gameId: int) -> pd.DataFrame:
 
     return shifts_df
 
-def scrape_teams() -> list[dict]:
+def scrape_teams():
     """
     Scrapes team data from the NHL website
 
@@ -140,11 +140,11 @@ def scrape_teams() -> list[dict]:
     :rtype: pd.DataFrame
     """
 
-    url = "https://api.nhle.com/stats/rest/en/franchise?sort=fullName"
+    url = "https://api.nhle.com/stats/rest/en/team"
 
     response = requests.get(url).json()
-    teams_df = pd.json_normalize(response["data"])
-    teams_df.rename(columns = {"teamCommonName":"commonName", "teamPlaceName":"placeName"}, inplace=True)
+    teams_df = pd.json_normalize(response["data"])[["id", "franchiseId", "fullName", "triCode"]]
+    teams_df.rename(columns = {"franchiseId":"franchiseID"}, inplace=True)
 
     return teams_df.to_dict(orient='records')
 
