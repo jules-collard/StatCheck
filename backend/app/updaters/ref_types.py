@@ -18,19 +18,19 @@ def import_game_types():
         print("Unsuccessful import")
 
 
-def import_event_type(typeCode: int, typeDescKey: str):
+def import_event_type(tup: tuple[int, str]):
     event = EventType()
-    event.from_dict({"typeCode": typeCode, "typeDescKey": typeDescKey})
+    event.from_tuple(tup)
 
     try:
         db.session.add(event)
         db.session.commit()
-        print(f"<{typeDescKey}> event successfully imported")
+        print(f"<{tup}> event successfully imported")
     except IntegrityError:
         db.session.rollback()
-        print("Unsuccessful import")
+        print(f"Unsuccessful event type import: {tup}")
 
-def clear_all_event_types():
+def delete_all_event_types():
     EventType.query.delete()
     db.session.commit()
 
@@ -40,4 +40,4 @@ def delete_all_game_types():
 
 if __name__ == "__main__":
     app.app_context().push()
-    import_game_types()
+    delete_all_event_types()

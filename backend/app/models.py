@@ -112,11 +112,9 @@ class EventType(db.Model, Util):
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
     typeDescKey: so.Mapped[str] = so.mapped_column()
 
-    def from_dict(self, data):
-        attrs = ["typeCode", "typeDescKey"]
-        for field in attrs:
-            if field in data:
-                setattr(self, field, data[field])
+    def from_tuple(self, tup):
+        self.typeCode = tup[0]
+        self.typeDescKey = tup[1]
 
 
 class Event(db.Model, Util):
