@@ -9,7 +9,6 @@ def insert_or_update_player(id: int):
     player_data = scrape_player(id)
     player = Player()
     player.from_dict(player_data)
-    logger.info(f'Inserting/Updating {player}')
 
     try:
         db.session.merge(player)

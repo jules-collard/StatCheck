@@ -5,7 +5,6 @@ from app.updaters import logger, log_error
 from sqlalchemy.exc import IntegrityError
 
 def insert_game_types():
-    logger.info('Inserting Game Types')
     reg = GameType()
     reg.from_dict({"typeCode": 2, "typeDescKey": "REG"})
     post = GameType()
@@ -22,7 +21,6 @@ def insert_game_types():
         log_error(e)
 
 def insert_event_type(tup: tuple[int, str]):
-    logger.info(f'Inserting Event: <{tup[0]}:{tup[1]}>')
     event = EventType()
     event.from_tuple(tup)
 

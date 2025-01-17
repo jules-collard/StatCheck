@@ -6,7 +6,6 @@ from app.updaters import logger, log_error
 from sqlalchemy.exc import IntegrityError
 
 def insert_teams():
-    logger.info('Inserting Teams')
     team_dicts = scrapers.scrape_teams()
     team_objects = []
 

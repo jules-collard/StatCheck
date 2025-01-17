@@ -9,7 +9,6 @@ from datetime import datetime
 
 def insert_games(date: datetime):
     date_string = date.date().strftime("%Y-%m-%d")
-    logger.info(f'Inserting Games for {date_string}')
     game_dicts = scrape_schedule(date_string)
     game_objects = []
 
@@ -28,7 +27,6 @@ def insert_games(date: datetime):
         log_error(e)
 
 def insert_rosters(gameID: int, insert_new_players=True):
-    logger.info(f'Inserting Rosters for Game {gameID}')
     player_games = scrape_rosters(gameID)
     player_game_objs = []
 
@@ -55,7 +53,6 @@ def insert_rosters(gameID: int, insert_new_players=True):
         log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
-    logger.info(f'Inserting Events for Game {gameID}')
     plays = scrape_pbp(gameID)
     play_objs = []
 
