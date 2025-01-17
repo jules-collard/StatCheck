@@ -66,7 +66,7 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         new_event_tuples = set((play['typeCode'],play['typeDescKey']) for play in plays if play['typeCode'] in new_event_codes)
 
         for tup in new_event_tuples:
-            ref_types.import_event_type(tup)
+            ref_types.insert_event_type(tup)
 
     # Insert events
     for event in plays:

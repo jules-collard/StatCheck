@@ -1,0 +1,126 @@
+2025-01-17 15:32:45,459 - INFO     - Deleted ALL Events
+2025-01-17 15:32:45,460 - INFO     - Deleted ALL Games
+2025-01-17 15:32:45,460 - INFO     - Deleted ALL Appearances
+2025-01-17 15:34:30,969 - INFO     - Deleted ALL Players
+2025-01-17 15:34:30,970 - INFO     - Deleted ALL Teams
+2025-01-17 15:34:30,970 - INFO     - Deleted ALL Event Types
+2025-01-17 15:34:30,971 - INFO     - Deleted ALL Game Types
+2025-01-17 15:36:20,670 - INFO     - Inserting Teams
+2025-01-17 15:36:20,833 - INFO     - Inserted Teams
+2025-01-17 15:36:20,833 - INFO     - Inserting Game Types
+2025-01-17 15:36:20,834 - INFO     - Game Types Inserted
+2025-01-17 15:41:54,226 - INFO     - Inserting Games for 2025-01-15
+2025-01-17 15:41:54,373 - INFO     - Games Inserted for 2025-01-15
+2025-01-17 15:42:53,295 - INFO     - Inserting Rosters for Game 2024020705
+2025-01-17 15:42:53,872 - INFO     - Inserting/Updating Player: <Jaccob Slavin>
+2025-01-17 15:42:53,880 - INFO     - Inserted/Updated Player: <Jaccob Slavin>
+2025-01-17 15:42:54,393 - INFO     - Inserting/Updating Player: <James Reimer>
+2025-01-17 15:42:54,396 - INFO     - Inserted/Updated Player: <James Reimer>
+2025-01-17 15:42:55,254 - INFO     - Inserting/Updating Player: <Eric Robinson>
+2025-01-17 15:42:55,257 - INFO     - Inserted/Updated Player: <Eric Robinson>
+2025-01-17 15:42:57,432 - INFO     - Inserting/Updating Player: <Henri Jokiharju>
+2025-01-17 15:42:57,435 - INFO     - Inserted/Updated Player: <Henri Jokiharju>
+2025-01-17 15:42:58,282 - INFO     - Inserting/Updating Player: <Ryan McLeod>
+2025-01-17 15:42:58,285 - INFO     - Inserted/Updated Player: <Ryan McLeod>
+2025-01-17 15:43:00,331 - INFO     - Inserting/Updating Player: <Martin Necas>
+2025-01-17 15:43:00,334 - INFO     - Inserted/Updated Player: <Martin Necas>
+2025-01-17 15:43:02,713 - INFO     - Inserting/Updating Player: <Mattias Samuelsson>
+2025-01-17 15:43:02,717 - INFO     - Inserted/Updated Player: <Mattias Samuelsson>
+2025-01-17 15:43:03,003 - INFO     - Inserting/Updating Player: <Ukko-Pekka Luukkonen>
+2025-01-17 15:43:03,007 - INFO     - Inserted/Updated Player: <Ukko-Pekka Luukkonen>
+2025-01-17 15:43:03,664 - INFO     - Inserting/Updating Player: <Seth Jarvis>
+2025-01-17 15:43:03,667 - INFO     - Inserted/Updated Player: <Seth Jarvis>
+2025-01-17 15:43:04,161 - INFO     - Inserting/Updating Player: <Jack Quinn>
+2025-01-17 15:43:04,164 - INFO     - Inserted/Updated Player: <Jack Quinn>
+2025-01-17 15:43:04,445 - INFO     - Inserting/Updating Player: <Zach Benson>
+2025-01-17 15:43:04,447 - INFO     - Inserted/Updated Player: <Zach Benson>
+2025-01-17 15:43:04,722 - INFO     - Inserting/Updating Player: <Connor Clifton>
+2025-01-17 15:43:04,725 - INFO     - Inserted/Updated Player: <Connor Clifton>
+2025-01-17 15:43:04,988 - INFO     - Inserting/Updating Player: <Dustin Tokarski>
+2025-01-17 15:43:04,990 - INFO     - Inserted/Updated Player: <Dustin Tokarski>
+2025-01-17 15:43:05,270 - INFO     - Inserting/Updating Player: <Tage Thompson>
+2025-01-17 15:43:05,273 - INFO     - Inserted/Updated Player: <Tage Thompson>
+2025-01-17 15:43:05,541 - INFO     - Inserting/Updating Player: <Jordan Staal>
+2025-01-17 15:43:05,543 - INFO     - Inserted/Updated Player: <Jordan Staal>
+2025-01-17 15:43:07,675 - INFO     - Inserting/Updating Player: <Jesperi Kotkaniemi>
+2025-01-17 15:43:07,679 - INFO     - Inserted/Updated Player: <Jesperi Kotkaniemi>
+2025-01-17 15:43:08,524 - INFO     - Inserting/Updating Player: <Andrei Svechnikov>
+2025-01-17 15:43:08,526 - INFO     - Inserted/Updated Player: <Andrei Svechnikov>
+2025-01-17 15:43:09,548 - INFO     - Inserting/Updating Player: <Dmitry Orlov>
+2025-01-17 15:43:09,551 - INFO     - Inserted/Updated Player: <Dmitry Orlov>
+2025-01-17 15:43:10,571 - INFO     - Inserting/Updating Player: <Juha Jaaska>
+2025-01-17 15:43:10,575 - INFO     - Inserted/Updated Player: <Juha Jaaska>
+2025-01-17 15:43:11,619 - INFO     - Inserting/Updating Player: <Jack Drury>
+2025-01-17 15:43:11,620 - INFO     - Inserted/Updated Player: <Jack Drury>
+2025-01-17 15:43:12,739 - INFO     - Inserting/Updating Player: <Rasmus Dahlin>
+2025-01-17 15:43:12,741 - INFO     - Inserted/Updated Player: <Rasmus Dahlin>
+2025-01-17 15:43:14,417 - INFO     - Inserting/Updating Player: <Jason Zucker>
+2025-01-17 15:43:14,420 - INFO     - Inserted/Updated Player: <Jason Zucker>
+2025-01-17 15:43:15,317 - INFO     - Inserting/Updating Player: <Pyotr Kochetkov>
+2025-01-17 15:43:15,320 - INFO     - Inserted/Updated Player: <Pyotr Kochetkov>
+2025-01-17 15:43:15,607 - INFO     - Inserting/Updating Player: <Sean Walker>
+2025-01-17 15:43:15,610 - INFO     - Inserted/Updated Player: <Sean Walker>
+2025-01-17 15:43:17,733 - INFO     - Inserting/Updating Player: <Tyson Kozak>
+2025-01-17 15:43:17,735 - INFO     - Inserted/Updated Player: <Tyson Kozak>
+2025-01-17 15:43:18,759 - INFO     - Inserting/Updating Player: <Brent Burns>
+2025-01-17 15:43:18,762 - INFO     - Inserted/Updated Player: <Brent Burns>
+2025-01-17 15:43:19,050 - INFO     - Inserting/Updating Player: <Sebastian Aho>
+2025-01-17 15:43:19,053 - INFO     - Inserted/Updated Player: <Sebastian Aho>
+2025-01-17 15:43:21,936 - INFO     - Inserting/Updating Player: <Sam Lafferty>
+2025-01-17 15:43:21,940 - INFO     - Inserted/Updated Player: <Sam Lafferty>
+2025-01-17 15:43:22,739 - INFO     - Inserting/Updating Player: <Jackson Blake>
+2025-01-17 15:43:22,743 - INFO     - Inserted/Updated Player: <Jackson Blake>
+2025-01-17 15:43:23,015 - INFO     - Inserting/Updating Player: <JJ Peterka>
+2025-01-17 15:43:23,018 - INFO     - Inserted/Updated Player: <JJ Peterka>
+2025-01-17 15:43:23,340 - INFO     - Inserting/Updating Player: <Shayne Gostisbehere>
+2025-01-17 15:43:23,343 - INFO     - Inserted/Updated Player: <Shayne Gostisbehere>
+2025-01-17 15:43:23,620 - INFO     - Inserting/Updating Player: <Jalen Chatfield>
+2025-01-17 15:43:23,622 - INFO     - Inserted/Updated Player: <Jalen Chatfield>
+2025-01-17 15:43:23,911 - INFO     - Inserting/Updating Player: <Owen Power>
+2025-01-17 15:43:23,913 - INFO     - Inserted/Updated Player: <Owen Power>
+2025-01-17 15:43:24,259 - INFO     - Inserting/Updating Player: <Peyton Krebs>
+2025-01-17 15:43:24,261 - INFO     - Inserted/Updated Player: <Peyton Krebs>
+2025-01-17 15:43:24,564 - INFO     - Inserting/Updating Player: <Bowen Byram>
+2025-01-17 15:43:24,566 - INFO     - Inserted/Updated Player: <Bowen Byram>
+2025-01-17 15:43:27,132 - INFO     - Inserting/Updating Player: <Dylan Cozens>
+2025-01-17 15:43:27,135 - INFO     - Inserted/Updated Player: <Dylan Cozens>
+2025-01-17 15:43:30,204 - INFO     - Inserting/Updating Player: <Jordan Martinook>
+2025-01-17 15:43:30,208 - INFO     - Inserted/Updated Player: <Jordan Martinook>
+2025-01-17 15:43:31,702 - INFO     - Inserting/Updating Player: <Jack Roslovic>
+2025-01-17 15:43:31,705 - INFO     - Inserted/Updated Player: <Jack Roslovic>
+2025-01-17 15:43:32,006 - INFO     - Inserting/Updating Player: <Alex Tuch>
+2025-01-17 15:43:32,010 - INFO     - Inserted/Updated Player: <Alex Tuch>
+2025-01-17 15:43:33,093 - INFO     - Inserting/Updating Player: <Beck Malenstyn>
+2025-01-17 15:43:33,096 - INFO     - Inserted/Updated Player: <Beck Malenstyn>
+2025-01-17 15:43:33,100 - INFO     - Rosters Inserted for Game 2024020705
+2025-01-17 15:44:16,897 - INFO     - Inserting Events for Game 2024020705
+2025-01-17 15:45:10,899 - INFO     - Inserting Events for Game 2024020705
+2025-01-17 15:45:11,017 - INFO     - Inserting Event: <525:takeaway>
+2025-01-17 15:45:11,019 - INFO     - Inserted EventType: <525:takeaway>
+2025-01-17 15:45:11,019 - INFO     - Inserting Event: <508:blocked-shot>
+2025-01-17 15:45:11,020 - INFO     - Inserted EventType: <508:blocked-shot>
+2025-01-17 15:45:11,020 - INFO     - Inserting Event: <507:missed-shot>
+2025-01-17 15:45:11,021 - INFO     - Inserted EventType: <507:missed-shot>
+2025-01-17 15:45:11,021 - INFO     - Inserting Event: <509:penalty>
+2025-01-17 15:45:11,022 - INFO     - Inserted EventType: <509:penalty>
+2025-01-17 15:45:11,022 - INFO     - Inserting Event: <521:period-end>
+2025-01-17 15:45:11,023 - INFO     - Inserted EventType: <521:period-end>
+2025-01-17 15:45:11,023 - INFO     - Inserting Event: <535:delayed-penalty>
+2025-01-17 15:45:11,024 - INFO     - Inserted EventType: <535:delayed-penalty>
+2025-01-17 15:45:11,024 - INFO     - Inserting Event: <504:giveaway>
+2025-01-17 15:45:11,024 - INFO     - Inserted EventType: <504:giveaway>
+2025-01-17 15:45:11,024 - INFO     - Inserting Event: <516:stoppage>
+2025-01-17 15:45:11,025 - INFO     - Inserted EventType: <516:stoppage>
+2025-01-17 15:45:11,025 - INFO     - Inserting Event: <505:goal>
+2025-01-17 15:45:11,026 - INFO     - Inserted EventType: <505:goal>
+2025-01-17 15:45:11,026 - INFO     - Inserting Event: <520:period-start>
+2025-01-17 15:45:11,026 - INFO     - Inserted EventType: <520:period-start>
+2025-01-17 15:45:11,026 - INFO     - Inserting Event: <502:faceoff>
+2025-01-17 15:45:11,027 - INFO     - Inserted EventType: <502:faceoff>
+2025-01-17 15:45:11,027 - INFO     - Inserting Event: <524:game-end>
+2025-01-17 15:45:11,028 - INFO     - Inserted EventType: <524:game-end>
+2025-01-17 15:45:11,028 - INFO     - Inserting Event: <503:hit>
+2025-01-17 15:45:11,028 - INFO     - Inserted EventType: <503:hit>
+2025-01-17 15:45:11,028 - INFO     - Inserting Event: <506:shot-on-goal>
+2025-01-17 15:45:11,029 - INFO     - Inserted EventType: <506:shot-on-goal>
+2025-01-17 15:45:11,060 - INFO     - Events Inserted for Game 2024020705
