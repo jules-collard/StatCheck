@@ -17,6 +17,10 @@ def insert_games(date: datetime):
         game.from_dict(game_dets)
         game_objects.append(game)
 
+    if len(game_dicts) == 0:
+        logger.warning(f"No games found")
+        return
+
     try:
         db.session.add_all(game_objects)
         db.session.commit()
