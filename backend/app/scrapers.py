@@ -99,6 +99,9 @@ def scrape_schedule(date: str):
     schedule_df[['awayTeamScore', 'homeTeamScore']] = schedule_df[['awayTeamScore', 'homeTeamScore']].astype('Int64')
     schedule_df["date"] = schedule_df['startTimeUTC'].apply(lambda x: x.date())
 
+    # Only completed games
+    schedule_df = schedule_df[(schedule_df['gameState'] == 'OFF') & (schedule_df['gameScheduleState'] == 'OK')]
+
     return schedule_df.to_dict(orient="records")
 
 def scrape_shifts(gameId: int) -> pd.DataFrame:
