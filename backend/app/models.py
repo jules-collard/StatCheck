@@ -23,7 +23,7 @@ class Team(db.Model, Util):
     triCode: so.Mapped[str] = so.mapped_column()
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
-    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='team')
+    players: so.Mapped[list['Player']] = so.relationship(back_populates='team')
 
     def __repr__(self):
         return f"Team: <{self.fullName}>"
