@@ -24,6 +24,8 @@ class Team(db.Model, Util):
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     players: so.Mapped[list['Player']] = so.relationship(back_populates='team')
+    homeGames: so.Mapped[list['Game']] = so.relationship(back_populates='homeTeam', foreign_keys='Game.homeTeamID')
+    awayGames: so.Mapped[list['Game']] = so.relationship(back_populates='awayTeam', foreign_keys='Game.awayTeamID')
 
     def __repr__(self):
         return f"Team: <{self.fullName}>"
@@ -107,8 +109,14 @@ class Game(db.Model, Util):
     lastPeriodType: so.Mapped[str] = so.mapped_column()
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
+    homeTeam: so.Mapped[Team] = so.relationship(back_populates='homeGames', foreign_keys=[homeTeamID])
+    awayTeam: so.Mapped[Team] = so.relationship(back_populates='awayGames', foreign_keys=[awayTeamID])
+
     def __repr__(self):
-        return f"Game: <{self.awayTeamID} at {self.homeTeamID} {self.startTimeUTC}>"
+        if self.homeTeam is not None and self.awayTeam is not None:
+            return f"Game: <{self.awayTeam.fullName} @ {self.homeTeam.fullName} {self.startTimeUTC}"
+        else:
+            return f"Game: <{self.awayTeamID} @ {self.homeTeamID} {self.startTimeUTC}>"
     
 
 class EventType(db.Model, Util):
