@@ -7,7 +7,7 @@ from app.updaters import logger, log_error
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
 
-def insert_games(date: datetime):
+def insert_games(date: datetime) -> list[int]:
     date_string = date.date().strftime("%Y-%m-%d")
     game_dicts = scrape_schedule(date_string)
     game_objects = []
@@ -19,16 +19,18 @@ def insert_games(date: datetime):
 
     if len(game_dicts) == 0:
         logger.warning(f"No games found")
-        return
+        return []
 
     try:
         db.session.add_all(game_objects)
         db.session.commit()
         logger.info(f'Games Inserted for {date_string}')
+        return [obj.id for obj in game_objects]
     except IntegrityError as e:
         db.session.rollback()
         logger.error(f'Failed to insert games for {date_string}')
         log_error(e)
+        return []
 
 def insert_rosters(gameID: int, insert_new_players=True):
     player_games = scrape_rosters(gameID)
