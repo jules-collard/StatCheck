@@ -19,7 +19,21 @@ def clear_db():
     ref_types.delete_all_event_types()
     ref_types.delete_all_game_types()
 
+def import_games_on_date(date: datetime):
+    logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
+    game_ids = games.insert_games(date)
+    for game in game_ids:
+        games.insert_rosters(game)
+        games.insert_events(game)
+
+def import_last_gameday():
+    import_games_on_date(datetime.today() - timedelta(days = 1))
+
+def import_games_date_range(start: datetime, end: datetime):
+    date = start
+    while date <= end:
+        import_games_on_date(date)
+        date += timedelta(days=1)
+
 if __name__ == "__main__":
     app.app_context().push()
-    # Commands HERE
-    teams.insert_teams()
