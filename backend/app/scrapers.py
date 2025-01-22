@@ -84,6 +84,11 @@ def scrape_schedule(date: str):
             'gameOutcome.lastPeriodType']
 
     response = requests.get(url).json()
+    
+    # Empty Gamedays
+    if response["gameWeek"][0]["numberOfGames"] == 0:
+        return {}
+    
     schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])
     schedule_df = schedule_df[schedule_df.columns[schedule_df.columns.isin(cols)]]
 
@@ -121,6 +126,10 @@ def scrape_shifts(gameId: int):
 
     response = requests.get(url).json()
     shifts_df = pd.json_normalize(response["data"])
+    
+    # Some games do not have shift data
+    if len(shifts_df) == 0:
+        return {}
 
     # Remove goal events
     shifts_df = shifts_df[(shifts_df["detailCode"] == 0) & (shifts_df["typeCode"] == 517)]
