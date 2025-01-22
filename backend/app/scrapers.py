@@ -14,7 +14,8 @@ def scrape_pbp(gameId: int):
        'details.drawnByPlayerId', 'details.scoringPlayerId', 'details.assist1PlayerId', 'details.assist2PlayerId']
 
     response = requests.get(url).json()
-    pbp_df = pd.json_normalize(response["plays"])[cols]
+    pbp_df = pd.json_normalize(response["plays"])
+    pbp_df = pbp_df[pbp_df.columns[pbp_df.columns.isin(cols)]]
     
     pbp_df["gameID"] = gameId
     
@@ -47,7 +48,7 @@ def scrape_player(playerId: int) -> dict:
 
     response = requests.get(url).json()
     player_df = pd.json_normalize(response)
-    player_df = player_df[[col for col in cols if col in player_df.columns]]
+    player_df = player_df[player_df.columns[player_df.columns.isin(cols)]]
     player_df.rename(columns = {'playerId':'id',
                                 'currentTeamId':'currentTeamID',
                                 'firstName.default':'firstName',
@@ -83,7 +84,8 @@ def scrape_schedule(date: str):
             'gameOutcome.lastPeriodType']
 
     response = requests.get(url).json()
-    schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])[cols]
+    schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])
+    schedule_df = schedule_df[schedule_df.columns[schedule_df.columns.isin(cols)]]
 
     schedule_df.rename(columns = {'venue.default':'defaultVenue',
                                     'awayTeam.id':'awayTeamID', 'awayTeam.score':'awayTeamScore',
@@ -134,7 +136,7 @@ def scrape_shifts(gameId: int):
     shifts_df["startTimeSec"] = startTimeSec
     shifts_df["endTimeSec"] = endTimeSec
 
-    shifts_df = shifts_df[cols]
+    shifts_df = shifts_df[shifts_df.columns[shifts_df.columns.isin(cols)]]
 
     return shifts_df.to_dict(orient='records')
 
