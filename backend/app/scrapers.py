@@ -104,7 +104,7 @@ def scrape_schedule(date: str):
 
     return schedule_df.to_dict(orient="records")
 
-def scrape_shifts(gameId: int) -> pd.DataFrame:
+def scrape_shifts(gameId: int):
     """
     Scrapes shift data from the NHL website for a given game ID.
     
@@ -115,13 +115,16 @@ def scrape_shifts(gameId: int) -> pd.DataFrame:
     """
 
     url = f"https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId={gameId}"
-    cols = ['id', 'durationSec', 'startTimeSec', 'endTimeSec', 'eventNumber', 'gameId', 'period', 'playerId', 'shiftNumber', 'teamId']
+    cols = ['id', 'durationSec', 'startTimeSec', 'endTimeSec', 'eventNumber', 'gameID', 'period', 'playerID', 'shiftNumber', 'teamID']
 
     response = requests.get(url).json()
     shifts_df = pd.json_normalize(response["data"])
 
     # Remove goal events
     shifts_df = shifts_df[(shifts_df["detailCode"] == 0) & (shifts_df["typeCode"] == 517)]
+
+    # Rename cols
+    shifts_df.rename({'gameId':'gameID', 'playerId':'playerID', 'teamId':'teamID'}, axis="columns", inplace=True)
 
     # Parse MM:SS start/end times
     durationSec = [int(i.split(":")[0]) * 60 + int(i.split(":")[1]) for i in shifts_df['duration']]
@@ -133,7 +136,7 @@ def scrape_shifts(gameId: int) -> pd.DataFrame:
 
     shifts_df = shifts_df[cols]
 
-    return shifts_df
+    return shifts_df.to_dict(orient='records')
 
 def scrape_teams():
     """

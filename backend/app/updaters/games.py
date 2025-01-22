@@ -1,8 +1,7 @@
 from app import db
-from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp
-from app.models import Game, PlayerGame, Event, EventType, Player
-from app.updaters import log_error, ref_types, players
-from app.updaters import logger, log_error
+from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp, scrape_shifts
+from app.models import Game, PlayerGame, Event, EventType, Player, Shift
+from app.updaters import logger, log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
@@ -86,6 +85,24 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         logger.error(f'Failed to insert events for Game {gameID}')
         log_error(e)
 
+def insert_shifts(gameID: int):
+    shifts = scrape_shifts(gameID)
+    shift_objs = []
+
+    for shift in shifts:
+        shift_obj = Shift()
+        shift_obj.from_dict(shift)
+        shift_objs.append(shift_obj)
+
+    try:
+        db.session.add_all(shift_objs)
+        db.session.commit()
+        logger.info(f'Shifts Inserted for Game {gameID}')
+    except IntegrityError as e:
+        db.session.rollback()
+        logger.error(f'Failed to insert events for Game {gameID}')
+        log_error(e)
+
 def delete_all_games():
     Game.query.delete()
     db.session.commit()
@@ -103,4 +120,13 @@ def delete_all_events(gameID = None):
     else:
         Event.query.delete()
         logger.info('Deleted ALL Events')
+    db.session.commit()
+
+def delete_all_shifts(gameID = None):
+    if gameID is not None:
+        Shift.query.filter_by(gameID=gameID).delete()
+        logger.info(f'Deleted shifts for Game {gameID}')
+    else:
+        Shift.query.delete()
+        logger.info('Deleted ALL Shifts')
     db.session.commit()
