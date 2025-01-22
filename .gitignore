@@ -16,3 +16,4 @@ build/
 
 *.db
 .DS_Store
+*.log
