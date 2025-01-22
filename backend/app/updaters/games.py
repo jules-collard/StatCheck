@@ -9,27 +9,25 @@ from datetime import datetime
 def insert_games(date: datetime) -> list[int]:
     date_string = date.date().strftime("%Y-%m-%d")
     game_dicts = scrape_schedule(date_string)
-    game_objects = []
-
-    for game_dets in game_dicts:
-        game = Game()
-        game.from_dict(game_dets)
-        game_objects.append(game)
+    game_ids = []
 
     if len(game_dicts) == 0:
         logger.warning(f"No games found")
         return []
+    
+    for game_dets in game_dicts:
+        game = Game()
+        game.from_dict(game_dets)
+        try:
+            db.session.merge(game)
+            logger.info(f'Inserted Game {game}')
+            game_ids.append(game.id)
+        except IntegrityError as e:
+            db.session.rollback()
+            logger.error(f'Failed to Insert Game {game}')
+            log_error(e)
 
-    try:
-        db.session.add_all(game_objects)
-        db.session.commit()
-        logger.info(f'Games Inserted for {date_string}')
-        return [obj.id for obj in game_objects]
-    except IntegrityError as e:
-        db.session.rollback()
-        logger.error(f'Failed to insert games for {date_string}')
-        log_error(e)
-        return []
+    return game_ids
 
 def insert_rosters(gameID: int, insert_new_players=True):
     player_games = scrape_rosters(gameID)
@@ -88,6 +86,10 @@ def insert_events(gameID: int, insert_new_event_codes=True):
 def insert_shifts(gameID: int):
     shifts = scrape_shifts(gameID)
     shift_objs = []
+
+    if len(shifts) == 0:
+        logger.error(f'No shift data for Game {gameID}')
+        return
 
     for shift in shifts:
         shift_obj = Shift()
