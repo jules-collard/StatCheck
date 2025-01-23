@@ -73,6 +73,8 @@ class Player(db.Model, Util):
         attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
         return attrs_dict
     
+    def goals(self) -> int:
+        return Event.query.filter(Event.scoringPlayerID == self.id).count()
 
 class GameType(db.Model):
     __tablename__ = "game_types"
@@ -114,7 +116,7 @@ class Game(db.Model, Util):
 
     def __repr__(self):
         if self.homeTeam is not None and self.awayTeam is not None:
-            return f"Game: <{self.awayTeam.fullName} @ {self.homeTeam.fullName} {self.startTimeUTC}"
+            return f"Game: <{self.awayTeam.fullName} @ {self.homeTeam.fullName} {self.startTimeUTC}>"
         else:
             return f"Game: <{self.awayTeamID} @ {self.homeTeamID} {self.startTimeUTC}>"
     
