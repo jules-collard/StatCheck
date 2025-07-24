@@ -1,128 +1,1570 @@
-2025-01-17 15:32:45,459 - INFO     - Deleted ALL Events
-2025-01-17 15:32:45,460 - INFO     - Deleted ALL Games
-2025-01-17 15:32:45,460 - INFO     - Deleted ALL Appearances
-2025-01-17 15:34:30,969 - INFO     - Deleted ALL Players
-2025-01-17 15:34:30,970 - INFO     - Deleted ALL Teams
-2025-01-17 15:34:30,970 - INFO     - Deleted ALL Event Types
-2025-01-17 15:34:30,971 - INFO     - Deleted ALL Game Types
-2025-01-17 15:36:20,670 - INFO     - Inserting Teams
-2025-01-17 15:36:20,833 - INFO     - Inserted Teams
-2025-01-17 15:36:20,833 - INFO     - Inserting Game Types
-2025-01-17 15:36:20,834 - INFO     - Game Types Inserted
-2025-01-17 15:41:54,226 - INFO     - Inserting Games for 2025-01-15
-2025-01-17 15:41:54,373 - INFO     - Games Inserted for 2025-01-15
-2025-01-17 15:42:53,295 - INFO     - Inserting Rosters for Game 2024020705
-2025-01-17 15:42:53,872 - INFO     - Inserting/Updating Player: <Jaccob Slavin>
-2025-01-17 15:42:53,880 - INFO     - Inserted/Updated Player: <Jaccob Slavin>
-2025-01-17 15:42:54,393 - INFO     - Inserting/Updating Player: <James Reimer>
-2025-01-17 15:42:54,396 - INFO     - Inserted/Updated Player: <James Reimer>
-2025-01-17 15:42:55,254 - INFO     - Inserting/Updating Player: <Eric Robinson>
-2025-01-17 15:42:55,257 - INFO     - Inserted/Updated Player: <Eric Robinson>
-2025-01-17 15:42:57,432 - INFO     - Inserting/Updating Player: <Henri Jokiharju>
-2025-01-17 15:42:57,435 - INFO     - Inserted/Updated Player: <Henri Jokiharju>
-2025-01-17 15:42:58,282 - INFO     - Inserting/Updating Player: <Ryan McLeod>
-2025-01-17 15:42:58,285 - INFO     - Inserted/Updated Player: <Ryan McLeod>
-2025-01-17 15:43:00,331 - INFO     - Inserting/Updating Player: <Martin Necas>
-2025-01-17 15:43:00,334 - INFO     - Inserted/Updated Player: <Martin Necas>
-2025-01-17 15:43:02,713 - INFO     - Inserting/Updating Player: <Mattias Samuelsson>
-2025-01-17 15:43:02,717 - INFO     - Inserted/Updated Player: <Mattias Samuelsson>
-2025-01-17 15:43:03,003 - INFO     - Inserting/Updating Player: <Ukko-Pekka Luukkonen>
-2025-01-17 15:43:03,007 - INFO     - Inserted/Updated Player: <Ukko-Pekka Luukkonen>
-2025-01-17 15:43:03,664 - INFO     - Inserting/Updating Player: <Seth Jarvis>
-2025-01-17 15:43:03,667 - INFO     - Inserted/Updated Player: <Seth Jarvis>
-2025-01-17 15:43:04,161 - INFO     - Inserting/Updating Player: <Jack Quinn>
-2025-01-17 15:43:04,164 - INFO     - Inserted/Updated Player: <Jack Quinn>
-2025-01-17 15:43:04,445 - INFO     - Inserting/Updating Player: <Zach Benson>
-2025-01-17 15:43:04,447 - INFO     - Inserted/Updated Player: <Zach Benson>
-2025-01-17 15:43:04,722 - INFO     - Inserting/Updating Player: <Connor Clifton>
-2025-01-17 15:43:04,725 - INFO     - Inserted/Updated Player: <Connor Clifton>
-2025-01-17 15:43:04,988 - INFO     - Inserting/Updating Player: <Dustin Tokarski>
-2025-01-17 15:43:04,990 - INFO     - Inserted/Updated Player: <Dustin Tokarski>
-2025-01-17 15:43:05,270 - INFO     - Inserting/Updating Player: <Tage Thompson>
-2025-01-17 15:43:05,273 - INFO     - Inserted/Updated Player: <Tage Thompson>
-2025-01-17 15:43:05,541 - INFO     - Inserting/Updating Player: <Jordan Staal>
-2025-01-17 15:43:05,543 - INFO     - Inserted/Updated Player: <Jordan Staal>
-2025-01-17 15:43:07,675 - INFO     - Inserting/Updating Player: <Jesperi Kotkaniemi>
-2025-01-17 15:43:07,679 - INFO     - Inserted/Updated Player: <Jesperi Kotkaniemi>
-2025-01-17 15:43:08,524 - INFO     - Inserting/Updating Player: <Andrei Svechnikov>
-2025-01-17 15:43:08,526 - INFO     - Inserted/Updated Player: <Andrei Svechnikov>
-2025-01-17 15:43:09,548 - INFO     - Inserting/Updating Player: <Dmitry Orlov>
-2025-01-17 15:43:09,551 - INFO     - Inserted/Updated Player: <Dmitry Orlov>
-2025-01-17 15:43:10,571 - INFO     - Inserting/Updating Player: <Juha Jaaska>
-2025-01-17 15:43:10,575 - INFO     - Inserted/Updated Player: <Juha Jaaska>
-2025-01-17 15:43:11,619 - INFO     - Inserting/Updating Player: <Jack Drury>
-2025-01-17 15:43:11,620 - INFO     - Inserted/Updated Player: <Jack Drury>
-2025-01-17 15:43:12,739 - INFO     - Inserting/Updating Player: <Rasmus Dahlin>
-2025-01-17 15:43:12,741 - INFO     - Inserted/Updated Player: <Rasmus Dahlin>
-2025-01-17 15:43:14,417 - INFO     - Inserting/Updating Player: <Jason Zucker>
-2025-01-17 15:43:14,420 - INFO     - Inserted/Updated Player: <Jason Zucker>
-2025-01-17 15:43:15,317 - INFO     - Inserting/Updating Player: <Pyotr Kochetkov>
-2025-01-17 15:43:15,320 - INFO     - Inserted/Updated Player: <Pyotr Kochetkov>
-2025-01-17 15:43:15,607 - INFO     - Inserting/Updating Player: <Sean Walker>
-2025-01-17 15:43:15,610 - INFO     - Inserted/Updated Player: <Sean Walker>
-2025-01-17 15:43:17,733 - INFO     - Inserting/Updating Player: <Tyson Kozak>
-2025-01-17 15:43:17,735 - INFO     - Inserted/Updated Player: <Tyson Kozak>
-2025-01-17 15:43:18,759 - INFO     - Inserting/Updating Player: <Brent Burns>
-2025-01-17 15:43:18,762 - INFO     - Inserted/Updated Player: <Brent Burns>
-2025-01-17 15:43:19,050 - INFO     - Inserting/Updating Player: <Sebastian Aho>
-2025-01-17 15:43:19,053 - INFO     - Inserted/Updated Player: <Sebastian Aho>
-2025-01-17 15:43:21,936 - INFO     - Inserting/Updating Player: <Sam Lafferty>
-2025-01-17 15:43:21,940 - INFO     - Inserted/Updated Player: <Sam Lafferty>
-2025-01-17 15:43:22,739 - INFO     - Inserting/Updating Player: <Jackson Blake>
-2025-01-17 15:43:22,743 - INFO     - Inserted/Updated Player: <Jackson Blake>
-2025-01-17 15:43:23,015 - INFO     - Inserting/Updating Player: <JJ Peterka>
-2025-01-17 15:43:23,018 - INFO     - Inserted/Updated Player: <JJ Peterka>
-2025-01-17 15:43:23,340 - INFO     - Inserting/Updating Player: <Shayne Gostisbehere>
-2025-01-17 15:43:23,343 - INFO     - Inserted/Updated Player: <Shayne Gostisbehere>
-2025-01-17 15:43:23,620 - INFO     - Inserting/Updating Player: <Jalen Chatfield>
-2025-01-17 15:43:23,622 - INFO     - Inserted/Updated Player: <Jalen Chatfield>
-2025-01-17 15:43:23,911 - INFO     - Inserting/Updating Player: <Owen Power>
-2025-01-17 15:43:23,913 - INFO     - Inserted/Updated Player: <Owen Power>
-2025-01-17 15:43:24,259 - INFO     - Inserting/Updating Player: <Peyton Krebs>
-2025-01-17 15:43:24,261 - INFO     - Inserted/Updated Player: <Peyton Krebs>
-2025-01-17 15:43:24,564 - INFO     - Inserting/Updating Player: <Bowen Byram>
-2025-01-17 15:43:24,566 - INFO     - Inserted/Updated Player: <Bowen Byram>
-2025-01-17 15:43:27,132 - INFO     - Inserting/Updating Player: <Dylan Cozens>
-2025-01-17 15:43:27,135 - INFO     - Inserted/Updated Player: <Dylan Cozens>
-2025-01-17 15:43:30,204 - INFO     - Inserting/Updating Player: <Jordan Martinook>
-2025-01-17 15:43:30,208 - INFO     - Inserted/Updated Player: <Jordan Martinook>
-2025-01-17 15:43:31,702 - INFO     - Inserting/Updating Player: <Jack Roslovic>
-2025-01-17 15:43:31,705 - INFO     - Inserted/Updated Player: <Jack Roslovic>
-2025-01-17 15:43:32,006 - INFO     - Inserting/Updating Player: <Alex Tuch>
-2025-01-17 15:43:32,010 - INFO     - Inserted/Updated Player: <Alex Tuch>
-2025-01-17 15:43:33,093 - INFO     - Inserting/Updating Player: <Beck Malenstyn>
-2025-01-17 15:43:33,096 - INFO     - Inserted/Updated Player: <Beck Malenstyn>
-2025-01-17 15:43:33,100 - INFO     - Rosters Inserted for Game 2024020705
-2025-01-17 15:44:16,897 - INFO     - Inserting Events for Game 2024020705
-2025-01-17 15:45:10,899 - INFO     - Inserting Events for Game 2024020705
-2025-01-17 15:45:11,017 - INFO     - Inserting Event: <525:takeaway>
-2025-01-17 15:45:11,019 - INFO     - Inserted EventType: <525:takeaway>
-2025-01-17 15:45:11,019 - INFO     - Inserting Event: <508:blocked-shot>
-2025-01-17 15:45:11,020 - INFO     - Inserted EventType: <508:blocked-shot>
-2025-01-17 15:45:11,020 - INFO     - Inserting Event: <507:missed-shot>
-2025-01-17 15:45:11,021 - INFO     - Inserted EventType: <507:missed-shot>
-2025-01-17 15:45:11,021 - INFO     - Inserting Event: <509:penalty>
-2025-01-17 15:45:11,022 - INFO     - Inserted EventType: <509:penalty>
-2025-01-17 15:45:11,022 - INFO     - Inserting Event: <521:period-end>
-2025-01-17 15:45:11,023 - INFO     - Inserted EventType: <521:period-end>
-2025-01-17 15:45:11,023 - INFO     - Inserting Event: <535:delayed-penalty>
-2025-01-17 15:45:11,024 - INFO     - Inserted EventType: <535:delayed-penalty>
-2025-01-17 15:45:11,024 - INFO     - Inserting Event: <504:giveaway>
-2025-01-17 15:45:11,024 - INFO     - Inserted EventType: <504:giveaway>
-2025-01-17 15:45:11,024 - INFO     - Inserting Event: <516:stoppage>
-2025-01-17 15:45:11,025 - INFO     - Inserted EventType: <516:stoppage>
-2025-01-17 15:45:11,025 - INFO     - Inserting Event: <505:goal>
-2025-01-17 15:45:11,026 - INFO     - Inserted EventType: <505:goal>
-2025-01-17 15:45:11,026 - INFO     - Inserting Event: <520:period-start>
-2025-01-17 15:45:11,026 - INFO     - Inserted EventType: <520:period-start>
-2025-01-17 15:45:11,026 - INFO     - Inserting Event: <502:faceoff>
-2025-01-17 15:45:11,027 - INFO     - Inserted EventType: <502:faceoff>
-2025-01-17 15:45:11,027 - INFO     - Inserting Event: <524:game-end>
-2025-01-17 15:45:11,028 - INFO     - Inserted EventType: <524:game-end>
-2025-01-17 15:45:11,028 - INFO     - Inserting Event: <503:hit>
-2025-01-17 15:45:11,028 - INFO     - Inserted EventType: <503:hit>
-2025-01-17 15:45:11,028 - INFO     - Inserting Event: <506:shot-on-goal>
-2025-01-17 15:45:11,029 - INFO     - Inserted EventType: <506:shot-on-goal>
-2025-01-17 15:45:11,060 - INFO     - Events Inserted for Game 2024020705
-2025-01-17 17:58:55,186 - INFO     - Deleted ALL Teams
-2025-01-17 17:59:28,106 - INFO     - Inserted Teams
+2025-01-22 11:55:43,290 - INFO     - INITIALISING DATABASE
+2025-01-22 11:55:43,387 - ERROR    - Failed to Insert Teams
+2025-01-22 11:55:43,388 - ERROR    - Failed to Inserted Game Types
+2025-01-22 11:55:43,388 - INFO     - IMPORTING GAMES FOR 2024-12-01
+2025-01-22 11:55:43,837 - INFO     - Games Inserted for 2024-12-01
+2025-01-22 11:55:44,560 - INFO     - Inserted/Updated Player: <Aatu Raty>
+2025-01-22 11:55:44,936 - INFO     - Inserted/Updated Player: <Arturs Silovs>
+2025-01-22 11:55:45,181 - INFO     - Inserted/Updated Player: <Moritz Seider>
+2025-01-22 11:55:45,575 - INFO     - Inserted/Updated Player: <Conor Garland>
+2025-01-22 11:55:45,955 - INFO     - Inserted/Updated Player: <Marco Kasper>
+2025-01-22 11:55:46,295 - INFO     - Inserted/Updated Player: <Cam Talbot>
+2025-01-22 11:55:46,594 - INFO     - Inserted/Updated Player: <Elias Pettersson>
+2025-01-22 11:55:46,924 - INFO     - Inserted/Updated Player: <Ben Chiarot>
+2025-01-22 11:55:47,327 - INFO     - Inserted/Updated Player: <J.T. Compher>
+2025-01-22 11:55:47,730 - INFO     - Inserted/Updated Player: <Lucas Raymond>
+2025-01-22 11:55:48,141 - INFO     - Inserted/Updated Player: <Quinn Hughes>
+2025-01-22 11:55:48,531 - INFO     - Inserted/Updated Player: <Jake DeBrusk>
+2025-01-22 11:55:49,168 - INFO     - Inserted/Updated Player: <Jeff Petry>
+2025-01-22 11:55:49,571 - INFO     - Inserted/Updated Player: <Max Sasson>
+2025-01-22 11:55:49,981 - INFO     - Inserted/Updated Player: <Tyler Motte>
+2025-01-22 11:55:50,389 - INFO     - Inserted/Updated Player: <Joe Veleno>
+2025-01-22 11:55:50,800 - INFO     - Inserted/Updated Player: <Erik Gustafsson>
+2025-01-22 11:55:51,036 - INFO     - Inserted/Updated Player: <Kevin Lankinen>
+2025-01-22 11:55:51,412 - INFO     - Inserted/Updated Player: <Carson Soucy>
+2025-01-22 11:55:51,826 - INFO     - Inserted/Updated Player: <Justin Holl>
+2025-01-22 11:55:52,230 - INFO     - Inserted/Updated Player: <Ville Husso>
+2025-01-22 11:55:52,644 - INFO     - Inserted/Updated Player: <Erik Brannstrom>
+2025-01-22 11:55:52,950 - INFO     - Inserted/Updated Player: <Simon Edvinsson>
+2025-01-22 11:55:53,349 - INFO     - Inserted/Updated Player: <Pius Suter>
+2025-01-22 11:55:53,771 - INFO     - Inserted/Updated Player: <Tyler Myers>
+2025-01-22 11:55:54,180 - INFO     - Inserted/Updated Player: <Nils Hoglander>
+2025-01-22 11:55:54,591 - INFO     - Inserted/Updated Player: <Vincent Desharnais>
+2025-01-22 11:55:54,896 - INFO     - Inserted/Updated Player: <Danton Heinen>
+2025-01-22 11:55:55,205 - INFO     - Inserted/Updated Player: <Christian Fischer>
+2025-01-22 11:55:55,619 - INFO     - Inserted/Updated Player: <Dakota Joshua>
+2025-01-22 11:55:56,023 - INFO     - Inserted/Updated Player: <Alex DeBrincat>
+2025-01-22 11:55:56,433 - INFO     - Inserted/Updated Player: <Brock Boeser>
+2025-01-22 11:55:56,841 - INFO     - Inserted/Updated Player: <Kiefer Sherwood>
+2025-01-22 11:55:56,897 - INFO     - Inserted/Updated Player: <Vladimir Tarasenko>
+2025-01-22 11:55:57,028 - INFO     - Inserted/Updated Player: <Andrew Copp>
+2025-01-22 11:55:57,356 - INFO     - Inserted/Updated Player: <Noah Juulsen>
+2025-01-22 11:55:57,420 - INFO     - Inserted/Updated Player: <Michael Rasmussen>
+2025-01-22 11:55:57,761 - INFO     - Inserted/Updated Player: <Jonatan Berggren>
+2025-01-22 11:55:58,175 - INFO     - Inserted/Updated Player: <Dylan Larkin>
+2025-01-22 11:55:58,583 - INFO     - Inserted/Updated Player: <Teddy Blueger>
+2025-01-22 11:55:58,590 - INFO     - Rosters Inserted for Game 2024020388
+2025-01-22 11:55:58,900 - INFO     - Inserted EventType: <535:delayed-penalty>
+2025-01-22 11:55:58,902 - INFO     - Inserted EventType: <525:takeaway>
+2025-01-22 11:55:58,903 - INFO     - Inserted EventType: <520:period-start>
+2025-01-22 11:55:58,903 - INFO     - Inserted EventType: <503:hit>
+2025-01-22 11:55:58,904 - INFO     - Inserted EventType: <505:goal>
+2025-01-22 11:55:58,905 - INFO     - Inserted EventType: <504:giveaway>
+2025-01-22 11:55:58,906 - INFO     - Inserted EventType: <509:penalty>
+2025-01-22 11:55:58,907 - INFO     - Inserted EventType: <507:missed-shot>
+2025-01-22 11:55:58,908 - INFO     - Inserted EventType: <516:stoppage>
+2025-01-22 11:55:58,909 - INFO     - Inserted EventType: <502:faceoff>
+2025-01-22 11:55:58,910 - INFO     - Inserted EventType: <524:game-end>
+2025-01-22 11:55:58,910 - INFO     - Inserted EventType: <521:period-end>
+2025-01-22 11:55:58,911 - INFO     - Inserted EventType: <508:blocked-shot>
+2025-01-22 11:55:58,912 - INFO     - Inserted EventType: <506:shot-on-goal>
+2025-01-22 11:55:58,949 - INFO     - Events Inserted for Game 2024020388
+2025-01-22 11:55:59,091 - INFO     - Shifts Inserted for Game 2024020388
+2025-01-22 11:55:59,811 - INFO     - Inserted/Updated Player: <Lane Hutson>
+2025-01-22 11:56:00,079 - INFO     - Inserted/Updated Player: <David Pastrnak>
+2025-01-22 11:56:00,465 - INFO     - Inserted/Updated Player: <Trent Frederic>
+2025-01-22 11:56:00,830 - INFO     - Inserted/Updated Player: <Sam Montembeault>
+2025-01-22 11:56:01,205 - INFO     - Inserted/Updated Player: <Cole Caufield>
+2025-01-22 11:56:01,555 - INFO     - Inserted/Updated Player: <Andrew Peeke>
+2025-01-22 11:56:01,966 - INFO     - Inserted/Updated Player: <Nick Suzuki>
+2025-01-22 11:56:02,420 - INFO     - Inserted/Updated Player: <Cole Koepke>
+2025-01-22 11:56:02,883 - INFO     - Inserted/Updated Player: <John Beecher>
+2025-01-22 11:56:03,501 - INFO     - Inserted/Updated Player: <Arber Xhekaj>
+2025-01-22 11:56:03,908 - INFO     - Inserted/Updated Player: <Justin Brazeau>
+2025-01-22 11:56:04,211 - INFO     - Inserted/Updated Player: <Jeremy Swayman>
+2025-01-22 11:56:04,524 - INFO     - Inserted/Updated Player: <Jordan Oesterle>
+2025-01-22 11:56:04,932 - INFO     - Inserted/Updated Player: <Christian Dvorak>
+2025-01-22 11:56:05,166 - INFO     - Inserted/Updated Player: <Kaiden Guhle>
+2025-01-22 11:56:05,423 - INFO     - Inserted/Updated Player: <Emil Heineman>
+2025-01-22 11:56:05,856 - INFO     - Inserted/Updated Player: <Cayden Primeau>
+2025-01-22 11:56:06,153 - INFO     - Inserted/Updated Player: <Joel Armia>
+2025-01-22 11:56:06,459 - INFO     - Inserted/Updated Player: <Josh Anderson>
+2025-01-22 11:56:06,775 - INFO     - Inserted/Updated Player: <Jake Evans>
+2025-01-22 11:56:07,082 - INFO     - Inserted/Updated Player: <Elias Lindholm>
+2025-01-22 11:56:07,407 - INFO     - Inserted/Updated Player: <Jayden Struble>
+2025-01-22 11:56:07,800 - INFO     - Inserted/Updated Player: <Juraj Slafkovsky>
+2025-01-22 11:56:08,183 - INFO     - Inserted/Updated Player: <Joshua Roy>
+2025-01-22 11:56:08,508 - INFO     - Inserted/Updated Player: <Pavel Zacha>
+2025-01-22 11:56:08,918 - INFO     - Inserted/Updated Player: <Nikita Zadorov>
+2025-01-22 11:56:09,336 - INFO     - Inserted/Updated Player: <Marc McLaughlin>
+2025-01-22 11:56:09,738 - INFO     - Inserted/Updated Player: <Brendan Gallagher>
+2025-01-22 11:56:10,044 - INFO     - Inserted/Updated Player: <Brad Marchand>
+2025-01-22 11:56:10,463 - INFO     - Inserted/Updated Player: <Mike Matheson>
+2025-01-22 11:56:10,809 - INFO     - Inserted/Updated Player: <Mason Lohrei>
+2025-01-22 11:56:11,172 - INFO     - Inserted/Updated Player: <Alex Newhook>
+2025-01-22 11:56:11,590 - INFO     - Inserted/Updated Player: <Charlie McAvoy>
+2025-01-22 11:56:11,946 - INFO     - Inserted/Updated Player: <David Savard>
+2025-01-22 11:56:12,234 - INFO     - Inserted/Updated Player: <Charlie Coyle>
+2025-01-22 11:56:12,612 - INFO     - Inserted/Updated Player: <Mark Kastelic>
+2025-01-22 11:56:12,975 - INFO     - Inserted/Updated Player: <Brandon Carlo>
+2025-01-22 11:56:13,370 - INFO     - Inserted/Updated Player: <Joonas Korpisalo>
+2025-01-22 11:56:13,588 - INFO     - Inserted/Updated Player: <Morgan Geekie>
+2025-01-22 11:56:13,944 - INFO     - Inserted/Updated Player: <Kirby Dach>
+2025-01-22 11:56:13,950 - INFO     - Rosters Inserted for Game 2024020389
+2025-01-22 11:56:14,251 - INFO     - Events Inserted for Game 2024020389
+2025-01-22 11:56:14,404 - INFO     - Shifts Inserted for Game 2024020389
+2025-01-22 11:56:14,968 - INFO     - Inserted/Updated Player: <Wyatt Kaiser>
+2025-01-22 11:56:15,276 - INFO     - Inserted/Updated Player: <Arvid Soderblom>
+2025-01-22 11:56:15,665 - INFO     - Inserted/Updated Player: <Jake Christiansen>
+2025-01-22 11:56:16,094 - INFO     - Inserted/Updated Player: <Jason Dickinson>
+2025-01-22 11:56:16,443 - INFO     - Inserted/Updated Player: <Dante Fabbro>
+2025-01-22 11:56:16,675 - INFO     - Inserted/Updated Player: <Louis Crevier>
+2025-01-22 11:56:17,114 - INFO     - Inserted/Updated Player: <Taylor Hall>
+2025-01-22 11:56:17,526 - INFO     - Inserted/Updated Player: <Cole Sillinger>
+2025-01-22 11:56:17,837 - INFO     - Inserted/Updated Player: <Kevin Labanc>
+2025-01-22 11:56:18,244 - INFO     - Inserted/Updated Player: <Philipp Kurashev>
+2025-01-22 11:56:18,652 - INFO     - Inserted/Updated Player: <Alex Vlasic>
+2025-01-22 11:56:19,066 - INFO     - Inserted/Updated Player: <Ryan Donato>
+2025-01-22 11:56:19,474 - INFO     - Inserted/Updated Player: <Ivan Provorov>
+2025-01-22 11:56:19,884 - INFO     - Inserted/Updated Player: <Tyler Bertuzzi>
+2025-01-22 11:56:20,181 - INFO     - Inserted/Updated Player: <Connor Bedard>
+2025-01-22 11:56:20,496 - INFO     - Inserted/Updated Player: <TJ Brodie>
+2025-01-22 11:56:20,905 - INFO     - Inserted/Updated Player: <Patrick Maroon>
+2025-01-22 11:56:21,212 - INFO     - Inserted/Updated Player: <Dmitri Voronkov>
+2025-01-22 11:56:21,623 - INFO     - Inserted/Updated Player: <James van Riemsdyk>
+2025-01-22 11:56:22,034 - INFO     - Inserted/Updated Player: <Alec Martinez>
+2025-01-22 11:56:22,546 - INFO     - Inserted/Updated Player: <Elvis Merzlikins>
+2025-01-22 11:56:22,618 - INFO     - Inserted/Updated Player: <Mathieu Olivier>
+2025-01-22 11:56:23,056 - INFO     - Inserted/Updated Player: <Connor Murphy>
+2025-01-22 11:56:23,467 - INFO     - Inserted/Updated Player: <Sean Monahan>
+2025-01-22 11:56:23,878 - INFO     - Inserted/Updated Player: <Daniil Tarasov>
+2025-01-22 11:56:24,285 - INFO     - Inserted/Updated Player: <Justin Danforth>
+2025-01-22 11:56:24,696 - INFO     - Inserted/Updated Player: <Lukas Reichel>
+2025-01-22 11:56:25,106 - INFO     - Inserted/Updated Player: <Adam Fantilli>
+2025-01-22 11:56:25,436 - INFO     - Inserted/Updated Player: <Zachary Aston-Reese>
+2025-01-22 11:56:25,824 - INFO     - Inserted/Updated Player: <Petr Mrazek>
+2025-01-22 11:56:26,100 - INFO     - Inserted/Updated Player: <Nick Foligno>
+2025-01-22 11:56:26,436 - INFO     - Inserted/Updated Player: <Teuvo Teravainen>
+2025-01-22 11:56:26,805 - INFO     - Inserted/Updated Player: <Sean Kuraly>
+2025-01-22 11:56:27,257 - INFO     - Inserted/Updated Player: <Ilya Mikheyev>
+2025-01-22 11:56:27,665 - INFO     - Inserted/Updated Player: <Craig Smith>
+2025-01-22 11:56:27,741 - INFO     - Inserted/Updated Player: <Kent Johnson>
+2025-01-22 11:56:28,177 - INFO     - Inserted/Updated Player: <Jordan Harris>
+2025-01-22 11:56:28,253 - INFO     - Inserted/Updated Player: <Damon Severson>
+2025-01-22 11:56:28,590 - INFO     - Inserted/Updated Player: <Zach Werenski>
+2025-01-22 11:56:28,668 - INFO     - Inserted/Updated Player: <Kirill Marchenko>
+2025-01-22 11:56:28,674 - INFO     - Rosters Inserted for Game 2024020390
+2025-01-22 11:56:28,781 - INFO     - Events Inserted for Game 2024020390
+2025-01-22 11:56:28,930 - INFO     - Shifts Inserted for Game 2024020390
+2025-01-22 11:56:29,510 - INFO     - Inserted/Updated Player: <Jamie Benn>
+2025-01-22 11:56:29,918 - INFO     - Inserted/Updated Player: <Gabriel Vilardi>
+2025-01-22 11:56:30,327 - INFO     - Inserted/Updated Player: <Connor Hellebuyck>
+2025-01-22 11:56:30,741 - INFO     - Inserted/Updated Player: <Logan Stanley>
+2025-01-22 11:56:31,153 - INFO     - Inserted/Updated Player: <Tyler Seguin>
+2025-01-22 11:56:31,558 - INFO     - Inserted/Updated Player: <Neal Pionk>
+2025-01-22 11:56:31,864 - INFO     - Inserted/Updated Player: <Nino Niederreiter>
+2025-01-22 11:56:32,187 - INFO     - Inserted/Updated Player: <Jason Robertson>
+2025-01-22 11:56:32,478 - INFO     - Inserted/Updated Player: <Matt Duchene>
+2025-01-22 11:56:32,887 - INFO     - Inserted/Updated Player: <Morgan Barron>
+2025-01-22 11:56:33,296 - INFO     - Inserted/Updated Player: <Miro Heiskanen>
+2025-01-22 11:56:33,556 - INFO     - Inserted/Updated Player: <Evgenii Dadonov>
+2025-01-22 11:56:33,912 - INFO     - Inserted/Updated Player: <Eric Comrie>
+2025-01-22 11:56:34,320 - INFO     - Inserted/Updated Player: <Dylan DeMelo>
+2025-01-22 11:56:34,632 - INFO     - Inserted/Updated Player: <Mark Scheifele>
+2025-01-22 11:56:35,039 - INFO     - Inserted/Updated Player: <Mason Appleton>
+2025-01-22 11:56:35,345 - INFO     - Inserted/Updated Player: <Thomas Harley>
+2025-01-22 11:56:35,651 - INFO     - Inserted/Updated Player: <Wyatt Johnston>
+2025-01-22 11:56:36,059 - INFO     - Inserted/Updated Player: <Ilya Lyubushkin>
+2025-01-22 11:56:36,267 - INFO     - Inserted/Updated Player: <Kyle Connor>
+2025-01-22 11:56:36,572 - INFO     - Inserted/Updated Player: <Vladislav Namestnikov>
+2025-01-22 11:56:36,982 - INFO     - Inserted/Updated Player: <Josh Morrissey>
+2025-01-22 11:56:37,393 - INFO     - Inserted/Updated Player: <Oskar Bäck>
+2025-01-22 11:56:37,801 - INFO     - Inserted/Updated Player: <Rasmus Kupari>
+2025-01-22 11:56:38,417 - INFO     - Inserted/Updated Player: <Casey DeSmith>
+2025-01-22 11:56:38,825 - INFO     - Inserted/Updated Player: <Mavrik Bourque>
+2025-01-22 11:56:39,072 - INFO     - Inserted/Updated Player: <Cole Perfetti>
+2025-01-22 11:56:39,544 - INFO     - Inserted/Updated Player: <Esa Lindell>
+2025-01-22 11:56:39,792 - INFO     - Inserted/Updated Player: <Adam Lowry>
+2025-01-22 11:56:40,117 - INFO     - Inserted/Updated Player: <Alexander Petrovic>
+2025-01-22 11:56:40,399 - INFO     - Inserted/Updated Player: <Jake Oettinger>
+2025-01-22 11:56:40,770 - INFO     - Inserted/Updated Player: <Colin Miller>
+2025-01-22 11:56:41,182 - INFO     - Inserted/Updated Player: <Nils Lundkvist>
+2025-01-22 11:56:41,594 - INFO     - Inserted/Updated Player: <Roope Hintz>
+2025-01-22 11:56:42,001 - INFO     - Inserted/Updated Player: <Haydn Fleury>
+2025-01-22 11:56:42,412 - INFO     - Inserted/Updated Player: <Alex Iafallo>
+2025-01-22 11:56:42,822 - INFO     - Inserted/Updated Player: <Colin Blackwell>
+2025-01-22 11:56:43,231 - INFO     - Inserted/Updated Player: <Sam Steel>
+2025-01-22 11:56:43,642 - INFO     - Inserted/Updated Player: <David Gustafsson>
+2025-01-22 11:56:44,051 - INFO     - Inserted/Updated Player: <Mason Marchment>
+2025-01-22 11:56:44,056 - INFO     - Rosters Inserted for Game 2024020391
+2025-01-22 11:56:44,347 - INFO     - Events Inserted for Game 2024020391
+2025-01-22 11:56:44,496 - INFO     - Shifts Inserted for Game 2024020391
+2025-01-22 11:56:45,176 - INFO     - Inserted/Updated Player: <Alex Killorn>
+2025-01-22 11:56:45,416 - INFO     - Inserted/Updated Player: <Thomas Chabot>
+2025-01-22 11:56:45,790 - INFO     - Inserted/Updated Player: <John Gibson>
+2025-01-22 11:56:46,083 - INFO     - Inserted/Updated Player: <Troy Terry>
+2025-01-22 11:56:46,407 - INFO     - Inserted/Updated Player: <Adam Gaudette>
+2025-01-22 11:56:46,814 - INFO     - Inserted/Updated Player: <Drew Helleson>
+2025-01-22 11:56:47,224 - INFO     - Inserted/Updated Player: <Frank Vatrano>
+2025-01-22 11:56:48,552 - INFO     - Inserted/Updated Player: <Noah Gregor>
+2025-01-22 11:56:48,864 - INFO     - Inserted/Updated Player: <Brady Tkachuk>
+2025-01-22 11:56:49,272 - INFO     - Inserted/Updated Player: <Pavel Mintyukov>
+2025-01-22 11:56:49,582 - INFO     - Inserted/Updated Player: <Isac Lundestrom>
+2025-01-22 11:56:49,885 - INFO     - Inserted/Updated Player: <Claude Giroux>
+2025-01-22 11:56:50,296 - INFO     - Inserted/Updated Player: <Ryan Strome>
+2025-01-22 11:56:50,604 - INFO     - Inserted/Updated Player: <Zack Ostapchuk>
+2025-01-22 11:56:50,899 - INFO     - Inserted/Updated Player: <Ridly Greig>
+2025-01-22 11:56:51,131 - INFO     - Inserted/Updated Player: <Tyler Kleven>
+2025-01-22 11:56:51,423 - INFO     - Inserted/Updated Player: <Anton Forsberg>
+2025-01-22 11:56:51,714 - INFO     - Inserted/Updated Player: <Jake Sanderson>
+2025-01-22 11:56:52,037 - INFO     - Inserted/Updated Player: <Mason McTavish>
+2025-01-22 11:56:52,346 - INFO     - Inserted/Updated Player: <Nick Jensen>
+2025-01-22 11:56:52,653 - INFO     - Inserted/Updated Player: <Shane Pinto>
+2025-01-22 11:56:52,957 - INFO     - Inserted/Updated Player: <Josh Norris>
+2025-01-22 11:56:53,267 - INFO     - Inserted/Updated Player: <Michael Amadio>
+2025-01-22 11:56:53,524 - INFO     - Inserted/Updated Player: <Jackson LaCombe>
+2025-01-22 11:56:53,881 - INFO     - Inserted/Updated Player: <Radko Gudas>
+2025-01-22 11:56:54,188 - INFO     - Inserted/Updated Player: <Linus Ullmark>
+2025-01-22 11:56:54,600 - INFO     - Inserted/Updated Player: <Brian Dumoulin>
+2025-01-22 11:56:54,906 - INFO     - Inserted/Updated Player: <Tim Stützle>
+2025-01-22 11:56:55,314 - INFO     - Inserted/Updated Player: <Sam Colangelo>
+2025-01-22 11:56:55,726 - INFO     - Inserted/Updated Player: <Lukas Dostal>
+2025-01-22 11:56:55,969 - INFO     - Inserted/Updated Player: <Drake Batherson>
+2025-01-22 11:56:56,338 - INFO     - Inserted/Updated Player: <Ross Johnston>
+2025-01-22 11:56:56,748 - INFO     - Inserted/Updated Player: <Jansen Harkins>
+2025-01-22 11:56:57,053 - INFO     - Inserted/Updated Player: <Nick Cousins>
+2025-01-22 11:56:57,361 - INFO     - Inserted/Updated Player: <Brett Leason>
+2025-01-22 11:56:57,586 - INFO     - Inserted/Updated Player: <Jacob Bernard-Docker>
+2025-01-22 11:56:57,977 - INFO     - Inserted/Updated Player: <Olen Zellweger>
+2025-01-22 11:56:58,285 - INFO     - Inserted/Updated Player: <Travis Hamonic>
+2025-01-22 11:56:58,693 - INFO     - Inserted/Updated Player: <Cutter Gauthier>
+2025-01-22 11:56:59,002 - INFO     - Inserted/Updated Player: <Trevor Zegras>
+2025-01-22 11:56:59,007 - INFO     - Rosters Inserted for Game 2024020392
+2025-01-22 11:56:59,261 - INFO     - Inserted EventType: <523:shootout-complete>
+2025-01-22 11:56:59,303 - INFO     - Events Inserted for Game 2024020392
+2025-01-22 11:56:59,466 - INFO     - Shifts Inserted for Game 2024020392
+2025-01-22 11:56:59,466 - INFO     - IMPORTING GAMES FOR 2024-12-02
+2025-01-22 11:56:59,929 - INFO     - Games Inserted for 2024-12-02
+2025-01-22 11:57:00,441 - INFO     - Inserted/Updated Player: <Nico Hischier>
+2025-01-22 11:57:00,744 - INFO     - Inserted/Updated Player: <Ondrej Palat>
+2025-01-22 11:57:01,052 - INFO     - Inserted/Updated Player: <Paul Cotter>
+2025-01-22 11:57:01,563 - INFO     - Inserted/Updated Player: <Kaapo Kakko>
+2025-01-22 11:57:01,977 - INFO     - Inserted/Updated Player: <Justin Dowling>
+2025-01-22 11:57:02,381 - INFO     - Inserted/Updated Player: <Jack Hughes>
+2025-01-22 11:57:02,790 - INFO     - Inserted/Updated Player: <Erik Haula>
+2025-01-22 11:57:03,097 - INFO     - Inserted/Updated Player: <Braden Schneider>
+2025-01-22 11:57:03,609 - INFO     - Inserted/Updated Player: <Mika Zibanejad>
+2025-01-22 11:57:04,017 - INFO     - Inserted/Updated Player: <Zac Jones>
+2025-01-22 11:57:04,430 - INFO     - Inserted/Updated Player: <Dougie Hamilton>
+2025-01-22 11:57:04,735 - INFO     - Inserted/Updated Player: <Jesper Bratt>
+2025-01-22 11:57:05,143 - INFO     - Inserted/Updated Player: <Chris Kreider>
+2025-01-22 11:57:05,507 - INFO     - Inserted/Updated Player: <Brett Pesce>
+2025-01-22 11:57:05,750 - INFO     - Inserted/Updated Player: <K'Andre Miller>
+2025-01-22 11:57:05,977 - INFO     - Inserted/Updated Player: <Jonathan Quick>
+2025-01-22 11:57:06,254 - INFO     - Inserted/Updated Player: <Reilly Smith>
+2025-01-22 11:57:06,580 - INFO     - Inserted/Updated Player: <Stefan Noesen>
+2025-01-22 11:57:06,908 - INFO     - Inserted/Updated Player: <Nathan Legare>
+2025-01-22 11:57:07,197 - INFO     - Inserted/Updated Player: <Alexis Lafrenière>
+2025-01-22 11:57:07,451 - INFO     - Inserted/Updated Player: <Adam Edstrom>
+2025-01-22 11:57:07,706 - INFO     - Inserted/Updated Player: <Jonas Siegenthaler>
+2025-01-22 11:57:08,049 - INFO     - Inserted/Updated Player: <Brenden Dillon>
+2025-01-22 11:57:08,275 - INFO     - Inserted/Updated Player: <Johnathan Kovacevic>
+2025-01-22 11:57:08,610 - INFO     - Inserted/Updated Player: <Sam Carrick>
+2025-01-22 11:57:08,868 - INFO     - Inserted/Updated Player: <Dawson Mercer>
+2025-01-22 11:57:09,239 - INFO     - Inserted/Updated Player: <Jonny Brodzinski>
+2025-01-22 11:57:09,568 - INFO     - Inserted/Updated Player: <Mike Hardman>
+2025-01-22 11:57:09,819 - INFO     - Inserted/Updated Player: <Timo Meier>
+2025-01-22 11:57:10,159 - INFO     - Inserted/Updated Player: <Filip Chytil>
+2025-01-22 11:57:10,540 - INFO     - Inserted/Updated Player: <Jacob Trouba>
+2025-01-22 11:57:10,801 - INFO     - Inserted/Updated Player: <Artemi Panarin>
+2025-01-22 11:57:11,063 - INFO     - Inserted/Updated Player: <Adam Fox>
+2025-01-22 11:57:11,398 - INFO     - Inserted/Updated Player: <Ryan Lindgren>
+2025-01-22 11:57:11,671 - INFO     - Inserted/Updated Player: <Igor Shesterkin>
+2025-01-22 11:57:11,962 - INFO     - Inserted/Updated Player: <Jacob Markstrom>
+2025-01-22 11:57:12,196 - INFO     - Inserted/Updated Player: <Jake Allen>
+2025-01-22 11:57:12,461 - INFO     - Inserted/Updated Player: <Vincent Trocheck>
+2025-01-22 11:57:12,748 - INFO     - Inserted/Updated Player: <Will Cuylle>
+2025-01-22 11:57:12,989 - INFO     - Inserted/Updated Player: <Luke Hughes>
+2025-01-22 11:57:12,994 - INFO     - Rosters Inserted for Game 2024020393
+2025-01-22 11:57:13,092 - INFO     - Events Inserted for Game 2024020393
+2025-01-22 11:57:13,237 - INFO     - Shifts Inserted for Game 2024020393
+2025-01-22 11:57:13,730 - INFO     - Inserted/Updated Player: <Joseph Woll>
+2025-01-22 11:57:13,969 - INFO     - Inserted/Updated Player: <Anthony Stolarz>
+2025-01-22 11:57:14,293 - INFO     - Inserted/Updated Player: <Nolan Allan>
+2025-01-22 11:57:14,504 - INFO     - Inserted/Updated Player: <Mitch Marner>
+2025-01-22 11:57:14,848 - INFO     - Inserted/Updated Player: <Nikita Grebenkin>
+2025-01-22 11:57:15,066 - INFO     - Inserted/Updated Player: <John Tavares>
+2025-01-22 11:57:15,290 - INFO     - Inserted/Updated Player: <Matthew Knies>
+2025-01-22 11:57:15,552 - INFO     - Inserted/Updated Player: <Fraser Minten>
+2025-01-22 11:57:16,309 - INFO     - Inserted/Updated Player: <Oliver Ekman-Larsson>
+2025-01-22 11:57:16,609 - INFO     - Inserted/Updated Player: <Chris Tanev>
+2025-01-22 11:57:16,995 - INFO     - Inserted/Updated Player: <Nicholas Robertson>
+2025-01-22 11:57:17,380 - INFO     - Inserted/Updated Player: <Philippe Myers>
+2025-01-22 11:57:17,639 - INFO     - Inserted/Updated Player: <Morgan Rielly>
+2025-01-22 11:57:17,883 - INFO     - Inserted/Updated Player: <Steven Lorentz>
+2025-01-22 11:57:18,263 - INFO     - Inserted/Updated Player: <Alex Nylander>
+2025-01-22 11:57:18,507 - INFO     - Inserted/Updated Player: <Connor Dewar>
+2025-01-22 11:57:18,737 - INFO     - Inserted/Updated Player: <Auston Matthews>
+2025-01-22 11:57:18,971 - INFO     - Inserted/Updated Player: <Simon Benoit>
+2025-01-22 11:57:19,243 - INFO     - Inserted/Updated Player: <Pontus Holmberg>
+2025-01-22 11:57:19,586 - INFO     - Inserted/Updated Player: <Conor Timmins>
+2025-01-22 11:57:19,845 - INFO     - Inserted/Updated Player: <William Nylander>
+2025-01-22 11:57:19,850 - INFO     - Rosters Inserted for Game 2024020394
+2025-01-22 11:57:20,247 - INFO     - Events Inserted for Game 2024020394
+2025-01-22 11:57:20,401 - INFO     - Shifts Inserted for Game 2024020394
+2025-01-22 11:57:21,017 - INFO     - Inserted/Updated Player: <Michael Carcone>
+2025-01-22 11:57:21,424 - INFO     - Inserted/Updated Player: <Lawson Crouse>
+2025-01-22 11:57:21,706 - INFO     - Inserted/Updated Player: <Dylan Guenther>
+2025-01-22 11:57:21,964 - INFO     - Inserted/Updated Player: <Logan Stankoven>
+2025-01-22 11:57:22,350 - INFO     - Inserted/Updated Player: <Karel Vejmelka>
+2025-01-22 11:57:22,756 - INFO     - Inserted/Updated Player: <Ian Cole>
+2025-01-22 11:57:23,170 - INFO     - Inserted/Updated Player: <Robert Bortuzzo>
+2025-01-22 11:57:23,476 - INFO     - Inserted/Updated Player: <Matias Maccelli>
+2025-01-22 11:57:23,887 - INFO     - Inserted/Updated Player: <Mikhail Sergachev>
+2025-01-22 11:57:24,295 - INFO     - Inserted/Updated Player: <Mathew Dumba>
+2025-01-22 11:57:24,704 - INFO     - Inserted/Updated Player: <Olli Maatta>
+2025-01-22 11:57:25,111 - INFO     - Inserted/Updated Player: <Jaxson Stauber>
+2025-01-22 11:57:25,479 - INFO     - Inserted/Updated Player: <Barrett Hayton>
+2025-01-22 11:57:25,833 - INFO     - Inserted/Updated Player: <Jack McBain>
+2025-01-22 11:57:26,242 - INFO     - Inserted/Updated Player: <Alexander Kerfoot>
+2025-01-22 11:57:26,648 - INFO     - Inserted/Updated Player: <Logan Cooley>
+2025-01-22 11:57:26,995 - INFO     - Inserted/Updated Player: <Juuso Valimaki>
+2025-01-22 11:57:27,370 - INFO     - Inserted/Updated Player: <Kevin Stenlund>
+2025-01-22 11:57:27,768 - INFO     - Inserted/Updated Player: <Nick Bjugstad>
+2025-01-22 11:57:28,126 - INFO     - Inserted/Updated Player: <Clayton Keller>
+2025-01-22 11:57:28,491 - INFO     - Inserted/Updated Player: <Michael Kesselring>
+2025-01-22 11:57:28,801 - INFO     - Inserted/Updated Player: <Nick Schmaltz>
+2025-01-22 11:57:28,805 - INFO     - Rosters Inserted for Game 2024020395
+2025-01-22 11:57:28,913 - INFO     - Events Inserted for Game 2024020395
+2025-01-22 11:57:29,068 - INFO     - Shifts Inserted for Game 2024020395
+2025-01-22 11:57:29,069 - INFO     - IMPORTING GAMES FOR 2024-12-03
+2025-01-22 11:57:29,521 - INFO     - Games Inserted for 2024-12-03
+2025-01-22 11:57:30,236 - INFO     - Inserted/Updated Player: <Sebastian Cossa>
+2025-01-22 11:57:30,240 - INFO     - Rosters Inserted for Game 2024020396
+2025-01-22 11:57:30,552 - INFO     - Events Inserted for Game 2024020396
+2025-01-22 11:57:30,695 - INFO     - Shifts Inserted for Game 2024020396
+2025-01-22 11:57:31,258 - INFO     - Inserted/Updated Player: <Chris Wagner>
+2025-01-22 11:57:31,566 - INFO     - Inserted/Updated Player: <Jiri Kulich>
+2025-01-22 11:57:31,978 - INFO     - Inserted/Updated Player: <Nikolai Kovalenko>
+2025-01-22 11:57:32,386 - INFO     - Inserted/Updated Player: <Nicolas Aube-Kubel>
+2025-01-22 11:57:32,694 - INFO     - Inserted/Updated Player: <James Reimer>
+2025-01-22 11:57:33,100 - INFO     - Inserted/Updated Player: <Scott Wedgewood>
+2025-01-22 11:57:33,406 - INFO     - Inserted/Updated Player: <Ryan McLeod>
+2025-01-22 11:57:33,821 - INFO     - Inserted/Updated Player: <Henri Jokiharju>
+2025-01-22 11:57:34,125 - INFO     - Inserted/Updated Player: <Artturi Lehkonen>
+2025-01-22 11:57:34,431 - INFO     - Inserted/Updated Player: <Logan O'Connor>
+2025-01-22 11:57:34,701 - INFO     - Inserted/Updated Player: <Samuel Girard>
+2025-01-22 11:57:35,046 - INFO     - Inserted/Updated Player: <Sam Malinski>
+2025-01-22 11:57:35,354 - INFO     - Inserted/Updated Player: <Casey Mittelstadt>
+2025-01-22 11:57:35,591 - INFO     - Inserted/Updated Player: <Calvin de Haan>
+2025-01-22 11:57:35,866 - INFO     - Inserted/Updated Player: <Ukko-Pekka Luukkonen>
+2025-01-22 11:57:36,174 - INFO     - Inserted/Updated Player: <Jack Quinn>
+2025-01-22 11:57:36,514 - INFO     - Inserted/Updated Player: <Zach Benson>
+2025-01-22 11:57:36,755 - INFO     - Inserted/Updated Player: <Nathan MacKinnon>
+2025-01-22 11:57:37,095 - INFO     - Inserted/Updated Player: <Connor Clifton>
+2025-01-22 11:57:37,503 - INFO     - Inserted/Updated Player: <John Ludvig>
+2025-01-22 11:57:37,742 - INFO     - Inserted/Updated Player: <Tage Thompson>
+2025-01-22 11:57:38,118 - INFO     - Inserted/Updated Player: <Valeri Nichushkin>
+2025-01-22 11:57:38,427 - INFO     - Inserted/Updated Player: <Parker Kelly>
+2025-01-22 11:57:38,838 - INFO     - Inserted/Updated Player: <Jacob Bryson>
+2025-01-22 11:57:39,146 - INFO     - Inserted/Updated Player: <Cale Makar>
+2025-01-22 11:57:39,452 - INFO     - Inserted/Updated Player: <Rasmus Dahlin>
+2025-01-22 11:57:39,866 - INFO     - Inserted/Updated Player: <Jason Zucker>
+2025-01-22 11:57:40,085 - INFO     - Inserted/Updated Player: <Mikko Rantanen>
+2025-01-22 11:57:40,432 - INFO     - Inserted/Updated Player: <Devon Toews>
+2025-01-22 11:57:40,789 - INFO     - Inserted/Updated Player: <Ivan Ivan>
+2025-01-22 11:57:41,039 - INFO     - Inserted/Updated Player: <JJ Peterka>
+2025-01-22 11:57:41,397 - INFO     - Inserted/Updated Player: <Joel Kiviranta>
+2025-01-22 11:57:41,633 - INFO     - Inserted/Updated Player: <Owen Power>
+2025-01-22 11:57:42,072 - INFO     - Inserted/Updated Player: <Nikita Prishchepov>
+2025-01-22 11:57:42,319 - INFO     - Inserted/Updated Player: <Peyton Krebs>
+2025-01-22 11:57:42,608 - INFO     - Inserted/Updated Player: <Bowen Byram>
+2025-01-22 11:57:42,840 - INFO     - Inserted/Updated Player: <Dylan Cozens>
+2025-01-22 11:57:43,137 - INFO     - Inserted/Updated Player: <Alex Tuch>
+2025-01-22 11:57:43,360 - INFO     - Inserted/Updated Player: <Alexandar Georgiev>
+2025-01-22 11:57:43,648 - INFO     - Inserted/Updated Player: <Beck Malenstyn>
+2025-01-22 11:57:43,652 - INFO     - Rosters Inserted for Game 2024020397
+2025-01-22 11:57:43,757 - INFO     - Events Inserted for Game 2024020397
+2025-01-22 11:57:43,928 - INFO     - Shifts Inserted for Game 2024020397
+2025-01-22 11:57:44,495 - INFO     - Inserted/Updated Player: <Jean-Gabriel Pageau>
+2025-01-22 11:57:44,831 - INFO     - Inserted/Updated Player: <Scott Mayfield>
+2025-01-22 11:57:45,130 - INFO     - Inserted/Updated Player: <Kyle Palmieri>
+2025-01-22 11:57:45,418 - INFO     - Inserted/Updated Player: <Oliver Wahlstrom>
+2025-01-22 11:57:45,801 - INFO     - Inserted/Updated Player: <Anders Lee>
+2025-01-22 11:57:46,209 - INFO     - Inserted/Updated Player: <Grant Hutton>
+2025-01-22 11:57:46,517 - INFO     - Inserted/Updated Player: <Ilya Sorokin>
+2025-01-22 11:57:46,873 - INFO     - Inserted/Updated Player: <Bo Horvat>
+2025-01-22 11:57:47,236 - INFO     - Inserted/Updated Player: <Simon Holmstrom>
+2025-01-22 11:57:47,575 - INFO     - Inserted/Updated Player: <Ryan Pulock>
+2025-01-22 11:57:47,887 - INFO     - Inserted/Updated Player: <Hudson Fasching>
+2025-01-22 11:57:48,228 - INFO     - Inserted/Updated Player: <Matt Martin>
+2025-01-22 11:57:48,561 - INFO     - Inserted/Updated Player: <Kyle MacLean>
+2025-01-22 11:57:48,868 - INFO     - Inserted/Updated Player: <Maxim Tsyplakov>
+2025-01-22 11:57:49,276 - INFO     - Inserted/Updated Player: <Casey Cizikas>
+2025-01-22 11:57:49,589 - INFO     - Inserted/Updated Player: <Noah Dobson>
+2025-01-22 11:57:50,002 - INFO     - Inserted/Updated Player: <Semyon Varlamov>
+2025-01-22 11:57:50,411 - INFO     - Inserted/Updated Player: <Brock Nelson>
+2025-01-22 11:57:50,715 - INFO     - Inserted/Updated Player: <Patrik Laine>
+2025-01-22 11:57:51,067 - INFO     - Inserted/Updated Player: <Alexander Romanov>
+2025-01-22 11:57:51,430 - INFO     - Inserted/Updated Player: <Isaiah George>
+2025-01-22 11:57:51,436 - INFO     - Rosters Inserted for Game 2024020398
+2025-01-22 11:57:51,787 - INFO     - Events Inserted for Game 2024020398
+2025-01-22 11:57:51,942 - INFO     - Shifts Inserted for Game 2024020398
+2025-01-22 11:57:52,445 - INFO     - Inserted/Updated Player: <Jesper Boqvist>
+2025-01-22 11:57:52,866 - INFO     - Inserted/Updated Player: <Ryan Shea>
+2025-01-22 11:57:53,092 - INFO     - Inserted/Updated Player: <Drew O'Connor>
+2025-01-22 11:57:53,340 - INFO     - Inserted/Updated Player: <Niko Mikkola>
+2025-01-22 11:57:53,626 - INFO     - Inserted/Updated Player: <Alex Nedeljkovic>
+2025-01-22 11:57:53,889 - INFO     - Inserted/Updated Player: <Marcus Pettersson>
+2025-01-22 11:57:54,146 - INFO     - Inserted/Updated Player: <Tristan Jarry>
+2025-01-22 11:57:54,401 - INFO     - Inserted/Updated Player: <Matt Nieto>
+2025-01-22 11:57:54,709 - INFO     - Inserted/Updated Player: <Bryan Rust>
+2025-01-22 11:57:54,948 - INFO     - Inserted/Updated Player: <Nate Schmidt>
+2025-01-22 11:57:55,323 - INFO     - Inserted/Updated Player: <Philip Tomasino>
+2025-01-22 11:57:55,736 - INFO     - Inserted/Updated Player: <Dmitry Kulikov>
+2025-01-22 11:57:56,142 - INFO     - Inserted/Updated Player: <Kris Letang>
+2025-01-22 11:57:56,652 - INFO     - Inserted/Updated Player: <Evgeni Malkin>
+2025-01-22 11:57:56,963 - INFO     - Inserted/Updated Player: <Owen Pickering>
+2025-01-22 11:57:57,185 - INFO     - Inserted/Updated Player: <Aleksander Barkov>
+2025-01-22 11:57:57,421 - INFO     - Inserted/Updated Player: <Eetu Luostarinen>
+2025-01-22 11:57:57,680 - INFO     - Inserted/Updated Player: <Anton Lundell>
+2025-01-22 11:57:57,905 - INFO     - Inserted/Updated Player: <Rickard Rakell>
+2025-01-22 11:57:58,191 - INFO     - Inserted/Updated Player: <Blake Lizotte>
+2025-01-22 11:57:58,499 - INFO     - Inserted/Updated Player: <Evan Rodrigues>
+2025-01-22 11:57:58,806 - INFO     - Inserted/Updated Player: <Erik Karlsson>
+2025-01-22 11:57:59,112 - INFO     - Inserted/Updated Player: <Matthew Tkachuk>
+2025-01-22 11:57:59,349 - INFO     - Inserted/Updated Player: <A.J. Greer>
+2025-01-22 11:57:59,626 - INFO     - Inserted/Updated Player: <Matt Grzelcyk>
+2025-01-22 11:57:59,871 - INFO     - Inserted/Updated Player: <Michael Bunting>
+2025-01-22 11:58:00,111 - INFO     - Inserted/Updated Player: <Carter Verhaeghe>
+2025-01-22 11:58:00,386 - INFO     - Inserted/Updated Player: <Gustav Forsling>
+2025-01-22 11:58:00,753 - INFO     - Inserted/Updated Player: <Chris Driedger>
+2025-01-22 11:58:01,060 - INFO     - Inserted/Updated Player: <Noel Acciari>
+2025-01-22 11:58:01,465 - INFO     - Inserted/Updated Player: <Adam Boqvist>
+2025-01-22 11:58:01,783 - INFO     - Inserted/Updated Player: <Tomas Nosek>
+2025-01-22 11:58:02,183 - INFO     - Inserted/Updated Player: <Aaron Ekblad>
+2025-01-22 11:58:02,492 - INFO     - Inserted/Updated Player: <Sam Reinhart>
+2025-01-22 11:58:02,798 - INFO     - Inserted/Updated Player: <Jonah Gadjovich>
+2025-01-22 11:58:03,104 - INFO     - Inserted/Updated Player: <Sam Bennett>
+2025-01-22 11:58:03,412 - INFO     - Inserted/Updated Player: <Spencer Knight>
+2025-01-22 11:58:03,634 - INFO     - Inserted/Updated Player: <Kevin Hayes>
+2025-01-22 11:58:03,881 - INFO     - Inserted/Updated Player: <Sidney Crosby>
+2025-01-22 11:58:04,234 - INFO     - Inserted/Updated Player: <Anthony Beauvillier>
+2025-01-22 11:58:04,240 - INFO     - Rosters Inserted for Game 2024020399
+2025-01-22 11:58:04,590 - INFO     - Events Inserted for Game 2024020399
+2025-01-22 11:58:04,748 - INFO     - Shifts Inserted for Game 2024020399
+2025-01-22 11:58:05,255 - INFO     - Inserted/Updated Player: <Will Smith>
+2025-01-22 11:58:05,555 - INFO     - Inserted/Updated Player: <Klim Kostin>
+2025-01-22 11:58:05,971 - INFO     - Inserted/Updated Player: <Vitek Vanecek>
+2025-01-22 11:58:06,279 - INFO     - Inserted/Updated Player: <Trevor van Riemsdyk>
+2025-01-22 11:58:06,584 - INFO     - Inserted/Updated Player: <Mikael Granlund>
+2025-01-22 11:58:06,894 - INFO     - Inserted/Updated Player: <Andrew Mangiapane>
+2025-01-22 11:58:07,214 - INFO     - Inserted/Updated Player: <Martin Fehervary>
+2025-01-22 11:58:07,489 - INFO     - Inserted/Updated Player: <Taylor Raddysh>
+2025-01-22 11:58:07,820 - INFO     - Inserted/Updated Player: <Henry Thrun>
+2025-01-22 11:58:08,045 - INFO     - Inserted/Updated Player: <Brandon Duhaime>
+2025-01-22 11:58:08,134 - INFO     - Inserted/Updated Player: <Ivan Miroshnichenko>
+2025-01-22 11:58:08,431 - INFO     - Inserted/Updated Player: <Pierre-Luc Dubois>
+2025-01-22 11:58:08,840 - INFO     - Inserted/Updated Player: <Timothy Liljegren>
+2025-01-22 11:58:09,214 - INFO     - Inserted/Updated Player: <Jan Rutta>
+2025-01-22 11:58:09,557 - INFO     - Inserted/Updated Player: <Connor McMichael>
+2025-01-22 11:58:09,865 - INFO     - Inserted/Updated Player: <Logan Thompson>
+2025-01-22 11:58:10,375 - INFO     - Inserted/Updated Player: <Charlie Lindgren>
+2025-01-22 11:58:10,682 - INFO     - Inserted/Updated Player: <Fabian Zetterlund>
+2025-01-22 11:58:11,028 - INFO     - Inserted/Updated Player: <Jake Walman>
+2025-01-22 11:58:11,401 - INFO     - Inserted/Updated Player: <Matt Roy>
+2025-01-22 11:58:11,807 - INFO     - Inserted/Updated Player: <Alexander Wennberg>
+2025-01-22 11:58:12,036 - INFO     - Inserted/Updated Player: <Macklin Celebrini>
+2025-01-22 11:58:12,314 - INFO     - Inserted/Updated Player: <Nico Sturm>
+2025-01-22 11:58:12,730 - INFO     - Inserted/Updated Player: <Mackenzie Blackwood>
+2025-01-22 11:58:13,039 - INFO     - Inserted/Updated Player: <Lars Eller>
+2025-01-22 11:58:13,346 - INFO     - Inserted/Updated Player: <Tyler Toffoli>
+2025-01-22 11:58:13,654 - INFO     - Inserted/Updated Player: <Nic Dowd>
+2025-01-22 11:58:14,060 - INFO     - Inserted/Updated Player: <Cody Ceci>
+2025-01-22 11:58:14,290 - INFO     - Inserted/Updated Player: <Tom Wilson>
+2025-01-22 11:58:14,581 - INFO     - Inserted/Updated Player: <Ty Dellandrea>
+2025-01-22 11:58:14,982 - INFO     - Inserted/Updated Player: <Luke Kunin>
+2025-01-22 11:58:15,242 - INFO     - Inserted/Updated Player: <John Carlson>
+2025-01-22 11:58:15,601 - INFO     - Inserted/Updated Player: <Hendrix Lapierre>
+2025-01-22 11:58:15,906 - INFO     - Inserted/Updated Player: <Dylan Strome>
+2025-01-22 11:58:16,313 - INFO     - Inserted/Updated Player: <Carl Grundstrom>
+2025-01-22 11:58:16,928 - INFO     - Inserted/Updated Player: <Rasmus Sandin>
+2025-01-22 11:58:17,170 - INFO     - Inserted/Updated Player: <William Eklund>
+2025-01-22 11:58:17,545 - INFO     - Inserted/Updated Player: <Mario Ferraro>
+2025-01-22 11:58:17,852 - INFO     - Inserted/Updated Player: <Jakob Chychrun>
+2025-01-22 11:58:18,163 - INFO     - Inserted/Updated Player: <Aliaksei Protas>
+2025-01-22 11:58:18,168 - INFO     - Rosters Inserted for Game 2024020400
+2025-01-22 11:58:18,450 - INFO     - Events Inserted for Game 2024020400
+2025-01-22 11:58:18,592 - INFO     - Shifts Inserted for Game 2024020400
+2025-01-22 11:58:19,283 - INFO     - Inserted/Updated Player: <Jared McCann>
+2025-01-22 11:58:19,699 - INFO     - Inserted/Updated Player: <Eeli Tolvanen>
+2025-01-22 11:58:20,083 - INFO     - Inserted/Updated Player: <Joshua Mahura>
+2025-01-22 11:58:20,384 - INFO     - Inserted/Updated Player: <Mitchell Stephens>
+2025-01-22 11:58:20,660 - INFO     - Inserted/Updated Player: <Yanni Gourde>
+2025-01-22 11:58:21,027 - INFO     - Inserted/Updated Player: <Jaccob Slavin>
+2025-01-22 11:58:21,434 - INFO     - Inserted/Updated Player: <Brandon Montour>
+2025-01-22 11:58:22,051 - INFO     - Inserted/Updated Player: <Jordan Martinook>
+2025-01-22 11:58:22,462 - INFO     - Inserted/Updated Player: <William Carrier>
+2025-01-22 11:58:22,868 - INFO     - Inserted/Updated Player: <Martin Necas>
+2025-01-22 11:58:23,281 - INFO     - Inserted/Updated Player: <Adam Larsson>
+2025-01-22 11:58:23,688 - INFO     - Inserted/Updated Player: <Spencer Martin>
+2025-01-22 11:58:23,922 - INFO     - Inserted/Updated Player: <Seth Jarvis>
+2025-01-22 11:58:24,301 - INFO     - Inserted/Updated Player: <Jamie Oleksiak>
+2025-01-22 11:58:24,714 - INFO     - Inserted/Updated Player: <Philipp Grubauer>
+2025-01-22 11:58:25,122 - INFO     - Inserted/Updated Player: <Brandon Tanev>
+2025-01-22 11:58:25,200 - INFO     - Inserted/Updated Player: <Jesperi Kotkaniemi>
+2025-01-22 11:58:25,528 - INFO     - Inserted/Updated Player: <Jordan Staal>
+2025-01-22 11:58:25,943 - INFO     - Inserted/Updated Player: <Dmitry Orlov>
+2025-01-22 11:58:26,457 - INFO     - Inserted/Updated Player: <Andrei Svechnikov>
+2025-01-22 11:58:26,761 - INFO     - Inserted/Updated Player: <Ryan Winterton>
+2025-01-22 11:58:27,110 - INFO     - Inserted/Updated Player: <Jack Drury>
+2025-01-22 11:58:27,471 - INFO     - Inserted/Updated Player: <Joey Daccord>
+2025-01-22 11:58:27,783 - INFO     - Inserted/Updated Player: <Shane Wright>
+2025-01-22 11:58:28,196 - INFO     - Inserted/Updated Player: <Vince Dunn>
+2025-01-22 11:58:28,423 - INFO     - Inserted/Updated Player: <Pyotr Kochetkov>
+2025-01-22 11:58:28,806 - INFO     - Inserted/Updated Player: <Sean Walker>
+2025-01-22 11:58:29,217 - INFO     - Inserted/Updated Player: <Brent Burns>
+2025-01-22 11:58:29,531 - INFO     - Inserted/Updated Player: <Jack Roslovic>
+2025-01-22 11:58:29,936 - INFO     - Inserted/Updated Player: <Sebastian Aho>
+2025-01-22 11:58:30,346 - INFO     - Inserted/Updated Player: <Oliver Bjorkstrand>
+2025-01-22 11:58:30,751 - INFO     - Inserted/Updated Player: <Chandler Stephenson>
+2025-01-22 11:58:30,991 - INFO     - Inserted/Updated Player: <Shayne Gostisbehere>
+2025-01-22 11:58:31,370 - INFO     - Inserted/Updated Player: <Jalen Chatfield>
+2025-01-22 11:58:31,674 - INFO     - Inserted/Updated Player: <Matty Beniers>
+2025-01-22 11:58:31,981 - INFO     - Inserted/Updated Player: <Will Borgen>
+2025-01-22 11:58:32,304 - INFO     - Inserted/Updated Player: <Jackson Blake>
+2025-01-22 11:58:32,579 - INFO     - Inserted/Updated Player: <Eric Robinson>
+2025-01-22 11:58:32,904 - INFO     - Inserted/Updated Player: <Jaden Schwartz>
+2025-01-22 11:58:33,315 - INFO     - Inserted/Updated Player: <Tye Kartye>
+2025-01-22 11:58:33,321 - INFO     - Rosters Inserted for Game 2024020401
+2025-01-22 11:58:33,668 - INFO     - Events Inserted for Game 2024020401
+2025-01-22 11:58:33,841 - INFO     - Shifts Inserted for Game 2024020401
+2025-01-22 11:58:34,543 - INFO     - Inserted/Updated Player: <Marat Khusnutdinov>
+2025-01-22 11:58:34,949 - INFO     - Inserted/Updated Player: <Ben Jones>
+2025-01-22 11:58:35,363 - INFO     - Inserted/Updated Player: <Ryan Hartman>
+2025-01-22 11:58:35,877 - INFO     - Inserted/Updated Player: <Marcus Johansson>
+2025-01-22 11:58:36,284 - INFO     - Inserted/Updated Player: <Kirill Kaprizov>
+2025-01-22 11:58:36,651 - INFO     - Inserted/Updated Player: <Matt Boldy>
+2025-01-22 11:58:37,103 - INFO     - Inserted/Updated Player: <Joel Eriksson Ek>
+2025-01-22 11:58:37,333 - INFO     - Inserted/Updated Player: <Marco Rossi>
+2025-01-22 11:58:37,723 - INFO     - Inserted/Updated Player: <Yakov Trenin>
+2025-01-22 11:58:38,128 - INFO     - Inserted/Updated Player: <Filip Gustavsson>
+2025-01-22 11:58:38,540 - INFO     - Inserted/Updated Player: <Jake Middleton>
+2025-01-22 11:58:38,849 - INFO     - Inserted/Updated Player: <Marc-Andre Fleury>
+2025-01-22 11:58:39,253 - INFO     - Inserted/Updated Player: <Zach Bogosian>
+2025-01-22 11:58:39,559 - INFO     - Inserted/Updated Player: <Brock Faber>
+2025-01-22 11:58:39,790 - INFO     - Inserted/Updated Player: <Marcus Foligno>
+2025-01-22 11:58:40,075 - INFO     - Inserted/Updated Player: <Jared Spurgeon>
+2025-01-22 11:58:40,482 - INFO     - Inserted/Updated Player: <Declan Chisholm>
+2025-01-22 11:58:40,888 - INFO     - Inserted/Updated Player: <Frederick Gaudreau>
+2025-01-22 11:58:41,237 - INFO     - Inserted/Updated Player: <Jon Merrill>
+2025-01-22 11:58:41,610 - INFO     - Inserted/Updated Player: <Devin Shore>
+2025-01-22 11:58:41,614 - INFO     - Rosters Inserted for Game 2024020402
+2025-01-22 11:58:41,705 - INFO     - Events Inserted for Game 2024020402
+2025-01-22 11:58:41,897 - INFO     - Shifts Inserted for Game 2024020402
+2025-01-22 11:58:42,534 - INFO     - Inserted/Updated Player: <Nathan Walker>
+2025-01-22 11:58:42,839 - INFO     - Inserted/Updated Player: <Mathieu Joseph>
+2025-01-22 11:58:43,248 - INFO     - Inserted/Updated Player: <Brad Lambert>
+2025-01-22 11:58:43,662 - INFO     - Inserted/Updated Player: <Brandon Saad>
+2025-01-22 11:58:44,068 - INFO     - Inserted/Updated Player: <Robert Thomas>
+2025-01-22 11:58:44,304 - INFO     - Inserted/Updated Player: <Alexey Toropchenko>
+2025-01-22 11:58:44,592 - INFO     - Inserted/Updated Player: <Jordan Kyrou>
+2025-01-22 11:58:44,849 - INFO     - Inserted/Updated Player: <Dylan Holloway>
+2025-01-22 11:58:45,064 - INFO     - Inserted/Updated Player: <Brayden Schenn>
+2025-01-22 11:58:45,614 - INFO     - Inserted/Updated Player: <Scott Perunovich>
+2025-01-22 11:58:45,968 - INFO     - Inserted/Updated Player: <Ville Heinola>
+2025-01-22 11:58:46,318 - INFO     - Inserted/Updated Player: <Jake Neighbours>
+2025-01-22 11:58:46,627 - INFO     - Inserted/Updated Player: <Zack Bolduc>
+2025-01-22 11:58:46,933 - INFO     - Inserted/Updated Player: <P.O Joseph>
+2025-01-22 11:58:47,193 - INFO     - Inserted/Updated Player: <Philip Broberg>
+2025-01-22 11:58:47,486 - INFO     - Inserted/Updated Player: <Ryan Suter>
+2025-01-22 11:58:47,863 - INFO     - Inserted/Updated Player: <Matthew Kessel>
+2025-01-22 11:58:48,089 - INFO     - Inserted/Updated Player: <Joel Hofer>
+2025-01-22 11:58:48,469 - INFO     - Inserted/Updated Player: <Radek Faksa>
+2025-01-22 11:58:48,733 - INFO     - Inserted/Updated Player: <Colton Parayko>
+2025-01-22 11:58:49,013 - INFO     - Inserted/Updated Player: <Oskar Sundqvist>
+2025-01-22 11:58:49,263 - INFO     - Inserted/Updated Player: <Jordan Binnington>
+2025-01-22 11:58:49,268 - INFO     - Rosters Inserted for Game 2024020403
+2025-01-22 11:58:49,534 - INFO     - Events Inserted for Game 2024020403
+2025-01-22 11:58:49,702 - INFO     - Shifts Inserted for Game 2024020403
+2025-01-22 11:58:50,318 - INFO     - Inserted/Updated Player: <Martin Pospisil>
+2025-01-22 11:58:50,726 - INFO     - Inserted/Updated Player: <Brayden Pachal>
+2025-01-22 11:58:51,034 - INFO     - Inserted/Updated Player: <Connor Zary>
+2025-01-22 11:58:51,440 - INFO     - Inserted/Updated Player: <Dustin Wolf>
+2025-01-22 11:58:51,743 - INFO     - Inserted/Updated Player: <MacKenzie Weegar>
+2025-01-22 11:58:52,017 - INFO     - Inserted/Updated Player: <Nazem Kadri>
+2025-01-22 11:58:52,087 - INFO     - Inserted/Updated Player: <Mikael Backlund>
+2025-01-22 11:58:52,136 - INFO     - Inserted/Updated Player: <Jonathan Huberdeau>
+2025-01-22 11:58:52,456 - INFO     - Inserted/Updated Player: <Jake Bean>
+2025-01-22 11:58:52,511 - INFO     - Inserted/Updated Player: <Yegor Sharangovich>
+2025-01-22 11:58:52,564 - INFO     - Inserted/Updated Player: <Jakob Pelletier>
+2025-01-22 11:58:52,606 - INFO     - Inserted/Updated Player: <Kevin Rooney>
+2025-01-22 11:58:52,864 - INFO     - Inserted/Updated Player: <Rasmus Andersson>
+2025-01-22 11:58:53,272 - INFO     - Inserted/Updated Player: <Daniil Miromanov>
+2025-01-22 11:58:53,317 - INFO     - Inserted/Updated Player: <Ryan Lomberg>
+2025-01-22 11:58:53,364 - INFO     - Inserted/Updated Player: <Walker Duehr>
+2025-01-22 11:58:53,790 - INFO     - Inserted/Updated Player: <Kevin Bahl>
+2025-01-22 11:58:54,095 - INFO     - Inserted/Updated Player: <Dan Vladar>
+2025-01-22 11:58:54,148 - INFO     - Inserted/Updated Player: <Blake Coleman>
+2025-01-22 11:58:54,208 - INFO     - Inserted/Updated Player: <Matt Coronato>
+2025-01-22 11:58:54,212 - INFO     - Rosters Inserted for Game 2024020404
+2025-01-22 11:58:54,305 - INFO     - Events Inserted for Game 2024020404
+2025-01-22 11:58:54,459 - INFO     - Shifts Inserted for Game 2024020404
+2025-01-22 11:58:55,125 - INFO     - Inserted/Updated Player: <Kasperi Kapanen>
+2025-01-22 11:58:55,431 - INFO     - Inserted/Updated Player: <Shea Theodore>
+2025-01-22 11:58:55,739 - INFO     - Inserted/Updated Player: <Jeff Skinner>
+2025-01-22 11:58:56,049 - INFO     - Inserted/Updated Player: <Ivan Barbashev>
+2025-01-22 11:58:56,349 - INFO     - Inserted/Updated Player: <Adam Henrique>
+2025-01-22 11:58:56,666 - INFO     - Inserted/Updated Player: <Ilya Samsonov>
+2025-01-22 11:58:56,960 - INFO     - Inserted/Updated Player: <Victor Olofsson>
+2025-01-22 11:58:57,278 - INFO     - Inserted/Updated Player: <William Karlsson>
+2025-01-22 11:58:57,682 - INFO     - Inserted/Updated Player: <Adin Hill>
+2025-01-22 11:58:57,985 - INFO     - Inserted/Updated Player: <Evan Bouchard>
+2025-01-22 11:58:58,250 - INFO     - Inserted/Updated Player: <Ryan Nugent-Hopkins>
+2025-01-22 11:58:58,480 - INFO     - Inserted/Updated Player: <Brett Kulak>
+2025-01-22 11:58:58,915 - INFO     - Inserted/Updated Player: <Kaedan Korczak>
+2025-01-22 11:58:59,162 - INFO     - Inserted/Updated Player: <Brayden McNabb>
+2025-01-22 11:58:59,387 - INFO     - Inserted/Updated Player: <Darnell Nurse>
+2025-01-22 11:58:59,731 - INFO     - Inserted/Updated Player: <Noah Hanifin>
+2025-01-22 11:59:00,044 - INFO     - Inserted/Updated Player: <Connor McDavid>
+2025-01-22 11:59:00,454 - INFO     - Inserted/Updated Player: <Jack Eichel>
+2025-01-22 11:59:00,769 - INFO     - Inserted/Updated Player: <Ty Emberson>
+2025-01-22 11:59:01,063 - INFO     - Inserted/Updated Player: <Alex Pietrangelo>
+2025-01-22 11:59:01,474 - INFO     - Inserted/Updated Player: <Calvin Pickard>
+2025-01-22 11:59:01,782 - INFO     - Inserted/Updated Player: <Tanner Pearson>
+2025-01-22 11:59:02,090 - INFO     - Inserted/Updated Player: <Pavel Dorofeyev>
+2025-01-22 11:59:02,388 - INFO     - Inserted/Updated Player: <Alexander Holtz>
+2025-01-22 11:59:02,705 - INFO     - Inserted/Updated Player: <Tomas Hertl>
+2025-01-22 11:59:03,110 - INFO     - Inserted/Updated Player: <Mattias Ekholm>
+2025-01-22 11:59:03,420 - INFO     - Inserted/Updated Player: <Troy Stecher>
+2025-01-22 11:59:03,933 - INFO     - Inserted/Updated Player: <Vasily Podkolzin>
+2025-01-22 11:59:04,340 - INFO     - Inserted/Updated Player: <Connor Brown>
+2025-01-22 11:59:04,649 - INFO     - Inserted/Updated Player: <Derek Ryan>
+2025-01-22 11:59:04,956 - INFO     - Inserted/Updated Player: <Corey Perry>
+2025-01-22 11:59:05,265 - INFO     - Inserted/Updated Player: <Mattias Janmark>
+2025-01-22 11:59:05,572 - INFO     - Inserted/Updated Player: <Keegan Kolesar>
+2025-01-22 11:59:05,878 - INFO     - Inserted/Updated Player: <Stuart Skinner>
+2025-01-22 11:59:06,287 - INFO     - Inserted/Updated Player: <Drake Caggiula>
+2025-01-22 11:59:06,594 - INFO     - Inserted/Updated Player: <Nicolas Hague>
+2025-01-22 11:59:06,904 - INFO     - Inserted/Updated Player: <Leon Draisaitl>
+2025-01-22 11:59:07,208 - INFO     - Inserted/Updated Player: <Cole Schwindt>
+2025-01-22 11:59:07,456 - INFO     - Inserted/Updated Player: <Brett Howden>
+2025-01-22 11:59:07,690 - INFO     - Inserted/Updated Player: <Nicolas Roy>
+2025-01-22 11:59:07,694 - INFO     - Rosters Inserted for Game 2024020405
+2025-01-22 11:59:07,946 - INFO     - Events Inserted for Game 2024020405
+2025-01-22 11:59:08,097 - INFO     - Shifts Inserted for Game 2024020405
+2025-01-22 11:59:08,098 - INFO     - IMPORTING GAMES FOR 2024-12-04
+2025-01-22 11:59:08,542 - INFO     - Games Inserted for 2024-12-04
+2025-01-22 11:59:09,159 - INFO     - Inserted/Updated Player: <Alexandre Carrier>
+2025-01-22 11:59:09,463 - INFO     - Inserted/Updated Player: <Ryan Reaves>
+2025-01-22 11:59:09,768 - INFO     - Inserted/Updated Player: <Cole Smith>
+2025-01-22 11:59:10,009 - INFO     - Inserted/Updated Player: <Ryan O'Reilly>
+2025-01-22 11:59:10,383 - INFO     - Inserted/Updated Player: <Adam Wilsby>
+2025-01-22 11:59:10,690 - INFO     - Inserted/Updated Player: <Zachary L'Heureux>
+2025-01-22 11:59:11,104 - INFO     - Inserted/Updated Player: <Gustav Nyquist>
+2025-01-22 11:59:11,509 - INFO     - Inserted/Updated Player: <Steven Stamkos>
+2025-01-22 11:59:11,823 - INFO     - Inserted/Updated Player: <Brady Skjei>
+2025-01-22 11:59:12,128 - INFO     - Inserted/Updated Player: <Luke Schenn>
+2025-01-22 11:59:12,380 - INFO     - Inserted/Updated Player: <Mark Jankowski>
+2025-01-22 11:59:12,738 - INFO     - Inserted/Updated Player: <Fedor Svechkov>
+2025-01-22 11:59:13,047 - INFO     - Inserted/Updated Player: <Filip Forsberg>
+2025-01-22 11:59:13,354 - INFO     - Inserted/Updated Player: <Luke Evangelista>
+2025-01-22 11:59:13,658 - INFO     - Inserted/Updated Player: <Tommy Novak>
+2025-01-22 11:59:13,888 - INFO     - Inserted/Updated Player: <Roman Josi>
+2025-01-22 11:59:14,121 - INFO     - Inserted/Updated Player: <Nick Blankenburg>
+2025-01-22 11:59:14,475 - INFO     - Inserted/Updated Player: <Juuse Saros>
+2025-01-22 11:59:14,745 - INFO     - Inserted/Updated Player: <Jonathan Marchessault>
+2025-01-22 11:59:15,094 - INFO     - Inserted/Updated Player: <Justus Annunen>
+2025-01-22 11:59:15,402 - INFO     - Inserted/Updated Player: <Colton Sissons>
+2025-01-22 11:59:15,407 - INFO     - Rosters Inserted for Game 2024020406
+2025-01-22 11:59:15,865 - INFO     - Events Inserted for Game 2024020406
+2025-01-22 11:59:16,024 - INFO     - Shifts Inserted for Game 2024020406
+2025-01-22 11:59:16,238 - INFO     - Rosters Inserted for Game 2024020407
+2025-01-22 11:59:16,337 - INFO     - Events Inserted for Game 2024020407
+2025-01-22 11:59:16,501 - INFO     - Shifts Inserted for Game 2024020407
+2025-01-22 11:59:17,040 - INFO     - Inserted/Updated Player: <Cam Fowler>
+2025-01-22 11:59:17,045 - INFO     - Rosters Inserted for Game 2024020408
+2025-01-22 11:59:17,174 - INFO     - Events Inserted for Game 2024020408
+2025-01-22 11:59:17,323 - INFO     - Shifts Inserted for Game 2024020408
+2025-01-22 11:59:17,960 - INFO     - Inserted/Updated Player: <Anze Kopitar>
+2025-01-22 11:59:18,267 - INFO     - Inserted/Updated Player: <Adrian Kempe>
+2025-01-22 11:59:18,615 - INFO     - Inserted/Updated Player: <David Rittich>
+2025-01-22 11:59:18,952 - INFO     - Inserted/Updated Player: <Kyle Burroughs>
+2025-01-22 11:59:19,290 - INFO     - Inserted/Updated Player: <Joel Edmundson>
+2025-01-22 11:59:19,704 - INFO     - Inserted/Updated Player: <Vladislav Gavrikov>
+2025-01-22 11:59:20,112 - INFO     - Inserted/Updated Player: <Samuel Helenius>
+2025-01-22 11:59:20,520 - INFO     - Inserted/Updated Player: <Brandt Clarke>
+2025-01-22 11:59:20,767 - INFO     - Inserted/Updated Player: <Tanner Jeannot>
+2025-01-22 11:59:21,342 - INFO     - Inserted/Updated Player: <Warren Foegele>
+2025-01-22 11:59:21,651 - INFO     - Inserted/Updated Player: <Darcy Kuemper>
+2025-01-22 11:59:21,956 - INFO     - Inserted/Updated Player: <Trevor Moore>
+2025-01-22 11:59:22,366 - INFO     - Inserted/Updated Player: <Jacob Moverare>
+2025-01-22 11:59:22,673 - INFO     - Inserted/Updated Player: <Phillip Danault>
+2025-01-22 11:59:22,979 - INFO     - Inserted/Updated Player: <Jordan Spence>
+2025-01-22 11:59:23,391 - INFO     - Inserted/Updated Player: <Quinton Byfield>
+2025-01-22 11:59:23,697 - INFO     - Inserted/Updated Player: <Alex Laferriere>
+2025-01-22 11:59:24,002 - INFO     - Inserted/Updated Player: <Kevin Fiala>
+2025-01-22 11:59:24,513 - INFO     - Inserted/Updated Player: <Alex Turcotte>
+2025-01-22 11:59:24,930 - INFO     - Inserted/Updated Player: <Mikey Anderson>
+2025-01-22 11:59:24,935 - INFO     - Rosters Inserted for Game 2024020409
+2025-01-22 11:59:25,037 - INFO     - Events Inserted for Game 2024020409
+2025-01-22 11:59:25,180 - INFO     - Shifts Inserted for Game 2024020409
+2025-01-22 11:59:25,181 - INFO     - IMPORTING GAMES FOR 2024-12-05
+2025-01-22 11:59:25,646 - INFO     - Games Inserted for 2024-12-05
+2025-01-22 11:59:26,155 - INFO     - Inserted/Updated Player: <Tyson Kozak>
+2025-01-22 11:59:26,666 - INFO     - Inserted/Updated Player: <Dennis Gilbert>
+2025-01-22 11:59:26,671 - INFO     - Rosters Inserted for Game 2024020410
+2025-01-22 11:59:26,776 - INFO     - Events Inserted for Game 2024020410
+2025-01-22 11:59:26,946 - INFO     - Shifts Inserted for Game 2024020410
+2025-01-22 11:59:27,589 - INFO     - Inserted/Updated Player: <Juuso Parssinen>
+2025-01-22 11:59:27,892 - INFO     - Inserted/Updated Player: <Michael McCarron>
+2025-01-22 11:59:28,129 - INFO     - Inserted/Updated Player: <Justin Barron>
+2025-01-22 11:59:28,133 - INFO     - Rosters Inserted for Game 2024020411
+2025-01-22 11:59:28,242 - INFO     - Events Inserted for Game 2024020411
+2025-01-22 11:59:28,390 - INFO     - Shifts Inserted for Game 2024020411
+2025-01-22 11:59:28,816 - INFO     - Inserted/Updated Player: <Patrick Kane>
+2025-01-22 11:59:29,173 - INFO     - Inserted/Updated Player: <Albert Johansson>
+2025-01-22 11:59:29,179 - INFO     - Rosters Inserted for Game 2024020412
+2025-01-22 11:59:29,282 - INFO     - Events Inserted for Game 2024020412
+2025-01-22 11:59:29,426 - INFO     - Shifts Inserted for Game 2024020412
+2025-01-22 11:59:30,043 - INFO     - Inserted/Updated Player: <Luke Glendening>
+2025-01-22 11:59:30,437 - INFO     - Inserted/Updated Player: <Gage Goncalves>
+2025-01-22 11:59:30,686 - INFO     - Inserted/Updated Player: <Victor Hedman>
+2025-01-22 11:59:31,050 - INFO     - Inserted/Updated Player: <Ryan McDonagh>
+2025-01-22 11:59:31,379 - INFO     - Inserted/Updated Player: <Jonas Johansson>
+2025-01-22 11:59:31,683 - INFO     - Inserted/Updated Player: <Brandon Hagel>
+2025-01-22 11:59:31,991 - INFO     - Inserted/Updated Player: <Anthony Cirelli>
+2025-01-22 11:59:32,298 - INFO     - Inserted/Updated Player: <Brayden Point>
+2025-01-22 11:59:32,707 - INFO     - Inserted/Updated Player: <Zemgus Girgensons>
+2025-01-22 11:59:33,013 - INFO     - Inserted/Updated Player: <Erik Cernak>
+2025-01-22 11:59:33,276 - INFO     - Inserted/Updated Player: <Andrei Vasilevskiy>
+2025-01-22 11:59:33,627 - INFO     - Inserted/Updated Player: <Cam Atkinson>
+2025-01-22 11:59:33,897 - INFO     - Inserted/Updated Player: <Jake Guentzel>
+2025-01-22 11:59:34,242 - INFO     - Inserted/Updated Player: <J.J. Moser>
+2025-01-22 11:59:34,536 - INFO     - Inserted/Updated Player: <Jack Thompson>
+2025-01-22 11:59:34,959 - INFO     - Inserted/Updated Player: <Darren Raddysh>
+2025-01-22 11:59:35,371 - INFO     - Inserted/Updated Player: <Michael Eyssimont>
+2025-01-22 11:59:35,778 - INFO     - Inserted/Updated Player: <Emil Lilleberg>
+2025-01-22 11:59:36,192 - INFO     - Inserted/Updated Player: <Nick Paul>
+2025-01-22 11:59:36,597 - INFO     - Inserted/Updated Player: <Nick Perbix>
+2025-01-22 11:59:36,902 - INFO     - Inserted/Updated Player: <Conor Geekie>
+2025-01-22 11:59:36,907 - INFO     - Rosters Inserted for Game 2024020413
+2025-01-22 11:59:37,231 - INFO     - Events Inserted for Game 2024020413
+2025-01-22 11:59:37,388 - INFO     - Shifts Inserted for Game 2024020413
+2025-01-22 11:59:37,844 - INFO     - Inserted/Updated Player: <Cam York>
+2025-01-22 11:59:38,134 - INFO     - Inserted/Updated Player: <Owen Tippett>
+2025-01-22 11:59:38,439 - INFO     - Inserted/Updated Player: <Bobby Brink>
+2025-01-22 11:59:38,978 - INFO     - Inserted/Updated Player: <Egor Zamula>
+2025-01-22 11:59:39,365 - INFO     - Inserted/Updated Player: <Morgan Frost>
+2025-01-22 11:59:39,773 - INFO     - Inserted/Updated Player: <Joel Farabee>
+2025-01-22 11:59:39,993 - INFO     - Inserted/Updated Player: <Matvei Michkov>
+2025-01-22 11:59:40,387 - INFO     - Inserted/Updated Player: <Sean Couturier>
+2025-01-22 11:59:40,714 - INFO     - Inserted/Updated Player: <Ivan Fedotov>
+2025-01-22 11:59:41,102 - INFO     - Inserted/Updated Player: <Rasmus Ristolainen>
+2025-01-22 11:59:41,412 - INFO     - Inserted/Updated Player: <Ryan Poehling>
+2025-01-22 11:59:41,717 - INFO     - Inserted/Updated Player: <Scott Laughton>
+2025-01-22 11:59:42,026 - INFO     - Inserted/Updated Player: <Emil Andrae>
+2025-01-22 11:59:42,436 - INFO     - Inserted/Updated Player: <Garnet Hathaway>
+2025-01-22 11:59:42,742 - INFO     - Inserted/Updated Player: <Nick Seeler>
+2025-01-22 11:59:43,049 - INFO     - Inserted/Updated Player: <Noah Cates>
+2025-01-22 11:59:43,355 - INFO     - Inserted/Updated Player: <Aleksei Kolosov>
+2025-01-22 11:59:43,439 - INFO     - Inserted/Updated Player: <Travis Konecny>
+2025-01-22 11:59:43,764 - INFO     - Inserted/Updated Player: <Tyson Foerster>
+2025-01-22 11:59:44,072 - INFO     - Inserted/Updated Player: <Travis Sanheim>
+2025-01-22 11:59:44,077 - INFO     - Rosters Inserted for Game 2024020414
+2025-01-22 11:59:45,358 - INFO     - Events Inserted for Game 2024020414
+2025-01-22 11:59:45,518 - INFO     - Shifts Inserted for Game 2024020414
+2025-01-22 11:59:46,129 - INFO     - Inserted/Updated Player: <Dustin Tokarski>
+2025-01-22 11:59:46,134 - INFO     - Rosters Inserted for Game 2024020415
+2025-01-22 11:59:46,238 - INFO     - Events Inserted for Game 2024020415
+2025-01-22 11:59:46,423 - INFO     - Shifts Inserted for Game 2024020415
+2025-01-22 11:59:47,044 - INFO     - Inserted/Updated Player: <Pierre Engvall>
+2025-01-22 11:59:47,350 - INFO     - Inserted/Updated Player: <Marcus Hogberg>
+2025-01-22 11:59:47,355 - INFO     - Rosters Inserted for Game 2024020416
+2025-01-22 11:59:47,451 - INFO     - Events Inserted for Game 2024020416
+2025-01-22 11:59:47,581 - INFO     - Shifts Inserted for Game 2024020416
+2025-01-22 11:59:48,170 - INFO     - Inserted/Updated Player: <Pavel Buchnevich>
+2025-01-22 11:59:48,175 - INFO     - Rosters Inserted for Game 2024020417
+2025-01-22 11:59:48,280 - INFO     - Events Inserted for Game 2024020417
+2025-01-22 11:59:48,435 - INFO     - Shifts Inserted for Game 2024020417
+2025-01-22 11:59:49,092 - INFO     - Inserted/Updated Player: <Zach Hyman>
+2025-01-22 11:59:49,400 - INFO     - Inserted/Updated Player: <Mikael Pyyhtia>
+2025-01-22 11:59:49,405 - INFO     - Rosters Inserted for Game 2024020418
+2025-01-22 11:59:49,503 - INFO     - Events Inserted for Game 2024020418
+2025-01-22 11:59:49,650 - INFO     - Shifts Inserted for Game 2024020418
+2025-01-22 11:59:49,650 - INFO     - IMPORTING GAMES FOR 2024-12-06
+2025-01-22 11:59:49,717 - INFO     - Games Inserted for 2024-12-06
+2025-01-22 11:59:50,018 - INFO     - Rosters Inserted for Game 2024020419
+2025-01-22 11:59:50,141 - INFO     - Events Inserted for Game 2024020419
+2025-01-22 11:59:50,284 - INFO     - Shifts Inserted for Game 2024020419
+2025-01-22 11:59:50,833 - INFO     - Inserted/Updated Player: <Tomas Tatar>
+2025-01-22 11:59:51,241 - INFO     - Inserted/Updated Player: <Ryker Evans>
+2025-01-22 11:59:51,664 - INFO     - Inserted/Updated Player: <Andre Burakovsky>
+2025-01-22 11:59:51,669 - INFO     - Rosters Inserted for Game 2024020420
+2025-01-22 11:59:51,774 - INFO     - Events Inserted for Game 2024020420
+2025-01-22 11:59:51,932 - INFO     - Shifts Inserted for Game 2024020420
+2025-01-22 11:59:52,471 - INFO     - Inserted/Updated Player: <Victor Mancini>
+2025-01-22 11:59:52,694 - INFO     - Inserted/Updated Player: <Cody Glass>
+2025-01-22 11:59:52,941 - INFO     - Inserted/Updated Player: <Jimmy Vesey>
+2025-01-22 11:59:52,945 - INFO     - Rosters Inserted for Game 2024020421
+2025-01-22 11:59:53,040 - INFO     - Events Inserted for Game 2024020421
+2025-01-22 11:59:53,196 - INFO     - Shifts Inserted for Game 2024020421
+2025-01-22 11:59:53,699 - INFO     - Inserted/Updated Player: <Thatcher Demko>
+2025-01-22 11:59:53,705 - INFO     - Rosters Inserted for Game 2024020422
+2025-01-22 11:59:53,823 - INFO     - Events Inserted for Game 2024020422
+2025-01-22 11:59:53,978 - INFO     - Shifts Inserted for Game 2024020422
+2025-01-22 11:59:54,522 - INFO     - Inserted/Updated Player: <Mark Stone>
+2025-01-22 11:59:54,528 - INFO     - Rosters Inserted for Game 2024020423
+2025-01-22 11:59:54,641 - INFO     - Events Inserted for Game 2024020423
+2025-01-22 11:59:54,848 - INFO     - Shifts Inserted for Game 2024020423
+2025-01-22 11:59:55,440 - INFO     - Inserted/Updated Player: <Reese Johnson>
+2025-01-22 11:59:55,746 - INFO     - Inserted/Updated Player: <Brock McGinn>
+2025-01-22 11:59:55,750 - INFO     - Rosters Inserted for Game 2024020424
+2025-01-22 11:59:55,862 - INFO     - Events Inserted for Game 2024020424
+2025-01-22 11:59:55,998 - INFO     - Shifts Inserted for Game 2024020424
+2025-01-22 11:59:55,999 - INFO     - IMPORTING GAMES FOR 2024-12-07
+2025-01-22 11:59:56,470 - INFO     - Games Inserted for 2024-12-07
+2025-01-22 11:59:56,777 - INFO     - Rosters Inserted for Game 2024020425
+2025-01-22 11:59:56,885 - INFO     - Events Inserted for Game 2024020425
+2025-01-22 11:59:57,040 - INFO     - Shifts Inserted for Game 2024020425
+2025-01-22 11:59:57,279 - INFO     - Rosters Inserted for Game 2024020426
+2025-01-22 11:59:57,376 - INFO     - Events Inserted for Game 2024020426
+2025-01-22 11:59:57,527 - INFO     - Shifts Inserted for Game 2024020426
+2025-01-22 11:59:57,769 - INFO     - Rosters Inserted for Game 2024020427
+2025-01-22 11:59:57,867 - INFO     - Events Inserted for Game 2024020427
+2025-01-22 11:59:58,027 - INFO     - Shifts Inserted for Game 2024020427
+2025-01-22 11:59:58,615 - INFO     - Inserted/Updated Player: <Dennis Cholowski>
+2025-01-22 11:59:58,621 - INFO     - Rosters Inserted for Game 2024020428
+2025-01-22 11:59:58,764 - INFO     - Events Inserted for Game 2024020428
+2025-01-22 11:59:58,935 - INFO     - Shifts Inserted for Game 2024020428
+2025-01-22 11:59:59,435 - INFO     - Inserted/Updated Player: <Uvis Balinskis>
+2025-01-22 11:59:59,660 - INFO     - Inserted/Updated Player: <Mackie Samoskevich>
+2025-01-22 11:59:59,861 - INFO     - Inserted/Updated Player: <Sergei Bobrovsky>
+2025-01-22 12:00:00,253 - INFO     - Inserted/Updated Player: <Ethan Cardwell>
+2025-01-22 12:00:00,257 - INFO     - Rosters Inserted for Game 2024020429
+2025-01-22 12:00:00,366 - INFO     - Events Inserted for Game 2024020429
+2025-01-22 12:00:00,573 - INFO     - Shifts Inserted for Game 2024020429
+2025-01-22 12:00:00,831 - INFO     - Rosters Inserted for Game 2024020430
+2025-01-22 12:00:00,939 - INFO     - Events Inserted for Game 2024020430
+2025-01-22 12:00:01,083 - INFO     - Shifts Inserted for Game 2024020430
+2025-01-22 12:00:01,382 - INFO     - Rosters Inserted for Game 2024020431
+2025-01-22 12:00:01,507 - INFO     - Events Inserted for Game 2024020431
+2025-01-22 12:00:01,661 - INFO     - Shifts Inserted for Game 2024020431
+2025-01-22 12:00:02,403 - INFO     - Inserted/Updated Player: <Keaton Middleton>
+2025-01-22 12:00:02,815 - INFO     - Inserted/Updated Player: <Ross Colton>
+2025-01-22 12:00:02,819 - INFO     - Rosters Inserted for Game 2024020432
+2025-01-22 12:00:02,926 - INFO     - Events Inserted for Game 2024020432
+2025-01-22 12:00:03,068 - INFO     - Shifts Inserted for Game 2024020432
+2025-01-22 12:00:03,841 - INFO     - Inserted/Updated Player: <Jesse Puljujarvi>
+2025-01-22 12:00:04,351 - INFO     - Inserted/Updated Player: <Ryan Graves>
+2025-01-22 12:00:04,441 - INFO     - Inserted/Updated Player: <Max Pacioretty>
+2025-01-22 12:00:04,446 - INFO     - Rosters Inserted for Game 2024020433
+2025-01-22 12:00:04,562 - INFO     - Events Inserted for Game 2024020433
+2025-01-22 12:00:04,739 - INFO     - Shifts Inserted for Game 2024020433
+2025-01-22 12:00:05,075 - INFO     - Rosters Inserted for Game 2024020434
+2025-01-22 12:00:05,241 - INFO     - Events Inserted for Game 2024020434
+2025-01-22 12:00:05,401 - INFO     - Shifts Inserted for Game 2024020434
+2025-01-22 12:00:06,196 - INFO     - Inserted/Updated Player: <Justin Faulk>
+2025-01-22 12:00:06,200 - INFO     - Rosters Inserted for Game 2024020435
+2025-01-22 12:00:06,301 - INFO     - Events Inserted for Game 2024020435
+2025-01-22 12:00:06,486 - INFO     - Shifts Inserted for Game 2024020435
+2025-01-22 12:00:06,487 - INFO     - IMPORTING GAMES FOR 2024-12-08
+2025-01-22 12:00:07,017 - INFO     - Games Inserted for 2024-12-08
+2025-01-22 12:00:07,928 - ERROR    - Failed to Insert/Update Player: <Michael Matyas>
+2025-01-22 12:00:08,234 - INFO     - Inserted/Updated Player: <Dylan Garand>
+2025-01-22 12:00:08,236 - INFO     - Rosters Inserted for Game 2024020436
+2025-01-22 12:00:08,320 - INFO     - Events Inserted for Game 2024020436
+2025-01-22 12:00:08,509 - INFO     - Shifts Inserted for Game 2024020436
+2025-01-22 12:00:08,808 - INFO     - Inserted/Updated Player: <Nikita Kucherov>
+2025-01-22 12:00:09,163 - INFO     - Inserted/Updated Player: <Mitchell Chaffee>
+2025-01-22 12:00:09,169 - INFO     - Rosters Inserted for Game 2024020437
+2025-01-22 12:00:09,271 - INFO     - Events Inserted for Game 2024020437
+2025-01-22 12:00:09,419 - INFO     - Shifts Inserted for Game 2024020437
+2025-01-22 12:00:09,677 - INFO     - Rosters Inserted for Game 2024020438
+2025-01-22 12:00:09,780 - INFO     - Events Inserted for Game 2024020438
+2025-01-22 12:00:09,942 - INFO     - Shifts Inserted for Game 2024020438
+2025-01-22 12:00:10,172 - INFO     - Rosters Inserted for Game 2024020439
+2025-01-22 12:00:10,288 - INFO     - Events Inserted for Game 2024020439
+2025-01-22 12:00:10,435 - INFO     - Shifts Inserted for Game 2024020439
+2025-01-22 12:00:10,647 - INFO     - Rosters Inserted for Game 2024020440
+2025-01-22 12:00:10,758 - INFO     - Events Inserted for Game 2024020440
+2025-01-22 12:00:10,935 - INFO     - Shifts Inserted for Game 2024020440
+2025-01-22 12:00:11,292 - INFO     - Inserted/Updated Player: <Samuel Ersson>
+2025-01-22 12:00:11,362 - INFO     - Inserted/Updated Player: <Jamie Drysdale>
+2025-01-22 12:00:11,366 - INFO     - Rosters Inserted for Game 2024020441
+2025-01-22 12:00:11,476 - INFO     - Events Inserted for Game 2024020441
+2025-01-22 12:00:11,636 - INFO     - Shifts Inserted for Game 2024020441
+2025-01-22 12:00:12,340 - INFO     - Inserted/Updated Player: <Andrei Kuzmenko>
+2025-01-22 12:00:12,344 - INFO     - Rosters Inserted for Game 2024020442
+2025-01-22 12:00:12,445 - INFO     - Events Inserted for Game 2024020442
+2025-01-22 12:00:12,596 - INFO     - Shifts Inserted for Game 2024020442
+2025-01-22 12:00:12,597 - INFO     - IMPORTING GAMES FOR 2024-12-09
+2025-01-22 12:00:13,160 - INFO     - Games Inserted for 2024-12-09
+2025-01-22 12:00:13,872 - INFO     - Inserted/Updated Player: <Ryan Johnson>
+2025-01-22 12:00:14,289 - INFO     - Inserted/Updated Player: <Jordan Greenway>
+2025-01-22 12:00:14,294 - INFO     - Rosters Inserted for Game 2024020443
+2025-01-22 12:00:14,409 - INFO     - Events Inserted for Game 2024020443
+2025-01-22 12:00:14,602 - INFO     - Shifts Inserted for Game 2024020443
+2025-01-22 12:00:15,207 - INFO     - Inserted/Updated Player: <Joey Anderson>
+2025-01-22 12:00:15,615 - INFO     - Inserted/Updated Player: <Kevin Korchinski>
+2025-01-22 12:00:16,024 - INFO     - Inserted/Updated Player: <Drew Commesso>
+2025-01-22 12:00:16,435 - INFO     - Inserted/Updated Player: <Brett Berard>
+2025-01-22 12:00:16,440 - INFO     - Rosters Inserted for Game 2024020444
+2025-01-22 12:00:16,707 - INFO     - Events Inserted for Game 2024020444
+2025-01-22 12:00:16,859 - INFO     - Shifts Inserted for Game 2024020444
+2025-01-22 12:00:17,092 - INFO     - Rosters Inserted for Game 2024020445
+2025-01-22 12:00:17,199 - INFO     - Events Inserted for Game 2024020445
+2025-01-22 12:00:17,369 - INFO     - Shifts Inserted for Game 2024020445
+2025-01-22 12:00:17,370 - INFO     - IMPORTING GAMES FOR 2024-12-10
+2025-01-22 12:00:17,972 - INFO     - Games Inserted for 2024-12-10
+2025-01-22 12:00:18,580 - INFO     - Inserted/Updated Player: <Isaac Poulter>
+2025-01-22 12:00:18,992 - INFO     - Inserted/Updated Player: <Nathan Bastian>
+2025-01-22 12:00:19,406 - INFO     - Inserted/Updated Player: <Max Domi>
+2025-01-22 12:00:19,412 - INFO     - Rosters Inserted for Game 2024020446
+2025-01-22 12:00:19,536 - INFO     - Events Inserted for Game 2024020446
+2025-01-22 12:00:19,698 - INFO     - Shifts Inserted for Game 2024020446
+2025-01-22 12:00:20,427 - INFO     - Inserted/Updated Player: <Trent Miner>
+2025-01-22 12:00:20,824 - INFO     - Inserted/Updated Player: <Givani Smith>
+2025-01-22 12:00:20,830 - INFO     - Rosters Inserted for Game 2024020447
+2025-01-22 12:00:20,941 - INFO     - Events Inserted for Game 2024020447
+2025-01-22 12:00:21,096 - INFO     - Shifts Inserted for Game 2024020447
+2025-01-22 12:00:21,655 - INFO     - Inserted/Updated Player: <Barclay Goodrow>
+2025-01-22 12:00:21,659 - INFO     - Rosters Inserted for Game 2024020448
+2025-01-22 12:00:21,764 - INFO     - Events Inserted for Game 2024020448
+2025-01-22 12:00:21,907 - INFO     - Shifts Inserted for Game 2024020448
+2025-01-22 12:00:22,129 - INFO     - Rosters Inserted for Game 2024020449
+2025-01-22 12:00:22,220 - INFO     - Events Inserted for Game 2024020449
+2025-01-22 12:00:22,372 - INFO     - Shifts Inserted for Game 2024020449
+2025-01-22 12:00:22,600 - INFO     - Rosters Inserted for Game 2024020450
+2025-01-22 12:00:22,677 - INFO     - Events Inserted for Game 2024020450
+2025-01-22 12:00:22,837 - INFO     - Shifts Inserted for Game 2024020450
+2025-01-22 12:00:23,603 - INFO     - Inserted/Updated Player: <Marc Del Gaizo>
+2025-01-22 12:00:23,607 - INFO     - Rosters Inserted for Game 2024020451
+2025-01-22 12:00:23,716 - INFO     - Events Inserted for Game 2024020451
+2025-01-22 12:00:23,861 - INFO     - Shifts Inserted for Game 2024020451
+2025-01-22 12:00:24,632 - INFO     - Inserted/Updated Player: <Nikita Chibrikov>
+2025-01-22 12:00:24,638 - INFO     - Rosters Inserted for Game 2024020452
+2025-01-22 12:00:24,750 - INFO     - Events Inserted for Game 2024020452
+2025-01-22 12:00:24,915 - INFO     - Shifts Inserted for Game 2024020452
+2025-01-22 12:00:25,236 - INFO     - Rosters Inserted for Game 2024020453
+2025-01-22 12:00:25,312 - INFO     - Events Inserted for Game 2024020453
+2025-01-22 12:00:25,444 - INFO     - Shifts Inserted for Game 2024020453
+2025-01-22 12:00:26,161 - INFO     - Inserted/Updated Player: <Jakub Lauko>
+2025-01-22 12:00:26,166 - INFO     - Rosters Inserted for Game 2024020454
+2025-01-22 12:00:26,285 - INFO     - Events Inserted for Game 2024020454
+2025-01-22 12:00:26,800 - INFO     - Shifts Inserted for Game 2024020454
+2025-01-22 12:00:27,393 - INFO     - Inserted/Updated Player: <Mark Friedman>
+2025-01-22 12:00:27,398 - INFO     - Rosters Inserted for Game 2024020455
+2025-01-22 12:00:27,498 - INFO     - Events Inserted for Game 2024020455
+2025-01-22 12:00:27,645 - INFO     - Shifts Inserted for Game 2024020455
+2025-01-22 12:00:28,002 - INFO     - Rosters Inserted for Game 2024020456
+2025-01-22 12:00:28,095 - INFO     - Events Inserted for Game 2024020456
+2025-01-22 12:00:28,244 - INFO     - Shifts Inserted for Game 2024020456
+2025-01-22 12:00:28,244 - INFO     - IMPORTING GAMES FOR 2024-12-11
+2025-01-22 12:00:28,828 - INFO     - Games Inserted for 2024-12-11
+2025-01-22 12:00:29,443 - INFO     - Inserted/Updated Player: <Mattias Samuelsson>
+2025-01-22 12:00:29,449 - INFO     - Rosters Inserted for Game 2024020457
+2025-01-22 12:00:29,562 - INFO     - Events Inserted for Game 2024020457
+2025-01-22 12:00:29,736 - INFO     - Shifts Inserted for Game 2024020457
+2025-01-22 12:00:30,361 - INFO     - Inserted/Updated Player: <Leo Carlsson>
+2025-01-22 12:00:30,366 - INFO     - Rosters Inserted for Game 2024020458
+2025-01-22 12:00:30,718 - INFO     - Events Inserted for Game 2024020458
+2025-01-22 12:00:30,886 - INFO     - Shifts Inserted for Game 2024020458
+2025-01-22 12:00:30,886 - INFO     - IMPORTING GAMES FOR 2024-12-12
+2025-01-22 12:00:31,390 - INFO     - Games Inserted for 2024-12-12
+2025-01-22 12:00:32,094 - INFO     - Inserted/Updated Player: <Robby Fabbri>
+2025-01-22 12:00:32,507 - INFO     - Inserted/Updated Player: <Jake McCabe>
+2025-01-22 12:00:32,511 - INFO     - Rosters Inserted for Game 2024020459
+2025-01-22 12:00:32,616 - INFO     - Events Inserted for Game 2024020459
+2025-01-22 12:00:32,768 - INFO     - Shifts Inserted for Game 2024020459
+2025-01-22 12:00:32,992 - INFO     - Rosters Inserted for Game 2024020460
+2025-01-22 12:00:33,092 - INFO     - Events Inserted for Game 2024020460
+2025-01-22 12:00:33,243 - INFO     - Shifts Inserted for Game 2024020460
+2025-01-22 12:00:34,042 - INFO     - Inserted/Updated Player: <Kurtis MacDermid>
+2025-01-22 12:00:34,046 - INFO     - Rosters Inserted for Game 2024020461
+2025-01-22 12:00:34,153 - INFO     - Events Inserted for Game 2024020461
+2025-01-22 12:00:34,305 - INFO     - Shifts Inserted for Game 2024020461
+2025-01-22 12:00:34,662 - INFO     - Rosters Inserted for Game 2024020462
+2025-01-22 12:00:34,767 - INFO     - Events Inserted for Game 2024020462
+2025-01-22 12:00:34,911 - INFO     - Shifts Inserted for Game 2024020462
+2025-01-22 12:00:35,484 - INFO     - Inserted/Updated Player: <Jack Johnson>
+2025-01-22 12:00:35,891 - INFO     - Inserted/Updated Player: <Jet Greaves>
+2025-01-22 12:00:35,895 - INFO     - Rosters Inserted for Game 2024020463
+2025-01-22 12:00:35,999 - INFO     - Events Inserted for Game 2024020463
+2025-01-22 12:00:36,143 - INFO     - Shifts Inserted for Game 2024020463
+2025-01-22 12:00:37,361 - INFO     - Rosters Inserted for Game 2024020464
+2025-01-22 12:00:37,446 - INFO     - Events Inserted for Game 2024020464
+2025-01-22 12:00:37,639 - INFO     - Shifts Inserted for Game 2024020464
+2025-01-22 12:00:38,239 - INFO     - Inserted/Updated Player: <Shakir Mukhamadullin>
+2025-01-22 12:00:38,243 - INFO     - Rosters Inserted for Game 2024020465
+2025-01-22 12:00:38,336 - INFO     - Events Inserted for Game 2024020465
+2025-01-22 12:00:38,495 - INFO     - Shifts Inserted for Game 2024020465
+2025-01-22 12:00:39,363 - INFO     - Inserted/Updated Player: <Kevin Gravel>
+2025-01-22 12:00:39,683 - INFO     - Inserted/Updated Player: <Lian Bichsel>
+2025-01-22 12:00:39,688 - INFO     - Rosters Inserted for Game 2024020466
+2025-01-22 12:00:39,788 - INFO     - Events Inserted for Game 2024020466
+2025-01-22 12:00:39,952 - INFO     - Shifts Inserted for Game 2024020466
+2025-01-22 12:00:40,594 - INFO     - Inserted/Updated Player: <Zach Whitecloud>
+2025-01-22 12:00:40,598 - INFO     - Rosters Inserted for Game 2024020468
+2025-01-22 12:00:40,689 - INFO     - Events Inserted for Game 2024020468
+2025-01-22 12:00:40,845 - INFO     - Shifts Inserted for Game 2024020468
+2025-01-22 12:00:41,058 - INFO     - Rosters Inserted for Game 2024020467
+2025-01-22 12:00:41,165 - INFO     - Events Inserted for Game 2024020467
+2025-01-22 12:00:41,333 - INFO     - Shifts Inserted for Game 2024020467
+2025-01-22 12:00:41,934 - INFO     - Inserted/Updated Player: <Vladislav Kolyachonok>
+2025-01-22 12:00:41,938 - INFO     - Rosters Inserted for Game 2024020469
+2025-01-22 12:00:42,052 - INFO     - Events Inserted for Game 2024020469
+2025-01-22 12:00:42,204 - INFO     - Shifts Inserted for Game 2024020469
+2025-01-22 12:00:42,856 - INFO     - Inserted/Updated Player: <Steven Santini>
+2025-01-22 12:00:42,861 - INFO     - Rosters Inserted for Game 2024020470
+2025-01-22 12:00:42,992 - INFO     - Events Inserted for Game 2024020470
+2025-01-22 12:00:43,153 - INFO     - Shifts Inserted for Game 2024020470
+2025-01-22 12:00:43,874 - INFO     - Inserted/Updated Player: <Derek Forbort>
+2025-01-22 12:00:44,183 - INFO     - Inserted/Updated Player: <J.T. Miller>
+2025-01-22 12:00:44,188 - INFO     - Rosters Inserted for Game 2024020471
+2025-01-22 12:00:44,298 - INFO     - Events Inserted for Game 2024020471
+2025-01-22 12:00:44,450 - INFO     - Shifts Inserted for Game 2024020471
+2025-01-22 12:00:45,004 - INFO     - Inserted/Updated Player: <Daniel Sprong>
+2025-01-22 12:00:45,311 - INFO     - Inserted/Updated Player: <Parker Wotherspoon>
+2025-01-22 12:00:45,719 - ERROR    - Failed to Insert/Update Player: <Tyler Johnson>
+2025-01-22 12:00:45,725 - INFO     - Rosters Inserted for Game 2024020472
+2025-01-22 12:00:46,077 - INFO     - Events Inserted for Game 2024020472
+2025-01-22 12:00:46,238 - INFO     - Shifts Inserted for Game 2024020472
+2025-01-22 12:00:46,238 - INFO     - IMPORTING GAMES FOR 2024-12-13
+2025-01-22 12:00:46,748 - INFO     - Games Inserted for 2024-12-13
+2025-01-22 12:00:47,358 - INFO     - Inserted/Updated Player: <Tyson Jost>
+2025-01-22 12:00:47,362 - INFO     - Rosters Inserted for Game 2024020473
+2025-01-22 12:00:47,467 - INFO     - Events Inserted for Game 2024020473
+2025-01-22 12:00:47,647 - INFO     - Shifts Inserted for Game 2024020473
+2025-01-22 12:00:47,648 - INFO     - IMPORTING GAMES FOR 2024-12-14
+2025-01-22 12:00:48,184 - INFO     - Games Inserted for 2024-12-14
+2025-01-22 12:00:48,793 - INFO     - Inserted/Updated Player: <Frank Nazar>
+2025-01-22 12:00:48,799 - INFO     - Rosters Inserted for Game 2024020474
+2025-01-22 12:00:48,906 - INFO     - Events Inserted for Game 2024020474
+2025-01-22 12:00:49,055 - INFO     - Shifts Inserted for Game 2024020474
+2025-01-22 12:00:49,815 - INFO     - Inserted/Updated Player: <Akil Thomas>
+2025-01-22 12:00:50,231 - INFO     - Inserted/Updated Player: <Connor Mackey>
+2025-01-22 12:00:50,237 - INFO     - Rosters Inserted for Game 2024020475
+2025-01-22 12:00:50,348 - INFO     - Events Inserted for Game 2024020475
+2025-01-22 12:00:50,503 - INFO     - Shifts Inserted for Game 2024020475
+2025-01-22 12:00:50,831 - INFO     - Inserted/Updated Player: <Mats Zuccarello>
+2025-01-22 12:00:51,148 - INFO     - Inserted/Updated Player: <Jonas Brodin>
+2025-01-22 12:00:51,151 - INFO     - Rosters Inserted for Game 2024020476
+2025-01-22 12:00:51,244 - INFO     - Events Inserted for Game 2024020476
+2025-01-22 12:00:51,383 - INFO     - Shifts Inserted for Game 2024020476
+2025-01-22 12:00:51,971 - INFO     - Rosters Inserted for Game 2024020477
+2025-01-22 12:00:52,081 - INFO     - Events Inserted for Game 2024020477
+2025-01-22 12:00:52,232 - INFO     - Shifts Inserted for Game 2024020477
+2025-01-22 12:00:52,459 - INFO     - Rosters Inserted for Game 2024020478
+2025-01-22 12:00:52,570 - INFO     - Events Inserted for Game 2024020478
+2025-01-22 12:00:52,734 - INFO     - Shifts Inserted for Game 2024020478
+2025-01-22 12:00:53,337 - INFO     - Inserted/Updated Player: <Bobby McMann>
+2025-01-22 12:00:53,707 - INFO     - Inserted/Updated Player: <Jack Campbell>
+2025-01-22 12:00:53,947 - INFO     - Inserted/Updated Player: <Dennis Hildeby>
+2025-01-22 12:00:53,952 - INFO     - Rosters Inserted for Game 2024020479
+2025-01-22 12:00:54,068 - INFO     - Events Inserted for Game 2024020479
+2025-01-22 12:00:54,257 - INFO     - Shifts Inserted for Game 2024020479
+2025-01-22 12:00:54,483 - INFO     - Rosters Inserted for Game 2024020480
+2025-01-22 12:00:54,595 - INFO     - Events Inserted for Game 2024020480
+2025-01-22 12:00:54,744 - INFO     - Shifts Inserted for Game 2024020480
+2025-01-22 12:00:55,043 - INFO     - Rosters Inserted for Game 2024020481
+2025-01-22 12:00:55,431 - INFO     - Events Inserted for Game 2024020481
+2025-01-22 12:00:55,599 - INFO     - Shifts Inserted for Game 2024020481
+2025-01-22 12:00:55,964 - INFO     - Rosters Inserted for Game 2024020482
+2025-01-22 12:00:56,057 - INFO     - Events Inserted for Game 2024020482
+2025-01-22 12:00:56,210 - INFO     - Shifts Inserted for Game 2024020482
+2025-01-22 12:00:56,779 - INFO     - Inserted/Updated Player: <Magnus Hellberg>
+2025-01-22 12:00:57,191 - INFO     - Inserted/Updated Player: <Alexandre Texier>
+2025-01-22 12:00:57,601 - INFO     - Inserted/Updated Player: <Brendan Smith>
+2025-01-22 12:00:57,605 - INFO     - Rosters Inserted for Game 2024020483
+2025-01-22 12:00:57,727 - INFO     - Events Inserted for Game 2024020483
+2025-01-22 12:00:57,901 - INFO     - Shifts Inserted for Game 2024020483
+2025-01-22 12:00:58,126 - INFO     - Rosters Inserted for Game 2024020484
+2025-01-22 12:00:58,221 - INFO     - Events Inserted for Game 2024020484
+2025-01-22 12:00:58,387 - INFO     - Shifts Inserted for Game 2024020484
+2025-01-22 12:00:58,824 - INFO     - Inserted/Updated Player: <Joel Hanley>
+2025-01-22 12:00:59,137 - INFO     - Inserted/Updated Player: <Devin Cooley>
+2025-01-22 12:00:59,142 - INFO     - Rosters Inserted for Game 2024020485
+2025-01-22 12:00:59,252 - INFO     - Events Inserted for Game 2024020485
+2025-01-22 12:00:59,463 - INFO     - Shifts Inserted for Game 2024020485
+2025-01-22 12:00:59,752 - INFO     - Rosters Inserted for Game 2024020486
+2025-01-22 12:01:00,037 - INFO     - Events Inserted for Game 2024020486
+2025-01-22 12:01:00,190 - INFO     - Shifts Inserted for Game 2024020486
+2025-01-22 12:01:00,572 - INFO     - Rosters Inserted for Game 2024020487
+2025-01-22 12:01:00,670 - INFO     - Events Inserted for Game 2024020487
+2025-01-22 12:01:00,825 - INFO     - Shifts Inserted for Game 2024020487
+2025-01-22 12:01:01,331 - INFO     - Inserted/Updated Player: <Declan Carlile>
+2025-01-22 12:01:01,337 - INFO     - Rosters Inserted for Game 2024020488
+2025-01-22 12:01:01,451 - INFO     - Events Inserted for Game 2024020488
+2025-01-22 12:01:01,621 - INFO     - Shifts Inserted for Game 2024020488
+2025-01-22 12:01:01,621 - INFO     - IMPORTING GAMES FOR 2024-12-15
+2025-01-22 12:01:02,108 - INFO     - Games Inserted for 2024-12-15
+2025-01-22 12:01:02,719 - INFO     - Inserted/Updated Player: <Adam Pelech>
+2025-01-22 12:01:03,028 - INFO     - Inserted/Updated Player: <Mathew Barzal>
+2025-01-22 12:01:03,034 - INFO     - Rosters Inserted for Game 2024020489
+2025-01-22 12:01:03,144 - INFO     - Events Inserted for Game 2024020489
+2025-01-22 12:01:03,313 - INFO     - Shifts Inserted for Game 2024020489
+2025-01-22 12:01:04,053 - INFO     - Inserted/Updated Player: <Devon Levi>
+2025-01-22 12:01:04,059 - INFO     - Rosters Inserted for Game 2024020490
+2025-01-22 12:01:04,181 - INFO     - Events Inserted for Game 2024020490
+2025-01-22 12:01:04,333 - INFO     - Shifts Inserted for Game 2024020490
+2025-01-22 12:01:04,671 - INFO     - Rosters Inserted for Game 2024020491
+2025-01-22 12:01:04,784 - INFO     - Events Inserted for Game 2024020491
+2025-01-22 12:01:04,925 - INFO     - Shifts Inserted for Game 2024020491
+2025-01-22 12:01:05,586 - INFO     - Inserted/Updated Player: <Chad Ruhwedel>
+2025-01-22 12:01:05,591 - INFO     - Rosters Inserted for Game 2024020492
+2025-01-22 12:01:05,694 - INFO     - Events Inserted for Game 2024020492
+2025-01-22 12:01:05,930 - INFO     - Shifts Inserted for Game 2024020492
+2025-01-22 12:01:06,510 - INFO     - Inserted/Updated Player: <Travis Dermott>
+2025-01-22 12:01:06,918 - INFO     - Inserted/Updated Player: <Jesper Wallstedt>
+2025-01-22 12:01:06,922 - INFO     - Rosters Inserted for Game 2024020493
+2025-01-22 12:01:07,021 - INFO     - Events Inserted for Game 2024020493
+2025-01-22 12:01:07,174 - INFO     - Shifts Inserted for Game 2024020493
+2025-01-22 12:01:07,175 - INFO     - IMPORTING GAMES FOR 2024-12-16
+2025-01-22 12:01:07,638 - INFO     - Games Inserted for 2024-12-16
+2025-01-22 12:01:08,350 - INFO     - Inserted/Updated Player: <Jakub Vrana>
+2025-01-22 12:01:08,354 - INFO     - Rosters Inserted for Game 2024020494
+2025-01-22 12:01:08,454 - INFO     - Events Inserted for Game 2024020494
+2025-01-22 12:01:08,640 - INFO     - Shifts Inserted for Game 2024020494
+2025-01-22 12:01:08,971 - INFO     - Rosters Inserted for Game 2024020495
+2025-01-22 12:01:09,078 - INFO     - Events Inserted for Game 2024020495
+2025-01-22 12:01:09,231 - INFO     - Shifts Inserted for Game 2024020495
+2025-01-22 12:01:09,988 - INFO     - Inserted/Updated Player: <Tye Felhaber>
+2025-01-22 12:01:09,992 - INFO     - Rosters Inserted for Game 2024020496
+2025-01-22 12:01:10,102 - INFO     - Events Inserted for Game 2024020496
+2025-01-22 12:01:10,250 - INFO     - Shifts Inserted for Game 2024020496
+2025-01-22 12:01:10,250 - INFO     - IMPORTING GAMES FOR 2024-12-17
+2025-01-22 12:01:10,715 - INFO     - Games Inserted for 2024-12-17
+2025-01-22 12:01:10,956 - INFO     - Rosters Inserted for Game 2024020497
+2025-01-22 12:01:11,064 - INFO     - Events Inserted for Game 2024020497
+2025-01-22 12:01:11,214 - INFO     - Shifts Inserted for Game 2024020497
+2025-01-22 12:01:11,532 - INFO     - Rosters Inserted for Game 2024020498
+2025-01-22 12:01:11,639 - INFO     - Events Inserted for Game 2024020498
+2025-01-22 12:01:11,788 - INFO     - Shifts Inserted for Game 2024020498
+2025-01-22 12:01:12,031 - INFO     - Rosters Inserted for Game 2024020499
+2025-01-22 12:01:12,121 - INFO     - Events Inserted for Game 2024020499
+2025-01-22 12:01:12,269 - INFO     - Shifts Inserted for Game 2024020499
+2025-01-22 12:01:12,524 - INFO     - Rosters Inserted for Game 2024020500
+2025-01-22 12:01:12,622 - INFO     - Events Inserted for Game 2024020500
+2025-01-22 12:01:12,776 - INFO     - Shifts Inserted for Game 2024020500
+2025-01-22 12:01:13,369 - INFO     - Inserted/Updated Player: <Curtis Lazar>
+2025-01-22 12:01:13,374 - INFO     - Rosters Inserted for Game 2024020501
+2025-01-22 12:01:13,517 - INFO     - Events Inserted for Game 2024020501
+2025-01-22 12:01:13,679 - INFO     - Shifts Inserted for Game 2024020501
+2025-01-22 12:01:14,388 - INFO     - Inserted/Updated Player: <Urho Vaakanainen>
+2025-01-22 12:01:14,391 - INFO     - Rosters Inserted for Game 2024020502
+2025-01-22 12:01:14,489 - INFO     - Events Inserted for Game 2024020502
+2025-01-22 12:01:14,643 - INFO     - Shifts Inserted for Game 2024020502
+2025-01-22 12:01:14,880 - INFO     - Rosters Inserted for Game 2024020503
+2025-01-22 12:01:15,138 - INFO     - Events Inserted for Game 2024020503
+2025-01-22 12:01:15,301 - INFO     - Shifts Inserted for Game 2024020503
+2025-01-22 12:01:15,538 - INFO     - Rosters Inserted for Game 2024020504
+2025-01-22 12:01:15,626 - INFO     - Events Inserted for Game 2024020504
+2025-01-22 12:01:15,781 - INFO     - Shifts Inserted for Game 2024020504
+2025-01-22 12:01:16,370 - INFO     - Inserted/Updated Player: <Leevi Merilainen>
+2025-01-22 12:01:16,374 - INFO     - Rosters Inserted for Game 2024020505
+2025-01-22 12:01:16,497 - INFO     - Events Inserted for Game 2024020505
+2025-01-22 12:01:16,637 - INFO     - Shifts Inserted for Game 2024020505
+2025-01-22 12:01:16,849 - INFO     - Rosters Inserted for Game 2024020506
+2025-01-22 12:01:16,947 - INFO     - Events Inserted for Game 2024020506
+2025-01-22 12:01:17,098 - INFO     - Shifts Inserted for Game 2024020506
+2025-01-22 12:01:17,099 - INFO     - IMPORTING GAMES FOR 2024-12-18
+2025-01-22 12:01:17,570 - INFO     - Games Inserted for 2024-12-18
+2025-01-22 12:01:18,184 - INFO     - Inserted/Updated Player: <Alex Lyon>
+2025-01-22 12:01:18,190 - INFO     - Rosters Inserted for Game 2024020507
+2025-01-22 12:01:18,289 - INFO     - Events Inserted for Game 2024020507
+2025-01-22 12:01:18,428 - INFO     - Shifts Inserted for Game 2024020507
+2025-01-22 12:01:18,895 - INFO     - Inserted/Updated Player: <David Kampf>
+2025-01-22 12:01:18,899 - INFO     - Rosters Inserted for Game 2024020508
+2025-01-22 12:01:18,999 - INFO     - Events Inserted for Game 2024020508
+2025-01-22 12:01:19,171 - INFO     - Shifts Inserted for Game 2024020508
+2025-01-22 12:01:19,815 - INFO     - Inserted/Updated Player: <Brendan Gaunce>
+2025-01-22 12:01:19,819 - INFO     - Rosters Inserted for Game 2024020509
+2025-01-22 12:01:19,916 - INFO     - Events Inserted for Game 2024020509
+2025-01-22 12:01:20,173 - INFO     - Shifts Inserted for Game 2024020509
+2025-01-22 12:01:20,404 - INFO     - Rosters Inserted for Game 2024020510
+2025-01-22 12:01:20,510 - INFO     - Events Inserted for Game 2024020510
+2025-01-22 12:01:20,685 - INFO     - Shifts Inserted for Game 2024020510
+2025-01-22 12:01:20,975 - INFO     - Inserted/Updated Player: <Nikolaj Ehlers>
+2025-01-22 12:01:20,978 - INFO     - Rosters Inserted for Game 2024020511
+2025-01-22 12:01:21,082 - INFO     - Events Inserted for Game 2024020511
+2025-01-22 12:01:21,225 - INFO     - Shifts Inserted for Game 2024020511
+2025-01-22 12:01:21,226 - INFO     - IMPORTING GAMES FOR 2024-12-19
+2025-01-22 12:01:21,731 - INFO     - Games Inserted for 2024-12-19
+2025-01-22 12:01:22,373 - INFO     - Inserted/Updated Player: <Tyler Tucker>
+2025-01-22 12:01:22,376 - INFO     - Rosters Inserted for Game 2024020512
+2025-01-22 12:01:22,462 - INFO     - Events Inserted for Game 2024020512
+2025-01-22 12:01:22,642 - INFO     - Shifts Inserted for Game 2024020512
+2025-01-22 12:01:23,303 - INFO     - Inserted/Updated Player: <James Malatesta>
+2025-01-22 12:01:23,309 - INFO     - Rosters Inserted for Game 2024020514
+2025-01-22 12:01:23,418 - INFO     - Events Inserted for Game 2024020514
+2025-01-22 12:01:23,567 - INFO     - Shifts Inserted for Game 2024020514
+2025-01-22 12:01:23,771 - INFO     - Rosters Inserted for Game 2024020513
+2025-01-22 12:01:23,853 - INFO     - Events Inserted for Game 2024020513
+2025-01-22 12:01:23,995 - INFO     - Shifts Inserted for Game 2024020513
+2025-01-22 12:01:24,309 - INFO     - Inserted/Updated Player: <Jeremy Lauzon>
+2025-01-22 12:01:24,314 - INFO     - Rosters Inserted for Game 2024020515
+2025-01-22 12:01:24,414 - INFO     - Events Inserted for Game 2024020515
+2025-01-22 12:01:24,551 - INFO     - Shifts Inserted for Game 2024020515
+2025-01-22 12:01:24,781 - INFO     - Rosters Inserted for Game 2024020516
+2025-01-22 12:01:24,877 - INFO     - Events Inserted for Game 2024020516
+2025-01-22 12:01:25,047 - INFO     - Shifts Inserted for Game 2024020516
+2025-01-22 12:01:25,290 - INFO     - Rosters Inserted for Game 2024020517
+2025-01-22 12:01:25,666 - INFO     - Events Inserted for Game 2024020517
+2025-01-22 12:01:25,818 - INFO     - Shifts Inserted for Game 2024020517
+2025-01-22 12:01:26,469 - INFO     - Inserted/Updated Player: <Viktor Arvidsson>
+2025-01-22 12:01:26,473 - INFO     - Rosters Inserted for Game 2024020518
+2025-01-22 12:01:26,567 - INFO     - Events Inserted for Game 2024020518
+2025-01-22 12:01:26,738 - INFO     - Shifts Inserted for Game 2024020518
+2025-01-22 12:01:27,299 - INFO     - Inserted/Updated Player: <Linus Karlsson>
+2025-01-22 12:01:27,603 - INFO     - Inserted/Updated Player: <Phillip Di Giuseppe>
+2025-01-22 12:01:28,016 - INFO     - Inserted/Updated Player: <Tanner Laczynski>
+2025-01-22 12:01:28,022 - INFO     - Rosters Inserted for Game 2024020519
+2025-01-22 12:01:28,129 - INFO     - Events Inserted for Game 2024020519
+2025-01-22 12:01:28,277 - INFO     - Shifts Inserted for Game 2024020519
+2025-01-22 12:01:28,934 - INFO     - Inserted/Updated Player: <Yaroslav Askarov>
+2025-01-22 12:01:28,939 - INFO     - Rosters Inserted for Game 2024020520
+2025-01-22 12:01:29,038 - INFO     - Events Inserted for Game 2024020520
+2025-01-22 12:01:29,180 - INFO     - Shifts Inserted for Game 2024020520
+2025-01-22 12:01:29,180 - INFO     - IMPORTING GAMES FOR 2024-12-20
+2025-01-22 12:01:29,655 - INFO     - Games Inserted for 2024-12-20
+2025-01-22 12:01:30,264 - INFO     - Inserted/Updated Player: <Sam Lafferty>
+2025-01-22 12:01:30,673 - INFO     - Inserted/Updated Player: <Matt Murray>
+2025-01-22 12:01:30,678 - INFO     - Rosters Inserted for Game 2024020521
+2025-01-22 12:01:30,923 - INFO     - Events Inserted for Game 2024020521
+2025-01-22 12:01:31,088 - INFO     - Shifts Inserted for Game 2024020521
+2025-01-22 12:01:31,310 - INFO     - Rosters Inserted for Game 2024020522
+2025-01-22 12:01:31,412 - INFO     - Events Inserted for Game 2024020522
+2025-01-22 12:01:31,836 - INFO     - Shifts Inserted for Game 2024020522
+2025-01-22 12:01:32,113 - INFO     - Rosters Inserted for Game 2024020523
+2025-01-22 12:01:32,225 - INFO     - Events Inserted for Game 2024020523
+2025-01-22 12:01:32,431 - INFO     - Shifts Inserted for Game 2024020523
+2025-01-22 12:01:32,722 - INFO     - Rosters Inserted for Game 2024020524
+2025-01-22 12:01:32,836 - INFO     - Events Inserted for Game 2024020524
+2025-01-22 12:01:32,978 - INFO     - Shifts Inserted for Game 2024020524
+2025-01-22 12:01:33,538 - INFO     - Inserted/Updated Player: <Matt Rempe>
+2025-01-22 12:01:33,542 - INFO     - Rosters Inserted for Game 2024020525
+2025-01-22 12:01:33,642 - INFO     - Events Inserted for Game 2024020525
+2025-01-22 12:01:33,792 - INFO     - Shifts Inserted for Game 2024020525
+2025-01-22 12:01:34,042 - INFO     - Rosters Inserted for Game 2024020526
+2025-01-22 12:01:34,138 - INFO     - Events Inserted for Game 2024020526
+2025-01-22 12:01:34,288 - INFO     - Shifts Inserted for Game 2024020526
+2025-01-22 12:01:34,873 - INFO     - Inserted/Updated Player: <Jere Innala>
+2025-01-22 12:01:34,879 - INFO     - Rosters Inserted for Game 2024020527
+2025-01-22 12:01:34,997 - INFO     - Events Inserted for Game 2024020527
+2025-01-22 12:01:35,165 - INFO     - Shifts Inserted for Game 2024020527
+2025-01-22 12:01:35,166 - INFO     - IMPORTING GAMES FOR 2024-12-21
+2025-01-22 12:01:35,590 - INFO     - Games Inserted for 2024-12-21
+2025-01-22 12:01:36,008 - INFO     - Rosters Inserted for Game 2024020528
+2025-01-22 12:01:36,383 - INFO     - Events Inserted for Game 2024020528
+2025-01-22 12:01:36,569 - INFO     - Shifts Inserted for Game 2024020528
+2025-01-22 12:01:37,126 - INFO     - Inserted/Updated Player: <Seth Jones>
+2025-01-22 12:01:37,130 - INFO     - Rosters Inserted for Game 2024020529
+2025-01-22 12:01:37,242 - INFO     - Events Inserted for Game 2024020529
+2025-01-22 12:01:37,397 - INFO     - Shifts Inserted for Game 2024020529
+2025-01-22 12:01:37,637 - INFO     - Rosters Inserted for Game 2024020530
+2025-01-22 12:01:37,744 - INFO     - Events Inserted for Game 2024020530
+2025-01-22 12:01:37,892 - INFO     - Shifts Inserted for Game 2024020530
+2025-01-22 12:01:38,111 - INFO     - Rosters Inserted for Game 2024020531
+2025-01-22 12:01:38,214 - INFO     - Events Inserted for Game 2024020531
+2025-01-22 12:01:38,375 - INFO     - Shifts Inserted for Game 2024020531
+2025-01-22 12:01:39,072 - INFO     - Inserted/Updated Player: <Anthony Duclair>
+2025-01-22 12:01:39,077 - INFO     - Rosters Inserted for Game 2024020532
+2025-01-22 12:01:39,204 - INFO     - Events Inserted for Game 2024020532
+2025-01-22 12:01:39,367 - INFO     - Shifts Inserted for Game 2024020532
+2025-01-22 12:01:39,995 - INFO     - Inserted/Updated Player: <William Lagesson>
+2025-01-22 12:01:39,999 - INFO     - Rosters Inserted for Game 2024020533
+2025-01-22 12:01:40,102 - INFO     - Events Inserted for Game 2024020533
+2025-01-22 12:01:40,259 - INFO     - Shifts Inserted for Game 2024020533
+2025-01-22 12:01:40,611 - INFO     - Rosters Inserted for Game 2024020534
+2025-01-22 12:01:40,712 - INFO     - Events Inserted for Game 2024020534
+2025-01-22 12:01:40,872 - INFO     - Shifts Inserted for Game 2024020534
+2025-01-22 12:01:41,273 - INFO     - Inserted/Updated Player: <Olle Lycksell>
+2025-01-22 12:01:41,278 - INFO     - Rosters Inserted for Game 2024020535
+2025-01-22 12:01:41,380 - INFO     - Events Inserted for Game 2024020535
+2025-01-22 12:01:41,547 - INFO     - Shifts Inserted for Game 2024020535
+2025-01-22 12:01:42,249 - INFO     - Inserted/Updated Player: <Travis Boyd>
+2025-01-22 12:01:42,254 - INFO     - Rosters Inserted for Game 2024020536
+2025-01-22 12:01:42,360 - INFO     - Events Inserted for Game 2024020536
+2025-01-22 12:01:42,567 - INFO     - Shifts Inserted for Game 2024020536
+2025-01-22 12:01:42,785 - INFO     - Rosters Inserted for Game 2024020537
+2025-01-22 12:01:42,882 - INFO     - Events Inserted for Game 2024020537
+2025-01-22 12:01:43,047 - INFO     - Shifts Inserted for Game 2024020537
+2025-01-22 12:01:43,285 - INFO     - Rosters Inserted for Game 2024020538
+2025-01-22 12:01:43,414 - INFO     - Events Inserted for Game 2024020538
+2025-01-22 12:01:43,563 - INFO     - Shifts Inserted for Game 2024020538
+2025-01-22 12:01:43,563 - INFO     - IMPORTING GAMES FOR 2024-12-22
+2025-01-22 12:01:43,989 - INFO     - Games Inserted for 2024-12-22
+2025-01-22 12:01:44,219 - INFO     - Rosters Inserted for Game 2024020539
+2025-01-22 12:01:44,326 - INFO     - Events Inserted for Game 2024020539
+2025-01-22 12:01:44,473 - INFO     - Shifts Inserted for Game 2024020539
+2025-01-22 12:01:45,216 - INFO     - Inserted/Updated Player: <Rasmus Asplund>
+2025-01-22 12:01:45,221 - INFO     - Rosters Inserted for Game 2024020540
+2025-01-22 12:01:45,496 - INFO     - Events Inserted for Game 2024020540
+2025-01-22 12:01:45,638 - INFO     - Shifts Inserted for Game 2024020540
+2025-01-22 12:01:46,241 - INFO     - Inserted/Updated Player: <Andre Lee>
+2025-01-22 12:01:46,246 - INFO     - Rosters Inserted for Game 2024020541
+2025-01-22 12:01:46,357 - INFO     - Events Inserted for Game 2024020541
+2025-01-22 12:01:46,508 - INFO     - Shifts Inserted for Game 2024020541
+2025-01-22 12:01:47,262 - INFO     - Inserted/Updated Player: <Dakota Mermis>
+2025-01-22 12:01:47,268 - INFO     - Rosters Inserted for Game 2024020542
+2025-01-22 12:01:47,382 - INFO     - Events Inserted for Game 2024020542
+2025-01-22 12:01:47,551 - INFO     - Shifts Inserted for Game 2024020542
+2025-01-22 12:01:48,184 - INFO     - Inserted/Updated Player: <Ben Meyers>
+2025-01-22 12:01:48,189 - INFO     - Rosters Inserted for Game 2024020543
+2025-01-22 12:01:48,298 - INFO     - Events Inserted for Game 2024020543
+2025-01-22 12:01:48,440 - INFO     - Shifts Inserted for Game 2024020543
+2025-01-22 12:01:49,312 - INFO     - Inserted/Updated Player: <Cole Reinhardt>
+2025-01-22 12:01:49,317 - INFO     - Rosters Inserted for Game 2024020544
+2025-01-22 12:01:49,423 - INFO     - Events Inserted for Game 2024020544
+2025-01-22 12:01:49,598 - INFO     - Shifts Inserted for Game 2024020544
+2025-01-22 12:01:49,598 - INFO     - IMPORTING GAMES FOR 2024-12-23
+2025-01-22 12:01:50,029 - INFO     - Games Inserted for 2024-12-23
+2025-01-22 12:01:50,271 - INFO     - Rosters Inserted for Game 2024020545
+2025-01-22 12:01:50,399 - INFO     - Events Inserted for Game 2024020545
+2025-01-22 12:01:50,574 - INFO     - Shifts Inserted for Game 2024020545
+2025-01-22 12:01:50,849 - INFO     - Rosters Inserted for Game 2024020546
+2025-01-22 12:01:50,940 - INFO     - Events Inserted for Game 2024020546
+2025-01-22 12:01:51,089 - INFO     - Shifts Inserted for Game 2024020546
+2025-01-22 12:01:51,588 - INFO     - Inserted/Updated Player: <Dylan McIlrath>
+2025-01-22 12:01:51,593 - INFO     - Rosters Inserted for Game 2024020547
+2025-01-22 12:01:51,693 - INFO     - Events Inserted for Game 2024020547
+2025-01-22 12:01:51,873 - INFO     - Shifts Inserted for Game 2024020547
+2025-01-22 12:01:52,101 - INFO     - Rosters Inserted for Game 2024020548
+2025-01-22 12:01:52,218 - INFO     - Events Inserted for Game 2024020548
+2025-01-22 12:01:52,352 - INFO     - Shifts Inserted for Game 2024020548
+2025-01-22 12:01:52,699 - INFO     - Rosters Inserted for Game 2024020549
+2025-01-22 12:01:52,813 - INFO     - Events Inserted for Game 2024020549
+2025-01-22 12:01:52,965 - INFO     - Shifts Inserted for Game 2024020549
+2025-01-22 12:01:53,208 - INFO     - Rosters Inserted for Game 2024020550
+2025-01-22 12:01:53,307 - INFO     - Events Inserted for Game 2024020550
+2025-01-22 12:01:53,552 - INFO     - Shifts Inserted for Game 2024020550
+2025-01-22 12:01:54,125 - INFO     - Inserted/Updated Player: <Denton Mateychuk>
+2025-01-22 12:01:54,130 - INFO     - Rosters Inserted for Game 2024020551
+2025-01-22 12:01:54,239 - INFO     - Events Inserted for Game 2024020551
+2025-01-22 12:01:54,388 - INFO     - Shifts Inserted for Game 2024020551
+2025-01-22 12:01:54,636 - INFO     - Rosters Inserted for Game 2024020552
+2025-01-22 12:01:54,750 - INFO     - Events Inserted for Game 2024020552
+2025-01-22 12:01:54,901 - INFO     - Shifts Inserted for Game 2024020552
+2025-01-22 12:01:55,098 - INFO     - Rosters Inserted for Game 2024020553
+2025-01-22 12:01:55,191 - INFO     - Events Inserted for Game 2024020553
+2025-01-22 12:01:55,354 - INFO     - Shifts Inserted for Game 2024020553
+2025-01-22 12:01:55,592 - INFO     - Rosters Inserted for Game 2024020554
+2025-01-22 12:01:55,695 - INFO     - Events Inserted for Game 2024020554
+2025-01-22 12:01:56,096 - INFO     - Shifts Inserted for Game 2024020554
+2025-01-22 12:01:56,314 - INFO     - Rosters Inserted for Game 2024020555
+2025-01-22 12:01:56,418 - INFO     - Events Inserted for Game 2024020555
+2025-01-22 12:01:56,565 - INFO     - Shifts Inserted for Game 2024020555
+2025-01-22 12:01:56,896 - INFO     - Rosters Inserted for Game 2024020556
+2025-01-22 12:01:57,025 - INFO     - Events Inserted for Game 2024020556
+2025-01-22 12:01:57,191 - INFO     - Shifts Inserted for Game 2024020556
+2025-01-22 12:01:57,510 - INFO     - Rosters Inserted for Game 2024020557
+2025-01-22 12:01:57,897 - INFO     - Events Inserted for Game 2024020557
+2025-01-22 12:01:58,043 - INFO     - Shifts Inserted for Game 2024020557
+2025-01-22 12:01:58,044 - INFO     - IMPORTING GAMES FOR 2024-12-24
+2025-01-22 12:09:08,459 - INFO     - INITIALISING DATABASE
+2025-01-22 12:09:08,562 - ERROR    - Failed to Insert Teams
+2025-01-22 12:09:08,563 - ERROR    - Failed to Inserted Game Types
+2025-01-22 12:09:08,563 - INFO     - IMPORTING GAMES FOR 2024-12-24
+2025-01-22 12:09:47,558 - INFO     - INITIALISING DATABASE
+2025-01-22 12:09:47,688 - ERROR    - Failed to Insert Teams
+2025-01-22 12:09:47,689 - ERROR    - Failed to Inserted Game Types
+2025-01-22 12:09:47,689 - INFO     - IMPORTING GAMES FOR 2024-12-24
+2025-01-22 12:09:48,138 - WARNING  - No games found
+2025-01-22 12:09:48,138 - INFO     - IMPORTING GAMES FOR 2024-12-25
+2025-01-22 12:09:48,545 - WARNING  - No games found
+2025-01-22 12:09:48,545 - INFO     - IMPORTING GAMES FOR 2024-12-26
+2025-01-22 12:09:48,961 - WARNING  - No games found
+2025-01-22 12:09:48,961 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 12:09:49,439 - INFO     - Games Inserted for 2024-12-27
+2025-01-22 12:09:49,672 - INFO     - Rosters Inserted for Game 2024020558
+2025-01-22 12:09:49,774 - INFO     - Events Inserted for Game 2024020558
+2025-01-22 12:22:30,117 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 12:22:30,536 - ERROR    - Failed to insert games for 2024-12-27
+2025-01-22 12:22:30,536 - INFO     - IMPORTING GAMES FOR 2024-12-28
+2025-01-22 12:22:30,963 - INFO     - Games Inserted for 2024-12-28
+2025-01-22 12:22:31,434 - INFO     - Inserted/Updated Player: <Jakub Dobes>
+2025-01-22 12:22:31,439 - INFO     - Rosters Inserted for Game 2024020566
+2025-01-22 12:22:31,548 - INFO     - Events Inserted for Game 2024020566
+2025-01-22 12:22:31,668 - ERROR    - No shift data for Game 2024020566
+2025-01-22 12:22:32,174 - INFO     - Inserted/Updated Player: <Ales Stezka>
+2025-01-22 12:22:32,177 - INFO     - Rosters Inserted for Game 2024020567
+2025-01-22 12:22:32,267 - INFO     - Events Inserted for Game 2024020567
+2025-01-22 12:22:32,338 - ERROR    - No shift data for Game 2024020567
+2025-01-22 12:22:32,991 - INFO     - Inserted/Updated Player: <Calle Clang>
+2025-01-22 12:22:32,996 - INFO     - Rosters Inserted for Game 2024020568
+2025-01-22 12:22:33,111 - INFO     - Events Inserted for Game 2024020568
+2025-01-22 12:22:33,185 - ERROR    - No shift data for Game 2024020568
+2025-01-22 12:22:33,423 - INFO     - Rosters Inserted for Game 2024020569
+2025-01-22 12:22:33,525 - INFO     - Events Inserted for Game 2024020569
+2025-01-22 12:22:33,594 - ERROR    - No shift data for Game 2024020569
+2025-01-22 12:22:34,134 - INFO     - Inserted/Updated Player: <Fabian Lysell>
+2025-01-22 12:22:34,136 - INFO     - Rosters Inserted for Game 2024020570
+2025-01-22 12:22:34,228 - INFO     - Events Inserted for Game 2024020570
+2025-01-22 12:22:34,305 - ERROR    - No shift data for Game 2024020570
+2025-01-22 12:22:34,703 - INFO     - Inserted/Updated Player: <Alex Ovechkin>
+2025-01-22 12:22:34,706 - INFO     - Rosters Inserted for Game 2024020571
+2025-01-22 12:22:34,807 - INFO     - Events Inserted for Game 2024020571
+2025-01-22 12:22:34,878 - ERROR    - No shift data for Game 2024020571
+2025-01-22 12:22:35,144 - INFO     - Rosters Inserted for Game 2024020572
+2025-01-22 12:22:35,244 - INFO     - Events Inserted for Game 2024020572
+2025-01-22 12:22:35,318 - ERROR    - No shift data for Game 2024020572
+2025-01-22 12:22:35,880 - INFO     - Inserted/Updated Player: <Ty Smith>
+2025-01-22 12:22:35,885 - INFO     - Rosters Inserted for Game 2024020573
+2025-01-22 12:22:35,987 - INFO     - Events Inserted for Game 2024020573
+2025-01-22 12:22:36,059 - ERROR    - No shift data for Game 2024020573
+2025-01-22 12:22:36,683 - INFO     - Inserted/Updated Player: <Mads Sogaard>
+2025-01-22 12:22:36,689 - INFO     - Rosters Inserted for Game 2024020574
+2025-01-22 12:22:36,806 - INFO     - Events Inserted for Game 2024020574
+2025-01-22 12:22:36,879 - ERROR    - No shift data for Game 2024020574
+2025-01-22 12:22:37,092 - INFO     - Rosters Inserted for Game 2024020575
+2025-01-22 12:22:37,193 - INFO     - Events Inserted for Game 2024020575
+2025-01-22 12:22:37,286 - ERROR    - No shift data for Game 2024020575
+2025-01-22 12:22:37,523 - INFO     - Rosters Inserted for Game 2024020576
+2025-01-22 12:22:37,649 - INFO     - Events Inserted for Game 2024020576
+2025-01-22 12:22:37,717 - ERROR    - No shift data for Game 2024020576
+2025-01-22 12:22:37,717 - INFO     - IMPORTING GAMES FOR 2024-12-29
+2025-01-22 12:22:37,786 - INFO     - Games Inserted for 2024-12-29
+2025-01-22 12:22:38,004 - INFO     - Rosters Inserted for Game 2024020582
+2025-01-22 12:22:38,102 - INFO     - Events Inserted for Game 2024020582
+2025-01-22 12:22:38,172 - ERROR    - No shift data for Game 2024020582
+2025-01-22 12:22:38,418 - INFO     - Rosters Inserted for Game 2024020578
+2025-01-22 12:22:38,520 - INFO     - Events Inserted for Game 2024020578
+2025-01-22 12:22:38,590 - ERROR    - No shift data for Game 2024020578
+2025-01-22 12:22:38,931 - INFO     - Rosters Inserted for Game 2024020579
+2025-01-22 12:22:39,030 - INFO     - Events Inserted for Game 2024020579
+2025-01-22 12:22:39,109 - ERROR    - No shift data for Game 2024020579
+2025-01-22 12:22:39,342 - INFO     - Rosters Inserted for Game 2024020580
+2025-01-22 12:22:39,474 - INFO     - Events Inserted for Game 2024020580
+2025-01-22 12:22:39,546 - ERROR    - No shift data for Game 2024020580
+2025-01-22 12:22:40,263 - INFO     - Inserted/Updated Player: <Nathan Clurman>
+2025-01-22 12:22:40,268 - INFO     - Rosters Inserted for Game 2024020581
+2025-01-22 12:22:40,377 - INFO     - Events Inserted for Game 2024020581
+2025-01-22 12:22:40,450 - ERROR    - No shift data for Game 2024020581
+2025-01-22 12:22:41,009 - INFO     - Inserted/Updated Player: <Nikolas Matinpalo>
+2025-01-22 12:22:41,015 - INFO     - Rosters Inserted for Game 2024020583
+2025-01-22 12:22:41,125 - INFO     - Events Inserted for Game 2024020583
+2025-01-22 12:22:41,202 - ERROR    - No shift data for Game 2024020583
+2025-01-22 12:22:41,447 - INFO     - Rosters Inserted for Game 2024020584
+2025-01-22 12:22:41,552 - INFO     - Events Inserted for Game 2024020584
+2025-01-22 12:22:41,625 - ERROR    - No shift data for Game 2024020584
+2025-01-22 12:22:42,211 - INFO     - Inserted/Updated Player: <Justin Hryckowian>
+2025-01-22 12:22:42,216 - INFO     - Rosters Inserted for Game 2024020577
+2025-01-22 12:22:42,317 - INFO     - Events Inserted for Game 2024020577
+2025-01-22 12:22:42,408 - ERROR    - No shift data for Game 2024020577
+2025-01-22 12:22:42,641 - INFO     - Rosters Inserted for Game 2024020585
+2025-01-22 12:22:42,748 - INFO     - Events Inserted for Game 2024020585
+2025-01-22 12:22:42,823 - ERROR    - No shift data for Game 2024020585
+2025-01-22 12:22:42,823 - INFO     - IMPORTING GAMES FOR 2024-12-30
+2025-01-22 12:22:42,895 - INFO     - Games Inserted for 2024-12-30
+2025-01-22 12:22:43,120 - INFO     - Rosters Inserted for Game 2024020586
+2025-01-22 12:22:43,234 - INFO     - Events Inserted for Game 2024020586
+2025-01-22 12:22:43,330 - ERROR    - No shift data for Game 2024020586
+2025-01-22 12:22:43,951 - INFO     - Inserted/Updated Player: <Vinnie Hinostroza>
+2025-01-22 12:22:44,360 - INFO     - Inserted/Updated Player: <Dylan Coghlan>
+2025-01-22 12:22:44,365 - INFO     - Rosters Inserted for Game 2024020587
+2025-01-22 12:22:44,480 - INFO     - Events Inserted for Game 2024020587
+2025-01-22 12:22:44,557 - ERROR    - No shift data for Game 2024020587
+2025-01-22 12:22:44,877 - INFO     - Rosters Inserted for Game 2024020588
+2025-01-22 12:22:45,218 - INFO     - Events Inserted for Game 2024020588
+2025-01-22 12:22:45,295 - ERROR    - No shift data for Game 2024020588
+2025-01-22 12:22:45,295 - INFO     - IMPORTING GAMES FOR 2024-12-31
+2025-01-22 12:22:45,752 - INFO     - Games Inserted for 2024-12-31
+2025-01-22 12:22:46,078 - INFO     - Rosters Inserted for Game 2024020589
+2025-01-22 12:22:46,192 - INFO     - Events Inserted for Game 2024020589
+2025-01-22 12:22:46,285 - ERROR    - No shift data for Game 2024020589
+2025-01-22 12:22:46,500 - INFO     - Rosters Inserted for Game 2024020590
+2025-01-22 12:22:46,642 - INFO     - Events Inserted for Game 2024020590
+2025-01-22 12:22:46,725 - ERROR    - No shift data for Game 2024020590
+2025-01-22 12:22:47,328 - INFO     - Inserted/Updated Player: <Jonas Rondbjerg>
+2025-01-22 12:22:47,332 - INFO     - Rosters Inserted for Game 2024020591
+2025-01-22 12:22:47,427 - INFO     - Events Inserted for Game 2024020591
+2025-01-22 12:22:47,503 - ERROR    - No shift data for Game 2024020591
+2025-01-22 12:22:47,844 - INFO     - Rosters Inserted for Game 2024020592
+2025-01-22 12:22:47,951 - INFO     - Events Inserted for Game 2024020592
+2025-01-22 12:22:48,025 - ERROR    - No shift data for Game 2024020592
+2025-01-22 12:22:48,265 - INFO     - Rosters Inserted for Game 2024020593
+2025-01-22 12:22:48,363 - INFO     - Events Inserted for Game 2024020593
+2025-01-22 12:22:48,434 - ERROR    - No shift data for Game 2024020593
+2025-01-22 12:22:48,771 - INFO     - Rosters Inserted for Game 2024020594
+2025-01-22 12:22:48,890 - INFO     - Events Inserted for Game 2024020594
+2025-01-22 12:22:48,968 - ERROR    - No shift data for Game 2024020594
+2025-01-22 12:22:49,173 - INFO     - Rosters Inserted for Game 2024020595
+2025-01-22 12:22:49,276 - INFO     - Events Inserted for Game 2024020595
+2025-01-22 12:22:49,351 - ERROR    - No shift data for Game 2024020595
+2025-01-22 12:22:49,688 - INFO     - Rosters Inserted for Game 2024020596
+2025-01-22 12:22:49,802 - INFO     - Events Inserted for Game 2024020596
+2025-01-22 12:22:49,871 - ERROR    - No shift data for Game 2024020596
+2025-01-22 12:22:50,406 - INFO     - Inserted/Updated Player: <Josh Manson>
+2025-01-22 12:22:50,709 - INFO     - Inserted/Updated Player: <Jonathan Drouin>
+2025-01-22 12:22:50,714 - INFO     - Rosters Inserted for Game 2024020597
+2025-01-22 12:22:50,831 - INFO     - Events Inserted for Game 2024020597
+2025-01-22 12:22:50,905 - ERROR    - No shift data for Game 2024020597
+2025-01-22 12:22:51,141 - INFO     - Rosters Inserted for Game 2024020598
+2025-01-22 12:22:51,247 - INFO     - Events Inserted for Game 2024020598
+2025-01-22 12:22:51,317 - ERROR    - No shift data for Game 2024020598
+2025-01-22 12:22:51,561 - INFO     - Rosters Inserted for Game 2024020599
+2025-01-22 12:22:51,661 - INFO     - Events Inserted for Game 2024020599
+2025-01-22 12:22:51,733 - ERROR    - No shift data for Game 2024020599
+2025-01-22 12:22:51,965 - INFO     - Rosters Inserted for Game 2024020600
+2025-01-22 12:22:52,073 - INFO     - Events Inserted for Game 2024020600
+2025-01-22 12:22:52,143 - ERROR    - No shift data for Game 2024020600
+2025-01-22 12:22:52,757 - INFO     - Inserted/Updated Player: <Liam O'Brien>
+2025-01-22 12:22:52,762 - INFO     - Rosters Inserted for Game 2024020601
+2025-01-22 12:22:52,877 - INFO     - Events Inserted for Game 2024020601
+2025-01-22 12:22:53,000 - ERROR    - No shift data for Game 2024020601
+2025-01-22 13:36:21,417 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:36:21,890 - ERROR    - Failed to insert games for 2024-12-27
+2025-01-22 13:38:56,931 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:38:57,382 - ERROR    - Failed to insert games for 2024-12-27
+2025-01-22 13:39:31,756 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:39:31,762 - DEBUG    - Starting new HTTPS connection (1): api-web.nhle.com:443
+2025-01-22 13:39:32,172 - DEBUG    - https://api-web.nhle.com:443 "GET /v1/schedule/2024-12-27 HTTP/1.1" 200 None
+2025-01-22 13:39:32,207 - ERROR    - Failed to insert games for 2024-12-27
+2025-01-22 13:39:32,207 - DEBUG    - INSERT INTO games (id, season, "gameType", "neutralSite", "startTimeUTC", "venueUTCOffset", "gameState", "gameScheduleState", "defaultVenue", "awayTeamID", "awayTeamScore", "homeTeamID", "homeTeamScore", "maxRegulationPeriods", "lastPeriodType", "metaDateTime") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-22 13:39:32,207 - DEBUG    - UNIQUE constraint failed: games.id
+2025-01-22 13:46:32,186 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:46:32,189 - DEBUG    - Starting new HTTPS connection (1): api-web.nhle.com:443
+2025-01-22 13:46:32,629 - DEBUG    - https://api-web.nhle.com:443 "GET /v1/schedule/2024-12-27 HTTP/1.1" 200 None
+2025-01-22 13:46:32,647 - ERROR    - Failed to insert games for 2024-12-27
+2025-01-22 13:46:32,647 - DEBUG    - INSERT INTO games (id, season, "gameType", "neutralSite", "startTimeUTC", "venueUTCOffset", "gameState", "gameScheduleState", "defaultVenue", "awayTeamID", "awayTeamScore", "homeTeamID", "homeTeamScore", "maxRegulationPeriods", "lastPeriodType", "metaDateTime") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-22 13:46:32,647 - DEBUG    - UNIQUE constraint failed: games.id
+2025-01-22 13:47:05,096 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:47:05,617 - INFO     - Inserted Game Game: <16 @ 7 2024-12-28 00:00:00>
+2025-01-22 13:47:05,618 - INFO     - Inserted Game Game: <10 @ 17 2024-12-28 00:00:00>
+2025-01-22 13:47:05,619 - INFO     - Inserted Game Game: <12 @ 1 2024-12-28 00:00:00>
+2025-01-22 13:47:05,619 - INFO     - Inserted Game Game: <6 @ 29 2024-12-28 00:00:00>
+2025-01-22 13:47:05,620 - INFO     - Inserted Game Game: <18 @ 19 2024-12-28 01:00:00>
+2025-01-22 13:47:05,620 - INFO     - Inserted Game Game: <30 @ 25 2024-12-28 01:00:00>
+2025-01-22 13:47:05,620 - INFO     - Inserted Game Game: <21 @ 59 2024-12-28 02:30:00>
+2025-01-22 13:47:05,621 - INFO     - Inserted Game Game: <54 @ 28 2024-12-28 03:30:00>
+2025-01-22 13:50:10,114 - INFO     - IMPORTING GAMES FOR 2024-12-27
+2025-01-22 13:50:10,568 - INFO     - Inserted Game Game: <16 @ 7 2024-12-28 00:00:00>
+2025-01-22 13:50:10,570 - INFO     - Inserted Game Game: <10 @ 17 2024-12-28 00:00:00>
+2025-01-22 13:50:10,570 - INFO     - Inserted Game Game: <12 @ 1 2024-12-28 00:00:00>
+2025-01-22 13:50:10,571 - INFO     - Inserted Game Game: <6 @ 29 2024-12-28 00:00:00>
+2025-01-22 13:50:10,571 - INFO     - Inserted Game Game: <18 @ 19 2024-12-28 01:00:00>
+2025-01-22 13:50:10,572 - INFO     - Inserted Game Game: <30 @ 25 2024-12-28 01:00:00>
+2025-01-22 13:50:10,572 - INFO     - Inserted Game Game: <21 @ 59 2024-12-28 02:30:00>
+2025-01-22 13:50:10,573 - INFO     - Inserted Game Game: <54 @ 28 2024-12-28 03:30:00>
+2025-01-22 13:50:10,807 - ERROR    - Failed to insert rosters for Game 2024020558
+2025-01-22 13:50:10,910 - ERROR    - Failed to insert events for Game 2024020558
+2025-01-22 13:50:10,994 - ERROR    - No shift data for Game 2024020558
+2025-01-22 13:50:11,246 - INFO     - Rosters Inserted for Game 2024020559
+2025-01-22 13:50:11,360 - INFO     - Events Inserted for Game 2024020559
+2025-01-22 13:50:11,442 - ERROR    - No shift data for Game 2024020559
+2025-01-22 13:50:11,667 - INFO     - Rosters Inserted for Game 2024020560
+2025-01-22 13:50:11,776 - INFO     - Events Inserted for Game 2024020560
+2025-01-22 13:50:11,881 - ERROR    - No shift data for Game 2024020560
+2025-01-22 13:50:12,107 - INFO     - Rosters Inserted for Game 2024020561
+2025-01-22 13:50:12,227 - INFO     - Events Inserted for Game 2024020561
+2025-01-22 13:50:12,304 - ERROR    - No shift data for Game 2024020561
+2025-01-22 13:50:12,526 - INFO     - Rosters Inserted for Game 2024020562
+2025-01-22 13:50:12,614 - INFO     - Events Inserted for Game 2024020562
+2025-01-22 13:50:12,682 - ERROR    - No shift data for Game 2024020562
+2025-01-22 13:50:13,009 - INFO     - Rosters Inserted for Game 2024020563
+2025-01-22 13:50:13,109 - INFO     - Events Inserted for Game 2024020563
+2025-01-22 13:50:13,190 - ERROR    - No shift data for Game 2024020563
+2025-01-22 13:50:13,430 - INFO     - Rosters Inserted for Game 2024020564
+2025-01-22 13:50:13,547 - INFO     - Events Inserted for Game 2024020564
+2025-01-22 13:50:13,618 - ERROR    - No shift data for Game 2024020564
+2025-01-22 13:50:13,854 - INFO     - Rosters Inserted for Game 2024020565
+2025-01-22 13:50:14,014 - INFO     - Events Inserted for Game 2024020565
+2025-01-22 13:50:14,089 - ERROR    - No shift data for Game 2024020565
+2025-01-23 16:12:17,311 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Pittsburgh Penguins @ Detroit Red Wings 2025-01-01 01:00:00
+2025-01-23 16:14:52,166 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Nashville Predators @ Minnesota Wild 2025-01-01 01:00:00
+2025-01-23 16:14:52,182 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Winnipeg Jets @ Colorado Avalanche 2025-01-01 01:00:00
+2025-01-23 16:14:52,197 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <New Jersey Devils @ Anaheim Ducks 2025-01-01 01:00:00
+2025-01-23 16:14:52,212 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Philadelphia Flyers @ San Jose Sharks 2025-01-01 01:00:00
+2025-01-23 16:14:52,227 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Vancouver Canucks @ Calgary Flames 2025-01-01 02:00:00
+2025-01-23 16:14:52,241 - INFO     - Removed Events, Rosters, Shifts and Game Info for Game: <Utah Hockey Club @ Edmonton Oilers 2025-01-01 02:00:00
