@@ -126,3 +126,11 @@
 2025-01-17 15:45:11,060 - INFO     - Events Inserted for Game 2024020705
 2025-01-17 17:58:55,186 - INFO     - Deleted ALL Teams
 2025-01-17 17:59:28,106 - INFO     - Inserted Teams
+2025-07-27 19:17:29,532 - INFO     - NumExpr defaulting to 8 threads.
+2025-07-27 19:17:30,030 - INFO     - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-07-27 19:17:30,030 - INFO     - [33mPress CTRL+C to quit[0m
+2025-07-27 19:18:06,712 - INFO     - 127.0.0.1 - - [27/Jul/2025 19:18:06] "GET / HTTP/1.1" 200 -
+2025-07-27 19:18:06,736 - INFO     - 127.0.0.1 - - [27/Jul/2025 19:18:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-27 19:36:45,091 - INFO     - 127.0.0.1 - - [27/Jul/2025 19:36:45] "GET / HTTP/1.1" 200 -
+2025-07-27 19:36:46,110 - INFO     - 127.0.0.1 - - [27/Jul/2025 19:36:46] "GET /api/teams/32 HTTP/1.1" 200 -
