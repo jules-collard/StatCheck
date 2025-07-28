@@ -1,0 +1,1 @@
+FLASK_APP=statcheck_backend.py
