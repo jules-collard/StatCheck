@@ -1,5 +1,6 @@
 venv/
 backend-venv/
+.backend-venv/
 
 *.pyc
 __pycache__/
@@ -17,3 +18,4 @@ build/
 *.db
 .DS_Store
 backend/app/updaters/data_updates.log
+backend/migrations
