@@ -13,7 +13,9 @@ def scrape_pbp(gameId: int):
        'details.shotType', 'details.goalieInNetId', 'details.playerId', 'details.duration', 'details.committedByPlayerId',
        'details.drawnByPlayerId', 'details.scoringPlayerId', 'details.assist1PlayerId', 'details.assist2PlayerId']
 
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
     pbp_df = pd.json_normalize(response["plays"])
     pbp_df = pbp_df[pbp_df.columns[pbp_df.columns.isin(cols)]]
     
@@ -46,7 +48,9 @@ def scrape_player(playerId: int) -> dict:
             'shootsCatches', 'draftDetails.year', 'draftDetails.teamAbbrev', 'draftDetails.round',
             'draftDetails.pickInRound', 'draftDetails.overallPick']
 
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
     player_df = pd.json_normalize(response)
     player_df = player_df[player_df.columns[player_df.columns.isin(cols)]]
     player_df.rename(columns = {'playerId':'id',
@@ -83,7 +87,9 @@ def scrape_schedule(date: str):
             'venue.default', 'awayTeam.id', 'awayTeam.score', 'homeTeam.id', 'homeTeam.score', 'periodDescriptor.maxRegulationPeriods',
             'gameOutcome.lastPeriodType']
 
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
     
     # Empty Gamedays
     if response["gameWeek"][0]["numberOfGames"] == 0:
@@ -124,7 +130,9 @@ def scrape_shifts(gameId: int):
     url = f"https://api.nhle.com/stats/rest/en/shiftcharts?cayenneExp=gameId={gameId}"
     cols = ['id', 'durationSec', 'startTimeSec', 'endTimeSec', 'eventNumber', 'gameID', 'period', 'playerID', 'shiftNumber', 'teamID']
 
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
     shifts_df = pd.json_normalize(response["data"])
     
     # Some games do not have shift data
@@ -159,7 +167,9 @@ def scrape_teams():
 
     url = "https://api.nhle.com/stats/rest/en/team"
 
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
     teams_df = pd.json_normalize(response["data"])[["id", "franchiseId", "fullName", "triCode"]]
     teams_df.rename(columns = {"franchiseId":"franchiseID"}, inplace=True)
 
@@ -178,7 +188,9 @@ def scrape_rosters(gameId: int):
 
     """
     url = f"https://api-web.nhle.com/v1/gamecenter/{gameId}/play-by-play"
-    response = requests.get(url).json()
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
 
     rosters_df = pd.json_normalize(response['rosterSpots'])
     rosters_df["gameID"] = gameId
