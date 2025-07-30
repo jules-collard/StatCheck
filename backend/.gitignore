@@ -1,0 +1,12 @@
+.backend-venv/
+
+__pycache__/
+
+dist/
+build/
+*.egg-info/
+
+*.db
+.DS_Store
+app/updaters/data_updates.log
+migrations/
