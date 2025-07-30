@@ -28,7 +28,7 @@ class Team(db.Model, Util):
     awayGames: so.Mapped[list['Game']] = so.relationship(back_populates='awayTeam', foreign_keys='Game.awayTeamID')
 
     def __repr__(self):
-        return f"Team: <{self.fullName}>"
+        return f"Team: <{self.fullName}> ({self.id})"
     
     def to_dict(self):
         return {
@@ -42,7 +42,7 @@ class Player(db.Model, Util):
                      
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     isActive: so.Mapped[bool] = so.mapped_column()
-    currentTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
+    currentTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), nullable=True)
     firstName: so.Mapped[str] = so.mapped_column()
     lastName: so.Mapped[str] = so.mapped_column()
     sweaterNumber: so.Mapped[int] = so.mapped_column(nullable=True)
@@ -67,7 +67,7 @@ class Player(db.Model, Util):
     team: so.Mapped[Team] = so.relationship(back_populates='players')
 
     def __repr__(self):
-        return f"Player: <{self.firstName} {self.lastName}>"
+        return f"Player: <{self.firstName} {self.lastName}> {self.id}"
     
     def to_dict(self):
         attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
