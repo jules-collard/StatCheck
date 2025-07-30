@@ -32,8 +32,10 @@ class Team(db.Model, Util):
     
     def to_dict(self):
         return {
-            'id':self.id,
-            'fullName': self.fullName
+            'id': self.id,
+            'franchiseID': self.franchiseID,
+            'fullName': self.fullName,
+            'triCode': self.triCode
         }
     
 
@@ -70,8 +72,30 @@ class Player(db.Model, Util):
         return f"Player: <{self.firstName} {self.lastName}> {self.id}"
     
     def to_dict(self):
-        attrs_dict = {i[0]:i[1] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]) and not i[0] == 'metaDateTime')}
-        return attrs_dict
+        return {
+            'id': self.id,
+            'isActive': self.isActive,
+            'currentTeamID': self.currentTeamID,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'sweaterNumber': self.sweaterNumber,
+            'position': self.position,
+            'headshot': self.headshot,
+            'heroImage': self.heroImage,
+            'heightInInches': self.heightInInches,
+            'heightInCentimeters': self.heightInCentimeters,
+            'weightInPounds': self.weightInPounds,
+            'weightInKilograms': self.weightInKilograms,
+            'birthDate': self.birthDate,
+            'birthCity': self.birthCity,
+            'birthCountry': self.birthCountry,
+            'shootsCatches': self.shootsCatches,
+            'draftYear': self.draftYear,
+            'draftTeamAbbrev': self.draftTeamAbbrev,
+            'draftRound': self.draftRound,
+            'draftPickInRound': self.draftPickInRound,
+            'draftOverallPick': self.draftOverallPick
+        }
     
     def goals(self) -> int:
         return Event.query.filter(Event.scoringPlayerID == self.id).count()
@@ -114,6 +138,25 @@ class Game(db.Model, Util):
     homeTeam: so.Mapped[Team] = so.relationship(back_populates='homeGames', foreign_keys=[homeTeamID])
     awayTeam: so.Mapped[Team] = so.relationship(back_populates='awayGames', foreign_keys=[awayTeamID])
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'season': self.season,
+            'gameType': self.gameType,
+            'neutralSite': self.neutralSite,
+            'startTimeUTC': self.startTimeUTC,
+            'venueUTCOffset': self.venueUTCOffset,
+            'gameState': self.gameState,
+            'gameScheduleState': self.gameScheduleState,
+            'defaultVenue': self.defaultVenue,
+            'awayTeamID': self.awayTeamID,
+            'awayTeamScore': self.awayTeamScore,
+            'homeTeamID': self.homeTeamID,
+            'homeTeamScore': self.homeTeamScore,
+            'maxRegulationPeriods': self.maxRegulationPeriods,
+            'lastPeriodType': self.lastPeriodType
+        }
+    
     def __repr__(self):
         if self.homeTeam is not None and self.awayTeam is not None:
             return f"Game: <{self.awayTeam.fullName} @ {self.homeTeam.fullName} {self.startTimeUTC}>"
