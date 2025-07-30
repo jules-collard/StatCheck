@@ -4,17 +4,9 @@ from app.models import Player
 from app.updaters import logger, log_error
 
 from sqlalchemy.exc import IntegrityError
-from requests.exceptions import HTTPError
 
 def insert_or_update_player(id: int):
-    try:
-        player_data = scrape_player(id)
-    except HTTPError as e:
-        db.session.rollback()
-        logger.error(f"Player not found - {id}")
-        log_error(e)
-        return
-
+    player_data = scrape_player(id)
     player = Player()
     player.from_dict(player_data)
 

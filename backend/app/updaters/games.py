@@ -4,7 +4,6 @@ from app.models import Game, PlayerGame, Event, EventType, Player, Shift
 from app.updaters import logger, log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
-from requests.exceptions import HTTPError
 from datetime import datetime
 
 def insert_games(date: datetime) -> list[int]:
@@ -31,13 +30,7 @@ def insert_games(date: datetime) -> list[int]:
     return game_ids
 
 def insert_rosters(gameID: int, insert_new_players=True):
-    try:
-        player_games = scrape_rosters(gameID)
-    except HTTPError as e:
-        logger.error(f'Rosters not found for Game {gameID}')
-        log_error(e)
-        return
-
+    player_games = scrape_rosters(gameID)
     player_game_objs = []
 
     # Add new players to database
@@ -63,13 +56,7 @@ def insert_rosters(gameID: int, insert_new_players=True):
         log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
-    try:
-        plays = scrape_pbp(gameID)
-    except HTTPError as e:
-        logger.error(f'Events not found for Game {gameID}')
-        log_error(e)
-        return
-    
+    plays = scrape_pbp(gameID)
     play_objs = []
 
     # Add new event codes if not already in database
@@ -97,13 +84,7 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         log_error(e)
 
 def insert_shifts(gameID: int):
-    try:
-        shifts = scrape_shifts(gameID)
-    except HTTPError as e:
-        logger.error(f'Shifts not found for Game {gameID}')
-        log_error(e)
-        return
-    
+    shifts = scrape_shifts(gameID)
     shift_objs = []
 
     if len(shifts) == 0:
