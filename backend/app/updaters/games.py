@@ -1,7 +1,7 @@
-from app import db
+from app import app, db
 from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp, scrape_shifts
 from app.models import Game, PlayerGame, Event, EventType, Player, Shift
-from app.updaters import logger, log_error, ref_types, players
+from app.updaters import log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
 from requests.exceptions import HTTPError
@@ -13,7 +13,7 @@ def insert_games(date: datetime) -> list[int]:
     game_ids = []
 
     if len(game_dicts) == 0:
-        logger.warning(f"No games found")
+        app.logger.warning(f"No games found on {date_string}")
         return []
     
     for game_dets in game_dicts:
@@ -21,11 +21,11 @@ def insert_games(date: datetime) -> list[int]:
         game.from_dict(game_dets)
         try:
             db.session.merge(game)
-            logger.info(f'Inserted Game {game}')
+            app.logger.info(f'Inserted Game {game}')
             game_ids.append(game.id)
         except IntegrityError as e:
             db.session.rollback()
-            logger.error(f'Failed to Insert Game {game}')
+            app.logger.warning(f'Failed to Insert Game {game}')
             log_error(e)
 
     return game_ids
@@ -34,7 +34,7 @@ def insert_rosters(gameID: int, insert_new_players=True):
     try:
         player_games = scrape_rosters(gameID)
     except HTTPError as e:
-        logger.error(f'Rosters not found for Game {gameID}')
+        app.logger.warning(f'Rosters not found for Game {gameID}')
         log_error(e)
         return
 
@@ -56,17 +56,17 @@ def insert_rosters(gameID: int, insert_new_players=True):
     try:
         db.session.add_all(player_game_objs)
         db.session.commit()
-        logger.info(f'Rosters Inserted for Game {gameID}')
+        app.logger.info(f'Rosters Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error(f'Failed to insert rosters for Game {gameID}')
+        app.logger.warning(f'Failed to insert rosters for Game {gameID}')
         log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
     try:
         plays = scrape_pbp(gameID)
     except HTTPError as e:
-        logger.error(f'Events not found for Game {gameID}')
+        app.logger.warning(f'Events not found for Game {gameID}')
         log_error(e)
         return
     
@@ -90,24 +90,24 @@ def insert_events(gameID: int, insert_new_event_codes=True):
     try:
         db.session.add_all(play_objs)
         db.session.commit()
-        logger.info(f'Events Inserted for Game {gameID}')
+        app.logger.info(f'Events Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error(f'Failed to insert events for Game {gameID}')
+        app.logger.warning(f'Failed to insert events for Game {gameID}')
         log_error(e)
 
 def insert_shifts(gameID: int):
     try:
         shifts = scrape_shifts(gameID)
     except HTTPError as e:
-        logger.error(f'Shifts not found for Game {gameID}')
+        app.logger.warning(f'Shifts not found for Game {gameID}')
         log_error(e)
         return
     
     shift_objs = []
 
     if len(shifts) == 0:
-        logger.error(f'No shift data for Game {gameID}')
+        app.logger.warning(f'No shift data for Game {gameID}')
         return
 
     for shift in shifts:
@@ -118,36 +118,36 @@ def insert_shifts(gameID: int):
     try:
         db.session.add_all(shift_objs)
         db.session.commit()
-        logger.info(f'Shifts Inserted for Game {gameID}')
+        app.logger.info(f'Shifts Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error(f'Failed to insert events for Game {gameID}')
+        app.logger.warning(f'Failed to insert events for Game {gameID}')
         log_error(e)
 
 def delete_all_games():
     Game.query.delete()
     db.session.commit()
-    logger.info('Deleted ALL Games')
+    app.logger.info('Deleted ALL Games')
 
 def delete_all_player_games():
     PlayerGame.query.delete()
     db.session.commit()
-    logger.info('Deleted ALL Appearances')
+    app.logger.info('Deleted ALL Appearances')
 
 def delete_all_events(gameID = None):
     if gameID is not None:
         Event.query.filter_by(gameID=gameID).delete()
-        logger.info(f'Deleted events for Game {gameID}')
+        app.logger.info(f'Deleted events for Game {gameID}')
     else:
         Event.query.delete()
-        logger.info('Deleted ALL Events')
+        app.logger.info('Deleted ALL Events')
     db.session.commit()
 
 def delete_all_shifts(gameID = None):
     if gameID is not None:
         Shift.query.filter_by(gameID=gameID).delete()
-        logger.info(f'Deleted shifts for Game {gameID}')
+        app.logger.info(f'Deleted shifts for Game {gameID}')
     else:
         Shift.query.delete()
-        logger.info('Deleted ALL Shifts')
+        app.logger.info('Deleted ALL Shifts')
     db.session.commit()

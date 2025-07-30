@@ -1,7 +1,7 @@
 from app import scrapers
-from app import db
+from app import app, db
 from app.models import Team
-from app.updaters import logger, log_error
+from app.updaters import log_error
 
 from sqlalchemy.exc import IntegrityError
 
@@ -17,13 +17,13 @@ def insert_teams():
     try:
         db.session.add_all(team_objects)
         db.session.commit()
-        logger.info('Inserted Teams')
+        app.logger.info('Inserted Teams')
     except IntegrityError as e:
         db.session.rollback()
-        logger.error('Failed to Insert Teams')
+        app.logger.warning('Failed to Insert Teams')
         log_error(e)
 
 def delete_all_teams():
     Team.query.delete()
     db.session.commit()
-    logger.info('Deleted ALL Teams')
+    app.logger.info('Deleted ALL Teams')

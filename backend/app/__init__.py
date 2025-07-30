@@ -3,6 +3,54 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 
+from logging.config import dictConfig
+
+dictConfig(
+    {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {
+            "format": "%(asctime)s - %(levelname)-8s - %(message)s"
+        }
+    },
+    "handlers": {
+        "stdout": {
+            "class": "logging.StreamHandler",
+            "level": "INFO",
+            "formatter": "default",
+            "stream": "ext://sys.stdout"
+        },
+        "stderr": {
+            "class": "logging.StreamHandler",
+            "level": "ERROR",
+            "formatter": "default",
+            "stream": "ext://sys.stderr"
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "level": "WARNING",
+            "formatter": "default",
+            "filename": "warnings.log",
+            "mode": "w"
+        },
+        'wsgi': {
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://flask.logging.wsgi_errors_stream',
+            'formatter': 'default'
+        }
+    },
+    "root": {
+        "level": "DEBUG",
+        "handlers": [
+            "stderr",
+            "stdout",
+            "file"
+        ]
+    }
+}
+)
+
 db = SQLAlchemy()
 migrate = Migrate()
 
