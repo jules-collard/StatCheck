@@ -4,11 +4,12 @@ from flask_migrate import Migrate
 from config import Config
 
 from logging.config import dictConfig
+from flask.logging import default_handler
 
 dictConfig(
     {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
     "formatters": {
         "default": {
             "format": "%(asctime)s - %(levelname)-8s - %(message)s"
@@ -67,5 +68,6 @@ def create_app(config_class=Config):
     return app
 
 app = create_app()
+app.logger.removeHandler(default_handler)
 
 from app import routes, models
