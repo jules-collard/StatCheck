@@ -35,7 +35,7 @@ def insert_rosters(gameID: int, insert_new_players=True):
         player_games = scrape_rosters(gameID)
     except HTTPError as e:
         app.logger.warning(f'Rosters not found for Game {gameID}')
-        log_error(e)
+        app.logger.error(e)
         return
 
     player_game_objs = []
@@ -67,7 +67,7 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         plays = scrape_pbp(gameID)
     except HTTPError as e:
         app.logger.warning(f'Events not found for Game {gameID}')
-        log_error(e)
+        app.logger.error(e)
         return
     
     play_objs = []
@@ -101,7 +101,7 @@ def insert_shifts(gameID: int):
         shifts = scrape_shifts(gameID)
     except HTTPError as e:
         app.logger.warning(f'Shifts not found for Game {gameID}')
-        log_error(e)
+        app.logger.error(e)
         return
     
     shift_objs = []

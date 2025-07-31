@@ -12,7 +12,7 @@ def insert_or_update_player(id: int):
     except HTTPError as e:
         db.session.rollback()
         app.logger.warning(f"Player not found - {id}")
-        log_error(e)
+        app.logger.error(e)
         return
 
     player = Player()
