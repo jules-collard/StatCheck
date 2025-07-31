@@ -97,6 +97,10 @@ def scrape_schedule(date: str):
     
     schedule_df = pd.json_normalize(response["gameWeek"][0]["games"])
     schedule_df = schedule_df[schedule_df.columns[schedule_df.columns.isin(cols)]]
+    
+    schedule_df['gameType'] = schedule_df['gameType'].astype('Int64')
+    schedule_df = schedule_df[schedule_df['gameType'] > 1] # Ignore preseason games
+    if len(schedule_df) == 0: return {}
 
     schedule_df.rename(columns = {'venue.default':'defaultVenue',
                                     'awayTeam.id':'awayTeamID', 'awayTeam.score':'awayTeamScore',
