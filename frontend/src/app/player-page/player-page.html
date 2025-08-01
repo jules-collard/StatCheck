@@ -1,3 +1,12 @@
-@if (playerData() != null) {
-    <app-player-info [playerData]="playerData()!" />    
-}
+<div class="container">
+    <div>
+        @if (error()) {
+            <p> {{ error() }}</p>
+        } @else if (playerData() != null) {
+            <app-player-info [playerData]="playerData()!" />    
+        }
+    </div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+</div>
