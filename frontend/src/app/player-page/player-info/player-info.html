@@ -1,19 +1,28 @@
-<mat-card>
+<mat-card appearance="filled">
     <mat-card-header>
         <mat-card-title> {{ playerData().firstName }} {{ playerData().lastName }} </mat-card-title>
-        <mat-card-subtitle>  {{ playerData().position }} | #{{ playerData().sweaterNumber }} | {{ playerData().birthCountry }} </mat-card-subtitle>
+        <mat-card-subtitle>  {{ playerData().position }} | #{{ playerData().sweaterNumber }} | {{ playerData().team?.fullName ?? 'Free Agent'}} </mat-card-subtitle>
+        
     </mat-card-header>
-    <mat-card-content>
-        <ul style="list-style-type: none;">
-            <li> <b>DOB:</b> {{ playerData().birthDate | date }} </li>
-            <li> <b>Height:</b> {{ playerData().heightInInches }} in </li>
-            <li> <b>Weight:</b> {{ playerData().weightInPounds }} lbs </li>
-            @if (playerData().position === "G") {
-                <li> <b>Catches:</b> {{ playerData().shootsCatches }} </li>
-            } @else {
-                <li> <b>Shoots:</b> {{ playerData().shootsCatches }} </li>
-            }
-            <li> <b>Draft:</b> Round {{ playerData().draftRound }}, Pick {{ playerData().draftPickInRound }} (#{{ playerData().draftOverallPick}} Overall) </li>
-        </ul>
-    </mat-card-content>
+    <div class="container">
+        <div>
+            <img mat-card-lg-image [src]="playerData().headshot"/>
+        </div>
+        <div>
+            <mat-card-content class="player-info-card-body">
+                <ul style="list-style-type: none;">
+                    <li> <b>Nationality:</b> {{ playerData().birthCountry }} </li>
+                    <li> <b>Age:</b> {{ playerAge() }} </li>
+                    <li> <b>Height:</b> {{ playerData().heightInInches }} in </li>
+                    <li> <b>Weight:</b> {{ playerData().weightInPounds }} lbs </li>
+                    @if (playerData().position === "G") {
+                        <li> <b>Catches:</b> {{ playerData().shootsCatches }} </li>
+                    } @else {
+                        <li> <b>Shoots:</b> {{ playerData().shootsCatches }} </li>
+                    }
+                    <li> <b>Draft:</b> Round {{ playerData().draftRound }}, Pick {{ playerData().draftPickInRound }} (#{{ playerData().draftOverallPick}} Overall) </li>
+                </ul>
+            </mat-card-content>
+        </div>
+    </div>
 </mat-card>

@@ -1,0 +1,10 @@
+.player-info-card-body {
+    padding-left: 0px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    padding-left: 2%;
+}
