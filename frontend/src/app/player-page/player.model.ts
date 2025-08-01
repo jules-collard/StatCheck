@@ -1,3 +1,5 @@
+import { Team } from "../team/team.model";
+
 export type Player = {
     id: number;
     isActive: boolean;
@@ -21,4 +23,5 @@ export type Player = {
     draftRound: number | null;
     draftPickInRound: number | null;
     draftOverallPick: number | null;
+    team: Team | null;
 };
