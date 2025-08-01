@@ -1,0 +1,19 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title> {{ playerData().firstName }} {{ playerData().lastName }} </mat-card-title>
+        <mat-card-subtitle>  {{ playerData().position }} | #{{ playerData().sweaterNumber }} | {{ playerData().birthCountry }} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <ul style="list-style-type: none;">
+            <li> <b>DOB:</b> {{ playerData().birthDate | date }} </li>
+            <li> <b>Height:</b> {{ playerData().heightInInches }} in </li>
+            <li> <b>Weight:</b> {{ playerData().weightInPounds }} lbs </li>
+            @if (playerData().position === "G") {
+                <li> <b>Catches:</b> {{ playerData().shootsCatches }} </li>
+            } @else {
+                <li> <b>Shoots:</b> {{ playerData().shootsCatches }} </li>
+            }
+            <li> <b>Draft:</b> Round {{ playerData().draftRound }}, Pick {{ playerData().draftPickInRound }} (#{{ playerData().draftOverallPick}} Overall) </li>
+        </ul>
+    </mat-card-content>
+</mat-card>
