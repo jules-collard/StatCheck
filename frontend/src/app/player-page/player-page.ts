@@ -17,11 +17,16 @@ export class PlayerPage implements OnInit {;
 
   id = input.required<number>();
   playerData = signal<Player | null>(null)
+  error = signal('')
 
   ngOnInit() {
     const subscription = this.playerService.fetchPlayerData(this.id()).subscribe({
       next: (resData) => {
         this.playerData.set(resData);
+      },
+      error: (error) => {
+        console.log(error)
+        this.error.set("Error fetching player data.")
       }
     });
 
