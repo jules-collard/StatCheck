@@ -11,8 +11,8 @@
             <mat-card-content class="player-info-card-body">
                 <ul style="list-style-type: none;">
                     <li> <b>Nationality:</b> {{ playerData().birthCountry }} </li>
-                    <li> <b>Age:</b> {{ playerAge() }} </li>
-                    <li> <b>Height:</b> {{ playerData().heightInInches }} in </li>
+                    <li> <b>Age:</b> {{ playerData().birthDate | age}} </li>
+                    <li> <b>Height:</b> {{ playerData().heightInInches | height: 'in' }} </li>
                     <li> <b>Weight:</b> {{ playerData().weightInPounds }} lbs </li>
                     @if (playerData().position === "G") {
                         <li> <b>Catches:</b> {{ playerData().shootsCatches }} </li>
