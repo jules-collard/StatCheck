@@ -94,7 +94,8 @@ class Player(db.Model, Util):
             'draftTeamAbbrev': self.draftTeamAbbrev,
             'draftRound': self.draftRound,
             'draftPickInRound': self.draftPickInRound,
-            'draftOverallPick': self.draftOverallPick
+            'draftOverallPick': self.draftOverallPick,
+            'team': self.team.to_dict() if self.team else None
         }
     
     def goals(self) -> int:
