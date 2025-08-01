@@ -62,6 +62,7 @@ def remove_games_date_range(start: datetime, end: datetime):
 
 if __name__ == "__main__":
     app.app_context().push()
-    start_date = datetime.strptime("2025-01-01", '%Y-%m-%d')
-    end_date = datetime.strptime("2025-01-02", '%Y-%m-%d')
-    remove_games_date_range(start_date, end_date)
+    clear_db()
+    initialise_db()
+    import_games_date_range(datetime(2024, 10, 4), datetime(2025, 6, 17))
+    # Oct 4 - June 17

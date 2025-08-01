@@ -7,8 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HeightPipe implements PipeTransform {
 
   transform(value: number | null, unit: 'in' | 'cm') {
-    if (value === null) { return 'Unknown' }
-    else if (unit === 'in') {
+    if (unit === 'in') {
       const feet = Math.floor(value / 12);
       const inches = value - (feet * 12);
       return `${feet}ft ${inches}in`;

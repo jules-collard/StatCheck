@@ -8,15 +8,15 @@ export type Player = {
     lastName: string;
     sweaterNumber: number | null;
     position: string;
-    headshot: string | null;
+    headshot: string;
     heroImage: string | null;
-    heightInInches: number | null;
-    heightInCentimeters: number | null;
-    weightInPounds: number | null;
-    weightInKilograms: number | null;
+    heightInInches: number;
+    heightInCentimeters: number;
+    weightInPounds: number;
+    weightInKilograms: number;
     birthDate: string; // ISO date string
     birthCity: string | null;
-    birthCountry: string | null;
+    birthCountry: string;
     shootsCatches: string;
     draftYear: number | null;
     draftTeamAbbrev: string | null;
