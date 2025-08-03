@@ -6,12 +6,24 @@ from app.models import Game, Event, PlayerGame, Shift
 
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, Table, MetaData
+from sqlalchemy.sql import text
+from sqlalchemy_views import CreateView
+import os
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')
     teams.insert_teams()
     ref_types.insert_game_types()
+    init_player_stats_view()
+
+def init_player_stats_view():
+    app.logger.info('CREATING PLAYER STATS VIEW')
+
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'season_stats.sql')) as f:
+        definition = text(f.read())
+
+    db.session.execute(definition)
 
 def clear_db():
     app.logger.info('CLEARING DATABASE')
@@ -62,7 +74,8 @@ def remove_games_date_range(start: datetime, end: datetime):
 
 if __name__ == "__main__":
     app.app_context().push()
-    clear_db()
-    initialise_db()
-    import_games_date_range(datetime(2024, 10, 4), datetime(2025, 6, 17))
-    # Oct 4 - June 17
+    #clear_db()
+    #initialise_db()
+    #import_games_date_range(datetime(2023, 10, 10), datetime(2023, 10,11))
+    # 2024 Oct 4 - Oct 8 inclusive
+    # 2023 Oct 10-11 inclusive
