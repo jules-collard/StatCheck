@@ -123,7 +123,7 @@ class Game(db.Model, Util):
     __tablename__ = "games"
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    season: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("season > 0"))
+    season: so.Mapped[str] = so.mapped_column()
     gameType: so.Mapped[int] = so.mapped_column(sa.ForeignKey(GameType.typeCode))
     neutralSite: so.Mapped[bool] = so.mapped_column()
     startTimeUTC: so.Mapped[datetime] = so.mapped_column()
@@ -197,6 +197,7 @@ class Event(db.Model, Util):
     period: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("period > 0"))
     periodType: so.Mapped[str] = so.mapped_column()
     eventOwnerTeamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), nullable=True)
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     losingPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     winningPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     xCoord: so.Mapped[float] = so.mapped_column(nullable=True)
