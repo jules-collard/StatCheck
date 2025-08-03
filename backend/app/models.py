@@ -100,6 +100,9 @@ class Player(db.Model, Util):
     
     def goals(self) -> int:
         return Event.query.filter(Event.scoringPlayerID == self.id).count()
+    
+    def primaryAssists(self) -> int:
+        return Event.query.filter(Event.assist1PlayerID == self.id).count()
 
 class GameType(db.Model):
     __tablename__ = "game_types"
@@ -207,7 +210,7 @@ class Event(db.Model, Util):
     shotType: so.Mapped[str] = so.mapped_column(nullable=True)
     goalieInNetID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     eventOwnerPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
-    penaltyDuration: so.Mapped[int] = so.mapped_column(nullable=True)
+    duration: so.Mapped[int] = so.mapped_column(nullable=True)
     committedByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     drawnByPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
     scoringPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True)
