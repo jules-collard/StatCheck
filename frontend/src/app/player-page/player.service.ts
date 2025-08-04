@@ -9,6 +9,6 @@ export class PlayerService {
     private httpClient = inject(HttpClient)
 
     fetchPlayerData(id: number) {
-        return this.httpClient.get<Player>('http://localhost:5000/api/players/' + id)
+        return this.httpClient.get<Player>(`http://localhost:5000/api/players/${id}`)
     }
 }
