@@ -41,6 +41,93 @@ def scrape_pbp(gameId: int):
 
     return pbp_df.to_dict(orient='records')
 
+def scrape_pbp_boxscore(gameID: int):
+    url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/boxscore"
+
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
+
+    teamIDs = {"awayTeam":response["awayTeam"]["id"], "homeTeam":response["homeTeam"]["id"]}
+    events = []
+    eventID = 99901
+    
+    for team, teamID in teamIDs.items():
+        for player in response["playerByGameStats"][team]["forwards"] + response["playerByGameStats"][team]["defense"]:
+            for _ in range(player["goals"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 505,
+                    'eventOwnerTeamID': teamID,
+                    'scoringPlayerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["assists"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 505,
+                    'eventOwnerTeamID': teamID,
+                    'assist1PlayerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["hits"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 503,
+                    'eventOwnerTeamID': teamID,
+                    'hittingPlayerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["sog"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 506,
+                    'eventOwnerTeamID': teamID,
+                    'shootingPlayerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["blockedShots"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 508,
+                    'eventOwnerTeamID': teamID,
+                    'blockingPlayerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["giveaways"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 504,
+                    'eventOwnerTeamID': teamID,
+                    'playerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            for _ in range(player["takeaways"]):
+                events.append({
+                    'id': eventID,
+                    'typeCode': 525,
+                    'eventOwnerTeamID': teamID,
+                    'playerID': player["playerId"],
+                    'gameID': gameID
+                })
+                eventID += 1
+            events.append({
+                'id': eventID,
+                'typeCode': 509, # Penalty
+                'eventOwnerTeamID': teamID,
+                'committedByPlayerID': player["playerId"],
+                'duration': player["pim"],
+                'gameID': gameID
+            })
+
+    return events
+
 def scrape_player(playerId: int) -> dict:
     url = f"https://api-web.nhle.com/v1/player/{playerId}/landing"
     cols = ['playerId', 'isActive', 'currentTeamId', 'firstName.default', 'lastName.default',
@@ -206,12 +293,30 @@ def scrape_rosters(gameId: int):
 
     return rosters_df.to_dict(orient="records")
 
+def scrape_rosters_boxscore(gameID: int):
+    url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/boxscore"
+
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
+
+    homeTeamID = response["homeTeam"]["id"]
+    awayTeamID = response["awayTeam"]["id"]
+    rosters = []
+    for player in response["playerByGameStats"]["awayTeam"]["forwards"] + response["playerByGameStats"]["awayTeam"]["defense"]:
+        rosters.append({"gameID": gameID, "teamID": awayTeamID, "playerID": player["playerId"]})
+
+    for player in response["playerByGameStats"]["homeTeam"]["forwards"] + response["playerByGameStats"]["homeTeam"]["defense"]:
+        rosters.append({"gameID": gameID, "teamID": homeTeamID, "playerID": player["playerId"]})
+
+    return rosters
+
 
 if __name__ == "__main__":
-    schedule_df = scrape_schedule("2025-01-15")
-    shifts_df = scrape_shifts(2024020170)
-    pbp_df = scrape_pbp(2024020170)
-    player = scrape_player(8478402)
-    teams = scrape_teams()
-    rosters_df = scrape_rosters(2024020170)
+    # schedule_df = scrape_schedule("2025-01-15")
+    # shifts_df = scrape_shifts(2024020170)
+    # pbp_df = scrape_pbp(2024020170)
+    # player = scrape_player(8478402)
+    # teams = scrape_teams()
+    # rosters_df = scrape_rosters(2024020170)
     pass
