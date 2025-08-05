@@ -1,6 +1,6 @@
 from app import app, db
 from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts
-from app.models import Game, PlayerGame, Event, EventType, Player, Shift
+from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError
 from app.updaters import log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
@@ -75,11 +75,15 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         app.logger.warning(f'Events not found for Game {gameID}')
         app.logger.error(e)
         app.logger.info(f'Trying pbp with boxscores for Game {gameID}')
+        db.session.add(GameImportError(gameID, "PBP"))
+        db.session.commit()
         try:
             plays = scrape_pbp_boxscore(gameID)
         except HTTPError as box_e:
             app.logger.warning(f'Boxscore not found for Game {gameID}')
             app.logger.error(box_e)
+            db.session.add(GameImportError(gameID, "BOX"))
+            db.session.commit()
             return
     
     play_objs = []

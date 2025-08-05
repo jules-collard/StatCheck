@@ -1,7 +1,7 @@
 from sqlite3 import IntegrityError
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
-from app.models import Game, Event, PlayerGame, Shift
+from app.models import Game, Event, PlayerGame, Shift, GameImportError
 
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
@@ -70,12 +70,18 @@ def remove_games_after_date(start: datetime):
     for game in games:
         remove_game(game.id)
 
+def update_games():
+    ids = [game.gameID for game in GameImportError.query.all()]
+    for gameID in ids:
+        GameImportError.query.filter_by(gameID=gameID).delete()
+        games.delete_all_events(gameID)
+        games.delete_all_player_games(gameID)
+        games.insert_rosters(gameID)
+        games.insert_events(gameID)
+
 
 if __name__ == "__main__":
     app.app_context().push()
-    remove_games_after_date(datetime(2023, 10, 12))
     # initialise_db()
-    import_games_date_range(datetime(2023, 10, 12), datetime(2023, 10,16))
-    
-    # 2024 Oct 4 - Oct 8 inclusive
-    # 2023 Oct 10-11 inclusive
+    # import_games_date_range(datetime(2024, 5, 1), datetime(2024, 4, 30))
+    # 23-24 season done

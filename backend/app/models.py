@@ -253,3 +253,13 @@ class PlayerGame(db.Model, Util):
 
     def __repr__(self):
         return f"Player {self.playerID} - Team {self.teamID} - Game {self.gameID}"
+    
+class GameImportError(db.Model):
+    __tablename__ = "game_import_errors"
+
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True)
+    reason: so.Mapped[str] = so.mapped_column()
+
+    def __init__(self, gameID: int, reason: str):
+        self.gameID = gameID
+        self.reason = reason
