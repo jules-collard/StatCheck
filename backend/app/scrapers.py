@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import numpy as np
 from datetime import datetime
 
 def scrape_pbp(gameId: int):
@@ -33,10 +34,10 @@ def scrape_pbp(gameId: int):
                                 inplace=True)
     pbp_df.rename(columns = lambda x: x.replace("details.", ""), inplace=True)
     pbp_df.rename(columns = lambda x: x.replace("Id", "ID") if x.endswith("Id") else x, inplace=True)
-    pbp_df['awayGoalie'] = pbp_df['situationCode'].apply(lambda x: int(x[0]))
-    pbp_df['awaySkaters'] = pbp_df['situationCode'].apply(lambda x: int(x[1]))
-    pbp_df['homeSkaters'] = pbp_df['situationCode'].apply(lambda x: int(x[2]))
-    pbp_df['homeGoalie'] = pbp_df['situationCode'].apply(lambda x: int(x[3]))
+    pbp_df['awayGoalie'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[0]) if pd.notna(x) else np.nan)
+    pbp_df['awaySkaters'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[1]) if pd.notna(x) else np.nan)
+    pbp_df['homeSkaters'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[2]) if pd.notna(x) else np.nan)
+    pbp_df['homeGoalie'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[3]) if pd.notna(x) else np.nan)
 
     return pbp_df.to_dict(orient='records')
 
