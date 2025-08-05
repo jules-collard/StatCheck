@@ -1,5 +1,5 @@
 from app import app, db
-from app.scrapers import scrape_schedule, scrape_rosters, scrape_pbp, scrape_shifts
+from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts
 from app.models import Game, PlayerGame, Event, EventType, Player, Shift
 from app.updaters import log_error, ref_types, players
 
@@ -36,7 +36,13 @@ def insert_rosters(gameID: int, insert_new_players=True):
     except HTTPError as e:
         app.logger.warning(f'Rosters not found for Game {gameID}')
         app.logger.error(e)
-        return
+        app.logger.info(f'Trying rosters with boxscore Game {gameID}')
+        try:
+            player_games = scrape_rosters_boxscore(gameID)
+        except HTTPError as box_e:
+            app.logger.warning(f'Boxscores not found for Game {gameID}')
+            app.logger.error(box_e)
+            return
 
     player_game_objs = []
 
@@ -68,7 +74,13 @@ def insert_events(gameID: int, insert_new_event_codes=True):
     except HTTPError as e:
         app.logger.warning(f'Events not found for Game {gameID}')
         app.logger.error(e)
-        return
+        app.logger.info(f'Trying pbp with boxscores for Game {gameID}')
+        try:
+            plays = scrape_pbp_boxscore(gameID)
+        except HTTPError as box_e:
+            app.logger.warning(f'Boxscore not found for Game {gameID}')
+            app.logger.error(box_e)
+            return
     
     play_objs = []
 
@@ -129,10 +141,14 @@ def delete_all_games():
     db.session.commit()
     app.logger.info('Deleted ALL Games')
 
-def delete_all_player_games():
-    PlayerGame.query.delete()
+def delete_all_player_games(gameID = None):
+    if gameID is not None:
+        PlayerGame.query.filter_by(gameID=gameID).delete()
+        app.logger.info(f'Deleted appearances for Game {gameID}')
+    else:
+        PlayerGame.query.delete()
+        app.logger.info('Deleted ALL Appearances')
     db.session.commit()
-    app.logger.info('Deleted ALL Appearances')
 
 def delete_all_events(gameID = None):
     if gameID is not None:
