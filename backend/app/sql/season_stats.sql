@@ -5,9 +5,9 @@ CREATE VIEW season_stats AS
         GROUP BY "playerID", "season"
     ),
     SeasonEvents AS (
-        SELECT "Events".*, "Games"."season" FROM
-        "Events" LEFT JOIN "Games"
-        ON "Events"."gameID"="Games"."id"
+        SELECT "events".*, "games"."season" FROM
+        "events" LEFT JOIN "games"
+        ON "events"."gameID"="games"."id"
     ),
     goalsTable AS (
         SELECT "scoringPlayerID", "season", COUNT(id) AS goals FROM "SeasonEvents"
