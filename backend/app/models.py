@@ -235,7 +235,7 @@ class Shift(db.Model, Util):
     durationSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("durationSec >= 0"))
     startTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("startTimeSec >= 0"))
     endTimeSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("endTimeSec >= 0"))
-    eventNumber: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("eventNumber >= 0"))
+    eventNumber: so.Mapped[int] = so.mapped_column(nullable=True)
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
     period: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("period > 0"))
     playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
