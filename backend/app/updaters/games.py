@@ -121,7 +121,7 @@ def insert_shifts(gameID: int):
         app.logger.info(f'Shifts Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        app.logger.warning(f'Failed to insert events for Game {gameID}')
+        app.logger.warning(f'Failed to insert shifts for Game {gameID}')
         log_error(e)
 
 def delete_all_games():
