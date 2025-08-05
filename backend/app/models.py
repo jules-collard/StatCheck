@@ -13,6 +13,10 @@ class Util():
             if field in data:
                 setattr(self, field, data[field])
 
+    def to_dict(self):
+        attrs = [i[0] for i in inspect.getmembers(self) if (not i[0].startswith('_') and not inspect.ismethod(i[1]))]
+        return {field: getattr(self, field) for field in attrs}
+
 
 class Team(db.Model, Util):
     __tablename__ = 'teams'
@@ -187,10 +191,10 @@ class Event(db.Model, Util):
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     timeInPeriodSec: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("timeInPeriodSec >= 0"))
-    awayGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awayGoalie IN (0,1)"))
-    awaySkaters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("awaySkaters >= 0"))
-    homeGoalie: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeGoalie IN (0,1)"))
-    homeSkaters: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("homeSkaters >= 0"))
+    awayGoalie: so.Mapped[int] = so.mapped_column(nullable=True)
+    awaySkaters: so.Mapped[int] = so.mapped_column(nullable=True)
+    homeGoalie: so.Mapped[int] = so.mapped_column(nullable=True)
+    homeSkaters: so.Mapped[int] = so.mapped_column(nullable=True)
     homeTeamDefendingSide: so.Mapped[str] = so.mapped_column()
     typeCode: so.Mapped[int] = so.mapped_column(sa.ForeignKey(EventType.typeCode))
     sortOrder: so.Mapped[int] = so.mapped_column()
