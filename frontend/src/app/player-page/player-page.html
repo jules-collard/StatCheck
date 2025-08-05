@@ -1,12 +1,10 @@
 <div class="container">
     <div>
-        @if (error()) {
-            <p> {{ error() }}</p>
-        } @else if (playerData() != null) {
-            <app-player-info [playerData]="playerData()!" />    
-        }
+        <app-player-info [id]="this.id()" />    
     </div>
     <div>2</div>
     <div>3</div>
-    <div>4</div>
+    <div>
+        <app-player-stats [id]="this.id()" />
+    </div>
 </div>
