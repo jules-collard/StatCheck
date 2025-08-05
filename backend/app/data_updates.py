@@ -22,16 +22,18 @@ def init_player_stats_view():
 
     db.session.execute(definition)
 
-def clear_db():
+def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
     games.delete_all_events()
     games.delete_all_games()
     games.delete_all_player_games()
     games.delete_all_shifts()
-    players.delete_all_players()
-    teams.delete_all_teams()
-    ref_types.delete_all_event_types()
-    ref_types.delete_all_game_types()
+    
+    if complete:
+        players.delete_all_players()
+        teams.delete_all_teams()
+        ref_types.delete_all_event_types()
+        ref_types.delete_all_game_types()
 
 def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
@@ -71,10 +73,9 @@ def remove_games_after_date(start: datetime):
 
 if __name__ == "__main__":
     app.app_context().push()
+    remove_games_after_date(datetime(2023, 10, 12))
     # initialise_db()
-    #import_games_date_range(datetime(2023, 10, 4), datetime(2023, 10,16))
-    games.insert_shifts(2023020035)
-    games.insert_shifts(2023020038)
-    games.insert_shifts(2023020039)
+    import_games_date_range(datetime(2023, 10, 12), datetime(2023, 10,16))
+    
     # 2024 Oct 4 - Oct 8 inclusive
     # 2023 Oct 10-11 inclusive
