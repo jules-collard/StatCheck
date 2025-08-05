@@ -66,8 +66,8 @@ def remove_game(id: int):
         app.logger.warning(f"Failed to Remove Game {id}")
         log_error(e)
 
-def remove_games_date_range(start: datetime, end: datetime):
-    games: list[Game] = Game.query.filter(and_(Game.startTimeUTC >= start, Game.startTimeUTC <= end)).all()
+def remove_games_after_date(start: datetime):
+    games: list[Game] = Game.query.filter(Game.startTimeUTC >= start).all()
     for game in games:
         remove_game(game.id)
 
@@ -76,6 +76,7 @@ if __name__ == "__main__":
     app.app_context().push()
     #clear_db()
     #initialise_db()
-    #import_games_date_range(datetime(2023, 10, 10), datetime(2023, 10,11))
+    remove_games_after_date(datetime(2023, 10, 12, 0))
+    import_games_date_range(datetime(2023, 10, 12), datetime(2023, 10,16))
     # 2024 Oct 4 - Oct 8 inclusive
     # 2023 Oct 10-11 inclusive
