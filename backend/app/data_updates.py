@@ -1,4 +1,3 @@
-from operator import and_
 from sqlite3 import IntegrityError
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
@@ -6,9 +5,7 @@ from app.models import Game, Event, PlayerGame, Shift
 
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import and_, Table, MetaData
 from sqlalchemy.sql import text
-from sqlalchemy_views import CreateView
 import os
 
 def initialise_db():
@@ -74,9 +71,10 @@ def remove_games_after_date(start: datetime):
 
 if __name__ == "__main__":
     app.app_context().push()
-    #clear_db()
-    #initialise_db()
-    remove_games_after_date(datetime(2023, 10, 12, 0))
-    import_games_date_range(datetime(2023, 10, 12), datetime(2023, 10,16))
+    # initialise_db()
+    #import_games_date_range(datetime(2023, 10, 4), datetime(2023, 10,16))
+    games.insert_shifts(2023020035)
+    games.insert_shifts(2023020038)
+    games.insert_shifts(2023020039)
     # 2024 Oct 4 - Oct 8 inclusive
     # 2023 Oct 10-11 inclusive
