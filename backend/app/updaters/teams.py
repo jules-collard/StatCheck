@@ -15,12 +15,13 @@ def insert_teams():
         team_objects.append(team)
 
     try:
-        db.session.add_all(team_objects)
+        for team in team_objects:
+            db.session.merge(team)
         db.session.commit()
-        app.logger.info('Inserted Teams')
+        app.logger.info('Inserted/Updated Teams')
     except IntegrityError as e:
         db.session.rollback()
-        app.logger.warning('Failed to Insert Teams')
+        app.logger.warning('Failed to Insert/Update Teams')
         log_error(e)
 
 def delete_all_teams():
