@@ -1,4 +1,4 @@
-CREATE VIEW season_stats AS
+CREATE VIEW IF NOT EXISTS season_stats AS
     WITH SeasonGames AS (
         SELECT "playerID", "season", count("gameID") AS "gamesPlayed" FROM "player_games"
         LEFT JOIN "games" ON "games"."id"="player_games"."gameID"
@@ -11,7 +11,7 @@ CREATE VIEW season_stats AS
     ),
     goalsTable AS (
         SELECT "scoringPlayerID", "season", COUNT(id) AS goals FROM "SeasonEvents"
-        WHERE "typeCode" == 505
+        WHERE "typeCode" == 505 AND "periodType" != 'SO'
         GROUP BY "scoringPlayerID", "season"
     ),
     primaryAssistsTable AS (
@@ -61,7 +61,7 @@ CREATE VIEW season_stats AS
         coalesce("primaryAssistsTable"."primaryAssists", 0) AS "primaryAssists",
         coalesce("secondaryAssistsTable"."secondaryAssists", 0) AS "secondaryAssists",
         coalesce("hitsTable"."hits", 0) AS "hits",
-        coalesce("shotsOnGoalTable"."sog", 0) AS "sog",
+        coalesce("shotsOnGoalTable"."sog", 0) + "goals" AS "sog",
         coalesce("blocksTable"."blocks", 0) AS "blocks",
         coalesce("penaltyMinutesTable"."penaltyMinutes", 0) AS "penaltyMinutes",
         coalesce("takeawaysTable"."takeaways", 0) AS "takeaways",
