@@ -2,6 +2,10 @@ CREATE VIEW IF NOT EXISTS season_stats AS
     WITH SeasonGames AS (
         SELECT "playerID", "season", count("gameID") AS "gamesPlayed" FROM "player_games"
         LEFT JOIN "games" ON "games"."id"="player_games"."gameID"
+        WHERE "gameID" IN (
+            SELECT "gameID" FROM games
+            WHERE "gameType" == 2
+        )
         GROUP BY "playerID", "season"
     ),
     SeasonEvents AS (
@@ -57,6 +61,7 @@ CREATE VIEW IF NOT EXISTS season_stats AS
     SELECT
         "SeasonGames"."playerID" AS "playerID",
         "SeasonGames"."season" AS "season",
+        "SeasonGames"."gamesPlayed" AS "gamesPlayed",
         coalesce("goalsTable"."goals", 0) AS "goals",
         coalesce("primaryAssistsTable"."primaryAssists", 0) AS "primaryAssists",
         coalesce("secondaryAssistsTable"."secondaryAssists", 0) AS "secondaryAssists",
