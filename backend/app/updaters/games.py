@@ -118,12 +118,16 @@ def insert_shifts(gameID: int):
     except HTTPError as e:
         app.logger.warning(f'Shifts not found for Game {gameID}')
         app.logger.error(e)
+        db.session.add(GameImportError(gameID, "SHIFTS"))
+        db.session.commit()
         return
     
     shift_objs = []
 
     if len(shifts) == 0:
         app.logger.warning(f'No shift data for Game {gameID}')
+        db.session.add(GameImportError(gameID, "SHIFTS"))
+        db.session.commit()
         return
 
     for shift in shifts:
