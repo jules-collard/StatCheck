@@ -22,10 +22,9 @@ def init_player_stats_view():
 
     db.session.execute(definition)
 
-def update_player_stats_view():
+def drop_player_stats_view():
     app.logger.info('DROPPING PLAYER STATS VIEW')
     db.session.execute(text("DROP VIEW IF EXISTS 'season_stats'"))
-    init_player_stats_view()
 
 def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
@@ -87,7 +86,5 @@ def update_games():
 
 if __name__ == "__main__":
     app.app_context().push()
-    update_player_stats_view()
-    # initialise_db()
-    # import_games_date_range(datetime(2024, 5, 1), datetime(2024, 4, 30))
+    import_games_date_range(datetime(2025, 3, 1), datetime(2025, 3, 31))
     # 23-24 season done
