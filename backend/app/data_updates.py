@@ -80,11 +80,13 @@ def update_games():
         GameImportError.query.filter_by(gameID=gameID).delete()
         games.delete_all_events(gameID)
         games.delete_all_player_games(gameID)
+        games.delete_all_shifts(gameID)
         games.insert_rosters(gameID)
         games.insert_events(gameID)
-
+        games.insert_shifts(gameID)
 
 if __name__ == "__main__":
     app.app_context().push()
-    import_games_date_range(datetime(2025, 3, 1), datetime(2025, 3, 31))
+    import_games_date_range(datetime(2025, 4, 1), datetime(2025, 4, 17))
     # 23-24 season done
+    # 24-25 season done
