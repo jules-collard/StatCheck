@@ -12,19 +12,19 @@ def initialise_db():
     app.logger.info('INITIALISING DATABASE')
     teams.insert_teams()
     ref_types.insert_game_types()
-    init_player_stats_view()
+    init_player_season_totals()
 
-def init_player_stats_view():
-    app.logger.info('CREATING PLAYER STATS VIEW')
+def init_player_season_totals():
+    app.logger.info('CREATING PLAYER SEASON TOTALS VIEW')
 
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'season_stats.sql')) as f:
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'player_season_totals.sql')) as f:
         definition = text(f.read())
 
     db.session.execute(definition)
 
-def drop_player_stats_view():
+def drop_player_season_totals():
     app.logger.info('DROPPING PLAYER STATS VIEW')
-    db.session.execute(text("DROP VIEW IF EXISTS 'season_stats'"))
+    db.session.execute(text("DROP VIEW IF EXISTS 'player_season_totals'"))
 
 def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
@@ -87,6 +87,8 @@ def update_games():
 
 if __name__ == "__main__":
     app.app_context().push()
-    import_games_date_range(datetime(2025, 4, 1), datetime(2025, 4, 17))
+    drop_player_stats_view()
+    # 
+    # import_games_date_range(datetime(2025, 4, 1), datetime(2025, 4, 17))
     # 23-24 season done
     # 24-25 season done
