@@ -39,7 +39,8 @@ shotsOnGoalTable AS (
 ),
 blocksTable AS (
     SELECT "blockingPlayerID", "season", COUNT("id") AS blocks FROM "SeasonEvents"
-    WHERE "blockingPlayerID" == :playerID AND "typeCode" == 508 AND "reason" = 'blocked'
+    WHERE "blockingPlayerID" == :playerID AND "typeCode" == 508 AND
+        ("reason" != 'teammate-blocked' OR "reason" IS NULL)
     GROUP BY "blockingPlayerID", "season"
 ),
 penaltyMinutesTable AS (
@@ -89,4 +90,4 @@ LEFT JOIN "takeawaysTable"
 ON "SeasonGames"."playerID"="takeawaysTable"."takeawayPlayerID" AND "SeasonGames"."season"="takeawaysTable"."season"
 LEFT JOIN "giveawaysTable"
 ON "SeasonGames"."playerID"="giveawaysTable"."giveawayPlayerID" AND "SeasonGames"."season"="giveawaysTable"."season"
-;
+ORDER BY "SeasonGames"."season" ASC;
