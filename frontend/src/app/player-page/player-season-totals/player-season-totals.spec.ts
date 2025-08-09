@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeasonStats } from './season-stats';
+import { PlayerSeasonTotals } from './player-season-totals';
 
-describe('SeasonStats', () => {
-  let component: SeasonStats;
-  let fixture: ComponentFixture<SeasonStats>;
+describe('PlayerSeasonTotals', () => {
+  let component: PlayerSeasonTotals;
+  let fixture: ComponentFixture<PlayerSeasonTotals>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SeasonStats]
+      imports: [PlayerSeasonTotals]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SeasonStats);
+    fixture = TestBed.createComponent(PlayerSeasonTotals);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

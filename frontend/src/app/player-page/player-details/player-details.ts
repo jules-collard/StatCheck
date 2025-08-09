@@ -1,17 +1,16 @@
-import { Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { PlayerService } from '../player.service';
 import { Player } from '../player.model';
-import { MatCardModule } from '@angular/material/card';
 import { AgePipe } from '../../pipes/age.pipe';
 import { HeightPipe } from '../../pipes/height-pipe';
-import { PlayerService } from '../player.service';
 
 @Component({
-  selector: 'app-player-info',
-  imports: [MatCardModule, AgePipe, HeightPipe],
-  templateUrl: './player-info.html',
-  styleUrl: './player-info.css'
+  selector: 'app-player-details',
+  imports: [AgePipe, HeightPipe],
+  templateUrl: './player-details.html',
+  styleUrl: './player-details.css'
 })
-export class PlayerInfo {
+export class PlayerDetails {
   private destroyRef = inject(DestroyRef);
   private playerService = inject(PlayerService)
 

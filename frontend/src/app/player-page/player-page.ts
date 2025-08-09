@@ -1,11 +1,10 @@
 import { Component, input } from '@angular/core';
 
-import { PlayerInfo } from './player-info/player-info';
-import { PlayerStats } from './player-stats/player-stats';
+import { PlayerDetails } from "./player-details/player-details";
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerInfo, PlayerStats],
+  imports: [PlayerDetails],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })
