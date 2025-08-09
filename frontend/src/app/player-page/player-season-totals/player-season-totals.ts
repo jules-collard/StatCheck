@@ -1,10 +1,11 @@
 import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/core';
 import { PlayerSeasonTotalsService } from './player-season-totals.service';
 import { SeasonTotals } from './season-totals.model';
+import { SeasonPipe } from '../../pipes/season.pipe';
 
 @Component({
   selector: 'app-player-season-totals',
-  imports: [],
+  imports: [SeasonPipe],
   templateUrl: './player-season-totals.html',
   styleUrl: './player-season-totals.css'
 })

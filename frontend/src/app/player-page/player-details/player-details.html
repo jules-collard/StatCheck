@@ -1,7 +1,7 @@
 @if (error()) {
     <p> {{ error() }} </p>
 } @else if (playerData() != null) {
-    <div class="card card-side shadow-sm">
+    <div class="card shadow-sm min-w-65">
         <figure>
             <img
                 [src]="playerData()!.headshot"

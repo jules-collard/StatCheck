@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/c
 import { PlayerService } from '../player.service';
 import { Player } from '../player.model';
 import { AgePipe } from '../../pipes/age.pipe';
-import { HeightPipe } from '../../pipes/height-pipe';
+import { HeightPipe } from '../../pipes/height.pipe';
 
 @Component({
   selector: 'app-player-details',

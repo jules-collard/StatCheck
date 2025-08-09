@@ -1,6 +1,6 @@
 export type SeasonTotals = {
     playerID: number,
-    season: string,
+    season: number,
     gamesPlayed: number,
     goals: number,
     primaryAssists: number,
