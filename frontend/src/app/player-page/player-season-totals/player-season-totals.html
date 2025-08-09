@@ -1,5 +1,5 @@
-<div class="overflow-x-auto rounded-box border">
-    <table class="table table-zebra table-auto">
+<div class="overflow-x-auto rounded-box shadow-sm">
+    <table class="table table-auto">
         <thead>
             <tr>
                 <th>Season</th>
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
             @for (season of seasons(); track season.season) {
-                <tr>
+                <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
                     <td>{{season.gamesPlayed}}</td>
                     <td>{{season.goals}}</td>

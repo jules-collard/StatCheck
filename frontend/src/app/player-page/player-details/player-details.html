@@ -8,9 +8,9 @@
                 alt="Headshot" />
         </figure>
         <div class="card-body">
-            <h1 class="card-title">{{playerData()!.firstName}} {{playerData()!.lastName}}</h1>
-            <h3> {{playerData()!.position | position}} | {{playerData()!.team?.fullName}} | #{{playerData()!.sweaterNumber}}</h3>
-            <ul style="list-style-type: none;">
+            <h1 class="card-title text-3xl">{{playerData()!.firstName}} {{playerData()!.lastName}}</h1>
+            <h2 class="text-lg text-base-content"> {{playerData()!.position | position}} | {{playerData()!.team?.fullName}} | #{{playerData()!.sweaterNumber}}</h2>
+            <ul class="list-none">
                 <li> <b>Nationality:</b> {{ playerData()!.birthCountry }} </li>
                 <li> <b>Age:</b> {{ playerData()!.birthDate | age}} </li>
                 <li> <b>Height:</b> {{ playerData()!.heightInInches | height: 'in' }} </li>
