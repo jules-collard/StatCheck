@@ -1,1 +1,8 @@
-<app-player-details [id]="this.id()"></app-player-details>
+<div class="flex flex-row">
+    <div class="basis-1/8">
+        <app-player-details [id]="this.id()"></app-player-details>
+    </div>
+    <div class="basis-7/8">
+        <app-player-season-totals [id]="this.id()"></app-player-season-totals>
+    </div>
+</div>

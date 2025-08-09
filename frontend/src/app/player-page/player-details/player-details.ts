@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/core';
 import { PlayerService } from '../player.service';
 import { Player } from '../player.model';
 import { AgePipe } from '../../pipes/age.pipe';
@@ -10,7 +10,7 @@ import { HeightPipe } from '../../pipes/height-pipe';
   templateUrl: './player-details.html',
   styleUrl: './player-details.css'
 })
-export class PlayerDetails {
+export class PlayerDetails implements OnInit {
   private destroyRef = inject(DestroyRef);
   private playerService = inject(PlayerService)
 
