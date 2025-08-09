@@ -7,7 +7,7 @@ export type Player = {
     firstName: string;
     lastName: string;
     sweaterNumber: number | null;
-    position: string;
+    position: "G" | "D" | "L" | "C" | "R";
     headshot: string;
     heroImage: string | null;
     heightInInches: number;

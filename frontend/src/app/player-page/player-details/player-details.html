@@ -9,7 +9,7 @@
         </figure>
         <div class="card-body">
             <h1 class="card-title">{{playerData()!.firstName}} {{playerData()!.lastName}}</h1>
-            <h3> {{playerData()!.position}} | {{playerData()!.team?.fullName}} | {{playerData()!.sweaterNumber}}</h3>
+            <h3> {{playerData()!.position | position}} | {{playerData()!.team?.fullName}} | #{{playerData()!.sweaterNumber}}</h3>
             <ul style="list-style-type: none;">
                 <li> <b>Nationality:</b> {{ playerData()!.birthCountry }} </li>
                 <li> <b>Age:</b> {{ playerData()!.birthDate | age}} </li>
