@@ -24,6 +24,7 @@ export type Player = {
     draftRound: number | null;
     draftPickInRound: number | null;
     draftOverallPick: number | null;
+    inHHOF: boolean | null;
     team: Team | null;
     awards: Award[];
 };
