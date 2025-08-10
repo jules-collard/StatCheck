@@ -5,16 +5,11 @@ from app.updaters import log_error
 from sqlalchemy.exc import IntegrityError
 
 def insert_game_types():
-    pre = GameType()
-    pre.from_dict({"typeCode": 1, "typeDescKey": "PRE"})
-    reg = GameType()
-    reg.from_dict({"typeCode": 2, "typeDescKey": "REG"})
-    post = GameType()
-    post.from_dict({"typeCode": 3, "typeDescKey": "POST"})
-    fourNations = GameType()
-    fourNations.from_dict({"typeCode": 19, "typeDescKey": "4NFO"})
-    fourNationsFinal = GameType()
-    fourNationsFinal.from_dict({"typeCode": 20, "typeDescKey": "4NFOFINAL"})
+    pre = GameType(**{"typeCode": 1, "typeDescKey": "PRE"})
+    reg = GameType(**{"typeCode": 2, "typeDescKey": "REG"})
+    post = GameType(**{"typeCode": 3, "typeDescKey": "POST"})
+    fourNations = GameType(**{"typeCode": 19, "typeDescKey": "4NFO"})
+    fourNationsFinal = GameType(**{"typeCode": 20, "typeDescKey": "4NFOFINAL"})
     
 
     try:
