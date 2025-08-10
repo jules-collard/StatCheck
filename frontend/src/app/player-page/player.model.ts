@@ -1,4 +1,5 @@
 import { Team } from "../team/team.model";
+import { Award } from "./award.model";
 
 export type Player = {
     id: number;
@@ -24,4 +25,5 @@ export type Player = {
     draftPickInRound: number | null;
     draftOverallPick: number | null;
     team: Team | null;
+    awards: Award[];
 };

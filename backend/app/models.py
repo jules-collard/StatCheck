@@ -103,7 +103,7 @@ class Player(db.Model, Util):
             'draftOverallPick': self.draftOverallPick,
             'inHHOF': self.inHHOF,
             'team': self.team.to_dict() if self.team else None,
-            'awards': {award.to_dict() for award in self.awards}
+            'awards': [award.to_dict() for award in self.awards]
         }
     
     def goals(self) -> int:
