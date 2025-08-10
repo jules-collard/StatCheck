@@ -5,6 +5,7 @@ from app.updaters import log_error
 
 from sqlalchemy.exc import IntegrityError
 from requests.exceptions import HTTPError
+import sqlalchemy as sa
 
 def insert_or_update_player(id: int):
     try:
@@ -27,12 +28,22 @@ def insert_or_update_player(id: int):
         log_error(e)
         return
 
-    for awardName, seasons in player_awards.items():
-        for season in seasons:
-            award = Award(**{'awardName':awardName, 'season': season, 'winningPlayerID':id})
-            db.session.merge(award)
+    if len(player_awards) > 0:
+        awards = set()
+        awards_in_db = set(db.session.scalars(sa.select(Award).where(Award.winningPlayerID == id)).all())
+        
+        for awardName, seasons in player_awards.items():
+            for season in seasons:
+                award = Award(**{'awardName':awardName, 'season': season, 'winningPlayerID':id})
+                awards.add(award)
+        
+        awards_to_add = awards - awards_in_db
+        
+        if len(awards_to_add) > 0:
+            db.session.add_all(awards_to_add)
             db.session.commit()
-            app.logger.info(f'Added {season} {awardName}')
+            app.logger.info(f'Added new awards for Player {id}')
+
 
 def delete_all_players():
     Player.query.delete()

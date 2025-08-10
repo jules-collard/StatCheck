@@ -141,8 +141,11 @@ def scrape_player(playerId: int) -> dict:
     response = response.json()
     player_df = pd.json_normalize(response)
 
-    awards = player_df['awards'][0]
-    awards_dict = {award['trophy']['default']:[season['seasonId'] for season in award['seasons']] for award in awards}
+    if 'awards' in player_df.columns:
+        awards = player_df['awards'][0]
+        awards_dict = {award['trophy']['default']:[season['seasonId'] for season in award['seasons']] for award in awards}
+    else:
+        awards_dict = {}
 
     player_df = player_df[player_df.columns[player_df.columns.isin(cols)]]
     player_df.rename(columns = {'playerId':'id',
@@ -316,5 +319,6 @@ def scrape_rosters_boxscore(gameID: int):
 
 
 if __name__ == "__main__":
-    scrape_player(8478402)
+    df, awards_dict = scrape_player(8470626)
+    print(awards_dict)
     pass

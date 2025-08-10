@@ -115,11 +115,20 @@ class Player(db.Model, Util):
 class Award(db.Model):
     __tablename__ = 'awards'
 
-    awardName: so.Mapped[str] = so.mapped_column(primary_key=True)
-    season: so.Mapped[int] = so.mapped_column(primary_key=True)
+    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    awardName: so.Mapped[str] = so.mapped_column()
+    season: so.Mapped[int] = so.mapped_column()
     winningPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
 
     winningPlayer: so.Mapped[Player] = so.relationship(back_populates='awards')
+
+    def __eq__(self, other):
+        if isinstance(other, Award):
+            return (self.awardName == other.awardName and self.season == other.season)
+        return False
+    
+    def __hash__(self):
+        return hash(str(self.season) + self.awardName)
 
     def to_dict(self):
         return {
