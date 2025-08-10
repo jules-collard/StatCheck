@@ -13,6 +13,7 @@
                 <th>PIM</th>
                 <th>TA</th>
                 <th>GA</th>
+                <th>Awards</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,12 @@
                     <td>{{season.penaltyMinutes}}</td>
                     <td>{{season.takeaways}}</td>
                     <td>{{season.giveaways}}</td>
+                    <td>
+                        @for (award of getSeasonAwards(season.season); track award) {
+                            <app-award-badge [award]="award"/>
+                            <br/>
+                        }
+                    </td>
                 </tr>
             }
         </tbody>

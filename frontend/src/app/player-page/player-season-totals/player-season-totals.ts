@@ -2,10 +2,12 @@ import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/c
 import { PlayerSeasonTotalsService } from './player-season-totals.service';
 import { SeasonTotals } from './season-totals.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
+import { Award } from '../award.model';
+import { AwardBadge } from './award-badge/award-badge';
 
 @Component({
   selector: 'app-player-season-totals',
-  imports: [SeasonPipe],
+  imports: [SeasonPipe, AwardBadge],
   templateUrl: './player-season-totals.html',
   styleUrl: './player-season-totals.css'
 })
@@ -14,8 +16,11 @@ export class PlayerSeasonTotals implements OnInit {
   private seasonTotalService = inject(PlayerSeasonTotalsService)
 
   id = input.required<number>();
+  awards = input<Award[]>([])
   seasons = signal<SeasonTotals[]>([])
   error = signal('')
+
+  private awardsToDisplay = ['Stanley Cup', 'Conn Smythe Trophy', 'Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy']
 
   ngOnInit() {
     const subscription = this.seasonTotalService.fetchSeasonTotals(this.id()).subscribe({
@@ -31,6 +36,16 @@ export class PlayerSeasonTotals implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  getSeasonAwards(season: number) {
+    var seasonAwards: string[] = [];
+    for (const award of this.awards()) {
+        if (award.season == season && this.awardsToDisplay.includes(award.awardName)) {
+          seasonAwards.push(award.awardName)
+        } 
+    }
+    return seasonAwards
   }
 
 }
