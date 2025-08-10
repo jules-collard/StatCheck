@@ -134,12 +134,16 @@ def scrape_player(playerId: int) -> dict:
             'sweaterNumber', 'position', 'headshot', 'heroImage', 'heightInInches', 'heightInCentimeters',
             'weightInPounds', 'weightInKilograms', 'birthDate', 'birthCity.default', 'birthCountry',
             'shootsCatches', 'draftDetails.year', 'draftDetails.teamAbbrev', 'draftDetails.round',
-            'draftDetails.pickInRound', 'draftDetails.overallPick']
+            'draftDetails.pickInRound', 'draftDetails.overallPick', 'inHHOF']
 
     response = requests.get(url)
     response.raise_for_status()
     response = response.json()
     player_df = pd.json_normalize(response)
+
+    awards = player_df['awards'][0]
+    awards_dict = {award['trophy']['default']:[season['seasonId'] for season in award['seasons']] for award in awards}
+
     player_df = player_df[player_df.columns[player_df.columns.isin(cols)]]
     player_df.rename(columns = {'playerId':'id',
                                 'currentTeamId':'currentTeamID',
@@ -155,8 +159,8 @@ def scrape_player(playerId: int) -> dict:
 
     # Parse birthdate
     player_df['birthDate'] = player_df['birthDate'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d').date())
-
-    return player_df.to_dict(orient='records')[0]
+    player_dict = player_df.to_dict(orient='records')[0]
+    return player_dict, awards_dict
 
 def scrape_schedule(date: str):
     """
@@ -312,10 +316,5 @@ def scrape_rosters_boxscore(gameID: int):
 
 
 if __name__ == "__main__":
-    # schedule_df = scrape_schedule("2025-01-15")
-    # shifts_df = scrape_shifts(2024020170)
-    # pbp_df = scrape_pbp(2024020170)
-    # player = scrape_player(8478402)
-    # teams = scrape_teams()
-    # rosters_df = scrape_rosters(2024020170)
+    scrape_player(8478402)
     pass

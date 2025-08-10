@@ -68,9 +68,11 @@ class Player(db.Model, Util):
     draftRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftRound > 0"), nullable=True)
     draftPickInRound: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftPickInRound > 0"), nullable=True)
     draftOverallPick: so.Mapped[int] = so.mapped_column(sa.CheckConstraint("draftOverallPick > 0"), nullable=True)
+    inHHOF: so.Mapped[bool] = so.mapped_column(nullable=True, default=0)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     team: so.Mapped[Team] = so.relationship(back_populates='players')
+    awards: so.Mapped[list['Award']] = so.relationship(back_populates='winningPlayer', foreign_keys='Award.winningPlayerID')
 
     def __repr__(self):
         return f"Player: <{self.firstName} {self.lastName}> {self.id}"
@@ -99,7 +101,9 @@ class Player(db.Model, Util):
             'draftRound': self.draftRound,
             'draftPickInRound': self.draftPickInRound,
             'draftOverallPick': self.draftOverallPick,
-            'team': self.team.to_dict() if self.team else None
+            'inHHOF': self.inHHOF,
+            'team': self.team.to_dict() if self.team else None,
+            'awards': {award.to_dict() for award in self.awards}
         }
     
     def goals(self) -> int:
@@ -107,12 +111,27 @@ class Player(db.Model, Util):
     
     def primaryAssists(self) -> int:
         return Event.query.filter(Event.assist1PlayerID == self.id).count()
+    
+class Award(db.Model):
+    __tablename__ = 'awards'
+
+    awardName: so.Mapped[str] = so.mapped_column(primary_key=True)
+    season: so.Mapped[int] = so.mapped_column(primary_key=True)
+    winningPlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
+
+    winningPlayer: so.Mapped[Player] = so.relationship(back_populates='awards')
+
+    def to_dict(self):
+        return {
+            'awardName':self.awardName,
+            'season':self.season
+        }
 
 class GameType(db.Model):
     __tablename__ = "game_types"
 
     typeCode: so.Mapped[int] = so.mapped_column(primary_key=True)
-    typeDescKey: so.Mapped[str] = so.mapped_column(sa.CheckConstraint('''typeDescKey IN ("REG", "POST")'''))
+    typeDescKey: so.Mapped[str] = so.mapped_column()
 
     def from_dict(self, data):
         attrs = ["typeCode", "typeDescKey"]
