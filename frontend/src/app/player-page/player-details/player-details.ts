@@ -1,6 +1,5 @@
-import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { PlayerService } from '../player.service';
-import { Player } from '../player.model';
 import { AgePipe } from '../../pipes/age.pipe';
 import { HeightPipe } from '../../pipes/height.pipe';
 import { PositionPipe } from '../../pipes/position.pipe';
@@ -12,5 +11,12 @@ import { PositionPipe } from '../../pipes/position.pipe';
   styleUrl: './player-details.css'
 })
 export class PlayerDetails {
-  playerData = input.required<Player>()
+  private playerService = inject(PlayerService)
+  
+  playerData = computed(() => {
+    return this.playerService.getPlayerData()
+  })
+  loading = computed(() => {
+    return this.playerService.playerDataIsLoading()
+  })
 }

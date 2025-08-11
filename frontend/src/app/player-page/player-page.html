@@ -1,12 +1,8 @@
-<div class="flex flex-row basis-auto gap-2 p-2">
+<div class="flex flex-row basis-auto gap-2">
     <div class="basis-1/8">
-        @if (error()) {
-            <div class="badge badge-error"> {{ error() }} </div>
-        } @else {
-            <app-player-details [playerData]="this.playerData()!"></app-player-details>
-        }
+        <app-player-details/>
     </div>
     <div class="basis-7/8">
-        <app-player-season-totals [id]="this.id()" [awards]="this.playerData()!.awards"></app-player-season-totals>
+        <app-player-season-totals ></app-player-season-totals>
     </div>
 </div>

@@ -11,8 +11,4 @@ import { Search } from "./search/search";
 export class App {
   protected readonly title = signal('StatCheck');
   playerID = signal<number>(8481461)
-
-  onFindPlayer(id: number) {
-    this.playerID.set(8470613)
-  }
 }

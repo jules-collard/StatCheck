@@ -1,5 +1,7 @@
-@if (isFetching()) {
+@if (loading()) {
     <span class="loading loading-spinner loading-xl"></span>
+} @else if (seasonTotals == null ) {
+    <div class="badge badge-error">Seasons Not Found</div>
 } @else {
     <div class="overflow-x-auto rounded-box shadow-sm">
         <table class="table table-auto">
@@ -20,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (season of seasons(); track season.season) {
+                @for (season of seasonTotals(); track season.season) {
                     <tr class="hover:bg-primary-content">
                         <th>{{season.season | season}}</th>
                         <td>{{season.gamesPlayed}}</td>
