@@ -66,7 +66,7 @@ SELECT
     coalesce("primaryAssistsTable"."primaryAssists", 0) AS "primaryAssists",
     coalesce("secondaryAssistsTable"."secondaryAssists", 0) AS "secondaryAssists",
     coalesce("hitsTable"."hits", 0) AS "hits",
-    coalesce("shotsOnGoalTable"."sog", 0) + "goals" AS "sog",
+    coalesce("shotsOnGoalTable"."sog", 0) + coalesce("goalsTable"."goals", 0) AS "sog",
     coalesce("blocksTable"."blocks", 0) AS "blocks",
     coalesce("penaltyMinutesTable"."penaltyMinutes", 0) AS "penaltyMinutes",
     coalesce("takeawaysTable"."takeaways", 0) AS "takeaways",
