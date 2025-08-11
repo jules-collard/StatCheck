@@ -1,9 +1,9 @@
 @if (loading()) {
     <span class="loading loading-spinner loading-xl"></span>
-} @else if (seasonTotals == null ) {
+} @else if (seasonTotals() == null ) {
     <div class="badge badge-error">Seasons Not Found</div>
 } @else {
-    <div class="overflow-x-auto rounded-box shadow-sm">
+    <div class="overflow-x-auto rounded-box shadow-md">
         <table class="table table-auto">
             <thead>
                 <tr>
