@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th>Season</th>
+                    <th>Team</th>
                     <th>GP</th>
                     <th>G</th>
                     <th>A</th>
@@ -25,6 +26,7 @@
                 @for (season of seasonTotals(); track season.season) {
                     <tr class="hover:bg-primary-content">
                         <th>{{season.season | season}}</th>
+                        <th>{{season.team.triCode}}</th>
                         <td>{{season.gamesPlayed}}</td>
                         <td>{{season.goals}}</td>
                         <td>{{season.primaryAssists + season.secondaryAssists}}</td>

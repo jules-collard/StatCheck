@@ -1,8 +1,7 @@
 WITH SeasonGames AS (
-    SELECT "playerID", "season", count("gameID") AS "gamesPlayed" FROM "player_games"
+    SELECT "playerID", "season", "teamID", "gameID" FROM "player_games"
     LEFT JOIN "games" ON "games"."id"="player_games"."gameID"
     WHERE player_games."playerID" == :playerID AND games."gameType" == :gameType
-    GROUP BY "playerID", "season"
 ),
 SeasonEvents AS (
     SELECT "events".*, "games"."season" FROM
@@ -11,83 +10,85 @@ SeasonEvents AS (
     WHERE games."gameType" == :gameType
 ),
 goalsTable AS (
-    SELECT "scoringPlayerID", "season", COUNT(id) AS goals FROM "SeasonEvents"
+    SELECT "scoringPlayerID", "gameID", "season", COUNT(id) AS goals FROM "SeasonEvents"
     WHERE "typeCode" == 505
         AND "periodType" != 'SO'
         AND "scoringPlayerID" == :playerID
-    GROUP BY "scoringPlayerID", "season"
+    GROUP BY "scoringPlayerID", "season", "gameID"
 ),
 primaryAssistsTable AS (
-    SELECT "assist1PlayerID", "season", COUNT("id") AS primaryAssists FROM "SeasonEvents"
+    SELECT "assist1PlayerID", "gameID", "season", COUNT("id") AS primaryAssists FROM "SeasonEvents"
     WHERE "assist1PlayerID" == :playerID AND "typeCode" == 505
-    GROUP BY "assist1PlayerID", "season"
+    GROUP BY "assist1PlayerID", "season", "gameID"
 ),
 secondaryAssistsTable AS (
-    SELECT "assist2PlayerID", "season", COUNT("id") AS secondaryAssists FROM "SeasonEvents"
+    SELECT "assist2PlayerID", "gameID", "season", COUNT("id") AS secondaryAssists FROM "SeasonEvents"
     WHERE "assist2PlayerID" == :playerID AND "typeCode" == 505
-    GROUP BY "assist2PlayerID", "season"
+    GROUP BY "assist2PlayerID", "season", "gameID"
 ),
 hitsTable AS (
-    SELECT "hittingPlayerID", "season", COUNT("id") AS hits FROM "SeasonEvents"
+    SELECT "hittingPlayerID", "gameID", "season", COUNT("id") AS hits FROM "SeasonEvents"
     WHERE "hittingPlayerID" == :playerID AND "typeCode" == 503
-    GROUP BY "hittingPlayerID", "season"
+    GROUP BY "hittingPlayerID", "season", "gameID"
 ),
 shotsOnGoalTable AS (
-    SELECT "shootingPlayerID", "season", COUNT("id") AS sog FROM "SeasonEvents"
+    SELECT "shootingPlayerID", "gameID", "season", COUNT("id") AS sog FROM "SeasonEvents"
     WHERE "shootingPlayerID" == :playerID AND "typeCode" == 506
-    GROUP BY "shootingPlayerID", "season"
+    GROUP BY "shootingPlayerID", "season", "gameID"
 ),
 blocksTable AS (
-    SELECT "blockingPlayerID", "season", COUNT("id") AS blocks FROM "SeasonEvents"
+    SELECT "blockingPlayerID", "gameID", "season", COUNT("id") AS blocks FROM "SeasonEvents"
     WHERE "blockingPlayerID" == :playerID AND "typeCode" == 508 AND
         ("reason" != 'teammate-blocked' OR "reason" IS NULL)
-    GROUP BY "blockingPlayerID", "season"
+    GROUP BY "blockingPlayerID", "season", "gameID"
 ),
 penaltyMinutesTable AS (
-    SELECT "committedByPlayerID", "season", sum("duration") AS penaltyMinutes FROM "SeasonEvents"
+    SELECT "committedByPlayerID", "gameID", "season", sum("duration") AS penaltyMinutes FROM "SeasonEvents"
     WHERE "committedByPlayerID" == :playerID AND "typeCode" == 509
-    GROUP BY "committedByPlayerID", "season"
+    GROUP BY "committedByPlayerID", "season", "gameID"
 ),
 takeawaysTable AS (
-    SELECT "playerID" AS "takeawayPlayerID", "season", COUNT("id") AS takeaways FROM "SeasonEvents"
+    SELECT "playerID" AS "takeawayPlayerID", "gameID", "season", COUNT("id") AS takeaways FROM "SeasonEvents"
     WHERE "takeawayPlayerID" == :playerID AND "typeCode" == 525
-    GROUP BY "takeawayPlayerID", "season"
+    GROUP BY "takeawayPlayerID", "season", "gameID"
 ),
 giveawaysTable AS (
-    SELECT "playerID" AS "giveawayPlayerID", "season", COUNT("id") AS giveaways FROM "SeasonEvents"
+    SELECT "playerID" AS "giveawayPlayerID", "gameID", "season", COUNT("id") AS giveaways FROM "SeasonEvents"
     WHERE  "giveawayPlayerID" == :playerID AND "typeCode" == 504
-    GROUP BY "giveawayPlayerID", "season"
+    GROUP BY "giveawayPlayerID", "season", "gameID"
 )
 SELECT
     "SeasonGames"."playerID" AS "playerID",
     "SeasonGames"."season" AS "season",
-    "SeasonGames"."gamesPlayed" AS "gamesPlayed",
-    coalesce("goalsTable"."goals", 0) AS "goals",
-    coalesce("primaryAssistsTable"."primaryAssists", 0) AS "primaryAssists",
-    coalesce("secondaryAssistsTable"."secondaryAssists", 0) AS "secondaryAssists",
-    coalesce("hitsTable"."hits", 0) AS "hits",
-    coalesce("shotsOnGoalTable"."sog", 0) + coalesce("goalsTable"."goals", 0) AS "sog",
-    coalesce("blocksTable"."blocks", 0) AS "blocks",
-    coalesce("penaltyMinutesTable"."penaltyMinutes", 0) AS "penaltyMinutes",
-    coalesce("takeawaysTable"."takeaways", 0) AS "takeaways",
-    coalesce("giveawaysTable"."giveaways", 0) AS "giveaways"
+    "SeasonGames"."teamID" AS "teamID",
+    count("SeasonGames"."gameID") AS "gamesPlayed",
+    sum(coalesce("goalsTable"."goals", 0)) AS "goals",
+    sum(coalesce("primaryAssistsTable"."primaryAssists", 0)) AS "primaryAssists",
+    sum(coalesce("secondaryAssistsTable"."secondaryAssists", 0)) AS "secondaryAssists",
+    sum(coalesce("hitsTable"."hits", 0)) AS "hits",
+    sum(coalesce("shotsOnGoalTable"."sog", 0)) + coalesce("goalsTable"."goals", 0) AS "sog",
+    sum(coalesce("blocksTable"."blocks", 0)) AS "blocks",
+    sum(coalesce("penaltyMinutesTable"."penaltyMinutes", 0)) AS "penaltyMinutes",
+    sum(coalesce("takeawaysTable"."takeaways", 0)) AS "takeaways",
+    sum(coalesce("giveawaysTable"."giveaways", 0)) AS "giveaways"
 FROM "SeasonGames"
 LEFT JOIN "goalsTable"
-ON "SeasonGames"."playerID"="goalsTable"."scoringPlayerID" AND "SeasonGames"."season"="goalsTable"."season"
+ON "SeasonGames"."playerID"="goalsTable"."scoringPlayerID" AND "SeasonGames"."gameID"="goalsTable"."gameID"
 LEFT JOIN "primaryAssistsTable"
-ON "SeasonGames"."playerID"="primaryAssistsTable"."assist1PlayerID" AND "SeasonGames"."season"="primaryAssistsTable"."season"
+ON "SeasonGames"."playerID"="primaryAssistsTable"."assist1PlayerID" AND "SeasonGames"."gameID"="primaryAssistsTable"."gameID"
 LEFT JOIN "secondaryAssistsTable"
-ON "SeasonGames"."playerID"="secondaryAssistsTable"."assist2PlayerID" AND "SeasonGames"."season"="secondaryAssistsTable"."season"
+ON "SeasonGames"."playerID"="secondaryAssistsTable"."assist2PlayerID" AND "SeasonGames"."gameID"="secondaryAssistsTable"."gameID"
 LEFT JOIN "hitsTable"
-ON "SeasonGames"."playerID"="hitsTable"."hittingPlayerID" AND "SeasonGames"."season"="hitsTable"."season"
+ON "SeasonGames"."playerID"="hitsTable"."hittingPlayerID" AND "SeasonGames"."gameID"="hitsTable"."gameID"
 LEFT JOIN "shotsOnGoalTable"
-ON "SeasonGames"."playerID"="shotsOnGoalTable"."shootingPlayerID" AND "SeasonGames"."season"="shotsOnGoalTable"."season"
+ON "SeasonGames"."playerID"="shotsOnGoalTable"."shootingPlayerID" AND "SeasonGames"."gameID"="shotsOnGoalTable"."gameID"
 LEFT JOIN "blocksTable"
-ON "SeasonGames"."playerID"="blocksTable"."blockingPlayerID" AND "SeasonGames"."season"="blocksTable"."season"
+ON "SeasonGames"."playerID"="blocksTable"."blockingPlayerID" AND "SeasonGames"."gameID"="blocksTable"."gameID"
 LEFT JOIN "penaltyMinutesTable"
-ON "SeasonGames"."playerID"="penaltyMinutesTable"."committedByPlayerID" AND "SeasonGames"."season"="penaltyMinutesTable"."season"
+ON "SeasonGames"."playerID"="penaltyMinutesTable"."committedByPlayerID" AND "SeasonGames"."gameID"="penaltyMinutesTable"."gameID"
 LEFT JOIN "takeawaysTable"
-ON "SeasonGames"."playerID"="takeawaysTable"."takeawayPlayerID" AND "SeasonGames"."season"="takeawaysTable"."season"
+ON "SeasonGames"."playerID"="takeawaysTable"."takeawayPlayerID" AND "SeasonGames"."gameID"="takeawaysTable"."gameID"
 LEFT JOIN "giveawaysTable"
-ON "SeasonGames"."playerID"="giveawaysTable"."giveawayPlayerID" AND "SeasonGames"."season"="giveawaysTable"."season"
+ON "SeasonGames"."playerID"="giveawaysTable"."giveawayPlayerID" AND "SeasonGames"."gameID"="giveawaysTable"."gameID"
+GROUP BY "SeasonGames"."playerID", "SeasonGames"."season", "SeasonGames"."teamID"
 ORDER BY "SeasonGames"."season" ASC;

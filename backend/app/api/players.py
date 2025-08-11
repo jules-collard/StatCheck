@@ -1,5 +1,5 @@
 from app.api import bp, db
-from app.models import Player
+from app.models import Player, Team
 from flask_cors import cross_origin
 
 from sqlalchemy.sql import text
@@ -32,5 +32,13 @@ def get_player_stats(id):
 
     query_result = db.session.execute(text(query), {"playerID": id, "gameType": 2}).mappings().all()
     results = [dict(row) for row in query_result]
+    
+    teams = {}
+    for teamID in set([season["teamID"] for season in results]):
+        teams[teamID] = db.session.get(Team, teamID).to_dict()
+
+    for season in results:
+        season['team'] = teams[season['teamID']]
+        season.pop('teamID', None)
 
     return json.dumps(results)
