@@ -1,9 +1,9 @@
 import { Component, DestroyRef, inject, input, signal, OnInit } from '@angular/core';
-import { PlayerSeasonTotalsService } from './player-season-totals.service';
 import { SeasonTotals } from './season-totals.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { Award } from '../award.model';
 import { AwardBadge } from './award-badge/award-badge';
+import { PlayerService } from '../player.service';
 
 @Component({
   selector: 'app-player-season-totals',
@@ -13,7 +13,7 @@ import { AwardBadge } from './award-badge/award-badge';
 })
 export class PlayerSeasonTotals implements OnInit {
   private destroyRef = inject(DestroyRef);
-  private seasonTotalService = inject(PlayerSeasonTotalsService)
+  private playerService = inject(PlayerService)
 
   id = input.required<number>();
   awards = input<Award[]>([])
@@ -25,7 +25,7 @@ export class PlayerSeasonTotals implements OnInit {
 
   ngOnInit() {
     this.isFetching.set(true)
-    const subscription = this.seasonTotalService.fetchSeasonTotals(this.id()).subscribe({
+    const subscription = this.playerService.fetchSeasonTotals(this.id()).subscribe({
       next: (resData) => {
         this.seasons.set(resData);
       },
