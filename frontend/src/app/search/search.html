@@ -2,5 +2,7 @@
     <label class="input join-item">
         <input type="search" required placeholder="Player Search" [(ngModel)]="enteredPlayerID"/>
     </label>
-    <button class="btn btn-neutral join-item" (click)="onFindPlayer()">Find</button>
+    <a [routerLink]="['players', enteredPlayerID]">
+        <button class="btn btn-neutral join-item" (click)="onFindPlayer()">Find</button>
+     </a>
 </div>

@@ -1,6 +1,6 @@
-import { inject, Injectable, signal } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { Player } from "./player.model";
-import { HttpClient, httpResource } from "@angular/common/http";
+import { httpResource } from "@angular/common/http";
 import { SearchResult } from "../search/search-result.model";
 import { SeasonTotals } from "./player-season-totals/season-totals.model";
 

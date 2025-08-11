@@ -1,14 +1,13 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { PlayerPage } from "./player-page/player-page";
+import { Component, signal } from '@angular/core';
 import { Search } from "./search/search";
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [PlayerPage, Search],
+  imports: [Search, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('StatCheck');
-  playerID = signal<number>(8481461)
 }
