@@ -19,13 +19,18 @@ export class PlayerSeasonTotals implements OnInit {
   awards = input<Award[]>([])
   seasons = signal<SeasonTotals[]>([])
   error = signal('')
+  isFetching = signal(false)
 
   private awardsToDisplay = ['Stanley Cup', 'Conn Smythe Trophy', 'Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy']
 
   ngOnInit() {
+    this.isFetching.set(true)
     const subscription = this.seasonTotalService.fetchSeasonTotals(this.id()).subscribe({
       next: (resData) => {
         this.seasons.set(resData);
+      },
+      complete: () => {
+        this.isFetching.set(false)
       },
       error: (error) => {
         console.log(error)

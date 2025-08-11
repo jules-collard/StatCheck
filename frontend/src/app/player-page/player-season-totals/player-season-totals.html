@@ -1,43 +1,47 @@
-<div class="overflow-x-auto rounded-box shadow-sm">
-    <table class="table table-auto">
-        <thead>
-            <tr>
-                <th>Season</th>
-                <th>GP</th>
-                <th>G</th>
-                <th>A</th>
-                <th>Pts</th>
-                <th>SOG</th>
-                <th>Hits</th>
-                <th>Blocks</th>
-                <th>PIM</th>
-                <th>TA</th>
-                <th>GA</th>
-                <th>Awards</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (season of seasons(); track season.season) {
-                <tr class="hover:bg-primary-content">
-                    <th>{{season.season | season}}</th>
-                    <td>{{season.gamesPlayed}}</td>
-                    <td>{{season.goals}}</td>
-                    <td>{{season.primaryAssists + season.secondaryAssists}}</td>
-                    <td>{{season.goals + season.primaryAssists + season.secondaryAssists}}</td>
-                    <td>{{season.sog}}</td>
-                    <td>{{season.hits}}</td>
-                    <td>{{season.blocks}}</td>
-                    <td>{{season.penaltyMinutes}}</td>
-                    <td>{{season.takeaways}}</td>
-                    <td>{{season.giveaways}}</td>
-                    <td>
-                        @for (award of getSeasonAwards(season.season); track award) {
-                            <app-award-badge [award]="award"/>
-                            <br/>
-                        }
-                    </td>
+@if (isFetching()) {
+    <span class="loading loading-spinner loading-xl"></span>
+} @else {
+    <div class="overflow-x-auto rounded-box shadow-sm">
+        <table class="table table-auto">
+            <thead>
+                <tr>
+                    <th>Season</th>
+                    <th>GP</th>
+                    <th>G</th>
+                    <th>A</th>
+                    <th>Pts</th>
+                    <th>SOG</th>
+                    <th>Hits</th>
+                    <th>Blocks</th>
+                    <th>PIM</th>
+                    <th>TA</th>
+                    <th>GA</th>
+                    <th>Awards</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @for (season of seasons(); track season.season) {
+                    <tr class="hover:bg-primary-content">
+                        <th>{{season.season | season}}</th>
+                        <td>{{season.gamesPlayed}}</td>
+                        <td>{{season.goals}}</td>
+                        <td>{{season.primaryAssists + season.secondaryAssists}}</td>
+                        <td>{{season.goals + season.primaryAssists + season.secondaryAssists}}</td>
+                        <td>{{season.sog}}</td>
+                        <td>{{season.hits}}</td>
+                        <td>{{season.blocks}}</td>
+                        <td>{{season.penaltyMinutes}}</td>
+                        <td>{{season.takeaways}}</td>
+                        <td>{{season.giveaways}}</td>
+                        <td>
+                            @for (award of getSeasonAwards(season.season); track award) {
+                                <app-award-badge [award]="award"/>
+                                <br/>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

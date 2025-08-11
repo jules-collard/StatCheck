@@ -20,7 +20,11 @@
             } @else {
                 <li> <b>Shoots:</b> {{ playerData()!.shootsCatches }} </li>
             }
-            <li> <b>Draft:</b> Round {{ playerData()!.draftRound }}, Pick {{ playerData()!.draftPickInRound }} (#{{ playerData()!.draftOverallPick}} OVR) </li>
+            @if (playerData()!.draftYear == null) {
+                <li> <b>Draft:</b> Undrafted</li>
+            } @else {
+                <li> <b>Draft:</b> {{playerData()!.draftTeamAbbrev}}, Rd {{ playerData()!.draftRound }} (#{{ playerData()!.draftOverallPick}} Ovr), {{playerData()!.draftYear}} </li>
+            }
         </ul>
     </div>
 </div>
