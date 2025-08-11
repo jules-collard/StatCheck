@@ -3,7 +3,19 @@ from app.models import Player
 from flask_cors import cross_origin
 
 from sqlalchemy.sql import text
+import sqlalchemy as sa
 import json, os
+
+@bp.route('/players', methods=['GET'])
+@cross_origin()
+def get_all_players():
+    players = db.session.scalars(sa.select(Player)).all()
+    players_dict = [{
+        'id':player.id,
+        'fullName': f"{player.firstName} {player.lastName}"}
+        for player in players
+    ]
+    return json.dumps(players_dict)
 
 @bp.route('/players/<int:id>', methods=['GET'])
 @cross_origin()
