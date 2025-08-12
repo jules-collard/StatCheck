@@ -9,10 +9,13 @@ import json, os
 @bp.route('/players', methods=['GET'])
 @cross_origin()
 def get_all_players():
-    players = db.session.scalars(sa.select(Player)).all()
+    players = db.session.scalars(sa.select(Player).order_by(Player.lastName.asc())).all()
     players_dict = [{
         'id':player.id,
-        'fullName': f"{player.firstName} {player.lastName}"}
+        'fullName': f"{player.firstName} {player.lastName}",
+        'position': player.position,
+        'teamTriCode': player.team.triCode if player.team else None,
+        'headshot': player.headshot}
         for player in players
     ]
     return json.dumps(players_dict)

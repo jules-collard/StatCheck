@@ -1,0 +1,33 @@
+import { httpResource } from "@angular/common/http";
+import { computed, Injectable, signal } from "@angular/core";
+import { PlayerListItem } from "./player-list-item.model";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PlayerListService {
+    private allPlayers = httpResource<PlayerListItem[]>(() => 'http://localhost:5000/api/players');
+    nameToSearch = signal<string>('')
+
+    getAllPlayers() {
+        if (this.allPlayers.hasValue()) {
+            return this.allPlayers.value();
+        } else return []
+    }
+
+    filteredPlayers = computed<PlayerListItem[]>(() => {
+        if (this.allPlayers.hasValue()) {
+            return this.allPlayers.value().filter((player) => {
+                return player?.fullName.toLowerCase().includes(this.nameToSearch()!)
+            })
+        } else { return [] }
+    })
+
+    setNameToSearch(name: string) {
+        this.nameToSearch.set(name)
+    }
+
+    isLoading() {
+        return this.allPlayers.isLoading()
+    }
+}

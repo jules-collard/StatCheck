@@ -1,7 +1,6 @@
 import { Injectable, signal } from "@angular/core";
 import { Player } from "./player.model";
 import { httpResource } from "@angular/common/http";
-import { SearchResult } from "../search/search-result.model";
 import { SeasonTotals } from "./player-season-totals/season-totals.model";
 
 @Injectable({
@@ -9,17 +8,10 @@ import { SeasonTotals } from "./player-season-totals/season-totals.model";
 })
 export class PlayerService {
 
-    private playerID = signal<number>(8471675);
+    private playerID = signal<number | null>(null);
 
     private playerData = httpResource<Player>(() => `http://localhost:5000/api/players/${this.playerID()}`);
     private seasonTotals = httpResource<SeasonTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats`);
-    private allPlayers = httpResource<SearchResult[]>(() => 'http://localhost:5000/api/players')
-    
-    getAllPlayers() {
-        if (this.allPlayers.hasValue()) {
-            return this.allPlayers.value();
-        } else return null;
-    }
     
     getPlayerData() {
         if (this.playerData.hasValue()) {

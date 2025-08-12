@@ -1,0 +1,21 @@
+<div class="flex-col justify-items-center gap-2">
+    @if (isLoading()) {
+        <span class="loading loading-spinner loading-xl"></span>
+    } @else if (players() == null || players().length == 0) {
+        <div class="badge badge-error">Players Not Found</div>
+    } @else {
+        <div class="min-w-1/3 max-h-screen">
+            <ul class="list rounded-box shadow-md">
+                @for (player of players(); track player.id) {
+                    <li class="list-row hover:bg-primary-content hover:cursor-pointer" (click)=onSelectListItem(player.id)>
+                        <div><img class="size-10 rounded-box" [src]="player.headshot"></div>
+                        <div class="list-col-grow">
+                            <div>{{player.fullName}}</div>
+                            <div class="text-sm font-semibold">{{player.position | position}} | {{player.teamTriCode ?? 'FA'}}</div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>   
+    }
+</div>
