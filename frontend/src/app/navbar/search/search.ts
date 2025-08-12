@@ -2,6 +2,7 @@ import { Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { RouterLink } from '@angular/router';
 import { PlayerListService } from '../../search-page/player-list/player-list.service';
+import { SearchService } from '../../search-page/search.service';
 
 @Component({
   selector: 'app-search',
@@ -11,10 +12,11 @@ import { PlayerListService } from '../../search-page/player-list/player-list.ser
 })
 export class Search {
   private playerListService = inject(PlayerListService)
+  private searchService = inject(SearchService)
   enteredPlayerName = '';
 
   onFindPlayer() {
-    // this.router.navigate(['/players', this.enteredPlayerID]);
     this.playerListService.setNameToSearch(this.enteredPlayerName)
+    this.searchService.firstPage()
   }
 }
