@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 
 import { PlayerDetails } from "./player-details/player-details";
 import { PlayerSeasonTotals } from "./player-season-totals/player-season-totals";
@@ -14,12 +14,15 @@ import { ActivatedRoute } from '@angular/router';
 export class PlayerPage implements OnInit {
   private playerService = inject(PlayerService);
   private activatedRoute = inject(ActivatedRoute);
+  private destroyRef = inject(DestroyRef)
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe({
+    const subscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         this.playerService.setPlayerID(Number(paramMap.get('playerID')))
       }
     })
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe())
   }
 }
