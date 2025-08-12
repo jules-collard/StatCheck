@@ -1,6 +1,6 @@
 import { Routes } from "@angular/router";
 import { PlayerPage } from "./player-page/player-page";
-import { PlayerList } from "./player-list/player-list";
+import { SearchPage } from "./search-page/search-page";
 
 export const routes: Routes = [
     {
@@ -9,6 +9,6 @@ export const routes: Routes = [
     },
     {
         path: 'search',
-        component: PlayerList
+        component: SearchPage
     }
 ]

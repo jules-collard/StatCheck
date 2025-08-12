@@ -1,7 +1,7 @@
 import { Component, computed, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms'
 import { RouterLink } from '@angular/router';
-import { PlayerListService } from '../../player-list/player-list.service';
+import { PlayerListService } from '../../search-page/player-list/player-list.service';
 
 @Component({
   selector: 'app-search',
