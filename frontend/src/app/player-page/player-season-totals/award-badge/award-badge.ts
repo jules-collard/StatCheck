@@ -22,7 +22,7 @@ export class AwardBadge {
   text = computed(() => {
     if (this.award() == "Hart Memorial Trophy") {
       return "MVP";
-    } else if (this.award() == "James Norris Memorial Tropy") {
+    } else if (this.award() == "James Norris Memorial Trophy") {
       return "Norris";
     } else if (this.award() == "Frank J. Selke Trophy") {
       return "Selke"
