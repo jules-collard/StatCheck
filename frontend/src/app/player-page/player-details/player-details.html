@@ -1,9 +1,14 @@
 @if (loading()) {
-    <span class="loading loading-spinner loading-xl"></span>
+    <div class="flex w-60 flex-col gap-4">
+        <div class="skeleton h-50 w-full"></div>
+        <div class="skeleton h-4 w-28"></div>
+        <div class="skeleton h-4 w-full"></div>
+        <div class="skeleton h-4 w-full"></div>
+    </div>
 } @else if (playerData() == null ) {
     <div class="badge badge-error">Player Not Found</div>
 } @else {
-    <div class="card shadow-md min-w-65 bg-base-100">
+    <div class="card sm:card-sm md:card-md shadow-md bg-base-100">
         <figure>
             <img
                 [src]="playerData()!.headshot"
