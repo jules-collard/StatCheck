@@ -15,7 +15,7 @@ export class AwardBadge {
     } else if (this.award() === "Hart Memorial Trophy") {
       return "badge badge-secondary badge-sm";
     } else {
-      return "badge badge-soft badge-accent";
+      return "badge badge-soft badge-accent badge-sm";
     }
   });
 

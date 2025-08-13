@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonTotals(); track season.season) {
+        @for (season of seasonTotals(); track $index) {
             <tr class="hover:bg-primary-content">
                 <th>{{season.season | season}}</th>
                 <th>{{season.team.triCode}}</th>
@@ -32,7 +32,7 @@
                 <td>{{season.takeaways}}</td>
                 <td>{{season.giveaways}}</td>
                 <td>
-                    @for (award of getSeasonAwards(season.season); track award) {
+                    @for (award of getSeasonAwards(season.season); track $index) {
                         <app-award-badge [award]="award"/>
                         <br/>
                     }

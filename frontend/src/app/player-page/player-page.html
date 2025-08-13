@@ -8,20 +8,20 @@
             <div class="overflow-x-auto rounded-box shadow-md">
                 @if (loading()) {
                     <div class="skeleton h-50 w-200"></div>
-                } @else if (seasonTotals() == null ) {
+                } @else if (regSeasonTotals() == null ) {
                     <div class="badge badge-error">Seasons Not Found</div>
                 } @else {
-                    <app-season-totals-table [seasonTotals]="seasonTotals()!" [awards]="regSeasonAwards()"/>
+                    <app-season-totals-table [seasonTotals]="regSeasonTotals()!" [awards]="regSeasonAwards()"/>
                 }
             </div>
             <h2 class="text-xl text-accent-content ml-2">Playoffs</h2>
             <div class="overflow-x-auto rounded-box shadow-md">
                 @if (loading()) {
                     <div class="skeleton h-50 w-200"></div>
-                } @else if (seasonTotals() == null ) {
+                } @else if (postSeasonTotals() == null ) {
                     <div class="badge badge-error">Seasons Not Found</div>
                 } @else {
-                    <app-season-totals-table [seasonTotals]="seasonTotals()!"/>
+                    <app-season-totals-table [seasonTotals]="postSeasonTotals()!" [awards]="postSeasonAwards()"/>
                 }
             </div>
         </div>

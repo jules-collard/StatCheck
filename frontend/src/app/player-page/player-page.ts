@@ -3,7 +3,7 @@ import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { PlayerDetails } from "./player-details/player-details";
 import { PlayerService } from './player.service';
 import { ActivatedRoute } from '@angular/router';
-import { SeasonTotals } from './player-season-totals/season-totals.model';
+import { SeasonTotals } from './season-totals-table/season-totals.model';
 import { Player } from './player.model';
 import { Award } from './award.model';
 import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
@@ -20,10 +20,13 @@ export class PlayerPage implements OnInit {
   private destroyRef = inject(DestroyRef)
 
   playerData = computed<Player | null>(() => {
-    return this.playerService.getPlayerData()
+    return this.playerService.getPlayerData();
   })
-  seasonTotals = computed<SeasonTotals[] | null>(() => {
-    return this.playerService.getSeasonTotals()
+  regSeasonTotals = computed<SeasonTotals[] | null>(() => {
+    return this.playerService.getRegSeasonTotals();
+  })
+  postSeasonTotals = computed<SeasonTotals[] | null>(() => {
+    return this.playerService.getPostSeasonTotals();
   })
   regSeasonAwards = computed<Award[]>(() => {
     return this.playerData()?.awards.filter((award) => {
@@ -32,7 +35,7 @@ export class PlayerPage implements OnInit {
   })
   postSeasonAwards = computed<Award[]>(() => {
     return this.playerData()?.awards.filter((award) => {
-      return award.awardName === 'Conn Smythe Trophy';
+      return this.postSeasonAwardNames.includes(award.awardName);
     }) ?? []
   })
 
@@ -40,7 +43,8 @@ export class PlayerPage implements OnInit {
     return this.playerService.playerDataIsLoading() || this.playerService.seasonTotalsIsLoading()
   })
 
-  private regSeasonAwardNames = ['Stanley Cup', 'Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy']
+  private regSeasonAwardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy']
+  private postSeasonAwardNames = ['Conn Smythe Trophy', 'Stanley Cup']
 
   ngOnInit(): void {
     const subscription = this.activatedRoute.paramMap.subscribe({

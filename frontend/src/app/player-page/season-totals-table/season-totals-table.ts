@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
-import { SeasonTotals } from '../player-season-totals/season-totals.model';
+import { SeasonTotals } from './season-totals.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
-import { AwardBadge } from '../player-season-totals/award-badge/award-badge';
+import { AwardBadge } from './award-badge/award-badge';
 import { Award } from '../award.model';
 
 @Component({
