@@ -4,6 +4,10 @@ import { SearchPage } from "./search-page/search-page";
 
 export const routes: Routes = [
     {
+        path: '',
+        component: SearchPage
+    },
+    {
         path: 'players/:playerID',
         component: PlayerPage
     },
