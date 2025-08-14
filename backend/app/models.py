@@ -282,6 +282,23 @@ class PlayerGame(db.Model, Util):
     def __repr__(self):
         return f"Player {self.playerID} - Team {self.teamID} - Game {self.gameID}"
     
+class GoalieAppearance(db.Model, Util):
+    __tablename__ = "goalie_appearances"
+
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), primary_key=True, index=True)
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True, index=True)
+    evenStrengthSaves: so.Mapped[int] = so.mapped_column()
+    evenStrengthShotsAgainst: so.Mapped[int] = so.mapped_column()
+    powerPlaySaves: so.Mapped[int] = so.mapped_column()
+    powerPlayShotsAgainst: so.Mapped[int] = so.mapped_column()
+    shorthandedSaves: so.Mapped[int] = so.mapped_column()
+    shorthandedShotsAgainst: so.Mapped[int] = so.mapped_column()
+    saves: so.Mapped[int] = so.mapped_column()
+    shotsAgainst: so.Mapped[int] = so.mapped_column()
+    starter: so.Mapped[bool] = so.mapped_column()
+    played: so.Mapped[bool] = so.mapped_column()
+    decision: so.Mapped[str] = so.mapped_column(nullable=True)
+    
 class GameImportError(db.Model):
     __tablename__ = "game_import_errors"
 

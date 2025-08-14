@@ -1,7 +1,7 @@
 from sqlite3 import IntegrityError
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
-from app.models import Game, Event, PlayerGame, Shift, GameImportError
+from app.models import Game, Event, GoalieAppearance, Player, PlayerGame, Shift, GameImportError
 
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
@@ -31,6 +31,7 @@ def import_games_on_date(date: datetime):
     game_ids = games.insert_games(date)
     for game_id in game_ids:
         games.insert_rosters(game_id)
+        games.insert_goalie_appearances(game_id)
         games.insert_events(game_id)
         games.insert_shifts(game_id)
 
@@ -49,6 +50,7 @@ def remove_game(id: int):
         Event.query.filter_by(gameID=id).delete()
         PlayerGame.query.filter_by(gameID=id).delete()
         Shift.query.filter_by(gameID=id).delete()
+        GoalieAppearance.query.filter_by(gameID=id).delete()
         Game.query.filter_by(id=id).delete()
         app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for {game}")
         db.session.commit()
@@ -68,13 +70,25 @@ def update_games():
         games.delete_all_events(gameID)
         games.delete_all_player_games(gameID)
         games.delete_all_shifts(gameID)
+        games.delete_all_goalie_appearances(gameID)
         games.insert_rosters(gameID)
         games.insert_events(gameID)
         games.insert_shifts(gameID)
+        games.insert_goalie_appearances(gameID)
+
+def update_all_players():
+    ids = [player.id for player in Player.query.all()]
+    for id in ids:
+        players.insert_or_update_player(id)
 
 if __name__ == "__main__":
     app.app_context().push()
-    remove_games_after_date(datetime(2025, 4, 1))
-    import_games_date_range(datetime(2025, 4, 1), datetime(2025, 4, 17))
-    # 23-24 season done
-    # 24-25 season done
+    ids = [game.id for game in Game.query.all()]
+    for id in ids:
+        games.insert_goalie_appearances(id)
+    # 20-21 REG + POST season done
+    # 21-22 REG + POST season done
+    # 22-23 REG + POST season done
+    # 23-24 REG + POST season done
+    # 24-25 REG + post season done
+    # Need to update players for awards & download postseason data

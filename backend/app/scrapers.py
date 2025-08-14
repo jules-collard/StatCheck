@@ -317,8 +317,33 @@ def scrape_rosters_boxscore(gameID: int):
 
     return rosters
 
+def scrape_goalies_boxscore(gameID: int):
+    url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/boxscore"
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
+    appearances = []
+
+    for gk in response["playerByGameStats"]["awayTeam"]["goalies"] + response["playerByGameStats"]["homeTeam"]["goalies"]:
+        appearances.append({
+            'playerID': gk['playerId'],
+            'gameID': gameID,
+            'evenStrengthSaves': int(gk['evenStrengthShotsAgainst'].split('/')[0]),
+            'evenStrengthShotsAgainst': int(gk['evenStrengthShotsAgainst'].split('/')[1]),
+            'powerPlaySaves': int(gk['powerPlayShotsAgainst'].split('/')[0]),
+            'powerPlayShotsAgainst': int(gk['powerPlayShotsAgainst'].split('/')[1]),
+            'shorthandedSaves': int(gk['shorthandedShotsAgainst'].split('/')[0]),
+            'shorthandedShotsAgainst': int(gk['shorthandedShotsAgainst'].split('/')[1]),
+            'saves': gk['saves'],
+            'shotsAgainst': gk['shotsAgainst'],
+            'starter': gk['starter'],
+            'played': True if gk['starter'] or int(gk['toi'].replace(':','')) > 0 else False,
+            'decision': gk['decision'] if 'decision' in gk.keys() else None
+        })
+
+    return appearances
+
 
 if __name__ == "__main__":
-    df, awards_dict = scrape_player(8470626)
-    print(awards_dict)
+    print(scrape_goalies_boxscore(2020020009))
     pass

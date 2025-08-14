@@ -1,6 +1,6 @@
 from app import app, db
-from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts
-from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError
+from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts, scrape_goalies_boxscore
+from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError, GoalieAppearance
 from app.updaters import log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
@@ -66,6 +66,25 @@ def insert_rosters(gameID: int, insert_new_players=True):
     except IntegrityError as e:
         db.session.rollback()
         app.logger.warning(f'Failed to insert rosters for Game {gameID}')
+        log_error(e)
+
+def insert_goalie_appearances(gameID: int):
+    try:
+        appearances = scrape_goalies_boxscore(gameID)
+    except HTTPError as e:
+        app.logger.warning(f'Boxscores not found for Game {gameID}')
+        app.logger.error(e)
+        return
+    
+    appearances_obj = [GoalieAppearance(**appearance) for appearance in appearances]
+
+    try:
+        db.session.add_all(appearances_obj)
+        db.session.commit()
+        app.logger.info(f'Goalie Appearances Inserted for Game {gameID}')
+    except IntegrityError as e:
+        db.session.rollback()
+        app.logger.warning(f'Failed to insert Goalie Appearances for Game {gameID}')
         log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
@@ -148,6 +167,15 @@ def delete_all_games():
     Game.query.delete()
     db.session.commit()
     app.logger.info('Deleted ALL Games')
+
+def delete_all_goalie_appearances(gameID = None):
+    if gameID is not None:
+        GoalieAppearance.query.filter_by(gameID=gameID).delete()
+        app.logger.info(f'Deleted goalie appearances for Game {gameID}')
+    else:
+        GoalieAppearance.query.delete()
+        app.logger.info(f'Deleted ALL Goalie Appearances')
+    db.session.commit()
 
 def delete_all_player_games(gameID = None):
     if gameID is not None:
