@@ -7,10 +7,12 @@ import { SeasonTotals } from './season-totals-table/season-totals.model';
 import { Player } from './player.model';
 import { Award } from './award.model';
 import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
+import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
+import { GoalieTotals } from './goalie-totals-table/goalie-totals.model';
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerDetails, SeasonTotalsTable],
+  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })
@@ -22,10 +24,10 @@ export class PlayerPage implements OnInit {
   playerData = computed<Player | null>(() => {
     return this.playerService.getPlayerData();
   })
-  regSeasonTotals = computed<SeasonTotals[] | null>(() => {
+  regSeasonTotals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
     return this.playerService.getRegSeasonTotals();
   })
-  postSeasonTotals = computed<SeasonTotals[] | null>(() => {
+  postSeasonTotals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
     return this.playerService.getPostSeasonTotals();
   })
   regSeasonAwards = computed<Award[]>(() => {

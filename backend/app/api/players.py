@@ -29,10 +29,12 @@ def get_player(id):
 @bp.route('/players/<int:id>/stats', methods=['GET'])
 @cross_origin()
 def get_player_stats(id):
-    db.get_or_404(Player, id)
+    player = db.get_or_404(Player, id)
     gameType = int(request.args.get('gameType', 2))
 
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'player_season_totals.sql')) as f:
+    querypath = 'goalie_season_totals.sql' if player.position == 'G' else 'player_season_totals.sql'
+
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', querypath)) as f:
         query = f.read()
 
     query_result = db.session.execute(text(query), {"playerID": id, "gameType": gameType}).mappings().all()

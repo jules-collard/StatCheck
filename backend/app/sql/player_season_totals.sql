@@ -2,6 +2,7 @@ WITH SeasonGames AS (
     SELECT "playerID", "season", "teamID", "gameID" FROM "player_games"
     LEFT JOIN "games" ON "games"."id"="player_games"."gameID"
     WHERE player_games."playerID" == :playerID AND games."gameType" == :gameType
+    ORDER BY "gameID" ASC
 ),
 SeasonEvents AS (
     SELECT "events".*, "games"."season" FROM

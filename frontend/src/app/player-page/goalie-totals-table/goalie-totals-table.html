@@ -1,0 +1,37 @@
+<table class="table table-auto">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>Team</th>
+            <th>GP</th>
+            <th>GS</th>
+            <th>W</th>
+            <th>L</th>
+            <th>Sv%</th>
+            <th>ES Sv%</th>
+            <th>PP Sv%</th>
+            <th>Awards</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (season of seasonTotals(); track $index) {
+            <tr class="hover:bg-primary-content">
+                <th>{{season.season | season}}</th>
+                <th>{{season.team.triCode}}</th>
+                <td>{{season.gamesPlayed}}</td>
+                <td>{{season.gamesStarted}}</td>
+                <td>{{season.wins}}</td>
+                <td>{{season.losses}}</td>
+                <td>{{season.savePct | number:'0.3-3'}}</td>
+                <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>
+                <td>{{season.powerPlaySavePct | number:'0.3-3'}}</td>
+                <td>
+                    @for (award of getSeasonAwards(season.season); track $index) {
+                        <app-award-badge [award]="award"/>
+                        <br/>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
