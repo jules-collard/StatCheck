@@ -295,6 +295,7 @@ class GoalieAppearance(db.Model, Util):
     shorthandedShotsAgainst: so.Mapped[int] = so.mapped_column()
     saves: so.Mapped[int] = so.mapped_column()
     shotsAgainst: so.Mapped[int] = so.mapped_column()
+    toiSeconds: so.Mapped[int] = so.mapped_column(nullable=True)
     starter: so.Mapped[bool] = so.mapped_column()
     played: so.Mapped[bool] = so.mapped_column()
     decision: so.Mapped[str] = so.mapped_column(nullable=True)

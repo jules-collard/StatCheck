@@ -7,8 +7,9 @@
             <th>GS</th>
             <th>W</th>
             <th>L</th>
+            <th>GAA</th>
             <th>Sv%</th>
-            <th>ES Sv%</th>
+            <th>EV Sv%</th>
             <th>PP Sv%</th>
             <th>Awards</th>
         </tr>
@@ -22,6 +23,7 @@
                 <td>{{season.gamesStarted}}</td>
                 <td>{{season.wins}}</td>
                 <td>{{season.losses}}</td>
+                <td>{{season.goalsAgainstAvg | number: '1.2-2'}}</td>
                 <td>{{season.savePct | number:'0.3-3'}}</td>
                 <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>
                 <td>{{season.powerPlaySavePct | number:'0.3-3'}}</td>

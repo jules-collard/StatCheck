@@ -336,6 +336,7 @@ def scrape_goalies_boxscore(gameID: int):
             'shorthandedShotsAgainst': int(gk['shorthandedShotsAgainst'].split('/')[1]),
             'saves': gk['saves'],
             'shotsAgainst': gk['shotsAgainst'],
+            'toiSeconds': int(gk['toi'].split(':')[0]) * 60 + int(gk['toi'].split(':')[1]),
             'starter': gk['starter'],
             'played': True if gk['starter'] or int(gk['toi'].replace(':','')) > 0 else False,
             'decision': gk['decision'] if 'decision' in gk.keys() else None

@@ -7,6 +7,7 @@ export type GoalieTotals = {
     gamesStarted: number;
     wins: number;
     losses: number;
+    goalsAgainstAvg: number;
     savePct: number;
     evenStrengthSavePct: number;
     powerPlaySavePct: number;
