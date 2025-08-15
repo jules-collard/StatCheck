@@ -1,6 +1,6 @@
 from app import app, db
-from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts, scrape_goalies_boxscore
-from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError, GoalieAppearance
+from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts, scrape_goalies_boxscore, scrape_skaters_boxscore
+from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError, GoalieAppearance, SkaterAppearance
 from app.updaters import log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
@@ -85,6 +85,26 @@ def insert_goalie_appearances(gameID: int):
     except IntegrityError as e:
         db.session.rollback()
         app.logger.warning(f'Failed to insert Goalie Appearances for Game {gameID}')
+        log_error(e)
+
+def insert_skater_appearances(gameID: int):
+    try:
+        appearances = scrape_skaters_boxscore(gameID)
+    except HTTPError as e:
+        app.logger.warning(f'Boxscores not found for Game {gameID}')
+        app.logger.error(e)
+        return
+    
+    appearances_obj = [SkaterAppearance(**appearance) for appearance in appearances]
+
+    try:
+        for appearance in appearances_obj:
+            db.session.merge(appearance)
+        db.session.commit()
+        app.logger.info(f'Skater Appearances Inserted for Game {gameID}')
+    except IntegrityError as e:
+        db.session.rollback()
+        app.logger.warning(f'Failed to insert Skater Appearances for Game {gameID}')
         log_error(e)
 
 def insert_events(gameID: int, insert_new_event_codes=True):

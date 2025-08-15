@@ -324,27 +324,63 @@ def scrape_goalies_boxscore(gameID: int):
     response = response.json()
     appearances = []
 
-    for gk in response["playerByGameStats"]["awayTeam"]["goalies"] + response["playerByGameStats"]["homeTeam"]["goalies"]:
-        appearances.append({
-            'playerID': gk['playerId'],
-            'gameID': gameID,
-            'evenStrengthSaves': int(gk['evenStrengthShotsAgainst'].split('/')[0]),
-            'evenStrengthShotsAgainst': int(gk['evenStrengthShotsAgainst'].split('/')[1]),
-            'powerPlaySaves': int(gk['powerPlayShotsAgainst'].split('/')[0]),
-            'powerPlayShotsAgainst': int(gk['powerPlayShotsAgainst'].split('/')[1]),
-            'shorthandedSaves': int(gk['shorthandedShotsAgainst'].split('/')[0]),
-            'shorthandedShotsAgainst': int(gk['shorthandedShotsAgainst'].split('/')[1]),
-            'saves': gk['saves'],
-            'shotsAgainst': gk['shotsAgainst'],
-            'toiSeconds': int(gk['toi'].split(':')[0]) * 60 + int(gk['toi'].split(':')[1]),
-            'starter': gk['starter'],
-            'played': True if gk['starter'] or int(gk['toi'].replace(':','')) > 0 else False,
-            'decision': gk['decision'] if 'decision' in gk.keys() else None
-        })
+    teamIDs = {"awayTeam":response["awayTeam"]["id"], "homeTeam":response["homeTeam"]["id"]}
+
+    for team, teamID in teamIDs.items():
+        for gk in response["playerByGameStats"][team]["goalies"]:
+            appearances.append({
+                'appearanceID': int(str(gk['playerId']) + str(teamID) + str(gameID)),
+                'playerID': gk['playerId'],
+                'teamID': teamID,
+                'gameID': gameID,
+                'evenStrengthSaves': int(gk['evenStrengthShotsAgainst'].split('/')[0]),
+                'evenStrengthShotsAgainst': int(gk['evenStrengthShotsAgainst'].split('/')[1]),
+                'powerPlaySaves': int(gk['powerPlayShotsAgainst'].split('/')[0]),
+                'powerPlayShotsAgainst': int(gk['powerPlayShotsAgainst'].split('/')[1]),
+                'shorthandedSaves': int(gk['shorthandedShotsAgainst'].split('/')[0]),
+                'shorthandedShotsAgainst': int(gk['shorthandedShotsAgainst'].split('/')[1]),
+                'saves': gk['saves'],
+                'shotsAgainst': gk['shotsAgainst'],
+                'toiSeconds': int(gk['toi'].split(':')[0]) * 60 + int(gk['toi'].split(':')[1]),
+                'starter': gk['starter'],
+                'played': True if gk['starter'] or int(gk['toi'].replace(':','')) > 0 else False,
+                'decision': gk['decision'] if 'decision' in gk.keys() else None
+            })
 
     return appearances
 
+def scrape_skaters_boxscore(gameID: int):
+    url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/boxscore"
+    response = requests.get(url)
+    response.raise_for_status()
+    response = response.json()
+
+    teamIDs = {"awayTeam":response["awayTeam"]["id"], "homeTeam":response["homeTeam"]["id"]}
+    skater_appearances = []
+
+    for team, teamID in teamIDs.items():
+        for player in response["playerByGameStats"][team]["forwards"] + response["playerByGameStats"][team]["defense"]:
+            skater_appearances.append({
+                'appearanceID': int(str(player['playerId']) + str(teamID) + str(gameID)),
+                'playerID': player['playerId'],
+                'teamID': teamID,
+                'gameID': gameID,
+                'position': player['position'],
+                'goals': player['goals'],
+                'powerPlayGoals': player['powerPlayGoals'],
+                'assists': player['assists'],
+                'plusMinus': player['plusMinus'],
+                'pim': player['pim'],
+                'hits': player['hits'],
+                'sog': player['sog'],
+                'blocks': player['blockedShots'],
+                'giveaways': player['giveaways'],
+                'takeaways': player['takeaways'],
+                'toiSeconds': int(player['toi'].split(':')[0]) * 60 + int(player['toi'].split(':')[1])
+            })
+
+    return skater_appearances
 
 if __name__ == "__main__":
-    print(scrape_goalies_boxscore(2020020009))
+    print(scrape_skaters_boxscore(2020020009))
     pass

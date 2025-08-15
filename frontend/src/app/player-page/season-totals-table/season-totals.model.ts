@@ -5,13 +5,15 @@ export type SeasonTotals = {
     season: number;
     gamesPlayed: number;
     goals: number;
-    primaryAssists: number;
-    secondaryAssists: number;
+    assists: number;
+    powerPlayGoals: number;
+    plusMinus: number;
     hits: number;
     sog: number;
     blocks: number;
     penaltyMinutes: number;
     takeaways: number;
     giveaways: number;
+    avgTOI: number;
     team: Team;
 }

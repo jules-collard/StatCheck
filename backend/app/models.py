@@ -285,8 +285,10 @@ class PlayerGame(db.Model, Util):
 class GoalieAppearance(db.Model, Util):
     __tablename__ = "goalie_appearances"
 
-    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), primary_key=True, index=True)
-    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True, index=True)
+    appearanceID: so.Mapped[int] = so.mapped_column(primary_key=True)
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), index=True)
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), index=True)
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
     evenStrengthSaves: so.Mapped[int] = so.mapped_column()
     evenStrengthShotsAgainst: so.Mapped[int] = so.mapped_column()
     powerPlaySaves: so.Mapped[int] = so.mapped_column()
@@ -295,10 +297,30 @@ class GoalieAppearance(db.Model, Util):
     shorthandedShotsAgainst: so.Mapped[int] = so.mapped_column()
     saves: so.Mapped[int] = so.mapped_column()
     shotsAgainst: so.Mapped[int] = so.mapped_column()
-    toiSeconds: so.Mapped[int] = so.mapped_column(nullable=True)
+    toiSeconds: so.Mapped[int] = so.mapped_column()
     starter: so.Mapped[bool] = so.mapped_column()
     played: so.Mapped[bool] = so.mapped_column()
     decision: so.Mapped[str] = so.mapped_column(nullable=True)
+
+class SkaterAppearance(db.Model):
+    __tablename__ = "skater_appearances"
+
+    appearanceID: so.Mapped[int] = so.mapped_column(primary_key=True)
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), index=True)
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), index=True)
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
+    position: so.Mapped[str] = so.mapped_column(nullable=True)
+    goals: so.Mapped[int] = so.mapped_column()
+    powerPlayGoals: so.Mapped[int] = so.mapped_column()
+    assists: so.Mapped[int] = so.mapped_column()
+    plusMinus: so.Mapped[int] = so.mapped_column()
+    pim: so.Mapped[int] = so.mapped_column()
+    hits: so.Mapped[int] = so.mapped_column()
+    sog: so.Mapped[int] = so.mapped_column()
+    blocks: so.Mapped[int] = so.mapped_column()
+    giveaways: so.Mapped[int] = so.mapped_column()
+    takeaways: so.Mapped[int] = so.mapped_column()
+    toiSeconds: so.Mapped[int] = so.mapped_column()
     
 class GameImportError(db.Model):
     __tablename__ = "game_import_errors"

@@ -32,7 +32,7 @@ def get_player_stats(id):
     player = db.get_or_404(Player, id)
     gameType = int(request.args.get('gameType', 2))
 
-    querypath = 'goalie_season_totals.sql' if player.position == 'G' else 'player_season_totals.sql'
+    querypath = 'goalie_season_totals.sql' if player.position == 'G' else 'skater_season_totals.sql'
 
     with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', querypath)) as f:
         query = f.read()
