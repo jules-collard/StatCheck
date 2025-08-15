@@ -1,6 +1,6 @@
 from app import app, db
-from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_rosters, scrape_rosters_boxscore, scrape_pbp, scrape_shifts, scrape_goalies_boxscore, scrape_skaters_boxscore
-from app.models import Game, PlayerGame, Event, EventType, Player, Shift, GameImportError, GoalieAppearance, SkaterAppearance
+from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_pbp, scrape_shifts, scrape_appearances_boxscore
+from app.models import Game, Event, EventType, Player, Shift, GameImportError, GoalieAppearance, SkaterAppearance
 from app.updaters import log_error, ref_types, players
 
 from sqlalchemy.exc import IntegrityError
@@ -30,75 +30,21 @@ def insert_games(date: datetime) -> list[int]:
 
     return game_ids
 
-def insert_rosters(gameID: int, insert_new_players=True):
+def insert_appearances(gameID: int):
     try:
-        player_games = scrape_rosters(gameID)
-    except HTTPError as e:
-        app.logger.warning(f'Rosters not found for Game {gameID}')
-        app.logger.error(e)
-        app.logger.info(f'Trying rosters with boxscore Game {gameID}')
-        try:
-            player_games = scrape_rosters_boxscore(gameID)
-        except HTTPError as box_e:
-            app.logger.warning(f'Boxscores not found for Game {gameID}')
-            app.logger.error(box_e)
-            return
-
-    player_game_objs = []
-
-    # Add new players to database
-    if insert_new_players:
-        existing_player_ids = set(i[0] for i in db.session.query(Player.id).all())
-        new_player_ids = set(appearance['playerID'] for appearance in player_games) - existing_player_ids
-        for id in new_player_ids:
-            players.insert_or_update_player(id)
-    
-    # Add player appearances
-    for appearance in player_games:
-        player_game = PlayerGame()
-        player_game.from_dict(appearance)
-        player_game_objs.append(player_game)
-
-    try:
-        db.session.add_all(player_game_objs)
-        db.session.commit()
-        app.logger.info(f'Rosters Inserted for Game {gameID}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert rosters for Game {gameID}')
-        log_error(e)
-
-def insert_goalie_appearances(gameID: int):
-    try:
-        appearances = scrape_goalies_boxscore(gameID)
+        skater_appearances, goalie_appearances = scrape_appearances_boxscore(gameID)
     except HTTPError as e:
         app.logger.warning(f'Boxscores not found for Game {gameID}')
         app.logger.error(e)
-        return
-    
-    appearances_obj = [GoalieAppearance(**appearance) for appearance in appearances]
-
-    try:
-        db.session.add_all(appearances_obj)
+        db.session.add(GameImportError(gameID, "BOX"))
         db.session.commit()
-        app.logger.info(f'Goalie Appearances Inserted for Game {gameID}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert Goalie Appearances for Game {gameID}')
-        log_error(e)
-
-def insert_skater_appearances(gameID: int):
-    try:
-        appearances = scrape_skaters_boxscore(gameID)
-    except HTTPError as e:
-        app.logger.warning(f'Boxscores not found for Game {gameID}')
-        app.logger.error(e)
         return
     
-    appearances_obj = [SkaterAppearance(**appearance) for appearance in appearances]
+    skater_appearances_obj = [SkaterAppearance(**appearance) for appearance in skater_appearances]
+    goalie_appearances_obj = [GoalieAppearance(**appearance) for appearance in goalie_appearances]
 
     try:
-        for appearance in appearances_obj:
+        for appearance in skater_appearances_obj:
             db.session.merge(appearance)
         db.session.commit()
         app.logger.info(f'Skater Appearances Inserted for Game {gameID}')
@@ -106,6 +52,22 @@ def insert_skater_appearances(gameID: int):
         db.session.rollback()
         app.logger.warning(f'Failed to insert Skater Appearances for Game {gameID}')
         log_error(e)
+
+    try:
+        for appearance in goalie_appearances_obj:
+            db.session.merge(appearance)
+        db.session.commit()
+        app.logger.info(f'Goalie Appearances Inserted for Game {gameID}')
+    except IntegrityError as e:
+        db.session.rollback()
+        app.logger.warning(f'Failed to insert Goalie Appearances for Game {gameID}')
+        log_error(e)
+
+    # Add new players to database
+    existing_player_ids = set(player.id for player in Player.query.all())
+    new_player_ids = set(appearance.playerID for appearance in skater_appearances_obj + goalie_appearances_obj) - existing_player_ids
+    for id in new_player_ids:
+        players.insert_or_update_player(id)
 
 def insert_events(gameID: int, insert_new_event_codes=True):
     try:
@@ -188,7 +150,7 @@ def delete_all_games():
     db.session.commit()
     app.logger.info('Deleted ALL Games')
 
-def delete_all_goalie_appearances(gameID = None):
+def delete_goalie_appearances(gameID = None):
     if gameID is not None:
         GoalieAppearance.query.filter_by(gameID=gameID).delete()
         app.logger.info(f'Deleted goalie appearances for Game {gameID}')
@@ -197,13 +159,13 @@ def delete_all_goalie_appearances(gameID = None):
         app.logger.info(f'Deleted ALL Goalie Appearances')
     db.session.commit()
 
-def delete_all_player_games(gameID = None):
+def delete_skater_appearances(gameID = None):
     if gameID is not None:
-        PlayerGame.query.filter_by(gameID=gameID).delete()
-        app.logger.info(f'Deleted appearances for Game {gameID}')
+        SkaterAppearance.query.filter_by(gameID=gameID).delete()
+        app.logger.info(f'Deleted skater appearances for Game {gameID}')
     else:
-        PlayerGame.query.delete()
-        app.logger.info('Deleted ALL Appearances')
+        GoalieAppearance.query.delete()
+        app.logger.info(f'Deleted ALL Skater Appearances')
     db.session.commit()
 
 def delete_all_events(gameID = None):

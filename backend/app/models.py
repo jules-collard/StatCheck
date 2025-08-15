@@ -270,17 +270,6 @@ class Shift(db.Model, Util):
     shiftNumber: so.Mapped[int] = so.mapped_column()
     teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
-
-
-class PlayerGame(db.Model, Util):
-    __tablename__ = "player_games"
-
-    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True, index=True)
-    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), primary_key=True, index=True)
-    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), primary_key=True, index=True)
-
-    def __repr__(self):
-        return f"Player {self.playerID} - Team {self.teamID} - Game {self.gameID}"
     
 class GoalieAppearance(db.Model, Util):
     __tablename__ = "goalie_appearances"

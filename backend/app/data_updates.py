@@ -1,12 +1,10 @@
 from sqlite3 import IntegrityError
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
-from app.models import Game, Event, GoalieAppearance, Player, PlayerGame, Shift, GameImportError
+from app.models import Game, Player, GameImportError
 
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.sql import text
-import os
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')
@@ -30,8 +28,7 @@ def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
     game_ids = games.insert_games(date)
     for game_id in game_ids:
-        games.insert_rosters(game_id)
-        games.insert_goalie_appearances(game_id)
+        games.insert_appearances(game_id)
         games.insert_events(game_id)
         games.insert_shifts(game_id)
 
@@ -46,13 +43,12 @@ def import_games_date_range(start: datetime, end: datetime):
 
 def remove_game(id: int):
     try:
-        game = Game.query.filter_by(id=id).first()
-        Event.query.filter_by(gameID=id).delete()
-        PlayerGame.query.filter_by(gameID=id).delete()
-        Shift.query.filter_by(gameID=id).delete()
-        GoalieAppearance.query.filter_by(gameID=id).delete()
+        games.delete_all_events(id)
+        games.delete_all_shifts(id)
+        games.delete_goalie_appearances(id)
+        games.delete_skater_appearances(id)
         Game.query.filter_by(id=id).delete()
-        app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for {game}")
+        app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for Game {id}")
         db.session.commit()
     except IntegrityError as e:
         app.logger.warning(f"Failed to Remove Game {id}")
@@ -68,13 +64,12 @@ def update_games():
     for gameID in ids:
         GameImportError.query.filter_by(gameID=gameID).delete()
         games.delete_all_events(gameID)
-        games.delete_all_player_games(gameID)
         games.delete_all_shifts(gameID)
-        games.delete_all_goalie_appearances(gameID)
-        games.insert_rosters(gameID)
+        games.delete_goalie_appearances(gameID)
+        games.delete_skater_appearances(gameID)
+        games.insert_appearances(gameID)
         games.insert_events(gameID)
         games.insert_shifts(gameID)
-        games.insert_goalie_appearances(gameID)
 
 def update_all_players():
     ids = [player.id for player in Player.query.all()]
@@ -83,12 +78,11 @@ def update_all_players():
 
 if __name__ == "__main__":
     app.app_context().push()
-    ids = [game.id for game in Game.query.all()]
-    for id in ids:
-        games.insert_goalie_appearances(id)
+
+    import_games_date_range(datetime(2018, 10, 3), datetime(2019, 6, 12))
+    # 19-20 REG + POST season done
     # 20-21 REG + POST season done
     # 21-22 REG + POST season done
     # 22-23 REG + POST season done
     # 23-24 REG + POST season done
     # 24-25 REG + post season done
-    # Need to update players for awards & download postseason data

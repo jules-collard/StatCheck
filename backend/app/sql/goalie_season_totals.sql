@@ -11,6 +11,6 @@ SELECT
     sum("goalie_appearances"."evenStrengthSaves") * 1.0 / sum("goalie_appearances"."evenStrengthShotsAgainst") AS "evenStrengthSavePct",
     sum("goalie_appearances"."powerPlaySaves") * 1.0 / sum("goalie_appearances"."powerPlayShotsAgainst") AS "powerPlaySavePct"
 FROM "goalie_appearances"
-LEFT JOIN "games" ON goalie_appearances."gameID" == "games"."gameID" AND goalie_appearances."playerID" == "games"."playerID"
+LEFT JOIN "games" ON goalie_appearances."gameID" == "games"."id"
 WHERE "goalie_appearances"."playerID" == :playerID AND "games"."gameType" == :gameType
 GROUP BY "playerID", "games"."season", "teamID";
