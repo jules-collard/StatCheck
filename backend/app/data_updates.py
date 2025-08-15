@@ -71,6 +71,11 @@ def update_games():
         games.insert_events(gameID)
         games.insert_shifts(gameID)
 
+def insert_game(gameID: int):
+    games.insert_appearances(gameID)
+    games.insert_events(gameID)
+    games.insert_shifts(gameID)
+
 def update_all_players():
     ids = [player.id for player in Player.query.all()]
     for id in ids:
@@ -79,7 +84,9 @@ def update_all_players():
 if __name__ == "__main__":
     app.app_context().push()
 
-    import_games_date_range(datetime(2018, 10, 3), datetime(2019, 6, 12))
+    import_games_date_range(datetime(2018, 4, 11), datetime(2018, 6, 7))
+    # 17-18 REG + POST season done
+    # 18-19 REG + POST season done
     # 19-20 REG + POST season done
     # 20-21 REG + POST season done
     # 21-22 REG + POST season done
