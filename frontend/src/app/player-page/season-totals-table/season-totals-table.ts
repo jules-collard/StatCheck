@@ -3,10 +3,11 @@ import { SeasonTotals } from './season-totals.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { AwardBadge } from './award-badge/award-badge';
 import { Award } from '../award.model';
+import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
 
 @Component({
   selector: 'app-season-totals-table',
-  imports: [SeasonPipe, AwardBadge],
+  imports: [SeasonPipe, timeOnIcePipe, AwardBadge],
   templateUrl: './season-totals-table.html',
   styleUrl: './season-totals-table.css'
 })
