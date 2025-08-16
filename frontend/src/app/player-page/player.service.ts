@@ -3,6 +3,7 @@ import { Player } from "./player.model";
 import { httpResource } from "@angular/common/http";
 import { SeasonTotals } from "./season-totals-table/season-totals.model";
 import { GoalieTotals } from "./goalie-totals-table/goalie-totals.model";
+import { SkaterSeasonRecords } from "./season-totals-table/skater-season-records.model";
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,8 @@ export class PlayerService {
 
     private playerData = httpResource<Player>(() => `http://localhost:5000/api/players/${this.playerID()}`);
     private regSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=2`);
-    private postSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`)
+    private postSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`);
+    private skaterRegSeasonRecords = httpResource<SkaterSeasonRecords[]>(() => `http://localhost:5000/api/records/skaters/2`)
     
     getPlayerData() {
         if (this.playerData.hasValue()) {
@@ -37,8 +39,14 @@ export class PlayerService {
         } else return null;
     }
 
-    seasonTotalsIsLoading() {
+    seasonTotalsIsLoading(): boolean {
         return this.regSeasonTotals.isLoading() || this.postSeasonTotals.isLoading();
+    }
+
+    getSkaterRecords(): SkaterSeasonRecords[] | null {
+        if (this.skaterRegSeasonRecords.hasValue()) {
+            return this.skaterRegSeasonRecords.value();
+        } else return null;
     }
 
     setPlayerID(id: number) {
