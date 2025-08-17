@@ -19,10 +19,10 @@
             <tr class="hover:bg-primary-content">
                 <th>{{season.season | season}}</th>
                 <th>{{season.team.triCode}}</th>
-                <td>{{season.gamesPlayed}}</td>
-                <td>{{season.gamesStarted}}</td>
-                <td>{{season.wins}}</td>
-                <td>{{season.losses}}</td>
+                <td [innerHTML]="season.gamesPlayed | boldRecord: season.records?.maxGamesPlayed"></td>
+                <td [innerHTML]="season.gamesStarted | boldRecord: season.records?.maxGamesStarted"></td>
+                <td [innerHTML]="season.wins | boldRecord: season.records?.maxWins"></td>
+                <td [innerHTML]="season.losses | boldRecord: season.records?.maxLosses"></td>
                 <td>{{season.goalsAgainstAvg | number: '1.2-2'}}</td>
                 <td>{{season.savePct | number:'0.3-3'}}</td>
                 <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>

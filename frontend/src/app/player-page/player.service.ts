@@ -1,9 +1,10 @@
-import { Injectable, signal } from "@angular/core";
+import { computed, Injectable, signal } from "@angular/core";
 import { Player } from "./player.model";
 import { httpResource } from "@angular/common/http";
 import { SeasonTotals } from "./season-totals-table/season-totals.model";
 import { GoalieTotals } from "./goalie-totals-table/goalie-totals.model";
 import { SkaterSeasonRecords } from "./season-totals-table/skater-season-records.model";
+import { GoalieSeasonRecords } from "./season-totals-table/goalie-season-records.model";
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,8 @@ export class PlayerService {
     private regSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=2`);
     private postSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`);
     private skaterRegSeasonRecords = httpResource<SkaterSeasonRecords[]>(() => `http://localhost:5000/api/records/skaters/2`)
-    
+    private goalieRegSeasonRecords = httpResource<GoalieSeasonRecords[]>(() => 'http://localhost:5000/api/records/goalies/2')
+
     getPlayerData() {
         if (this.playerData.hasValue()) {
             return this.playerData.value();
@@ -46,7 +48,13 @@ export class PlayerService {
     getSkaterRecords(): SkaterSeasonRecords[] | null {
         if (this.skaterRegSeasonRecords.hasValue()) {
             return this.skaterRegSeasonRecords.value();
-        } else return null;
+        } else return [];
+    }
+
+    getGoalieRecords(): GoalieSeasonRecords[] | null {
+        if (this.goalieRegSeasonRecords.hasValue()) {
+            return this.goalieRegSeasonRecords.value();
+        } else return [];
     }
 
     setPlayerID(id: number) {

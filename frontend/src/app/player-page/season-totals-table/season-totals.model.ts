@@ -1,4 +1,5 @@
 import { Team } from "../../team/team.model"
+import { SkaterSeasonRecords } from "./skater-season-records.model";
 
 export type SeasonTotals = {
     playerID: number;
@@ -16,4 +17,5 @@ export type SeasonTotals = {
     giveaways: number;
     avgTOI: number;
     team: Team;
+    records?: SkaterSeasonRecords;
 }

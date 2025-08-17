@@ -1,13 +1,15 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { SeasonTotals } from './season-totals.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { AwardBadge } from './award-badge/award-badge';
 import { Award } from '../award.model';
 import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
+import { SkaterSeasonRecords } from './skater-season-records.model';
+import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
 
 @Component({
   selector: 'app-season-totals-table',
-  imports: [SeasonPipe, timeOnIcePipe, AwardBadge],
+  imports: [SeasonPipe, timeOnIcePipe, BoldRecordPipe, AwardBadge],
   templateUrl: './season-totals-table.html',
   styleUrl: './season-totals-table.css'
 })

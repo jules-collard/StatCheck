@@ -3,6 +3,7 @@ export type SkaterSeasonRecords = {
     maxGamesPlayed: number;
     maxGoals: number;
     maxAssists: number;
+    maxPoints: number;
     maxPowerPlayGoals: number;
     maxPlusMinus: number;
     maxPenaltyMinutes: number;
