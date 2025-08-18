@@ -1,9 +1,7 @@
 from app import app, db
 
 import pandas as pd
-import sqlalchemy as sa
-
-from app.updaters.games import Event, Game
+from app.models import Event, Game
 
 def set_side(group: pd.DataFrame):
     if not group['homeTeamDefendingSide'].isnull().any():
