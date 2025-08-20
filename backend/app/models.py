@@ -173,6 +173,7 @@ class Game(db.Model, Util):
 
     homeTeam: so.Mapped[Team] = so.relationship(back_populates='homeGames', foreign_keys=[homeTeamID])
     awayTeam: so.Mapped[Team] = so.relationship(back_populates='awayGames', foreign_keys=[awayTeamID])
+    events: so.Mapped[list['Event']] = so.relationship(back_populates='game', foreign_keys='Event.gameID')
 
     def to_dict(self):
         return {
@@ -251,6 +252,8 @@ class Event(db.Model, Util):
     assist2PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True, index=True)
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True, index=True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    game: so.Mapped['Game'] = so.relationship(back_populates='events')
 
     def __repr__(self):
         return f"<Event: {self.typeCode}>"
