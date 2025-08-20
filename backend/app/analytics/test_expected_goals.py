@@ -1,5 +1,6 @@
 import pandas as pd
 import pytest
+
 from app.analytics import expected_goals
 
 @pytest.fixture
@@ -14,25 +15,41 @@ def nullSideDataset():
 
 @pytest.fixture
 def multiLineDataset():
-    return pd.DataFrame([[1, 1, 505, 'right', -10, 1, 1, 2],
-                         [1, 1, 505, 'right', -10, 2, 1, 2],
-                         [1, 2, 505, 'left', 10, 1, 1, 2],
-                         [1, 2, 505, 'left', -10, 2, 1, 2]],
-                         columns=['gameID', 'period', 'typeCode', 'homeTeamDefendingSide', 'xCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID'])
+    return pd.DataFrame([[1, 1, 0, 505, 'right', -10, 0, 1, 1, 2],
+                         [1, 1, 2, 506, 'right', -10, 0, 2, 1, 2],
+                         [1, 2, 5, 506, 'left', 10, 0, 1, 1, 2],
+                         [1, 2, 10, 505, 'left', -10, 0, 2, 1, 2]],
+                         columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID'])
 
-class TestSetSide:
+class TestCleaning:
 
-    def test_clean(self, singleLineDataset):
-        newData = singleLineDataset.groupby(['gameID','period'])[singleLineDataset.columns].apply(expected_goals.set_side, include_groups=False)
+    def test_set_defending_side_clean(self, singleLineDataset):
+        newData = singleLineDataset.pipe(expected_goals.set_defending_side)
         assert all(a == b for a,b in zip([1, 1, 505, 'right', 'O', -10], newData.iloc[0].to_list()))
 
-    def test_dirty(self, nullSideDataset):
-        newData = nullSideDataset.groupby(['gameID','period']).apply(expected_goals.set_side, include_groups=False).reset_index()
+    def test_set_defending_side_dirty(self, nullSideDataset):
+        newData = nullSideDataset.pipe(expected_goals.set_defending_side)
         assert newData['homeTeamDefendingSide'].iloc[0] == 'right'
 
-class TestStdCoordinates:
-
-    def test(self, multiLineDataset):
-        standardisedData = multiLineDataset.groupby(['gameID', 'period']).apply(expected_goals.standardise_coordinates, include_groups=False)
+    def test_std_coordinates(self, multiLineDataset):
+        standardisedData = multiLineDataset.pipe(expected_goals.standardise_coordinates).xStd
         goal = [10, -10, 10, 10]
-        assert [a == b for a,b in zip(standardisedData['xStd'].to_list(), goal)]
+        assert all([a == b for a,b in zip(standardisedData.to_list(), goal)])
+
+    def test_add_last_event(self, multiLineDataset):
+        newData = multiLineDataset.pipe(expected_goals.add_last_event)
+        assert (all([a == b for a,b in zip([0, 5], newData['timeLastEvent'].dropna().to_list())])
+                and all([a == b for a,b in zip([2, 5], newData['timeDiff'].dropna().to_list())]))
+        
+    def test_add_shot_information(self, multiLineDataset):
+        newData = (multiLineDataset
+                   .pipe(expected_goals.add_last_event)
+                   .pipe(expected_goals.standardise_coordinates)
+                   .pipe(expected_goals.add_shot_information))
+        assert (
+            all([a == b] for a,b in zip([1,0,0,1], newData.isGoal.to_list())) and
+            all([a == b] for a,b in zip([1,0], newData.isRebound.dropna().to_list())) and
+            all([a == b] for a,b in zip([0,0,0,0], newData.shotAngle.to_list())) and
+            all([a == b] for a,b in zip([abs(88-x) for x in newData.xStd.to_list()], newData.shotDistance.to_list()))
+        )
+
