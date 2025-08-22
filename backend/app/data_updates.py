@@ -84,7 +84,16 @@ def update_all_players():
 if __name__ == "__main__":
     app.app_context().push()
 
-    import_games_date_range(datetime(2018, 4, 11), datetime(2018, 6, 7))
+    gameids = [game.id for game in Game.query.filter(Game.season == 20092010).all()]
+    for game in gameids:
+        remove_game(game)
+    # 10-11 REG + POST season done
+    # 11-12 REG + POST season done
+    # 12-13 REG + POST season done
+    # 13-14 REG + POST season done
+    # 14-15 REG + POST season done
+    # 15-16 REG + POST season done
+    # 16-17 REG + POST season done
     # 17-18 REG + POST season done
     # 18-19 REG + POST season done
     # 19-20 REG + POST season done
