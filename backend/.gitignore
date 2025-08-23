@@ -1,6 +1,7 @@
 .backend-venv/
 
 __pycache__/
+.pytest_cache
 
 dist/
 build/
@@ -9,5 +10,5 @@ build/
 *.db
 .DS_Store
 *.log
-app/updaters/data_updates.log
+*.pkl
 migrations/
