@@ -17,8 +17,8 @@ def train_model(load_from_file=True):
 
     param_grid = {
         'eta': [0.2, 0.3, 0.4],
-        'gamma': [0, 0.01, 0.1],
-        'max_depth': [3, 6, 8, 10]
+        'gamma': [0, 0.01],
+        'max_depth': [3, 4, 5, 6, 8]
     }
 
     xgclassifier = xgb.XGBClassifier(objective='binary:logistic',
@@ -31,5 +31,9 @@ def train_model(load_from_file=True):
     with open(os.path.join(os.path.dirname(__file__), "xgmodel.pkl"), 'wb') as f:
         pickle.dump(mod, f)
 
+    return mod
+
 if __name__ == "__main__":
-    train_model(load_from_file=False)
+    mod = train_model(load_from_file=True)
+    print(mod.best_params_)
+    print(mod.best_score_)
