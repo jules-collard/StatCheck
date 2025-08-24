@@ -80,10 +80,12 @@ def add_last_event(data: pd.DataFrame):
                     .shift(1))[['timeInPeriodSec', 'typeCode', 'xCoord', 'yCoord']].to_numpy().T
     data['timeSinceLastEvent'] = data['timeInPeriodSec'] - lastEvent[0]
     data['lastEventTypeCode'] = lastEvent[1]
+    data['lastEventTypeCode'] = (data['lastEventTypeCode']).astype('Int64')
     data['lastEventXCoord'] = lastEvent[2]
     data['lastEventYCoord'] = lastEvent[3]
     data['distFromLastEvent'] = data.apply(lambda row: get_distance_between(row['lastEventXCoord'], row['lastEventYCoord'], row['xCoord'], row['yCoord']), axis = 1)
     data['speedFromLastEvent'] = data.apply(lambda row: get_speed(row['lastEventXCoord'], row['lastEventYCoord'], row['xCoord'], row['yCoord'], row['timeSinceLastEvent']), axis = 1)
+
     return data
 
 def add_shot_information(data: pd.DataFrame):
@@ -94,6 +96,7 @@ def add_shot_information(data: pd.DataFrame):
     return data
 
 def add_angle_change_speed(data: pd.DataFrame):
+    # Need to add filter for same team shot
     data = data.copy()
     data['lastShotAngle'] = np.nan
     data['angleChangeSpeed'] = np.nan
@@ -143,6 +146,30 @@ def extract_covariate_columns(data: pd.DataFrame):
 def extract_target_column(data: pd.DataFrame):
     return data.copy().isGoal
 
+def typecode_descriptions(data: pd.DataFrame):
+    data = data.copy()
+    mapping = {
+        502: 'faceoff',
+        502: 'hit',
+        504: 'giveaway',
+        505: 'goal',
+        506: 'shot-on-goal',
+        507: 'missed-shot',
+        508: 'blocked-shot',
+        509: 'penalty',
+        516: 'stoppage',
+        520: 'period-start',
+        521: 'period-end',
+        523: 'shootout-complete',
+        524: 'game-end',
+        525: 'takeaway',
+        535: 'delayed-penalty',
+        537: 'failed-shot-attempt'
+    }
+    data['lastEventTypeCode'] = data['lastEventTypeCode'].map(mapping)
+    print()
+    return data
+
 def get_clean_data(start_season: int, end_season: int):
     app.app_context().push()
     data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
@@ -150,7 +177,7 @@ def get_clean_data(start_season: int, end_season: int):
             .filter(Game.gameType == 2)
             .filter(Event.periodType != 'SO')
             .join(Event.game)
-            .order_by(Game.id, Event.sortOrder)
+            .order_by(Game.id, Event.period, Event.timeInPeriodSec ,Event.sortOrder)
             .all())
     
     data = pd.DataFrame(data)
@@ -163,6 +190,8 @@ def get_clean_data(start_season: int, end_season: int):
             .pipe(add_shot_information)
             .pipe(add_angle_change_speed)
             .pipe(add_strengths)
+            .query('defendingSkaters > 0') # Remove penalty shots
+            .pipe(typecode_descriptions)
             .reset_index())
     
     features = data.pipe(extract_covariate_columns)
@@ -173,7 +202,8 @@ def get_clean_data(start_season: int, end_season: int):
         transformers=[
             ('onehot', OneHotEncoder(), categorical_features)
         ],
-        remainder='passthrough'
+        remainder='passthrough',
+        verbose_feature_names_out=False
     )
 
     transformed_features = preprocessor.fit_transform(features).astype(float)
@@ -184,5 +214,3 @@ def get_clean_data(start_season: int, end_season: int):
 
 if __name__ == "__main__":
     x, y = get_clean_data(20142015, 20142015)
-    print(x.head(10))
-    print(y.head(10))
