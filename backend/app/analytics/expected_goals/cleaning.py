@@ -96,14 +96,13 @@ def add_shot_information(data: pd.DataFrame):
     return data
 
 def add_angle_change_speed(data: pd.DataFrame):
-    # Need to add filter for same team shot
     data = data.copy()
     data['lastShotAngle'] = np.nan
     data['angleChangeSpeed'] = np.nan
-    data.loc[data['lastEventTypeCode'] == 506, 'lastShotAngle'] = (data.loc[data['lastEventTypeCode'] == 506, ['lastEventXStd', 'lastEventYStd']]
-                                                                   .apply(lambda row: get_shot_angle(row['lastEventXStd'], row['lastEventYStd']), axis = 1))
-    data.loc[data['lastEventTypeCode'] == 506, 'angleChangeSpeed'] = (data.loc[data['lastEventTypeCode'] == 506, ['shotAngle', 'lastShotAngle', 'timeSinceLastEvent']]
-                                                                      .apply(lambda row: get_angle_change_speed(row['lastShotAngle'], row['shotAngle'], row['timeSinceLastEvent']), axis = 1))
+    data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, 'lastShotAngle'] = (data.loc[data['lastEventTypeCode'] == 506  & data['timeSinceLastEvent'] < 3, ['lastEventXStd', 'lastEventYStd']]
+                                                                                                        .apply(lambda row: get_shot_angle(row['lastEventXStd'], row['lastEventYStd']), axis = 1))
+    data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, 'angleChangeSpeed'] = (data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, ['shotAngle', 'lastShotAngle', 'timeSinceLastEvent']]
+                                                                                                            .apply(lambda row: get_angle_change_speed(row['lastShotAngle'], row['shotAngle'], row['timeSinceLastEvent']), axis = 1))
     return data
 
 def add_strengths(data: pd.DataFrame):
