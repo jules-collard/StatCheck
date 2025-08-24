@@ -1,7 +1,17 @@
 import os
-import pickle
+import xgboost as xgb
+import matplotlib.pyplot as plt
 
-with open(os.path.join(os.path.dirname(__file__), "xgmodel.pkl"), 'rb') as f:
-    mod = pickle.load(f)
+mod = xgb.XGBClassifier()
+mod.load_model(os.path.join(os.path.dirname(__file__), "xg_model.json"))
 
-print(mod.best_params_)
+xgb.plot_importance(mod)
+plt.show()
+
+# feature_importance = xg.get_booster().get_score(importance_type = 'weight')
+
+# keys = list(feature_importance.keys())
+# values = list(feature_importance.values())
+
+# importance = pd.DataFrame(data = values, index=keys, columns=["score"]).sort_values(by="score", ascending=False)
+# print(importance)
