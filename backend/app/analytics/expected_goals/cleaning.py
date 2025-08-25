@@ -99,9 +99,9 @@ def add_angle_change_speed(data: pd.DataFrame):
     data = data.copy()
     data['lastShotAngle'] = np.nan
     data['angleChangeSpeed'] = np.nan
-    data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, 'lastShotAngle'] = (data.loc[data['lastEventTypeCode'] == 506  & data['timeSinceLastEvent'] < 3, ['lastEventXStd', 'lastEventYStd']]
+    data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), 'lastShotAngle'] = (data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), ['lastEventXStd', 'lastEventYStd']]
                                                                                                         .apply(lambda row: get_shot_angle(row['lastEventXStd'], row['lastEventYStd']), axis = 1))
-    data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, 'angleChangeSpeed'] = (data.loc[data['lastEventTypeCode'] == 506 & data['timeSinceLastEvent'] < 3, ['shotAngle', 'lastShotAngle', 'timeSinceLastEvent']]
+    data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), 'angleChangeSpeed'] = (data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), ['shotAngle', 'lastShotAngle', 'timeSinceLastEvent']]
                                                                                                             .apply(lambda row: get_angle_change_speed(row['lastShotAngle'], row['shotAngle'], row['timeSinceLastEvent']), axis = 1))
     return data
 
