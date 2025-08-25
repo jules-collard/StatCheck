@@ -1,3 +1,4 @@
+from sklearn.impute import SimpleImputer
 from app import app, db
 from app.models import Event, Game
 
@@ -5,6 +6,21 @@ import pandas as pd
 import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.pipeline import Pipeline
+
+TYPECODES = {
+    502: 'faceoff',
+    502: 'hit',
+    504: 'giveaway',
+    505: 'goal',
+    506: 'shot-on-goal',
+    507: 'missed-shot',
+    508: 'blocked-shot',
+    525: 'takeaway',
+    537: 'failed-shot-attempt'
+}
+
+SHOTTYPES = ['backhand', 'deflected', 'slap', 'snap', 'tip-in', 'wrap-around', 'wrist']
 
 def set_side_period(group: pd.DataFrame):
     group = group.copy()
@@ -147,25 +163,7 @@ def extract_target_column(data: pd.DataFrame):
 
 def typecode_descriptions(data: pd.DataFrame):
     data = data.copy()
-    mapping = {
-        502: 'faceoff',
-        502: 'hit',
-        504: 'giveaway',
-        505: 'goal',
-        506: 'shot-on-goal',
-        507: 'missed-shot',
-        508: 'blocked-shot',
-        509: 'penalty',
-        516: 'stoppage',
-        520: 'period-start',
-        521: 'period-end',
-        523: 'shootout-complete',
-        524: 'game-end',
-        525: 'takeaway',
-        535: 'delayed-penalty',
-        537: 'failed-shot-attempt'
-    }
-    data['lastEventTypeCode'] = data['lastEventTypeCode'].map(mapping)
+    data['lastEventTypeCode'] = data['lastEventTypeCode'].map(TYPECODES)
     print()
     return data
 
@@ -175,6 +173,7 @@ def get_clean_data(start_season: int, end_season: int):
             .filter(Game.season >= start_season, Game.season <= end_season)
             .filter(Game.gameType == 2)
             .filter(Event.periodType != 'SO')
+            .filter(Event.typeCode.in_(TYPECODES.keys()))
             .join(Event.game)
             .order_by(Game.id, Event.period, Event.timeInPeriodSec ,Event.sortOrder)
             .all())
@@ -196,10 +195,19 @@ def get_clean_data(start_season: int, end_season: int):
     features = data.pipe(extract_covariate_columns)
     target = data.pipe(extract_target_column)
 
-    categorical_features = ['shotType', 'lastEventTypeCode']
+    typecode_categories = [*TYPECODES.values(), 'missing']
+    shottype_categories = [*SHOTTYPES, 'missing']
+
+    categorical_transformer = Pipeline(steps=[
+        ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+        ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing')),
+        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories]))
+    ])
+
+    categorical_features = ['lastEventTypeCode', 'shotType']
     preprocessor = ColumnTransformer(
         transformers=[
-            ('onehot', OneHotEncoder(), categorical_features)
+            ('cat', categorical_transformer, categorical_features)
         ],
         remainder='passthrough',
         verbose_feature_names_out=False
@@ -213,3 +221,4 @@ def get_clean_data(start_season: int, end_season: int):
 
 if __name__ == "__main__":
     x, y = get_clean_data(20142015, 20142015)
+    print(x.columns)
