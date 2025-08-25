@@ -43,7 +43,7 @@ def train_model(load_data_from_file=True, load_model_from_file = True):
         param_grid = {
             'gamma': [0, 0.01, 0.1],
             'max_depth': [3, 4, 5, 6],
-            'subsample': [0.7, 0.9, 1],
+            'subsample': [0.9, 1],
             'min_child_weight': [0.5, 1, 1.5]
         }
 
@@ -54,7 +54,6 @@ def train_model(load_data_from_file=True, load_model_from_file = True):
     mod.save_model(os.path.join(os.path.dirname(__file__), "xg_model.json"))
     mod._Booster.dump_model(os.path.join(os.path.dirname(__file__), "xg_model_dump.json"))
     
-    print(mod.get_params())
     return mod
 
 if __name__ == "__main__":
