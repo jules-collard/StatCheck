@@ -3,7 +3,7 @@ import numpy as np
 from pandas.testing import assert_frame_equal
 import pytest
 
-from backend.app.analytics.expected_goals import cleaning
+from . import cleaning
 
 @pytest.fixture
 def notNullDefendingSideRight():
