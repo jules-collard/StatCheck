@@ -48,6 +48,7 @@ def set_defending_side(data: pd.DataFrame):
                                      .apply(set_side_period, include_groups = False)
                                      .homeTeamDefendingSide
                                      .to_list())
+    app.logger.info("CLEANING: Set defending side")
     return data
 
 def standardise_coordinates_period(group: pd.DataFrame):
@@ -87,6 +88,7 @@ def standardise_coordinates(data: pd.DataFrame):
     data['yStd'] = newCoords[1]
     data['lastEventXStd'] = newCoords[2]
     data['lastEventYStd'] = newCoords[3]
+    app.logger.info("CLEANING: Standardised coordinates")
     return data
 
 def add_last_event(data: pd.DataFrame):
@@ -102,6 +104,7 @@ def add_last_event(data: pd.DataFrame):
     data['distFromLastEvent'] = data.apply(lambda row: get_distance_between(row['lastEventXCoord'], row['lastEventYCoord'], row['xCoord'], row['yCoord']), axis = 1)
     data['speedFromLastEvent'] = data.apply(lambda row: get_speed(row['lastEventXCoord'], row['lastEventYCoord'], row['xCoord'], row['yCoord'], row['timeSinceLastEvent']), axis = 1)
 
+    app.logger.info("CLEANING: Added last events")
     return data
 
 def add_shot_information(data: pd.DataFrame):
@@ -109,6 +112,7 @@ def add_shot_information(data: pd.DataFrame):
     data['isGoal'] = (data['typeCode'] == 505).astype(int)
     data['shotAngle'] = data.apply(lambda row: get_shot_angle(row['xStd'], row['yStd']), axis = 1)
     data['shotDistance'] = data.apply(lambda row: get_shot_distance(row['xStd'], row['yStd']), axis = 1)
+    app.logger.info("CLEANING: Calculated shot information")
     return data
 
 def add_angle_change_speed(data: pd.DataFrame):
@@ -119,6 +123,7 @@ def add_angle_change_speed(data: pd.DataFrame):
                                                                                                         .apply(lambda row: get_shot_angle(row['lastEventXStd'], row['lastEventYStd']), axis = 1))
     data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), 'angleChangeSpeed'] = (data.loc[(data['lastEventTypeCode'] == 506) & (data['timeSinceLastEvent'] < 3), ['shotAngle', 'lastShotAngle', 'timeSinceLastEvent']]
                                                                                                             .apply(lambda row: get_angle_change_speed(row['lastShotAngle'], row['shotAngle'], row['timeSinceLastEvent']), axis = 1))
+    app.logger.info("CLEANING: Calculated angle change speed")
     return data
 
 def add_strengths(data: pd.DataFrame):
@@ -127,6 +132,7 @@ def add_strengths(data: pd.DataFrame):
     data['defendingSkaters'] = data.apply(lambda row: (row.awaySkaters if row.eventOwnerTeamID == row.homeTeamID else row.homeSkaters), axis=1)
     data['manAdvantage'] = data['attackingSkaters'] - data['defendingSkaters']
     data['goalieInNet'] = data.apply(lambda row: (row.awayGoalie if row.eventOwnerTeamID == row.homeTeamID else row.homeGoalie), axis=1)
+    app.logger.info("CLEANING: Added strengths")
     return data
 
 def get_shot_angle(x: float, y: float):
@@ -168,7 +174,7 @@ def extract_target_column(data: pd.DataFrame):
 def typecode_descriptions(data: pd.DataFrame):
     data = data.copy()
     data['lastEventTypeCode'] = data['lastEventTypeCode'].map(TYPECODES)
-    print()
+    app.logger.info("CLEANING: Typecodes mapped to strings")
     return data
 
 def get_clean_data(start_season: int, end_season: int):
