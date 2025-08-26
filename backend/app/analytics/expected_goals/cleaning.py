@@ -107,8 +107,8 @@ def add_last_event(data: pd.DataFrame):
 def add_shot_information(data: pd.DataFrame):
     data = data.copy()
     data['isGoal'] = (data['typeCode'] == 505).astype(int)
-    data['shotAngle'] = data.apply(lambda row: get_shot_angle(row['xStd'], row['yCoord']), axis = 1)
-    data['shotDistance'] = data.apply(lambda row: get_shot_distance(row['xStd'], row['yCoord']), axis = 1)
+    data['shotAngle'] = data.apply(lambda row: get_shot_angle(row['xStd'], row['yStd']), axis = 1)
+    data['shotDistance'] = data.apply(lambda row: get_shot_distance(row['xStd'], row['yStd']), axis = 1)
     return data
 
 def add_angle_change_speed(data: pd.DataFrame):
@@ -133,7 +133,11 @@ def get_shot_angle(x: float, y: float):
     if np.isnan(x) or np.isnan(y):
         return np.nan
     ratio = y / np.sqrt(y**2 + (88 - x)**2)
-    angle = abs(np.asin(ratio)) * 180 / np.pi
+    angle = np.asin(ratio) * 180 / np.pi
+    if x > 88 and y >= 0:
+        angle = 180 - angle
+    elif x > 88 and y < 0:
+        angle = -180 - angle
     return 0 if np.isnan(angle) else angle
 
 def get_shot_distance(x: float, y: float):
@@ -220,5 +224,4 @@ def get_clean_data(start_season: int, end_season: int):
     return transformed_df, target
 
 if __name__ == "__main__":
-    x, y = get_clean_data(20142015, 20142015)
-    print(x.columns)
+    pass
