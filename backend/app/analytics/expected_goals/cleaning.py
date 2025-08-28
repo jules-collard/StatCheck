@@ -172,6 +172,9 @@ def extract_covariate_columns(data: pd.DataFrame):
 def extract_target_column(data: pd.DataFrame):
     return data.copy().isGoal
 
+def extract_ids(data: pd.DataFrame):
+    return data.copy()[['gameID', id]]
+
 def typecode_descriptions(data: pd.DataFrame):
     data = data.copy()
     data['lastEventTypeCode'] = data['lastEventTypeCode'].map(TYPECODES)
@@ -222,6 +225,7 @@ def clean_data(start_season: int, end_season: int, remove_empty_net = True, stre
 def transform_data(data: pd.DataFrame):
     features = data.pipe(extract_covariate_columns)
     target = data.pipe(extract_target_column)
+    index = data.pipe(extract_ids)
 
     typecode_categories = [*TYPECODES.values(), 'missing']
     shottype_categories = [*SHOTTYPES, 'missing']
@@ -245,7 +249,7 @@ def transform_data(data: pd.DataFrame):
     feature_names = preprocessor.get_feature_names_out()
     transformed_df = pd.DataFrame(transformed_features, columns=feature_names).astype(float)
 
-    return transformed_df, target
+    return transformed_df, target, index
 
 if __name__ == "__main__":
     pass
