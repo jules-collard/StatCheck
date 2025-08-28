@@ -4,22 +4,13 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from scipy.stats import uniform
 import os
 
-from .cleaning import get_clean_data
+from .cleaning import clean_data, transform_data
 
-def train_model(load_data_from_file=True, load_model_from_file = True):
-    if load_data_from_file:
-        X_train = pd.read_pickle(os.path.join(os.path.dirname(__file__), "X_train.pkl"))
-        y_train = pd.read_pickle(os.path.join(os.path.dirname(__file__), "y_train.pkl"))
-    else:
-        X_train, y_train = get_clean_data(20102011, 20152016)
-        X_train.to_pickle(os.path.join(os.path.dirname(__file__), "X_train.pkl"))
-        y_train.to_pickle(os.path.join(os.path.dirname(__file__), "y_train.pkl"))
+def train_model(name, X_train, y_train, model_to_load=None):
 
-    print("Loaded Data")
-
-    if load_model_from_file:
+    if model_to_load is not None:
         mod = xgb.XGBClassifier()
-        mod.load_model(os.path.join(os.path.dirname(__file__), "xg_model.json"))
+        mod.load_model(os.path.join(os.path.dirname(__file__), "models", model_to_load))
         mod.fit(X_train, y_train)
     else:
         xgclassifier_stage1 = xgb.XGBClassifier(objective='binary:logistic',
@@ -31,8 +22,6 @@ def train_model(load_data_from_file=True, load_model_from_file = True):
         clf_stage1 = RandomizedSearchCV(xgclassifier_stage1, distributions, random_state=5, scoring='neg_log_loss', n_jobs=1, verbose=2)
         clf_stage1.fit(X_train, y_train)
         eta = clf_stage1.best_params_['eta']
-
-        print(f"Selected eta = {eta}")
 
         xgclassifier_stage2 = xgb.XGBClassifier(objective='binary:logistic',
                                                 verbosity = 1,
@@ -51,10 +40,23 @@ def train_model(load_data_from_file=True, load_model_from_file = True):
         clf_stage2.fit(X_train, y_train)
         mod = clf_stage2.best_estimator_
 
-    mod.save_model(os.path.join(os.path.dirname(__file__), "xg_model.json"))
-    mod._Booster.dump_model(os.path.join(os.path.dirname(__file__), "xg_model_dump.json"))
+    with open(os.path.join(os.path.dirname(__file__), "models", f"{name}_performance.txt"), "w") as f:
+        f.write(f"{name} Stats: \n")
+        f.write(f"In-Sample Log-Loss (CV) = {clf_stage2.best_score_}\n")
+        for param, value in mod.get_params().items():
+            f.write(f"{param}: {value}\n")
+    
+    mod.save_model(os.path.join(os.path.dirname(__file__), "models", f"{name}.json"))
     
     return mod
 
 if __name__ == "__main__":
-    train_model(load_data_from_file=False, load_model_from_file=False)
+    # Even Strength Model
+    even_strength = clean_data(20102011, 20162017, strength_state='ES')
+    X_train_ev, y_train_ev = transform_data(even_strength)
+    train_model("ES_model", X_train_ev, y_train_ev)
+
+    # Powerplay Model
+    powerplay = clean_data(20102011, 20162017, strength_state='PP')
+    X_train_pp, y_train_pp = transform_data(powerplay)
+    train_model("PP_model", X_train_pp, y_train_pp)

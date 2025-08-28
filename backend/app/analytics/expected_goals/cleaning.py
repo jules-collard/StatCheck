@@ -4,6 +4,7 @@ from app.models import Event, Game
 
 import pandas as pd
 import numpy as np
+from typing import Literal
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
@@ -138,16 +139,16 @@ def add_strengths(data: pd.DataFrame):
 def get_shot_angle(x: float, y: float):
     if np.isnan(x) or np.isnan(y):
         return np.nan
-    ratio = y / np.sqrt(y**2 + (88 - x)**2)
+    ratio = y / np.sqrt(y**2 + (89 - x)**2)
     angle = np.asin(ratio) * 180 / np.pi
-    if x > 88 and y >= 0:
+    if x > 89 and y >= 0:
         angle = 180 - angle
-    elif x > 88 and y < 0:
+    elif x > 89 and y < 0:
         angle = -180 - angle
     return 0 if np.isnan(angle) else angle
 
 def get_shot_distance(x: float, y: float):
-    return np.sqrt(y**2 + (88-x)**2)
+    return np.sqrt(y**2 + (89-x)**2)
 
 def get_distance_between(x1, y1, x2, y2):
     return np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
@@ -166,7 +167,7 @@ def get_angle_change_speed(angle1, angle2, time):
         return abs(angle2 - angle1) / time
 
 def extract_covariate_columns(data: pd.DataFrame):
-    return data.copy()[['shotDistance', 'timeSinceLastEvent', 'shotType', 'speedFromLastEvent', 'shotAngle', 'angleChangeSpeed', 'lastEventTypeCode', 'manAdvantage', 'defendingSkaters', 'goalieInNet', 'distFromLastEvent', 'xStd', 'yStd']]
+    return data.copy()[['shotDistance', 'timeSinceLastEvent', 'shotType', 'speedFromLastEvent', 'shotAngle', 'angleChangeSpeed', 'lastEventTypeCode', 'manAdvantage', 'defendingSkaters', 'distFromLastEvent', 'xStd', 'yStd']]
 
 def extract_target_column(data: pd.DataFrame):
     return data.copy().isGoal
@@ -177,7 +178,7 @@ def typecode_descriptions(data: pd.DataFrame):
     app.logger.info("CLEANING: Typecodes mapped to strings")
     return data
 
-def get_clean_data(start_season: int, end_season: int):
+def clean_data(start_season: int, end_season: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pd.DataFrame:
     app.app_context().push()
     data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
             .filter(Game.season >= start_season, Game.season <= end_season)
@@ -188,6 +189,15 @@ def get_clean_data(start_season: int, end_season: int):
             .order_by(Game.id, Event.period, Event.timeInPeriodSec ,Event.sortOrder)
             .all())
     
+    goalie_query = 'goalieInNet == 1' if remove_empty_net else 'goalieInNet >= 0'
+    
+    if strength_state == "ES":
+        strength_query = 'attackingSkaters == defendingSkaters'
+    elif strength_state == 'PP':
+        strength_query = 'attackingSkaters > defendingSkaters'
+    elif strength_state == 'SH':
+        strength_query = 'attackingSkaters < defendingSkaters'
+    
     data = pd.DataFrame(data)
     data = (data
             .pipe(add_last_event)
@@ -195,13 +205,21 @@ def get_clean_data(start_season: int, end_season: int):
             .pipe(set_defending_side)
             .dropna(subset=['xCoord', 'yCoord'])
             .pipe(standardise_coordinates)
+            .query('xStd >= -25') # Remove D zone
             .pipe(add_shot_information)
             .pipe(add_angle_change_speed)
             .pipe(add_strengths)
             .query('defendingSkaters > 0') # Remove penalty shots
+            .query(goalie_query) # Remove EN goals
             .pipe(typecode_descriptions)
             .reset_index())
     
+    if strength_state != 'ALL':
+        data = data.query(strength_query)
+    
+    return data
+    
+def transform_data(data: pd.DataFrame):
     features = data.pipe(extract_covariate_columns)
     target = data.pipe(extract_target_column)
 
