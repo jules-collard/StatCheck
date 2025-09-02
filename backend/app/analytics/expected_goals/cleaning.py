@@ -4,6 +4,8 @@ from app.models import Event, Game
 
 import pandas as pd
 import numpy as np
+import polars as pl
+from polars import col as c
 from typing import Literal
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
@@ -41,6 +43,41 @@ def set_side_period(group: pd.DataFrame):
         group['homeTeamDefendingSide'] = None
     
     return group
+
+def set_side_period_polars(group: pl.DataFrame):
+    if group.select('homeTeamDefendingSide').to_series().is_null().any():
+        ozone_events_home = group.filter(
+            c('zoneCode') == 'O',
+            c('eventOwnerTeamID') == c('homeTeamID')
+        )
+        ozone_events_away = group.filter(
+            c('zoneCode') == 'O',
+            c('eventOwnerTeamID') == c('awayTeamID')
+        )
+        if ozone_events_home.height > 0:
+            if ozone_events_home.row(index = 0, named=True)['xCoord'] < 0:
+                defending_side = 'right'
+            else:
+                defending_side = 'left'
+        elif ozone_events_away.height > 0:
+            if ozone_events_away.row(index = 0, named=True)['xCoord'] < 0:
+                defending_side = 'left'
+            else:
+                defending_side = 'right'
+        else:
+            defending_side = None
+    else:
+        defending_side = None
+
+    return group.with_columns(
+        pl.when(c('homeTeamDefendingSide').is_null().any().not_())
+        .then(c('homeTeamDefendingSide'))
+        .otherwise(pl.lit(defending_side))
+        .alias('homeTeamDefendingSide')
+    )
+
+def set_side_polars(data: pl.DataFrame, preserve_order = False):
+    return data.group_by('gameID', 'period', maintain_order=preserve_order).map_groups(set_side_period_polars)
 
 def set_defending_side(data: pd.DataFrame):
     data = data.copy()
@@ -80,6 +117,16 @@ def standardise_coordinates_period(group: pd.DataFrame):
         group.loc[group['eventOwnerTeamID'] == group['awayTeamID'], 'lastEventYStd'] = -group.loc[group['eventOwnerTeamID'] == group['awayTeamID'], 'lastEventYCoord']
     return group
 
+def standardise_coordinates_polars(data: pl.DataFrame):
+    return data.with_columns(
+        pl.when(c('homeTeamDefendingSide') == 'right', c('eventOwnerTeamID') == c('homeTeamID'))
+        .then(pl.struct(xStd=-c('xCoord'), yStd=-c('yCoord'), lastEventXStd=-c('lastEventXCoord'), lastEventYStd=-c('lastEventYCoord')))
+        .when(c('homeTeamDefendingSide') == 'left', c('eventOwnerTeamID') == c('awayTeamID'))
+        .then(pl.struct(xStd=-c('xCoord'), yStd=-c('yCoord'), lastEventXStd=-c('lastEventXCoord'), lastEventYStd=-c('lastEventYCoord')))
+        .otherwise(pl.struct(xStd=c('xCoord'), yStd=c('yCoord'), lastEventXStd=c('lastEventXCoord'), lastEventYStd=c('lastEventYCoord')))
+        .struct.unnest()
+    )
+
 def standardise_coordinates(data: pd.DataFrame):
     data = data.copy()
     newCoords = (data
@@ -108,6 +155,22 @@ def add_last_event(data: pd.DataFrame):
     app.logger.info("CLEANING: Added last events")
     return data
 
+def add_last_event_polars(data: pl.DataFrame):
+    return data.with_columns(
+        c("timeInPeriodSec", "typeCode", "xCoord", "yCoord").shift(1).over("gameID", "period").name.map(last_event_prefix)
+    ).with_columns(
+        timeSinceLastEvent = c("timeInPeriodSec") - c("lastEventTimeInPeriodSec"),
+        distFromLastEvent = pl.struct(["xCoord", "yCoord", "lastEventXCoord", "lastEventYCoord"])
+                              .map_elements(lambda s: get_distance_between(s["xCoord"], s["yCoord"], s["lastEventXCoord"], s["lastEventYCoord"]), return_dtype=pl.Float64)
+    ).with_columns(
+        speedFromLastEvent = c("distFromLastEvent") / c("timeSinceLastEvent")
+    ).select(
+        pl.all().exclude("lastEventTimeInPeriodSec")
+    )
+
+def last_event_prefix(name: str):
+    return f"lastEvent{name[0].capitalize()}{name[1:]}"
+
 def add_shot_information(data: pd.DataFrame):
     data = data.copy()
     data['isGoal'] = (data['typeCode'] == 505).astype(int)
@@ -115,6 +178,19 @@ def add_shot_information(data: pd.DataFrame):
     data['shotDistance'] = data.apply(lambda row: get_shot_distance(row['xStd'], row['yStd']), axis = 1)
     app.logger.info("CLEANING: Calculated shot information")
     return data
+
+def add_shot_information_polars(data: pl.DataFrame):
+    return data.with_columns(
+        isGoal = (c('typeCode') == 505).cast(pl.Int8),
+        shotAngle = pl.struct(['xStd', 'yStd']).map_elements(lambda s: get_shot_angle(s['xStd'], s['yStd']), return_dtype=pl.Float64),
+        shotDistance = pl.struct(['xStd', 'yStd']).map_elements(lambda s: get_shot_distance(s['xStd'], s['yStd']), return_dtype=pl.Float64),
+        lastShotAngle = (pl.when(c('lastEventTypeCode') == 506, c('timeSinceLastEvent') < 3)
+                         .then(pl.struct(['lastEventXStd', 'lastEventYStd']).map_elements(lambda s: get_shot_angle(s['lastEventXStd'], s['lastEventYStd']),
+                                                                                          return_dtype=pl.Float64))
+        )
+    ).with_columns(
+        angleChangeSpeed = pl.struct(['lastShotAngle', 'shotAngle', 'timeSinceLastEvent']).map_elements(lambda s: get_angle_change_speed(s['lastShotAngle'], s['shotAngle'], s['timeSinceLastEvent']), return_dtype=pl.Float64)
+    )
 
 def add_angle_change_speed(data: pd.DataFrame):
     data = data.copy()
@@ -136,6 +212,21 @@ def add_strengths(data: pd.DataFrame):
     app.logger.info("CLEANING: Added strengths")
     return data
 
+def add_strengths_polars(data: pl.DataFrame):
+    return data.with_columns(
+        attackingSkaters = (pl.when(c('eventOwnerTeamID') == c('homeTeamID'))
+                            .then(c('homeSkaters'))
+                            .otherwise(c('awaySkaters'))),
+        defendingSkaters = (pl.when(c('eventOwnerTeamID') == c('homeTeamID'))
+                            .then(c('awaySkaters'))
+                            .otherwise(c('homeSkaters'))),
+        goalieInNet = (pl.when(c('eventOwnerTeamID') == c('homeTeamID'))
+                        .then(c('awayGoalie'))
+                        .otherwise(c('homeGoalie')))
+    ).with_columns(
+        manAdvantage = c('attackingSkaters') - c('defendingSkaters')
+    )
+
 def get_shot_angle(x: float, y: float):
     if np.isnan(x) or np.isnan(y):
         return np.nan
@@ -151,6 +242,8 @@ def get_shot_distance(x: float, y: float):
     return np.sqrt(y**2 + (89-x)**2)
 
 def get_distance_between(x1, y1, x2, y2):
+    if any([p is None for p in [x1, y1, x2, y2]]):
+        return None
     return np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
 def get_speed(x1, y1, x2, y2, time):
@@ -161,8 +254,8 @@ def get_speed(x1, y1, x2, y2, time):
     return dist / time
 
 def get_angle_change_speed(angle1, angle2, time):
-    if time == 0:
-        return np.nan
+    if any([x is None for x in [angle1, angle2, time]]) or time == 0:
+        return None
     else:
         return abs(angle2 - angle1) / time
 
@@ -172,6 +265,12 @@ def extract_covariate_columns(data: pd.DataFrame):
 def extract_target_column(data: pd.DataFrame):
     return data.copy().isGoal
 
+def extract_covariates(data: pl.DataFrame, model: Literal['ES', 'PP']):
+    if model == 'ES':
+        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
+    elif model == 'PP':
+        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('manAdvantage'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
+
 def extract_ids(data: pd.DataFrame):
     return data.copy()[['gameID', id]]
 
@@ -180,6 +279,11 @@ def typecode_descriptions(data: pd.DataFrame):
     data['lastEventTypeCode'] = data['lastEventTypeCode'].map(TYPECODES)
     app.logger.info("CLEANING: Typecodes mapped to strings")
     return data
+
+def typecode_descriptions_polars(data: pl.DataFrame):
+    return data.with_columns(
+        c('lastEventTypeCode').replace_strict(TYPECODES, return_dtype=pl.String).alias('lastEventTypeCode')
+    )
 
 def clean_data(start_season: int, end_season: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pd.DataFrame:
     app.app_context().push()
@@ -221,6 +325,41 @@ def clean_data(start_season: int, end_season: int, remove_empty_net = True, stre
         data = data.query(strength_query)
     
     return data
+
+def clean_data_polars(gameID: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pl.DataFrame:
+    app.app_context().push()
+    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
+            .filter(Game.id == gameID)
+            .filter(Game.gameType == 2)
+            .filter(Event.periodType != 'SO')
+            .filter(Event.typeCode.in_(TYPECODES.keys()))
+            .join(Event.game)
+            .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
+            .all())
+    
+    data = pl.DataFrame(data)
+    data = (data
+            .pipe(add_last_event_polars)
+            .filter(c('typeCode').is_in([505,506,507]))
+            .pipe(set_side_polars)
+            .drop_nulls(subset = ['xCoord', 'yCoord'])
+            .pipe(standardise_coordinates_polars)
+            .filter(c('xStd') > -25)
+            .pipe(add_shot_information_polars)
+            .pipe(add_strengths_polars)
+            .filter(c('defendingSkaters') > 0)
+            .pipe(typecode_descriptions_polars)
+    )
+
+    if remove_empty_net: data = data.filter(c('goalieInNet') > 0)
+    if strength_state == "ES":
+        data = data.filter(c('manAdvantage') == 0)
+    elif strength_state == "PP":
+        data = data.filter(c('manAdvantage') > 0)
+    elif strength_state == "SH":
+        data = data.filter(c('manAdvantage') < 0)
+
+    return data
     
 def transform_data(data: pd.DataFrame):
     features = data.pipe(extract_covariate_columns)
@@ -252,4 +391,6 @@ def transform_data(data: pd.DataFrame):
     return transformed_df, target, index
 
 if __name__ == "__main__":
-    pass
+    data = clean_data_polars(2010020008)
+    with pl.Config(tbl_cols=-1):
+        print(data.pipe(extract_covariates, model = 'ES').head())
