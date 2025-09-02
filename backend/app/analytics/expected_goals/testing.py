@@ -23,10 +23,10 @@ def predict(X_test, y_test, mod, name):
 if __name__ == "__main__":
     ev_mod = load_model("ES_model")
     even_strength = clean_data(20172018, 20172018, strength_state='ES')
-    X_test_es, y_test_es = transform_data(even_strength)
+    X_test_es, y_test_es = transform_data(even_strength, model='ES')
     predict(X_test_es, y_test_es, ev_mod, "ES_predictions")
 
     pp_mod = load_model("PP_model")
     powerplay = clean_data(20172018, 20172018, strength_state='PP')
-    X_test_pp, y_test_pp = transform_data(powerplay)
+    X_test_pp, y_test_pp = transform_data(powerplay, model='PP')
     predict(X_test_pp, y_test_pp, pp_mod, "PP_predictions")

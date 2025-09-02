@@ -53,10 +53,10 @@ def train_model(name, X_train, y_train, model_to_load=None):
 if __name__ == "__main__":
     # Even Strength Model
     even_strength = clean_data(20102011, 20162017, strength_state='ES')
-    X_train_ev, y_train_ev, _ = transform_data(even_strength)
+    X_train_ev, y_train_ev, _ = transform_data(even_strength, model='ES')
     train_model("ES_model", X_train_ev, y_train_ev)
 
     # Powerplay Model
     powerplay = clean_data(20102011, 20162017, strength_state='PP')
-    X_train_pp, y_train_pp, _ = transform_data(powerplay)
+    X_train_pp, y_train_pp, _ = transform_data(powerplay, model='PP')
     train_model("PP_model", X_train_pp, y_train_pp)

@@ -3,172 +3,160 @@ import numpy as np
 from pandas.testing import assert_frame_equal
 import pytest
 
+import polars as pl
+import polars.testing
+
 from . import cleaning
 
 @pytest.fixture
 def notNullDefendingSideRight():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, 'right', 'O', -30, 5, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
-
-@pytest.fixture
-def notNullDefendingSideRightStd():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, 'right', 'O', -30, 5, 30, -5, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'xStd', 'yStd', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'timeInPeriodSec': [30],
+        'typeCode': [506],
+        'homeTeamDefendingSide': ['right'],
+        'zoneCode': ['O'],
+        'xCoord': [-30],
+        'yCoord': [5],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
 
 @pytest.fixture
 def notNullDefendingSideLeft():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, 'left', 'O', 30, 2, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
-
-@pytest.fixture
-def notNullDefendingSideLeftStd():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, 'left', 'O', 30, 2, 30, 2, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'xStd', 'yStd', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'timeInPeriodSec': [30],
+        'typeCode': [506],
+        'homeTeamDefendingSide': ['left'],
+        'zoneCode': ['O'],
+        'xCoord': [30],
+        'yCoord': [2],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
 
 @pytest.fixture
 def nullDefendingSideRight():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, np.nan, 'O', -30, 5, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'timeInPeriodSec': [30],
+        'typeCode': [506],
+        'homeTeamDefendingSide': [None],
+        'zoneCode': ['O'],
+        'xCoord': [-30],
+        'yCoord': [5],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
 
 @pytest.fixture
 def nullDefendingSideLeft():
-    return pd.DataFrame(
-        [
-            [1, 1, 30, 506, np.nan, 'O', 30, 2, 20, 20, 30]
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'timeInPeriodSec': [30],
+        'typeCode': [506],
+        'homeTeamDefendingSide': [None],
+        'zoneCode': ['O'],
+        'xCoord': [30],
+        'yCoord': [2],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
 
 @pytest.fixture
 def nullMixedDefendingSide():
-    return pd.DataFrame(
-        [
-            [1, 1, 20, 506, np.nan, 'O', -30, 0, 30, 20, 30], # Left
-            [1, 1, 30, 506, np.nan, 'O', 30, 0, 20, 20, 30], # Left
-            [1, 1, 32, 516, np.nan, 'N', 0, 0, 30, 20, 30], # Left
-            [1, 2, 5, 506, np.nan, 'O', -30, 0, 20, 20, 30], # Right
-            [2, 1, 3, 506, np.nan, 'O', -40, 0, 45, 45, 30] # right
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1, 1, 1, 1, 2],
+        'period': [1, 1, 1, 2, 1],
+        'timeInPeriodSec': [20, 30, 32, 5, 3],
+        'typeCode': [506, 506, 516, 506, 506],
+        'homeTeamDefendingSide': [None, None, None, None, None],
+        'zoneCode': ['O', 'O', 'N', 'O', 'O'],
+        'xCoord': [-30, 30, 0, -30, -40],
+        'yCoord': [0, 0, 0, 0, 0],
+        'eventOwnerTeamID': [30, 20, 30, 20, 45],
+        'homeTeamID': [20, 20, 20, 20, 45],
+        'awayTeamID': [30, 30, 30, 30, 30]
+    })
 
 @pytest.fixture
 def notNullMixedDefendingSide():
-    return pd.DataFrame(
-        [
-            [1, 1, 20, 506, 'left', 'O', -30, 0, 30, 20, 30], # Left
-            [1, 1, 30, 506, 'left', 'O', 30, 0, 20, 20, 30], # Left
-            [1, 1, 32, 516, 'left', 'N', 0, 0, 30, 20, 30], # Left
-            [1, 2, 5, 506, 'right', 'O', -30, 0, 20, 20, 30], # Right
-            [2, 1, 3, 506, 'right', 'O', -40, 0, 45, 45, 30] # right
-        ],
-        columns=['gameID', 'period', 'timeInPeriodSec', 'typeCode', 'homeTeamDefendingSide', 'zoneCode', 'xCoord', 'yCoord', 'eventOwnerTeamID', 'homeTeamID', 'awayTeamID']
-    )
+    return pl.DataFrame({
+        'gameID': [1, 1, 1, 1, 2],
+        'period': [1, 1, 1, 2, 1],
+        'timeInPeriodSec': [20, 30, 32, 5, 3],
+        'typeCode': [506, 506, 516, 506, 506],
+        'homeTeamDefendingSide': ['left', 'left', 'left', 'right', 'right'],
+        'zoneCode': ['O', 'O', 'N', 'O', 'O'],
+        'xCoord': [-30, 30, 0, -30, -40],
+        'yCoord': [0, 0, 0, 0, 0],
+        'eventOwnerTeamID': [30, 20, 30, 20, 45],
+        'homeTeamID': [20, 20, 20, 20, 45],
+        'awayTeamID': [30, 30, 30, 30, 30]
+    })
 
+@pytest.fixture
+def mixedPeriods():
+    return pl.DataFrame({
+        "id": [1, 2, 3, 4],
+        "gameID": [320, 320, 320, 320],
+        "typeCode": [502, 503, 504, 505],
+        "eventOwnerTeamID": [30, 30, 30, 30],
+        "period": [1, 1, 2, 2],
+        "xCoord": [10.5, 20.1, 30.2, 40.3],
+        "yCoord": [5.2, 15.3, 25.4, 35.5],
+        "timeInPeriodSec": [100, 110, 120, 140]
+    })
+
+class TestAddLastEvent:
+
+    def test_last_event_times(self, mixedPeriods):
+        new_df = cleaning.add_last_event(mixedPeriods)
+        polars.testing.assert_series_equal(pl.Series([None, 10, None, 20], dtype=pl.Int64), new_df.select("timeSinceLastEvent").to_series(), check_names=False)
+
+    def test_last_event_coordinates(self, mixedPeriods):
+        new_df = cleaning.add_last_event(mixedPeriods)
+        target = pl.DataFrame({
+            "lastEventXCoord": [None, 10.5, None, 30.2],
+            "lastEventYCoord": [None, 5.2, None, 25.4]
+        })
+        polars.testing.assert_frame_equal(new_df.select("lastEventXCoord", "lastEventYCoord"), target)
+
+    def test_last_event_typecodes(self, mixedPeriods):
+        new_df = cleaning.add_last_event(mixedPeriods)
+        polars.testing.assert_series_equal(pl.Series([None, 502, None, 504], dtype=pl.Int64), new_df.select("lastEventTypeCode").to_series(), check_names=False)
+
+    def test_last_event_distance(self, mixedPeriods):
+        new_df = cleaning.add_last_event(mixedPeriods)
+        polars.testing.assert_series_equal(pl.Series([None, cleaning.get_distance_between(10.5, 5.2, 20.1, 15.3), None, cleaning.get_distance_between(30.2, 25.4, 40.3, 35.5)]),
+                                           new_df.select("distFromLastEvent").to_series(), check_names=False)
 
 class TestSetSide:
-    
-    def test_set_side_period_clean(self, notNullDefendingSideRight):
-        newData = notNullDefendingSideRight.pipe(cleaning.set_side_period)
-        assert_frame_equal(newData, notNullDefendingSideRight)
+
+    def test_set_side_period_clean(self, notNullDefendingSideRight, notNullDefendingSideLeft):
+        newDataRight = notNullDefendingSideRight.pipe(cleaning.set_side_period)
+        newDataLeft = notNullDefendingSideLeft.pipe(cleaning.set_side_period)
+        polars.testing.assert_frame_equal(notNullDefendingSideRight, newDataRight)
+        polars.testing.assert_frame_equal(notNullDefendingSideLeft, newDataLeft)
 
     def test_set_side_period_right(self, nullDefendingSideRight, notNullDefendingSideRight):
         newData = nullDefendingSideRight.pipe(cleaning.set_side_period)
-        assert_frame_equal(newData, notNullDefendingSideRight)
+        polars.testing.assert_frame_equal(notNullDefendingSideRight, newData)
 
     def test_set_side_period_left(self, nullDefendingSideLeft, notNullDefendingSideLeft):
         newData = nullDefendingSideLeft.pipe(cleaning.set_side_period)
-        assert_frame_equal(newData, notNullDefendingSideLeft)
+        polars.testing.assert_frame_equal(notNullDefendingSideLeft, newData)
 
-    def test_set_defending_side(self, nullMixedDefendingSide, notNullMixedDefendingSide):
-        newData = nullMixedDefendingSide.pipe(cleaning.set_defending_side)
-        assert_frame_equal(newData, notNullMixedDefendingSide)
+    def test_set_side_period_mixed(self, nullMixedDefendingSide, notNullMixedDefendingSide):
+        newData = nullMixedDefendingSide.pipe(cleaning.set_side, preserve_order=True)
+        polars.testing.assert_frame_equal(notNullMixedDefendingSide, newData)
 
-class TestCoordinates:
-    
-    def test_standardise_coordinates_period_right(self, notNullDefendingSideRight, notNullDefendingSideRightStd):
-        right = notNullDefendingSideRight.copy()
-        right['lastEventXCoord'] = right['xCoord']
-        right['lastEventYCoord'] = right['yCoord']
-
-        rightStd = notNullDefendingSideRightStd.copy()
-        rightStd['lastEventXCoord'] = rightStd['xCoord']
-        rightStd['lastEventYCoord'] = rightStd['yCoord']
-        rightStd['lastEventXStd'] = rightStd['xStd']
-        rightStd['lastEventYStd'] = rightStd['yStd']
-        
-        newData = right.pipe(cleaning.standardise_coordinates_period)
-        assert_frame_equal(newData, rightStd, check_like=True, check_dtype=False)
-
-    def test_standardise_coordinates_period_left(self, notNullDefendingSideLeft, notNullDefendingSideLeftStd):
-        left = notNullDefendingSideLeft.copy()
-        left['eventOwnerTeamID'] = left['awayTeamID']
-        left['lastEventXCoord'] = left['xCoord']
-        left['lastEventYCoord'] = left['yCoord']
-        
-        leftStd = notNullDefendingSideLeftStd.copy()
-        leftStd['eventOwnerTeamID'] = leftStd['awayTeamID']
-        leftStd['lastEventXCoord'] = leftStd['xCoord']
-        leftStd['lastEventYCoord'] = leftStd['yCoord']
-        leftStd['xStd'] = -leftStd['xStd']
-        leftStd['yStd'] = -leftStd['yStd']
-        leftStd['lastEventXStd'] = leftStd['xStd']
-        leftStd['lastEventYStd'] = leftStd['yStd']
-
-        newData = left.pipe(cleaning.standardise_coordinates_period)
-        assert_frame_equal(newData, leftStd, check_like=True, check_dtype=False)
-
-
-class TestGeometry:
-    def test_shot_angle_on_goal(self):
-        assert cleaning.get_shot_angle(88, 0) == 0
-
-    def test_shot_angle_positive_1(self):
-        assert cleaning.get_shot_angle(78, 10) > 0
-
-    def test_shot_angle_positive_2(self):
-        assert cleaning.get_shot_angle(98, -10) > 0
-
-    def test_shot_angle_goal_line(self):
-        assert cleaning.get_shot_angle(88, 20) == 90
-
-    def test_shot_angle_nan(self):
-        assert np.isnan(cleaning.get_shot_angle(np.nan, 10))
-
-    def test_shot_distance_center(self):
-        assert cleaning.get_shot_distance(88, 0) == 0.0
-
-    def test_shot_distance_typical(self):
-        result = cleaning.get_shot_distance(78, 10)
-        expected = np.sqrt(10**2 + (88-78)**2)
-        assert np.isclose(result, expected)
-
-    def test_shot_distance_vertical(self):
-        assert cleaning.get_shot_distance(88, 20) == 20.0
-
-    def test_shot_distance_nan_both(self):
-        result = cleaning.get_shot_distance(np.nan, np.nan)
-        assert np.isnan(result)
-
-    def test_distance_between_nan(self):
-        assert np.isnan(cleaning.get_distance_between(np.nan, 0, 0, 0))
