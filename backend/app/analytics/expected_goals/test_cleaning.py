@@ -1,10 +1,8 @@
-import pandas as pd
-import numpy as np
-from pandas.testing import assert_frame_equal
 import pytest
 
 import polars as pl
 import polars.testing
+import polars.selectors as cs
 
 from . import cleaning
 
@@ -117,6 +115,117 @@ def mixedPeriods():
         "timeInPeriodSec": [100, 110, 120, 140]
     })
 
+@pytest.fixture
+def standardiseCoordinatesHomeFlip():
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'homeTeamDefendingSide': ['right'],
+        'xCoord': [-30],
+        'yCoord': [-5],
+        'lastEventXCoord': [-25],
+        'lastEventYCoord': [-3],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
+
+@pytest.fixture
+def standardiseCoordinatesHomeKeep():
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'homeTeamDefendingSide': ['left'],
+        'xCoord': [30],
+        'yCoord': [5],
+        'lastEventXCoord': [25],
+        'lastEventYCoord': [3],
+        'eventOwnerTeamID': [20],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
+
+@pytest.fixture
+def standardiseCoordinatesAwayFlip():
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'homeTeamDefendingSide': ['left'],
+        'xCoord': [-30],
+        'yCoord': [-5],
+        'lastEventXCoord': [-25],
+        'lastEventYCoord': [-3],
+        'eventOwnerTeamID': [30],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
+
+@pytest.fixture
+def standardiseCoordinatesAwayKeep():
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'homeTeamDefendingSide': ['right'],
+        'xCoord': [30],
+        'yCoord': [5],
+        'lastEventXCoord': [25],
+        'lastEventYCoord': [3],
+        'eventOwnerTeamID': [30],
+        'homeTeamID': [20],
+        'awayTeamID': [30]
+    })
+
+@pytest.fixture
+def targetStdCoordinates():
+    return pl.DataFrame({
+        'xStd': [30],
+        'yStd': [5],
+        'lastEventXStd': [25],
+        'lastEventYStd': [3]
+    })
+
+@pytest.fixture
+def powerplay():
+    return pl.DataFrame({
+        'gameID': [2],
+        'period': [2],
+        'homeSkaters': [5],
+        'awaySkaters': [4],
+        'homeGoalie': [1],
+        'awayGoalie': [1],
+        'homeTeamID': [10],
+        'awayTeamID': [20],
+        'eventOwnerTeamID': [10]
+    })
+
+@pytest.fixture
+def shorthanded():
+    return pl.DataFrame({
+        'gameID': [3],
+        'period': [3],
+        'homeSkaters': [5],
+        'awaySkaters': [4],
+        'homeGoalie': [1],
+        'awayGoalie': [1],
+        'homeTeamID': [10],
+        'awayTeamID': [20],
+        'eventOwnerTeamID': [20]
+    })
+    
+@pytest.fixture
+def evenStrength():
+    return pl.DataFrame({
+        'gameID': [1],
+        'period': [1],
+        'homeSkaters': [5],
+        'awaySkaters': [5],
+        'homeGoalie': [1],
+        'awayGoalie': [1],
+        'homeTeamID': [10],
+        'awayTeamID': [20],
+        'eventOwnerTeamID': [10]
+    })
+
 class TestAddLastEvent:
 
     def test_last_event_times(self, mixedPeriods):
@@ -139,6 +248,24 @@ class TestAddLastEvent:
         new_df = cleaning.add_last_event(mixedPeriods)
         polars.testing.assert_series_equal(pl.Series([None, cleaning.get_distance_between(10.5, 5.2, 20.1, 15.3), None, cleaning.get_distance_between(30.2, 25.4, 40.3, 35.5)]),
                                            new_df.select("distFromLastEvent").to_series(), check_names=False)
+        
+class TestStdCoordinates:
+
+    def test_home_coord_flip(self, standardiseCoordinatesHomeFlip, targetStdCoordinates):
+        newData = standardiseCoordinatesHomeFlip.pipe(cleaning.standardise_coordinates)
+        polars.testing.assert_frame_equal(newData.select(cs.ends_with('Std')), targetStdCoordinates)
+
+    def test_home_coord_keep(self, standardiseCoordinatesHomeKeep, targetStdCoordinates):
+        newData = standardiseCoordinatesHomeKeep.pipe(cleaning.standardise_coordinates)
+        polars.testing.assert_frame_equal(newData.select(cs.ends_with('Std')), targetStdCoordinates)
+
+    def test_away_coord_flip(self, standardiseCoordinatesAwayFlip, targetStdCoordinates):
+        newData = standardiseCoordinatesAwayFlip.pipe(cleaning.standardise_coordinates)
+        polars.testing.assert_frame_equal(newData.select(cs.ends_with('Std')), targetStdCoordinates)
+
+    def test_away_coord_keep(self, standardiseCoordinatesAwayKeep, targetStdCoordinates):
+        newData = standardiseCoordinatesAwayKeep.pipe(cleaning.standardise_coordinates)
+        polars.testing.assert_frame_equal(newData.select(cs.ends_with('Std')), targetStdCoordinates)
 
 class TestSetSide:
 
@@ -159,4 +286,64 @@ class TestSetSide:
     def test_set_side_period_mixed(self, nullMixedDefendingSide, notNullMixedDefendingSide):
         newData = nullMixedDefendingSide.pipe(cleaning.set_side, preserve_order=True)
         polars.testing.assert_frame_equal(notNullMixedDefendingSide, newData)
+
+class TestAddStrengths:
+
+    def test_even_strength(self, evenStrength):
+        newData = evenStrength.pipe(cleaning.add_strengths)
+        result = newData.row(0, named=True)
+        assert result['manAdvantage'] == 0
+
+    def test_powerplay(self, powerplay):
+        newData = powerplay.pipe(cleaning.add_strengths)
+        result = newData.row(0, named=True)
+        assert result['manAdvantage'] == 1
+
+    def test_shorthanded(self, shorthanded):
+        newData = shorthanded.pipe(cleaning.add_strengths)
+        result = newData.row(0, named=True)
+        assert result['manAdvantage'] == -1
+
+class TestGeometry:
+
+    def test_get_shot_angle(self):
+        # Typical case
+        assert cleaning.get_shot_angle(88.5, 0) == 0
+        # Positive y
+        angle = cleaning.get_shot_angle(80, 10)
+        assert isinstance(angle, float)
+        # None input
+        assert cleaning.get_shot_angle(None, 10) is None
+        assert cleaning.get_shot_angle(80, None) is None
+
+
+    def test_get_shot_distance(self):
+        # Typical case
+        dist = cleaning.get_shot_distance(88.5, 0)
+        assert isinstance(dist, float)
+        # Check known value
+        assert cleaning.get_shot_distance(89, 0) == 0
+
+
+    def test_get_distance_between(self):
+        # Typical case
+        dist = cleaning.get_distance_between(0, 0, 3, 4)
+        assert dist == 5
+        # None input
+        assert cleaning.get_distance_between(None, 0, 3, 4) is None
+        assert cleaning.get_distance_between(0, None, 3, 4) is None
+        assert cleaning.get_distance_between(0, 0, None, 4) is None
+        assert cleaning.get_distance_between(0, 0, 3, None) is None
+
+
+    def test_get_angle_change_speed(self):
+        # Typical case
+        speed = cleaning.get_angle_change_speed(10, 20, 2)
+        assert speed == 5
+        # Zero time
+        assert cleaning.get_angle_change_speed(10, 20, 0) is None
+        # None input
+        assert cleaning.get_angle_change_speed(None, 20, 2) is None
+        assert cleaning.get_angle_change_speed(10, None, 2) is None
+        assert cleaning.get_angle_change_speed(10, 20, None) is None
 
