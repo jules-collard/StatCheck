@@ -4,7 +4,7 @@ from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from scipy.stats import uniform
 import os
 
-from .cleaning import clean_data, transform_data
+from .cleaning import load_seasons, clean_data, transform_data
 
 def train_model(name, X_train, y_train, model_to_load=None):
 
@@ -51,12 +51,17 @@ def train_model(name, X_train, y_train, model_to_load=None):
     return mod
 
 if __name__ == "__main__":
+    data = load_seasons(20102011, 20162017)
+    es_data, pp_data, sh_data = clean_data(data)
+    
     # Even Strength Model
-    even_strength = clean_data(20102011, 20162017, strength_state='ES')
-    X_train_ev, y_train_ev, _ = transform_data(even_strength, model='ES')
-    train_model("ES_model", X_train_ev, y_train_ev)
+    X_train_es, y_train_es, _ = transform_data(es_data, model='ES')
+    train_model("ES_model", X_train_es, y_train_es)
 
     # Powerplay Model
-    powerplay = clean_data(20102011, 20162017, strength_state='PP')
-    X_train_pp, y_train_pp, _ = transform_data(powerplay, model='PP')
+    X_train_pp, y_train_pp, _ = transform_data(pp_data, model='PP')
     train_model("PP_model", X_train_pp, y_train_pp)
+
+    # Shorthanded Model
+    X_train_sh, y_train_sh, _ = transform_data(sh_data, model='SH')
+    train_model("SH_model", X_train_sh, y_train_sh)

@@ -3,7 +3,6 @@ from app import app, db
 from app.models import Event, Game
 import sqlalchemy as sa
 
-import pandas as pd
 import numpy as np
 import polars as pl
 from polars import col as c
@@ -146,10 +145,10 @@ def typecode_descriptions(data: pl.DataFrame):
         c('lastEventTypeCode').replace_strict(TYPECODES, return_dtype=pl.String).alias('lastEventTypeCode')
     )
 
-def extract_covariates(data: pl.DataFrame, model: Literal['ES', 'PP']):
+def extract_covariates(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     if model == 'ES':
         return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
-    elif model == 'PP':
+    elif model == 'PP' or model == 'SH':
         return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('manAdvantage'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
 
 def extract_target(data: pl.DataFrame):
@@ -158,7 +157,7 @@ def extract_target(data: pl.DataFrame):
 def extract_indices(data: pl.DataFrame):
     return data.select(c('gameID'), c('id'))
 
-def clean_data(start_season: int, end_season: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pl.DataFrame:
+def load_seasons(start_season: int, end_season: int) -> pl.DataFrame:
     app.app_context().push()
     data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
             .filter(sa.and_(Game.season >= start_season, Game.season <= end_season))
@@ -170,6 +169,9 @@ def clean_data(start_season: int, end_season: int, remove_empty_net = True, stre
             .all())
     
     data = pl.DataFrame(data)
+    return data
+
+def clean_data(data: pl.DataFrame, remove_empty_net = True):
     data = (data
             .pipe(add_last_event)
             .filter(c('typeCode').is_in([505,506,507]))
@@ -184,16 +186,14 @@ def clean_data(start_season: int, end_season: int, remove_empty_net = True, stre
     )
 
     if remove_empty_net: data = data.filter(c('goalieInNet') > 0)
-    if strength_state == "ES":
-        data = data.filter(c('manAdvantage') == 0)
-    elif strength_state == "PP":
-        data = data.filter(c('manAdvantage') > 0)
-    elif strength_state == "SH":
-        data = data.filter(c('manAdvantage') < 0)
 
-    return data
+    es_data = data.filter(c('manAdvantage') == 0)
+    pp_data = data.filter(c('manAdvantage') > 0)
+    sh_data = data.filter(c('manAdvantage') < 0)
+
+    return es_data, pp_data, sh_data
     
-def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP']):
+def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     features = data.pipe(extract_covariates, model).to_pandas()
     target = data.pipe(extract_target)
     index = data.pipe(extract_indices)
@@ -223,5 +223,4 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP']):
     return transformed_df, target, index
 
 if __name__ == "__main__":
-    data = clean_data(20152016, 20152016)
-    x, y, z = transform_data(data, model='ES')
+    pass
