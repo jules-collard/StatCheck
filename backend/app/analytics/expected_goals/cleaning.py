@@ -217,10 +217,11 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP']):
     )
 
     transformed_features = preprocessor.fit_transform(features)
-    feature_names = preprocessor.get_feature_names_out()
-    transformed_df = pd.DataFrame(transformed_features, columns=feature_names).astype(float)
+    feature_names = preprocessor.get_feature_names_out().tolist()
+    transformed_df = pl.DataFrame(transformed_features, schema=feature_names).cast(pl.Float64)
 
     return transformed_df, target, index
 
 if __name__ == "__main__":
-    pass
+    data = clean_data(20152016, 20152016)
+    x, y, z = transform_data(data, model='ES')
