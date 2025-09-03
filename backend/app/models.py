@@ -251,6 +251,7 @@ class Event(db.Model, Util):
     assist1PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True, index=True)
     assist2PlayerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), nullable=True, index=True)
     gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), primary_key=True, index=True)
+    xg: so.Mapped[float] = so.mapped_column(nullable = True)
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
 
     game: so.Mapped['Game'] = so.relationship(back_populates='events')
