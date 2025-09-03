@@ -1,5 +1,4 @@
 import xgboost as xgb
-import pandas as pd
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
 from scipy.stats import uniform
 import os
