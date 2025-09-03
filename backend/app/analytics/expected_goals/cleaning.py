@@ -145,6 +145,11 @@ def typecode_descriptions(data: pl.DataFrame):
         c('lastEventTypeCode').replace_strict(TYPECODES, return_dtype=pl.String).alias('lastEventTypeCode')
     )
 
+def clean_shot_types(data: pl.DataFrame):
+    return data.with_columns(
+        c('shotType').replace(['poke', 'cradle', 'between-legs', 'bat'], 'missing').alias('shotType')
+    )
+
 def extract_covariates(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     if model == 'ES':
         return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
@@ -171,6 +176,20 @@ def load_seasons(start_season: int, end_season: int) -> pl.DataFrame:
     data = pl.DataFrame(data)
     return data
 
+def load_games(*gameIDs) -> pl.DataFrame:
+    app.app_context().push()
+    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
+            .filter(Game.id.in_(gameIDs))
+            .filter(Game.gameType == 2)
+            .filter(Event.periodType != 'SO')
+            .filter(Event.typeCode.in_(TYPECODES.keys()))
+            .join(Event.game)
+            .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
+            .all())
+    
+    data = pl.DataFrame(data)
+    return data
+
 def clean_data(data: pl.DataFrame, remove_empty_net = True):
     data = (data
             .pipe(add_last_event)
@@ -183,6 +202,7 @@ def clean_data(data: pl.DataFrame, remove_empty_net = True):
             .pipe(add_strengths)
             .filter(c('defendingSkaters') > 0)
             .pipe(typecode_descriptions)
+            .pipe(clean_shot_types)
     )
 
     if remove_empty_net: data = data.filter(c('goalieInNet') > 0)
