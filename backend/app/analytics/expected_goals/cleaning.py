@@ -1,6 +1,7 @@
 from sklearn.impute import SimpleImputer
 from app import app, db
 from app.models import Event, Game
+import sqlalchemy as sa
 
 import pandas as pd
 import numpy as np
@@ -74,11 +75,11 @@ def add_last_event(data: pl.DataFrame):
     return data.with_columns(
         c("timeInPeriodSec", "typeCode", "xCoord", "yCoord", "eventOwnerTeamID").shift(1).over("gameID", "period").name.map(last_event_prefix)
     ).with_columns(
-        timeSinceLastEvent = c("timeInPeriodSec") - c("lastEventTimeInPeriodSec"),
+        timeSinceLastEvent = (c("timeInPeriodSec") - c("lastEventTimeInPeriodSec")),
         distFromLastEvent = pl.struct(["xCoord", "yCoord", "lastEventXCoord", "lastEventYCoord"])
                               .map_elements(lambda s: get_distance_between(s["xCoord"], s["yCoord"], s["lastEventXCoord"], s["lastEventYCoord"]), return_dtype=pl.Float64)
     ).with_columns(
-        speedFromLastEvent = c("distFromLastEvent") / c("timeSinceLastEvent")
+        speedFromLastEvent = pl.when(c('timeSinceLastEvent') != 0).then(c("distFromLastEvent") / c("timeSinceLastEvent"))
     ).select(
         pl.all().exclude("lastEventTimeInPeriodSec")
     )
@@ -134,13 +135,6 @@ def get_distance_between(x1, y1, x2, y2):
         return None
     return np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
-def get_speed(x1, y1, x2, y2, time):
-    if any([np.isnan(num) for num in [x1, y1, x2, y2, time]]) or time == 0:
-        return np.nan
-    
-    dist = get_distance_between(x1, y1, x2, y2)
-    return dist / time
-
 def get_angle_change_speed(angle1, angle2, time):
     if any([x is None for x in [angle1, angle2, time]]) or time == 0:
         return None
@@ -164,10 +158,10 @@ def extract_target(data: pl.DataFrame):
 def extract_indices(data: pl.DataFrame):
     return data.select(c('gameID'), c('id'))
 
-def clean_data(season: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pl.DataFrame:
+def clean_data(start_season: int, end_season: int, remove_empty_net = True, strength_state: Literal["ES", "PP", "SH", "ALL"] = "ALL") -> pl.DataFrame:
     app.app_context().push()
     data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
-            .filter(Game.season == season)
+            .filter(sa.and_(Game.season >= start_season, Game.season <= end_season))
             .filter(Game.gameType == 2)
             .filter(Event.periodType != 'SO')
             .filter(Event.typeCode.in_(TYPECODES.keys()))
@@ -229,6 +223,4 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP']):
     return transformed_df, target, index
 
 if __name__ == "__main__":
-    data = clean_data(20142015)
-    x, y, z = transform_data(data, model = 'ES')
-    print(x.head(20))
+    pass
