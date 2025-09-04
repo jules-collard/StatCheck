@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 
 import { PlayerDetails } from "./player-details/player-details";
 import { PlayerService } from './player.service';
@@ -20,10 +20,17 @@ import { SkaterSeasonRecords } from './season-totals-table/skater-season-records
 export class PlayerPage implements OnInit {
   private playerService = inject(PlayerService);
   private activatedRoute = inject(ActivatedRoute);
-  private destroyRef = inject(DestroyRef)
+  private destroyRef = inject(DestroyRef);
 
   playerData = computed<Player | null>(() => {
     return this.playerService.getPlayerData();
+  })
+
+  regularSeason = signal<boolean>(true)
+  totals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
+    if (this.regularSeason()) {
+      return this.regSeasonTotals();
+    } else { return this.postSeasonTotals()}
   })
   
   regSeasonTotals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
@@ -50,24 +57,25 @@ export class PlayerPage implements OnInit {
     return this.playerService.getPostSeasonTotals();
   })
 
-  regSeasonAwards = computed<Award[]>(() => {
+  awards = computed<Award[]>(() => {
     return this.playerData()?.awards.filter((award) => {
-      return this.regSeasonAwardNames.includes(award.awardName);
-    }) ?? []
-  })
-
-  postSeasonAwards = computed<Award[]>(() => {
-    return this.playerData()?.awards.filter((award) => {
-      return this.postSeasonAwardNames.includes(award.awardName);
-    }) ?? []
+      return this.awardNames.includes(award.awardName)
+    }) ?? [];
   })
 
   loading = computed<boolean>(() => {
     return this.playerService.playerDataIsLoading() || this.playerService.seasonTotalsIsLoading()
   })
 
-  private regSeasonAwardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy']
-  private postSeasonAwardNames = ['Conn Smythe Trophy', 'Stanley Cup']
+  private awardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy', 'Conn Smythe Trophy', 'Stanley Cup']
+
+  selectPlayoffs() {
+    this.regularSeason.set(false)
+  }
+
+  selectRegular() {
+    this.regularSeason.set(true)
+  }
 
   ngOnInit(): void {
     const subscription = this.activatedRoute.paramMap.subscribe({

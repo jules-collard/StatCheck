@@ -4,32 +4,27 @@
     </div>
     <div class="basis-auto min-w-100">
         <div class="flex flex-col gap-2">
-            <h2 class="text-xl text-accent-content ml-2">Regular Season</h2>
-            <div class="overflow-x-auto rounded-box shadow-md">
-                @if (loading()) {
-                    <div class="skeleton h-50 w-200"></div>
-                } @else if (regSeasonTotals() == null ) {
-                    <div class="badge badge-error">Seasons Not Found</div>
-                } @else if (playerData()!.position === 'G'){
-                    <app-goalie-totals-table [seasonTotals]="$any(regSeasonTotals()!)" [awards]="regSeasonAwards()"/>
-                } @else {
-                    <app-season-totals-table [seasonTotals]="$any(regSeasonTotals()!)" [awards]="regSeasonAwards()"/>
-                }
+            <div class="join">
+                <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="selectRegular()">
+                <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Playoffs" (click)="selectPlayoffs()"/>
             </div>
-            @if (postSeasonTotals()?.length ?? 1 > 0) {
-                <h2 class="text-xl text-accent-content ml-2">Playoffs</h2>
-                <div class="overflow-x-auto rounded-box shadow-md">
-                    @if (loading()) {
-                        <div class="skeleton h-50 w-200"></div>
-                    } @else if (postSeasonTotals() == null ) {
-                        <div class="badge badge-error">Seasons Not Found</div>
-                    } @else if (playerData()!.position === 'G'){
-                        <app-goalie-totals-table [seasonTotals]="$any(postSeasonTotals()!)" [awards]="postSeasonAwards()"/>
-                    } @else {
-                        <app-season-totals-table [seasonTotals]="$any(postSeasonTotals()!)" [awards]="postSeasonAwards()"/>
-                    }
+            <div class="rounded-box bg-base-200 shadow-md">
+                <div class="tabs tabs-border tabs-lg">
+                    <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
+                    <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
+                        @if (loading()) {
+                            <div class="skeleton h-50 w-200"></div>
+                        } @else if (totals() == null ) {
+                            <div class="badge badge-error">Seasons Not Found</div>
+                        } @else if (playerData()!.position === 'G'){
+                            <app-goalie-totals-table [seasonTotals]="$any(totals()!)" [awards]="awards()"/>
+                        } @else {
+                            <app-season-totals-table [seasonTotals]="$any(totals()!)" [awards]="awards()"/>
+                        }
+                    </div>
+                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
                 </div>
-            }   
+            </div>
         </div>
     </div>
 </div>
