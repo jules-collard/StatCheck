@@ -28,7 +28,9 @@
                             <div class="skeleton h-50 w-200"></div>
                         } @else if (totals() == null ) {
                             <div class="badge badge-error">Seasons Not Found</div>
-                        } @else if (playerData()!.position != 'G'){
+                        } @else if (playerData()!.position === 'G'){
+                            <app-goalie-analytics-table [seasonTotals]="$any(totals()!)"/>
+                        } @else {
                             <app-season-analytics-table [seasonTotals]="$any(totals()!)"/>
                         }
                     </div>

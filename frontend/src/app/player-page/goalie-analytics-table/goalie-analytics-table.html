@@ -1,0 +1,18 @@
+<table class="table table-auto">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>GSAx</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (season of seasonTotals(); track $index) {
+            @if (season.season >= 20172018) {
+                <tr class="hover:bg-primary-content">
+                    <th>{{season.season | season}}</th>
+                    <td>{{season.xg - season.goalsAgainst | number: '0.1-1'}}</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
