@@ -49,3 +49,20 @@ def get_player_stats(id):
         season.pop('teamID', None)
 
     return json.dumps(results)
+
+@bp.route('/players/<int:id>/analytics', methods=['GET'])
+@cross_origin()
+def get_player_analytics(id):
+    player = db.get_or_404(Player, id)
+    gameType = int(request.args.get('gameType', 2))
+
+    querypath = 'goalie_season_analytics.sql' if player.position == 'G' else 'skater_season_analytics.sql'
+
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', querypath)) as f:
+        query = f.read()
+
+    query_result = db.session.execute(text(query), {"playerID": id, "gameType": gameType}).mappings().all()
+    results = [dict(row) for row in query_result]
+
+    return json.dumps(results)
+

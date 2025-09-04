@@ -1,6 +1,5 @@
 import { Team } from "../../team/team.model";
 import { GoalieSeasonRecords } from "../season-totals-table/goalie-season-records.model";
-import { SkaterSeasonRecords } from "../season-totals-table/skater-season-records.model";
 
 export type GoalieTotals = {
     playerID: number;
@@ -9,6 +8,7 @@ export type GoalieTotals = {
     gamesStarted: number;
     wins: number;
     losses: number;
+    goalsAgainst: number;
     goalsAgainstAvg: number;
     savePct: number;
     evenStrengthSavePct: number;
