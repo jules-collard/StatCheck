@@ -23,6 +23,15 @@
                         }
                     </div>
                     <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
+                    <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
+                        @if (loading()) {
+                            <div class="skeleton h-50 w-200"></div>
+                        } @else if (totals() == null ) {
+                            <div class="badge badge-error">Seasons Not Found</div>
+                        } @else if (playerData()!.position != 'G'){
+                            <app-season-analytics-table [seasonTotals]="$any(totals()!)"/>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

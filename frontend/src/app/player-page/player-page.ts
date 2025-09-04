@@ -10,10 +10,11 @@ import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
 import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
 import { GoalieTotals } from './goalie-totals-table/goalie-totals.model';
 import { SkaterSeasonRecords } from './season-totals-table/skater-season-records.model';
+import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable],
+  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })

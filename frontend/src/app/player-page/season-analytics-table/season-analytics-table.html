@@ -1,0 +1,22 @@
+<table class="table table-auto">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>xG</th>
+            <th>S%</th>
+            <th>xS%</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (season of seasonTotals(); track $index) {
+            @if (season.season >= 20172018) {
+                <tr class="hover:bg-primary-content">
+                    <th>{{season.season | season}}</th>
+                    <td>{{season.xg | number: '0.1-1'}}</td>
+                    <td>{{100 * season.goals / season.sog | number: '0.1-1'}}%</td>
+                    <td>{{100 * season.xg / season.sog | number: '0.1-1'}}%</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
