@@ -17,6 +17,8 @@ export type SeasonTotals = {
     giveaways: number;
     avgTOI: number;
     xg: number;
+    actualGoals: number;
+    actualShotAttempts: number;
     team: Team;
     records?: SkaterSeasonRecords;
 }

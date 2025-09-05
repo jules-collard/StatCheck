@@ -3,6 +3,7 @@
         <tr>
             <th>Season</th>
             <th>GSAx</th>
+            <th>SV% Ax</th>
         </tr>
     </thead>
     <tbody>
@@ -10,7 +11,8 @@
             @if (season.season >= 20172018) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <td>{{season.xg - season.goalsAgainst | number: '0.1-1'}}</td>
+                    <td>{{season.xgAgainst - season.actualGoalsAgainst | number: '0.1-1'}}</td>
+                    <td>{{(season.xgAgainst / season.actualShotsAgainst) - (season.actualGoalsAgainst / season.actualShotsAgainst) | number: '0.3-3'}}</td>
                 </tr>
             }
         }
