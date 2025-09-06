@@ -3,8 +3,11 @@
         <tr>
             <th>Season</th>
             <th>Team</th>
+            <th>GP</th>
             <th>GSAx</th>
-            <th>SV% Ax</th>
+            <th>dFSv%</th>
+            <th>EV Sv%</th>
+            <th>PP Sv%</th>
         </tr>
     </thead>
     <tbody>
@@ -13,8 +16,11 @@
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
                     <th>{{season.team.triCode}}</th>
-                    <td>{{season.xgAgainst - season.actualGoalsAgainst | number: '0.1-1'}}</td>
-                    <td>{{(season.xgAgainst / season.actualShotsAgainst) - (season.actualGoalsAgainst / season.actualShotsAgainst) | number: '0.3-3'}}</td>
+                    <td>{{season.gamesPlayed}}</td>
+                    <td>{{season.xgAgainst - season.goalsAgainst | number: '0.1-1'}}</td>
+                    <td>{{(season.xgAgainst / season.fenwickAgainst) - (season.xgGoalsAgainst / season.fenwickAgainst) | number: '0.3-3'}}</td>
+                    <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>
+                    <td>{{season.powerPlaySavePct | number:'0.3-3'}}</td>
                 </tr>
             }
         }

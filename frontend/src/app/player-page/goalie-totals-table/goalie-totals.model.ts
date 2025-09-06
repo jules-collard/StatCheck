@@ -14,8 +14,8 @@ export type GoalieTotals = {
     evenStrengthSavePct: number;
     powerPlaySavePct: number;
     xgAgainst: number;
-    actualGoalsAgainst: number;
-    actualShotsAgainst: number;
+    xgGoalsAgainst: number;
+    fenwickAgainst: number;
     team: Team;
     records?: GoalieSeasonRecords;
 }

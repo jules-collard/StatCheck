@@ -54,8 +54,8 @@ def get_player_stats(id):
             row['actualShotAttempts'] = season_dict['actualShotAttempts']
         elif season_dict is not None and player.position == 'G':
             row['xgAgainst'] = season_dict['xgAgainst']
-            row['actualGoalsAgainst'] = season_dict['actualGoalsAgainst']
-            row['actualShotsAgainst'] = season_dict['actualShotsAgainst']
+            row['xgGoalsAgainst'] = season_dict['xgGoalsAgainst']
+            row['fenwickAgainst'] = season_dict['fenwickAgainst']
 
     teams = {}
     for teamID in set([season["teamID"] for season in results]):
