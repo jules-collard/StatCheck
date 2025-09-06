@@ -47,7 +47,7 @@ def get_player_stats(id):
     analytics_results = [dict(row) for row in analytics_query_result]
 
     for row in results:
-        season_dict = next((d for d in analytics_results if d['season'] == row['season']), None)
+        season_dict = next((d for d in analytics_results if d['season'] == row['season'] and d['teamID'] == row['teamID']), None)
         if season_dict is not None and player.position != 'G':
             row['xg'] = season_dict['xg']
             row['actualGoals'] = season_dict['actualGoals']
