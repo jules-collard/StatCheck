@@ -1,3 +1,4 @@
 .github/
 .pytest_cache/
 .vscode
+*.log
