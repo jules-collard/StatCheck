@@ -5,6 +5,7 @@ import sqlalchemy as sa
 
 import numpy as np
 import polars as pl
+from scipy.sparse import csr_matrix
 from polars import col as c
 from typing import Literal
 from sklearn.compose import ColumnTransformer
@@ -23,7 +24,40 @@ TYPECODES = {
     537: 'failed-shot-attempt'
 }
 
-SHOTTYPES = ['backhand', 'deflected', 'slap', 'snap', 'tip-in', 'wrap-around', 'wrist']
+SHOTTYPES = ['wrist', 'tip-in', 'snap', 'slap', 'poke', 'backhand', 'bat', 'deflected', 'wrap-around', 'between-legs', 'cradle']
+
+GAMETYPES = ['REG', 'POST']
+
+TEAMS = ['10', '5', '30', '21', '22', '29', '1', '12', '17', '9', '11', '6', '7', '2', '15', '14', '19', '18', '16', '28', '23', '27', '20', '4', '26', '8', '24', '25', '3', '13', '52', '53', '54', '55', '59']
+
+SEASONS = ['20102011', '20112012', '20122013', '20132014', '20142015', '20152016', '20162017', '20172018', '20182019', '20192020', '20202021', '20212022', '20222023', '20232024', '20242025']
+
+teams_enum = pl.Enum(TEAMS)
+seasons_enum = pl.Enum(SEASONS)
+
+schema = {
+    'gameID': pl.Categorical,
+    'id': pl.Int64,
+    'timeInPeriodSec': pl.Int16,
+    'typeCode': pl.Int16,
+    'awayGoalie': pl.Int8,
+    'awaySkaters': pl.Int8,
+    'homeGoalie': pl.Int8,
+    'homeSkaters': pl.Int8,
+    'homeTeamDefendingSide': pl.Enum(['left', 'right']),
+    'period': pl.Int8,
+    'eventOwnerTeamID': teams_enum,
+    'shootingPlayerID': pl.Int64,
+    'xCoord': pl.Float64,
+    'yCoord': pl.Float64,
+    'zoneCode': pl.Enum(['D', 'N', 'O']),
+    'shotType': pl.Enum(SHOTTYPES),
+    'homeTeamID': teams_enum,
+    'awayTeamID': teams_enum,
+    'gameType': pl.Int8,
+    'neutralSite': pl.Boolean,
+    'season': seasons_enum
+}
 
 def set_side_period(group: pl.DataFrame):
     if group.select('homeTeamDefendingSide').to_series().is_null().any():
@@ -68,7 +102,7 @@ def standardise_coordinates(data: pl.DataFrame):
         .then(pl.struct(xStd=-c('xCoord'), yStd=-c('yCoord'), lastEventXStd=-c('lastEventXCoord'), lastEventYStd=-c('lastEventYCoord')))
         .otherwise(pl.struct(xStd=c('xCoord'), yStd=c('yCoord'), lastEventXStd=c('lastEventXCoord'), lastEventYStd=c('lastEventYCoord')))
         .struct.unnest()
-    )
+    ).select(pl.all().exclude(['xCoord', 'yCoord', 'lastEventXCoord', 'lastEventYCoord']))
 
 def add_last_event(data: pl.DataFrame):
     return data.with_columns(
@@ -97,7 +131,7 @@ def add_shot_information(data: pl.DataFrame):
         )
     ).with_columns(
         angleChangeSpeed = pl.struct(['lastShotAngle', 'shotAngle', 'timeSinceLastEvent']).map_elements(lambda s: get_angle_change_speed(s['lastShotAngle'], s['shotAngle'], s['timeSinceLastEvent']), return_dtype=pl.Float64)
-    )
+    ).select(pl.all().exclude('lastShotAngle'))
 
 def add_strengths(data: pl.DataFrame):
     return data.with_columns(
@@ -112,6 +146,28 @@ def add_strengths(data: pl.DataFrame):
                         .otherwise(c('homeGoalie')))
     ).with_columns(
         manAdvantage = c('attackingSkaters') - c('defendingSkaters')
+    )
+
+def add_home_away(data: pl.DataFrame):
+    return data.with_columns(
+        home = (c('eventOwnerTeamID') == c('homeTeamID'))
+    )
+
+def add_venue(data: pl.DataFrame):
+    return data.with_columns(
+        pl.when(c('neutralSite') == 0)
+        .then(c('homeTeamID').cast(pl.String))
+        .otherwise(pl.lit('neutral'))
+        .alias('homeVenue')
+    ).select(pl.all().exclude('neutralSite'))
+
+def clean_seasons(data: pl.DataFrame, last_season: str):
+    return data.with_columns(
+        pl.when(c('season') > pl.lit(last_season))
+        .then(pl.lit(last_season))
+        .otherwise(c('season'))
+        .cast(seasons_enum)
+        .alias('season')
     )
 
 def get_shot_angle(x: float, y: float):
@@ -142,19 +198,19 @@ def get_angle_change_speed(angle1, angle2, time):
 
 def typecode_descriptions(data: pl.DataFrame):
     return data.with_columns(
-        c('lastEventTypeCode').replace_strict(TYPECODES, return_dtype=pl.String).alias('lastEventTypeCode')
-    )
+        c('lastEventTypeCode').replace_strict(TYPECODES, return_dtype=pl.String).alias('lastEventType')
+    ).select(pl.all().exclude('lastEventTypeCode'))
 
-def clean_shot_types(data: pl.DataFrame):
+def gametype_descriptions(data: pl.DataFrame):
     return data.with_columns(
-        c('shotType').replace(['poke', 'cradle', 'between-legs', 'bat'], 'missing').alias('shotType')
+        c('gameType').replace_strict({2: 'REG', 3: 'POST'}).alias('gameType')
     )
 
 def extract_covariates(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     if model == 'ES':
-        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
+        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventType'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'), c('home'), c('homeVenue'), c('gameType'), c('season'))
     elif model == 'PP' or model == 'SH':
-        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventTypeCode'), c('manAdvantage'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'))
+        return data.select(c('shotDistance'), c('timeSinceLastEvent'), c('shotType'), c('speedFromLastEvent'), c('shotAngle'), c('angleChangeSpeed'), c('lastEventType'), c('manAdvantage'), c('defendingSkaters'), c('distFromLastEvent'), c('xStd'), c('yStd'), c('home'), c('homeVenue'), c('gameType'), c('season'))
 
 def extract_target(data: pl.DataFrame):
     return data.select(c('isGoal')).to_series()
@@ -164,30 +220,30 @@ def extract_indices(data: pl.DataFrame):
 
 def load_seasons(start_season: int, end_season: int) -> pl.DataFrame:
     app.app_context().push()
-    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
+    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID, Game.gameType, Game.neutralSite, Game.season)
             .filter(sa.and_(Game.season >= start_season, Game.season <= end_season))
-            .filter(Game.gameType == 2)
+            .filter(sa.or_(Game.gameType == 2, Game.gameType == 3))
             .filter(Event.periodType != 'SO')
             .filter(Event.typeCode.in_(TYPECODES.keys()))
             .join(Event.game)
             .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
             .all())
     
-    data = pl.DataFrame(data)
+    data = pl.DataFrame(data, schema=schema)
     return data
 
 def load_games(*gameIDs) -> pl.DataFrame:
     app.app_context().push()
-    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID)
+    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID, Game.gameType, Game.neutralSite, Game.season)
             .filter(Game.id.in_(gameIDs))
-            .filter(Game.gameType == 2)
+            .filter(sa.or_(Game.gameType == 2, Game.gameType == 3))
             .filter(Event.periodType != 'SO')
             .filter(Event.typeCode.in_(TYPECODES.keys()))
             .join(Event.game)
             .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
             .all())
     
-    data = pl.DataFrame(data)
+    data = pl.DataFrame(data, schema=schema)
     return data
 
 def clean_data(data: pl.DataFrame, remove_empty_net = True):
@@ -202,7 +258,10 @@ def clean_data(data: pl.DataFrame, remove_empty_net = True):
             .pipe(add_strengths)
             .filter(c('defendingSkaters') > 0)
             .pipe(typecode_descriptions)
-            .pipe(clean_shot_types)
+            .pipe(gametype_descriptions)
+            .pipe(add_home_away)
+            .pipe(add_venue)
+            .pipe(clean_seasons, last_season = '20242025')
     )
 
     if remove_empty_net: data = data.filter(c('goalieInNet') > 0)
@@ -220,14 +279,15 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
 
     typecode_categories = [*TYPECODES.values(), 'missing']
     shottype_categories = [*SHOTTYPES, 'missing']
+    homevenue_categories = [*TEAMS, 'neutral']
 
     categorical_transformer = Pipeline(steps=[
         ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing')),
         ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing')),
-        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories]))
+        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, SEASONS, GAMETYPES, homevenue_categories]))
     ])
 
-    categorical_features = ['lastEventTypeCode', 'shotType']
+    categorical_features = ['lastEventType', 'shotType', 'season', 'gameType', 'homeVenue']
     preprocessor = ColumnTransformer(
         transformers=[
             ('cat', categorical_transformer, categorical_features)
@@ -236,9 +296,9 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
         verbose_feature_names_out=False
     )
 
-    transformed_features = preprocessor.fit_transform(features)
+    transformed_features: csr_matrix = preprocessor.fit_transform(features)
     feature_names = preprocessor.get_feature_names_out().tolist()
-    transformed_df = pl.DataFrame(transformed_features, schema=feature_names).cast(pl.Float64)
+    transformed_df = pl.DataFrame(transformed_features.toarray(), schema=feature_names).cast(pl.Float64)
 
     return transformed_df, target, index
 
