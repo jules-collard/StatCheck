@@ -8,7 +8,7 @@
     </thead>
     <tbody>
         @for (season of seasonTotals(); track $index) {
-            @if (season.season >= 20172018) {
+            @if (season.season >= 20172018 && season.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
                     <td>{{season.xgAgainst - season.actualGoalsAgainst | number: '0.1-1'}}</td>
