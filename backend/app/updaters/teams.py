@@ -1,9 +1,9 @@
+from sqlalchemy.exc import IntegrityError
+
 from app import scrapers
 from app import app, db
 from app.models import Team
 from app.updaters import log_error
-
-from sqlalchemy.exc import IntegrityError
 
 def insert_teams():
     team_dicts = scrapers.scrape_teams()

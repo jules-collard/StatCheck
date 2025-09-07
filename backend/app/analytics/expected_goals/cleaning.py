@@ -1,20 +1,21 @@
-from sklearn.impute import SimpleImputer
-from app import app, db
-from app.models import Event, Game
-import sqlalchemy as sa
+from typing import Literal
 
+import sqlalchemy as sa
 import numpy as np
 import polars as pl
-from scipy.sparse import csr_matrix
 from polars import col as c
-from typing import Literal
+from scipy.sparse import csr_matrix
+from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 
+from app import app, db
+from app.models import Event, Game
+
 TYPECODES = {
     502: 'faceoff',
-    502: 'hit',
+    503: 'hit',
     504: 'giveaway',
     505: 'goal',
     506: 'shot-on-goal',
@@ -264,7 +265,8 @@ def clean_data(data: pl.DataFrame, remove_empty_net = True):
             .pipe(clean_seasons, last_season = '20242025')
     )
 
-    if remove_empty_net: data = data.filter(c('goalieInNet') > 0)
+    if remove_empty_net:
+        data = data.filter(c('goalieInNet') > 0)
 
     es_data = data.filter(c('manAdvantage') == 0)
     pp_data = data.filter(c('manAdvantage') > 0)

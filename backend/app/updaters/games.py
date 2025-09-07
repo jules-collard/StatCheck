@@ -1,11 +1,12 @@
+from datetime import datetime
+
+from sqlalchemy.exc import IntegrityError
+from requests.exceptions import HTTPError
+
 from app import app, db
 from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_pbp, scrape_shifts, scrape_appearances_boxscore
 from app.models import Game, Event, EventType, Player, Shift, GameImportError, GoalieAppearance, SkaterAppearance
 from app.updaters import log_error, ref_types, players
-
-from sqlalchemy.exc import IntegrityError
-from requests.exceptions import HTTPError
-from datetime import datetime
 
 def insert_games(date: datetime) -> list[int]:
     date_string = date.date().strftime("%Y-%m-%d")
@@ -156,7 +157,7 @@ def delete_goalie_appearances(gameID = None):
         app.logger.info(f'Deleted goalie appearances for Game {gameID}')
     else:
         GoalieAppearance.query.delete()
-        app.logger.info(f'Deleted ALL Goalie Appearances')
+        app.logger.info('Deleted ALL Goalie Appearances')
     db.session.commit()
 
 def delete_skater_appearances(gameID = None):
@@ -165,7 +166,7 @@ def delete_skater_appearances(gameID = None):
         app.logger.info(f'Deleted skater appearances for Game {gameID}')
     else:
         GoalieAppearance.query.delete()
-        app.logger.info(f'Deleted ALL Skater Appearances')
+        app.logger.info('Deleted ALL Skater Appearances')
     db.session.commit()
 
 def delete_all_events(gameID = None):

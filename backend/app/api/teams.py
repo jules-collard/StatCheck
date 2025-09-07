@@ -1,6 +1,7 @@
+from flask_cors import cross_origin
+
 from app.api import bp, db
 from app.models import Team
-from flask_cors import cross_origin
 
 @bp.route('/teams/<int:id>', methods=['GET'])
 @cross_origin()

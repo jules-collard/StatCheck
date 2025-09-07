@@ -1,5 +1,4 @@
 import pytest
-
 import polars as pl
 import polars.testing
 import polars.selectors as cs

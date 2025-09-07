@@ -1,10 +1,11 @@
-from sqlite3 import IntegrityError
+from datetime import datetime, timedelta
+
+from sqlalchemy.exc import IntegrityError
+
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
 from app.models import Game, Player, GameImportError
 
-from datetime import datetime, timedelta
-from sqlalchemy.exc import IntegrityError
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')

@@ -1,10 +1,11 @@
+from logging.config import dictConfig
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from config import Config
-
-from logging.config import dictConfig
 from flask.logging import default_handler
+
+from config import Config
 
 dictConfig(
     {
@@ -70,4 +71,4 @@ def create_app(config_class=Config):
 app = create_app()
 app.logger.removeHandler(default_handler)
 
-from app import routes, models
+from app import routes, models  # noqa: E402, F401

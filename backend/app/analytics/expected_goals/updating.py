@@ -6,11 +6,12 @@ import sqlalchemy as sa
 from app import app, db
 from app.models import Event
 
-from .cleaning import load_games, load_seasons, clean_data, transform_data
+from .cleaning import load_seasons, clean_data, transform_data
 from .testing import load_model
 
 def calculate_xg(data: pl.DataFrame, model: xgb.XGBClassifier, model_name: Literal['ES', 'PP', 'SH']) -> pl.DataFrame:
-    if data.height == 0: return pl.DataFrame({'gameID': [], 'id': [], 'xg': []})
+    if data.height == 0:
+        return pl.DataFrame({'gameID': [], 'id': [], 'xg': []})
     
     X_test, _, index = transform_data(data, model=model_name)
     xg_fit = model.predict_proba(X_test)

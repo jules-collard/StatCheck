@@ -1,11 +1,13 @@
-from app.api import bp, db
-from app.models import Player, Team
+import json
+import os
+
 from flask_cors import cross_origin
 from flask import request
-
-from sqlalchemy.sql import text
 import sqlalchemy as sa
-import json, os
+from sqlalchemy.sql import text
+
+from app.api import bp, db
+from app.models import Player, Team
 
 @bp.route('/players', methods=['GET'])
 @cross_origin()

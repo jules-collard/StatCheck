@@ -1,7 +1,8 @@
+from datetime import datetime
+
 import requests
 import pandas as pd
 import numpy as np
-from datetime import datetime
 
 def scrape_pbp(gameId: int):
     # Situation Code: *away G* *away skaters* *home skaters* *home G*
@@ -194,7 +195,8 @@ def scrape_schedule(date: str):
     schedule_df = schedule_df[schedule_df.columns[schedule_df.columns.isin(cols)]]
     
     schedule_df['gameType'] = schedule_df['gameType'].astype('Int64')
-    if len(schedule_df) == 0: return {}
+    if len(schedule_df) == 0:
+        return {}
 
     schedule_df.rename(columns = {'venue.default':'defaultVenue',
                                     'awayTeam.id':'awayTeamID', 'awayTeam.score':'awayTeamScore',

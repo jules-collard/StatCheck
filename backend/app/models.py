@@ -1,8 +1,10 @@
 from datetime import datetime, timezone, date
+import inspect
+
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+
 from app import db
-import inspect
 
 class Util():
     def from_dict(self, data):

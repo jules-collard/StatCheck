@@ -1,8 +1,10 @@
-from app.api import bp, db
-from flask_cors import cross_origin
+import json
+import os
 
+from flask_cors import cross_origin
 from sqlalchemy.sql import text
-import json, os
+
+from app.api import bp, db
 
 @bp.route('/records/skaters/<int:gameType>', methods=['GET'])
 @cross_origin()

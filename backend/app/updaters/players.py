@@ -1,11 +1,11 @@
+import sqlalchemy as sa
+from sqlalchemy.exc import IntegrityError
+from requests.exceptions import HTTPError
+
 from app import app,db
 from app.scrapers import scrape_player
 from app.models import Player, Award
 from app.updaters import log_error
-
-from sqlalchemy.exc import IntegrityError
-from requests.exceptions import HTTPError
-import sqlalchemy as sa
 
 def insert_or_update_player(id: int):
     try:

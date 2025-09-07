@@ -1,6 +1,7 @@
+import os
+
 import xgboost as xgb
 from sklearn.model_selection import GridSearchCV
-import os
 
 from .cleaning import load_seasons, clean_data, transform_data
 

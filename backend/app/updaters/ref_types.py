@@ -11,7 +11,6 @@ def insert_game_types():
     fourNations = GameType(**{"typeCode": 19, "typeDescKey": "4NFO"})
     fourNationsFinal = GameType(**{"typeCode": 20, "typeDescKey": "4NFOFINAL"})
     
-
     try:
         db.session.merge(pre)
         db.session.merge(reg)
@@ -41,9 +40,9 @@ def insert_event_type(tup: tuple[int, str]):
 def delete_all_event_types():
     EventType.query.delete()
     db.session.commit()
-    app.logger.info(f'Deleted ALL Event Types')
+    app.logger.info('Deleted ALL Event Types')
 
 def delete_all_game_types():
     GameType.query.delete()
     db.session.commit()
-    app.logger.info(f'Deleted ALL Game Types')
+    app.logger.info('Deleted ALL Game Types')
