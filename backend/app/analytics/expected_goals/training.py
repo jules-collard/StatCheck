@@ -39,6 +39,11 @@ def train_model(name, X_train, y_train, model_to_load=None):
     
     return mod
 
+def load_model(name: str):
+    mod = xgb.XGBClassifier()
+    mod.load_model(os.path.join(os.path.dirname(__file__), "models", f"{name}.json"))
+    return mod
+
 if __name__ == "__main__":
     data = load_seasons(20142015, 20242025)
     es_data, pp_data, sh_data = clean_data(data)

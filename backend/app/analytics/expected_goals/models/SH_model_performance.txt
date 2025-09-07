@@ -1,5 +1,5 @@
 SH_model Stats: 
-Log-Loss (CV) = -0.2622308001064541
+Log-Loss (CV) = -0.26166534222044724
 max_depth: 4
 min_child_weight: 1.5
 eta: 0.1

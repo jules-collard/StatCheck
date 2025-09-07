@@ -1,5 +1,5 @@
 PP_model Stats: 
-Log-Loss (CV) = -0.28624367924197774
-max_depth: 6
-min_child_weight: 1.5
+Log-Loss (CV) = -0.2863680861461377
+max_depth: 7
+min_child_weight: 1
 eta: 0.08

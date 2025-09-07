@@ -1,5 +1,5 @@
 ES_model Stats: 
-Log-Loss (CV) = -0.19434047897255852
+Log-Loss (CV) = -0.1942522062822544
 max_depth: 7
-min_child_weight: 0.5
+min_child_weight: 1
 eta: 0.1
