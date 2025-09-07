@@ -3,7 +3,9 @@
         <tr>
             <th>Season</th>
             <th>Team</th>
+            <th>GP</th>
             <th>GAx</th>
+            <th>Sh%</th>
             <th>dFSh%</th>
         </tr>
     </thead>
@@ -13,8 +15,10 @@
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
                     <th>{{season.team.triCode}}</th>
+                    <td>{{season.gamesPlayed}}</td>
                     <td>{{season.xgGoals - season.xg | number: '0.1-1'}}</td>
-                    <td>{{(season.xgGoals - season.xg) / season.fenwick | number: '0.3-3'}}</td>
+                    <td>{{100 * season.goals / season.sog | number: '0.1-1'}}%</td>
+                    <td>{{100 * (season.xgGoals - season.xg) / season.fenwick | number: '0.1-1'}}%</td>
                 </tr>
             }
         }

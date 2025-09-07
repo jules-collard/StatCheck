@@ -18,7 +18,7 @@
                     <th>{{season.team.triCode}}</th>
                     <td>{{season.gamesPlayed}}</td>
                     <td>{{season.xgAgainst - season.goalsAgainst | number: '0.1-1'}}</td>
-                    <td>{{(season.xgAgainst / season.fenwickAgainst) - (season.xgGoalsAgainst / season.fenwickAgainst) | number: '0.3-3'}}</td>
+                    <td>{{100 * (season.xgAgainst - season.xgGoalsAgainst) / season.fenwickAgainst | number: '0.1-1'}}%</td>
                     <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>
                     <td>{{season.powerPlaySavePct | number:'0.3-3'}}</td>
                 </tr>
