@@ -10,13 +10,11 @@ export type Player = {
     sweaterNumber: number | null;
     position: "G" | "D" | "L" | "C" | "R";
     headshot: string;
-    heroImage: string | null;
     heightInInches: number;
     heightInCentimeters: number;
     weightInPounds: number;
     weightInKilograms: number;
     birthDate: string; // ISO date string
-    birthCity: string | null;
     birthCountry: string;
     shootsCatches: string;
     draftYear: number | null;

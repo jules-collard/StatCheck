@@ -3,8 +3,10 @@ import inspect
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from pydantic import ValidationError
 
 from app import db
+from app.api.api_models import PlayerListItem
 
 class Util():
     def from_dict(self, data):
@@ -77,7 +79,7 @@ class Player(db.Model, Util):
     awards: so.Mapped[list['Award']] = so.relationship(back_populates='winningPlayer', foreign_keys='Award.winningPlayerID')
 
     def __repr__(self):
-        return f"Player: <{self.firstName} {self.lastName}> {self.id}"
+        return f"Player: {self.firstName} {self.lastName} <{self.id}>"
     
     def to_dict(self):
         return {
@@ -107,6 +109,20 @@ class Player(db.Model, Util):
             'team': self.team.to_dict() if self.team else None,
             'awards': [award.to_dict() for award in self.awards]
         }
+    
+    def get_list_item(self) -> PlayerListItem:
+        try:
+            return PlayerListItem(
+                id=self.id,
+                fullName=f'{self.firstName} {self.lastName}',
+                position=self.position,
+                teamTriCode=self.team.triCode if self.team else None,
+                headshot=self.headshot
+            )
+        except ValidationError as e:
+            # app.logger.error(f'{self} failed PlayerListItem Validation')
+            # app.logger.error(e)
+            return None
     
     def goals(self) -> int:
         return Event.query.filter(Event.scoringPlayerID == self.id).count()

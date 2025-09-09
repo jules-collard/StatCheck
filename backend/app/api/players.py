@@ -11,17 +11,10 @@ from app.models import Player, Team
 
 @bp.route('/players', methods=['GET'])
 @cross_origin()
-def get_all_players():
+def get_player_list():
     players = db.session.scalars(sa.select(Player).order_by(Player.lastName.asc())).all()
-    players_dict = [{
-        'id':player.id,
-        'fullName': f"{player.firstName} {player.lastName}",
-        'position': player.position,
-        'teamTriCode': player.team.triCode if player.team else None,
-        'headshot': player.headshot}
-        for player in players
-    ]
-    return json.dumps(players_dict)
+    player_list_items = [p.model_dump() for player in players if (p := player.get_list_item())]
+    return json.dumps(player_list_items)
 
 @bp.route('/players/<int:id>', methods=['GET'])
 @cross_origin()
