@@ -276,6 +276,36 @@ class Shift(db.Model, Util):
     shiftNumber: so.Mapped[int] = so.mapped_column()
     teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
     metaDateTime: so.Mapped[datetime] = so.mapped_column(default = lambda: datetime.now(timezone.utc))
+
+class SplitShift(db.Model):
+    __tablename__ = "split_shifts"
+
+    shiftID: so.Mapped[int] = so.mapped_column(primary_key=True)
+    split: so.Mapped[int] = so.mapped_column(primary_key=True)
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
+    period: so.Mapped[int] = so.mapped_column()
+    startTimeSec: so.Mapped[int] = so.mapped_column()
+    endTimeSec: so.Mapped[int] = so.mapped_column()
+    splitDuration: so.Mapped[int] = so.mapped_column()
+    attackingSkaters: so.Mapped[int] = so.mapped_column()
+    defendingSkaters: so.Mapped[int] = so.mapped_column()
+    attackingGoalie: so.Mapped[bool] = so.mapped_column()
+    defendingGoalie: so.Mapped[bool] = so.mapped_column()
+    goalsFor: so.Mapped[int] = so.mapped_column()
+    goalsAgainst: so.Mapped[int] = so.mapped_column()
+    sogFor: so.Mapped[int] = so.mapped_column()
+    sogAgainst: so.Mapped[int] = so.mapped_column()
+    fenwickFor: so.Mapped[int] = so.mapped_column()
+    fenwickAgainst: so.Mapped[int] = so.mapped_column()
+    corsiFor: so.Mapped[int] = so.mapped_column()
+    corsiAgainst: so.Mapped[int] = so.mapped_column()
+    xgFor: so.Mapped[float] = so.mapped_column()
+    xgAgainst: so.Mapped[float] = so.mapped_column()
+    dZoneStarts: so.Mapped[int] = so.mapped_column()
+    nZoneStarts: so.Mapped[int] = so.mapped_column()
+    oZoneStarts: so.Mapped[int] = so.mapped_column()
     
 class GoalieAppearance(db.Model, Util):
     __tablename__ = "goalie_appearances"
