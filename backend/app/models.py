@@ -148,7 +148,10 @@ class Player(db.Model, Util):
             birthCountry=self.birthCountry,
             shootsCatches=self.shootsCatches,
             draftYear=self.draftYear,
+            draftTeamAbbrev=self.draftTeamAbbrev,
+            draftRound=self.draftRound,
             draftPickInRound=self.draftPickInRound,
+            draftOverallPick=self.draftOverallPick,
             inHHOF=self.inHHOF,
             team=self.team.get_team_info() if self.team else None,
             awards=[award.get_award_info() for award in self.awards]
