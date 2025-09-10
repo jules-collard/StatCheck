@@ -1,9 +1,14 @@
-import { Team } from "../../team/team.model"
-import { SkaterSeasonRecords } from "./skater-season-records.model";
+import { SkaterSeasonRecords } from "./season-totals-table/skater-season-records.model";
 
-export type SeasonTotals = {
+export type SkaterStats = {
     playerID: number;
     season: number;
+    teamTriCode: string;
+    totals: SkaterTotals;
+    shooting: SkaterShooting;
+}
+
+type SkaterTotals = {
     gamesPlayed: number;
     goals: number;
     assists: number;
@@ -13,12 +18,12 @@ export type SeasonTotals = {
     sog: number;
     blocks: number;
     penaltyMinutes: number;
-    takeaways: number;
-    giveaways: number;
     avgTOI: number;
+    records?: SkaterSeasonRecords;
+}
+
+type SkaterShooting = {
     xg: number;
     xgGoals: number;
     fenwick: number;
-    team: Team;
-    records?: SkaterSeasonRecords;
 }

@@ -17,20 +17,20 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonTotals(); track $index) {
+        @for (season of seasonStats(); track $index) {
             <tr class="hover:bg-primary-content">
                 <th>{{season.season | season}}</th>
-                <th>{{season.team.triCode}}</th>
-                <td [innerHTML]="season.gamesPlayed | boldRecord: season.records?.maxGamesPlayed"></td>
-                <td>{{season.avgTOI | timeOnIce}}</td>
-                <td [innerHTML]="season.goals | boldRecord: season.records?.maxGoals"></td>
-                <td [innerHTML]="season.assists | boldRecord: season.records?.maxAssists"></td>
-                <td [innerHTML]="season.goals + season.assists | boldRecord: season.records?.maxPoints"></td>
-                <td [innerHTML]="season.plusMinus | boldRecord: season.records?.maxPlusMinus"></td>
-                <td [innerHTML]="season.sog | boldRecord: season.records?.maxShotsOnGoal"></td>
-                <td [innerHTML]="season.hits | boldRecord: season.records?.maxHits"></td>
-                <td [innerHTML]="season.blocks | boldRecord: season.records?.maxBlocks"></td>
-                <td [innerHTML]="season.penaltyMinutes | boldRecord: season.records?.maxPenaltyMinutes"></td>
+                <th>{{season.teamTriCode}}</th>
+                <td [innerHTML]="season.totals.gamesPlayed | boldRecord: season.totals.records?.maxGamesPlayed"></td>
+                <td>{{season.totals.avgTOI | timeOnIce}}</td>
+                <td [innerHTML]="season.totals.goals | boldRecord: season.totals.records?.maxGoals"></td>
+                <td [innerHTML]="season.totals.assists | boldRecord: season.totals.records?.maxAssists"></td>
+                <td [innerHTML]="season.totals.goals + season.totals.assists | boldRecord: season.totals.records?.maxPoints"></td>
+                <td [innerHTML]="season.totals.plusMinus | boldRecord: season.totals.records?.maxPlusMinus"></td>
+                <td [innerHTML]="season.totals.sog | boldRecord: season.totals.records?.maxShotsOnGoal"></td>
+                <td [innerHTML]="season.totals.hits | boldRecord: season.totals.records?.maxHits"></td>
+                <td [innerHTML]="season.totals.blocks | boldRecord: season.totals.records?.maxBlocks"></td>
+                <td [innerHTML]="season.totals.penaltyMinutes | boldRecord: season.totals.records?.maxPenaltyMinutes"></td>
                 <td>
                     @for (award of getSeasonAwards(season.season); track $index) {
                         <app-award-badge [award]="award"/>

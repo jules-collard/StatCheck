@@ -14,24 +14,24 @@
                     <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
                         @if (loading()) {
                             <div class="skeleton h-50 w-200"></div>
-                        } @else if (totals() == null ) {
+                        } @else if (stats() == null ) {
                             <div class="badge badge-error">Seasons Not Found</div>
                         } @else if (playerData()!.position === 'G'){
-                            <app-goalie-totals-table [seasonTotals]="$any(totals()!)" [awards]="awards()"/>
+                            <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         } @else {
-                            <app-season-totals-table [seasonTotals]="$any(totals()!)" [awards]="awards()"/>
+                            <app-season-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         }
                     </div>
                     <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
                     <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
                         @if (loading()) {
                             <div class="skeleton h-50 w-200"></div>
-                        } @else if (totals() == null ) {
+                        } @else if (stats() == null ) {
                             <div class="badge badge-error">Seasons Not Found</div>
                         } @else if (playerData()!.position === 'G'){
-                            <app-goalie-analytics-table [seasonTotals]="$any(totals()!)"/>
+                            <app-goalie-analytics-table [seasonStats]="$any(stats()!)"/>
                         } @else {
-                            <app-season-analytics-table [seasonTotals]="$any(totals()!)"/>
+                            <app-season-analytics-table [seasonStats]="$any(stats()!)"/>
                         }
                     </div>
                 </div>

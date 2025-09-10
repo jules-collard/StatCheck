@@ -10,15 +10,15 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonTotals(); track $index) {
-            @if (season.season >= 20142015) {
+        @for (season of seasonStats(); track $index) {
+            @if (season.shooting !== null) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.team.triCode}}</th>
-                    <td>{{season.gamesPlayed}}</td>
-                    <td>{{season.xgGoals - season.xg | number: '0.1-1'}}</td>
-                    <td>{{100 * season.goals / season.sog | number: '0.1-1'}}%</td>
-                    <td>{{100 * (season.xgGoals - season.xg) / season.fenwick | number: '0.1-1'}}%</td>
+                    <th>{{season.teamTriCode}}</th>
+                    <td>{{season.totals.gamesPlayed}}</td>
+                    <td>{{season.shooting.xgGoals - season.shooting.xg | number: '0.1-1'}}</td>
+                    <td>{{100 * season.totals.goals / season.totals.sog | number: '0.1-1'}}%</td>
+                    <td>{{100 * (season.shooting.xgGoals - season.shooting.xg) / season.shooting.fenwick | number: '0.1-1'}}%</td>
                 </tr>
             }
         }

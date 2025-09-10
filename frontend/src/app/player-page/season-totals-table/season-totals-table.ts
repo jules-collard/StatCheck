@@ -1,10 +1,10 @@
 import { Component, computed, input } from '@angular/core';
-import { SeasonTotals } from './season-totals.model';
+import { SkaterStats } from '../skater-stats.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { AwardBadge } from './award-badge/award-badge';
 import { Award } from '../award.model';
+
 import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
-import { SkaterSeasonRecords } from './skater-season-records.model';
 import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
 
 @Component({
@@ -14,7 +14,7 @@ import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
   styleUrl: './season-totals-table.css'
 })
 export class SeasonTotalsTable {
-  seasonTotals = input.required<SeasonTotals[]>();
+  seasonStats = input.required<SkaterStats[]>();
   awards = input<Award[]>([]);
 
   getSeasonAwards(season: number) {

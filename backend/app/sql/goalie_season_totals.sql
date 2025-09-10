@@ -1,5 +1,4 @@
 SELECT
-    "playerID",
     "games"."season",
     "teamID",
     sum("goalie_appearances"."played") AS "gamesPlayed",
@@ -14,4 +13,5 @@ SELECT
 FROM "goalie_appearances"
 LEFT JOIN "games" ON goalie_appearances."gameID" == "games"."id"
 WHERE "goalie_appearances"."playerID" == :playerID AND "games"."gameType" == :gameType
-GROUP BY "playerID", "games"."season", "teamID";
+GROUP BY "games"."season", "teamID"
+ORDER BY games.season, "teamID";

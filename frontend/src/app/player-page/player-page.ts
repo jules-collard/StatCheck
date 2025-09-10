@@ -3,12 +3,12 @@ import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angula
 import { PlayerDetails } from "./player-details/player-details";
 import { PlayerService } from './player.service';
 import { ActivatedRoute } from '@angular/router';
-import { SeasonTotals } from './season-totals-table/season-totals.model';
+import { SkaterStats } from './skater-stats.model';
 import { Player } from './player.model';
 import { Award } from './award.model';
 import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
 import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
-import { GoalieTotals } from './goalie-totals-table/goalie-totals.model';
+import { GoalieStats } from './goalie-stats.model';
 import { SkaterSeasonRecords } from './season-totals-table/skater-season-records.model';
 import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
 import { GoalieAnalyticsTable } from './goalie-analytics-table/goalie-analytics-table';
@@ -29,33 +29,34 @@ export class PlayerPage implements OnInit {
   })
 
   regularSeason = signal<boolean>(true)
-  totals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
+
+  stats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
     if (this.regularSeason()) {
       return this.regSeasonTotals();
     } else { return this.postSeasonTotals()}
   })
   
-  regSeasonTotals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
+  regSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
     let totals = this.playerService.getRegSeasonTotals();
     if (totals != null && totals.length > 0) {
       if ('goals' in totals[0]) { // Check SeasonTotals[]
         const records = this.playerService.getSkaterRecords()
-        return (totals as SeasonTotals[]).map((total) => {
-          total.records = records?.find((record) => record.season === total.season);
-          return total;
+        return (totals as SkaterStats[]).map((stats) => {
+          stats.totals.records = records?.find((record) => record.season === stats.season);
+          return stats;
         })
       } else { // GoalieTotals[]
         const records = this.playerService.getGoalieRecords()
-        return (totals as GoalieTotals[]).map((total) => {
-          total.records = records?.find((record) => record.season === total.season);
-          return total;
+        return (totals as GoalieStats[]).map((stats) => {
+          stats.totals.records = records?.find((record) => record.season === stats.season);
+          return stats;
         })
       }
     }
     return totals;
   })
 
-  postSeasonTotals = computed<SeasonTotals[] | GoalieTotals[] | null>(() => {
+  postSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
     return this.playerService.getPostSeasonTotals();
   })
 

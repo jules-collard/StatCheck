@@ -1,10 +1,10 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { Player } from "./player.model";
 import { httpResource } from "@angular/common/http";
-import { SeasonTotals } from "./season-totals-table/season-totals.model";
-import { GoalieTotals } from "./goalie-totals-table/goalie-totals.model";
+import { SkaterStats } from "./skater-stats.model";
+import { GoalieStats } from "./goalie-stats.model";
 import { SkaterSeasonRecords } from "./season-totals-table/skater-season-records.model";
-import { GoalieSeasonRecords } from "./season-totals-table/goalie-season-records.model";
+import { GoalieSeasonRecords } from "./goalie-totals-table/goalie-season-records.model";
 
 @Injectable({
     providedIn: 'root'
@@ -14,8 +14,8 @@ export class PlayerService {
     private playerID = signal<number | null>(null);
 
     private playerData = httpResource<Player>(() => `http://localhost:5000/api/players/${this.playerID()}`);
-    private regSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=2`);
-    private postSeasonTotals = httpResource<SeasonTotals[] | GoalieTotals[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`);
+    private regSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=2`);
+    private postSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`);
     private skaterRegSeasonRecords = httpResource<SkaterSeasonRecords[]>(() => `http://localhost:5000/api/records/skaters/2`)
     private goalieRegSeasonRecords = httpResource<GoalieSeasonRecords[]>(() => 'http://localhost:5000/api/records/goalies/2')
 
@@ -29,20 +29,20 @@ export class PlayerService {
         return this.playerData.isLoading();
     }
 
-    getRegSeasonTotals(): SeasonTotals[] | GoalieTotals[] | null {
-        if (this.regSeasonTotals.hasValue()) {
-            return this.regSeasonTotals.value();
+    getRegSeasonTotals(): SkaterStats[] | GoalieStats[] | null {
+        if (this.regSeasonStats.hasValue()) {
+            return this.regSeasonStats.value();
         } else return null;
     }
 
-    getPostSeasonTotals(): SeasonTotals[] | GoalieTotals[] | null {
-        if (this.postSeasonTotals.hasValue()) {
-            return this.postSeasonTotals.value();
+    getPostSeasonTotals(): SkaterStats[] | GoalieStats[] | null {
+        if (this.postSeasonStats.hasValue()) {
+            return this.postSeasonStats.value();
         } else return null;
     }
 
     seasonTotalsIsLoading(): boolean {
-        return this.regSeasonTotals.isLoading() || this.postSeasonTotals.isLoading();
+        return this.regSeasonStats.isLoading() || this.regSeasonStats.isLoading();
     }
 
     getSkaterRecords(): SkaterSeasonRecords[] | null {

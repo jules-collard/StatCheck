@@ -1,5 +1,4 @@
 SELECT
-    "playerID",
     "games"."season",
     "teamID",
     count("skater_appearances"."gameID") AS "gamesPlayed",
@@ -17,4 +16,5 @@ SELECT
 FROM "skater_appearances"
 LEFT JOIN games ON "skater_appearances"."gameID" == "games".id
 WHERE "playerID" == :playerID AND "games"."gameType" == :gameType
-GROUP BY "playerID", games.season, "teamID";
+GROUP BY games.season, "teamID"
+ORDER BY games.season, "teamID";

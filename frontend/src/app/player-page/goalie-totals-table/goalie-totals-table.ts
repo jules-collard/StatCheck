@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { Award } from '../award.model';
 
-import { GoalieTotals } from './goalie-totals.model';
+import { GoalieStats } from '../goalie-stats.model';
 import { SeasonPipe } from "../../pipes/season.pipe";
 import { AwardBadge } from "../season-totals-table/award-badge/award-badge";
 import { DecimalPipe } from '@angular/common';
@@ -14,7 +14,7 @@ import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
   styleUrl: './goalie-totals-table.css'
 })
 export class GoalieTotalsTable {
-  seasonTotals = input.required<GoalieTotals[]>();
+  seasonStats = input.required<GoalieStats[]>();
   awards = input<Award[]>([]);
 
   getSeasonAwards(season: number) {

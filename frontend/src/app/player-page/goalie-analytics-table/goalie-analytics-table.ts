@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { GoalieTotals } from '../goalie-totals-table/goalie-totals.model';
+import { GoalieStats } from '../goalie-stats.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { DecimalPipe } from '@angular/common';
 
@@ -10,5 +10,5 @@ import { DecimalPipe } from '@angular/common';
   styleUrl: './goalie-analytics-table.css'
 })
 export class GoalieAnalyticsTable {
-  seasonTotals = input.required<GoalieTotals[]>()
+  seasonStats = input.required<GoalieStats[]>()
 }

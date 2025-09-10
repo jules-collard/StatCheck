@@ -12,3 +12,4 @@ WHERE
     AND events.xg NOT NULL
     AND games."gameType" == :gameType
 GROUP BY games.season, skater_appearances."teamID"
+ORDER BY games.season, "teamID";

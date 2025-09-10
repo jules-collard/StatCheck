@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { DecimalPipe } from '@angular/common';
-import { SeasonTotals } from '../season-totals-table/season-totals.model';
+import { SkaterStats } from '../skater-stats.model';
 
 @Component({
   selector: 'app-season-analytics-table',
@@ -10,5 +10,5 @@ import { SeasonTotals } from '../season-totals-table/season-totals.model';
   styleUrl: './season-analytics-table.css'
 })
 export class SeasonAnalyticsTable {
-  seasonTotals = input.required<SeasonTotals[]>();
+  seasonStats = input.required<SkaterStats[]>();
 }

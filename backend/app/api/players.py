@@ -9,6 +9,7 @@ from pydantic import ValidationError
 
 from app.api import bp, db
 from app.models import Player, Team
+from app.api.api_models import SkaterStats, SkaterShooting, SkaterTotals, GoalieStats, GoalieAdvanced, GoalieTotals
 
 @bp.route('/players', methods=['GET'])
 @cross_origin()
@@ -37,37 +38,80 @@ def get_player_stats(id: int):
     except ValueError:
         abort(404)
 
-    path_prefix = 'goalie' if player.position == 'G' else 'skater'
+    if player.position != 'G':
+        return get_skater_stats(id, gameType)
+    else:
+        return get_goalie_stats(id, gameType)
 
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', f'{path_prefix}_season_totals.sql')) as f:
-        query = f.read()
 
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', f'{path_prefix}_season_analytics.sql')) as f:
-        analytics_query = f.read()
+def get_skater_stats(id: int, gameType: int):
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'skater_season_totals.sql')) as f:
+        totals_query = f.read()
 
-    query_result = db.session.execute(text(query), {"playerID": id, "gameType": gameType}).mappings().all()
-    analytics_query_result = db.session.execute(text(analytics_query), {"playerID": id, "gameType": gameType}).mappings().all()
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'skater_season_shooting.sql')) as f:
+        shooting_query = f.read()
+
+    totals_query_result = db.session.execute(text(totals_query), {"playerID": id, "gameType": gameType}).mappings().all()
+    shooting_query_result = db.session.execute(text(shooting_query), {"playerID": id, "gameType": gameType}).mappings().all()
     
-    results = [dict(row) for row in query_result]
-    analytics_results = [dict(row) for row in analytics_query_result]
+    totals = [dict(row) for row in totals_query_result]
+    shooting = [dict(row) for row in shooting_query_result]
 
-    for row in results:
-        season_dict = next((d for d in analytics_results if d['season'] == row['season'] and d['teamID'] == row['teamID']), None)
-        if season_dict is not None and player.position != 'G':
-            row['xg'] = season_dict['xg']
-            row['xgGoals'] = season_dict['xgGoals']
-            row['fenwick'] = season_dict['fenwick']
-        elif season_dict is not None and player.position == 'G':
-            row['xgAgainst'] = season_dict['xgAgainst']
-            row['xgGoalsAgainst'] = season_dict['xgGoalsAgainst']
-            row['fenwickAgainst'] = season_dict['fenwickAgainst']
+    stats: list[SkaterStats] = []
 
-    teams: dict[int, Team] = {}
-    for teamID in set([season["teamID"] for season in results]):
-        teams[teamID] = db.session.get(Team, teamID)
+    for total in totals:
+        season = total.pop('season')
+        teamID = total.pop('teamID')
+        season_totals = SkaterTotals(**total)
+        
+        season_stats = SkaterStats(
+            playerID=id,
+            season=season,
+            teamTriCode=db.session.get(Team, teamID).triCode,
+            totals=season_totals
+        )
 
-    for season in results:
-        season['team'] = teams[season['teamID']].get_team_info().model_dump()
-        season.pop('teamID', None)
+        if season_shooting := next((s for s in shooting if all([s.get('season') == season, s.get('teamID') == teamID])), None):
+            season_shooting.pop('season')
+            season_shooting.pop('teamID')
+            season_stats.shooting = SkaterShooting(**season_shooting)
 
-    return json.dumps(results)
+        stats.append(season_stats.model_dump())
+
+    return json.dumps(stats)
+
+def get_goalie_stats(id: int, gameType: int):
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'goalie_season_totals.sql')) as f:
+        totals_query = f.read()
+
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'goalie_season_advanced.sql')) as f:
+        advanced_query = f.read()
+
+    totals_query_result = db.session.execute(text(totals_query), {"playerID": id, "gameType": gameType}).mappings().all()
+    advanced_query_result = db.session.execute(text(advanced_query), {"playerID": id, "gameType": gameType}).mappings().all()
+    
+    totals = [dict(row) for row in totals_query_result]
+    advanced = [dict(row) for row in advanced_query_result]
+
+    stats: list[GoalieStats] = []
+
+    for total in totals:
+        season = total.pop('season')
+        teamID = total.pop('teamID')
+        season_totals = GoalieTotals(**total)
+        
+        season_stats = GoalieStats(
+            playerID=id,
+            season=season,
+            teamTriCode=db.session.get(Team, teamID).triCode,
+            totals=season_totals
+        )
+
+        if season_advanced := next((s for s in advanced if all([s.get('season') == season, s.get('teamID') == teamID])), None):
+            season_advanced.pop('season')
+            season_advanced.pop('teamID')
+            season_stats.advanced = GoalieAdvanced(**season_advanced)
+
+        stats.append(season_stats.model_dump())
+
+    return json.dumps(stats)

@@ -1,9 +1,14 @@
-import { Team } from "../../team/team.model";
-import { GoalieSeasonRecords } from "../season-totals-table/goalie-season-records.model";
+import { GoalieSeasonRecords } from "./goalie-totals-table/goalie-season-records.model";
 
-export type GoalieTotals = {
+export type GoalieStats = {
     playerID: number;
     season: number;
+    teamTriCode: string;
+    totals: GoalieTotals;
+    advanced: GoalieAdvanced;
+}
+
+type GoalieTotals = {
     gamesPlayed: number;
     gamesStarted: number;
     wins: number;
@@ -16,6 +21,11 @@ export type GoalieTotals = {
     xgAgainst: number;
     xgGoalsAgainst: number;
     fenwickAgainst: number;
-    team: Team;
     records?: GoalieSeasonRecords;
+}
+
+type GoalieAdvanced = {
+    xgAgainst: number;
+    xgGoalsAgainst: number;
+    fenwickAgainst: number;
 }

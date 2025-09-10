@@ -11,16 +11,16 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonTotals(); track $index) {
-            @if (season.season >= 20142015 && season.gamesPlayed > 0) {
+        @for (season of seasonStats(); track $index) {
+            @if (season.advanced !== null && season.totals.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.team.triCode}}</th>
-                    <td>{{season.gamesPlayed}}</td>
-                    <td>{{season.xgAgainst - season.goalsAgainst | number: '0.1-1'}}</td>
-                    <td>{{100 * (season.xgAgainst - season.xgGoalsAgainst) / season.fenwickAgainst | number: '0.1-1'}}%</td>
-                    <td>{{season.evenStrengthSavePct | number:'0.3-3'}}</td>
-                    <td>{{season.powerPlaySavePct | number:'0.3-3'}}</td>
+                    <th>{{season.teamTriCode}}</th>
+                    <td>{{season.totals.gamesPlayed}}</td>
+                    <td>{{season.advanced.xgAgainst - season.totals.goalsAgainst | number: '0.1-1'}}</td>
+                    <td>{{100 * (season.advanced.xgAgainst - season.advanced.xgGoalsAgainst) / season.advanced.fenwickAgainst | number: '0.1-1'}}%</td>
+                    <td>{{season.totals.evenStrengthSavePct | number:'0.3-3'}}</td>
+                    <td>{{season.totals.powerPlaySavePct | number:'0.3-3'}}</td>
                 </tr>
             }
         }
