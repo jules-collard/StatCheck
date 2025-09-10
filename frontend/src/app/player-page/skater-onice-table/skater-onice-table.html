@@ -1,0 +1,22 @@
+<table class="table table-auto">
+    <thead>
+        <tr>
+            <th>Season</th>
+            <th>Team</th>
+            <th>GP</th>
+            <th>CF%</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (season of seasonStats(); track $index) {
+            @if (season.onIce !== null) {
+                <tr class="hover:bg-primary-content">
+                    <th>{{season.season | season}}</th>
+                    <th>{{season.teamTriCode}}</th>
+                    <td>{{season.totals.gamesPlayed}}</td>
+                    <td>{{100 * season.onIce.corsiFor / (season.onIce.corsiFor + season.onIce.corsiAgainst)| number: '0.1-1'}}%</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -22,7 +22,7 @@
                             <app-season-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         }
                     </div>
-                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
+                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
                     <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
                         @if (loading()) {
                             <div class="skeleton h-50 w-200"></div>
@@ -34,6 +34,18 @@
                             <app-season-analytics-table [seasonStats]="$any(stats()!)"/>
                         }
                     </div>
+                    @if (playerData()!.position !== 'G') {
+                        <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
+                        <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
+                            @if (loading()) {
+                                <div class="skeleton h-50 w-200"></div>
+                            } @else if (stats() == null ) {
+                                <div class="badge badge-error">Seasons Not Found</div>
+                            } @else {
+                                <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         </div>

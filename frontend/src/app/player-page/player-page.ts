@@ -11,10 +11,11 @@ import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
 import { GoalieStats } from './goalie-stats.model';
 import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
 import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
+import { SkaterOnIceTable } from "./skater-onice-table/skater-onice-table";
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable, GoalieAdvancedTable],
+  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })

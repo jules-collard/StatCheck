@@ -6,6 +6,7 @@ export type SkaterStats = {
     teamTriCode: string;
     totals: SkaterTotals;
     shooting: SkaterShooting;
+    onIce: SkaterOnIce
 }
 
 type SkaterTotals = {
