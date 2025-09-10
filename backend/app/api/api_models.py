@@ -1,7 +1,7 @@
 from datetime import date
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, Field
 
 class TeamInfo(BaseModel):
     id: int = Field(gt=0)
@@ -28,12 +28,12 @@ class PlayerInfo(BaseModel):
     lastName: str
     sweaterNumber: Optional[int]
     position: str = Field(pattern=r'^[GDLCR]$')
-    headshot: str = Field(pattern=r'^https://assets\.nhle\.com/mugs/nhl/latest/\d+\.png$')
+    headshot: str = Field(pattern=r'^.*\.png$')
     heightInInches: int = Field(gt=0)
     heightInCentimeters: int = Field(gt=0)
     weightInPounds: int = Field(gt=0)
     weightInKilograms: int = Field(gt=0)
-    birthDate: date
+    birthDate: str
     birthCountry: str
     shootsCatches: str = Field(pattern=r'^[LR]$')
     draftYear: Optional[int]

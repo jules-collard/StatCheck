@@ -6,7 +6,7 @@ import sqlalchemy.orm as so
 from pydantic import ValidationError
 
 from app import db
-from app.api.api_models import PlayerListItem
+from app.api.api_models import AwardInfo, PlayerInfo, PlayerListItem, TeamInfo
 
 class Util():
     def from_dict(self, data):
@@ -37,6 +37,14 @@ class Team(db.Model, Util):
 
     def __repr__(self):
         return f"Team: <{self.fullName}> ({self.id})"
+    
+    def get_team_info(self):
+        return TeamInfo(
+            id=self.id,
+            franchiseID=self.franchiseID,
+            fullName=self.fullName,
+            triCode=self.triCode
+        )
     
     def to_dict(self):
         return {
@@ -119,16 +127,32 @@ class Player(db.Model, Util):
                 teamTriCode=self.team.triCode if self.team else None,
                 headshot=self.headshot
             )
-        except ValidationError as e:
-            # app.logger.error(f'{self} failed PlayerListItem Validation')
-            # app.logger.error(e)
+        except ValidationError:
             return None
     
-    def goals(self) -> int:
-        return Event.query.filter(Event.scoringPlayerID == self.id).count()
-    
-    def primaryAssists(self) -> int:
-        return Event.query.filter(Event.assist1PlayerID == self.id).count()
+    def get_player_info(self) -> PlayerInfo:
+        return PlayerInfo(
+            id=self.id,
+            isActive=self.isActive,
+            currentTeamID=self.currentTeamID,
+            firstName=self.firstName,
+            lastName=self.lastName,
+            sweaterNumber=self.sweaterNumber,
+            position=self.position,
+            headshot=self.headshot,
+            heightInInches=self.heightInInches,
+            heightInCentimeters=self.heightInCentimeters,
+            weightInPounds=self.weightInPounds,
+            weightInKilograms=self.weightInKilograms,
+            birthDate=self.birthDate.strftime('%m-%d-%Y'),
+            birthCountry=self.birthCountry,
+            shootsCatches=self.shootsCatches,
+            draftYear=self.draftYear,
+            draftPickInRound=self.draftPickInRound,
+            inHHOF=self.inHHOF,
+            team=self.team.get_team_info() if self.team else None,
+            awards=[award.get_award_info() for award in self.awards]
+        )
     
 class Award(db.Model):
     __tablename__ = 'awards'
@@ -147,6 +171,12 @@ class Award(db.Model):
     
     def __hash__(self):
         return hash(str(self.season) + self.awardName)
+    
+    def get_award_info(self) -> AwardInfo:
+        return AwardInfo(
+            awardName=self.awardName,
+            season=self.season
+        )
 
     def to_dict(self):
         return {

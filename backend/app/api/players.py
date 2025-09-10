@@ -2,9 +2,10 @@ import json
 import os
 
 from flask_cors import cross_origin
-from flask import request
+from flask import request, abort
 import sqlalchemy as sa
 from sqlalchemy.sql import text
+from pydantic import ValidationError
 
 from app.api import bp, db
 from app.models import Player, Team
@@ -19,13 +20,22 @@ def get_player_list():
 @bp.route('/players/<int:id>', methods=['GET'])
 @cross_origin()
 def get_player(id):
-    return db.get_or_404(Player, id).to_dict()
+    try:
+        player_info = db.get_or_404(Player, id).get_player_info()
+        return json.dumps(player_info.model_dump())
+    except ValidationError as e:
+        print(e)
+        abort(406)
 
 @bp.route('/players/<int:id>/stats', methods=['GET'])
 @cross_origin()
-def get_player_stats(id):
+def get_player_stats(id: int):
     player = db.get_or_404(Player, id)
-    gameType = int(request.args.get('gameType', 2))
+    
+    try:
+        gameType = int(request.args.get('gameType', 2))
+    except ValueError:
+        abort(404)
 
     path_prefix = 'goalie' if player.position == 'G' else 'skater'
 
@@ -52,12 +62,12 @@ def get_player_stats(id):
             row['xgGoalsAgainst'] = season_dict['xgGoalsAgainst']
             row['fenwickAgainst'] = season_dict['fenwickAgainst']
 
-    teams = {}
+    teams: dict[int, Team] = {}
     for teamID in set([season["teamID"] for season in results]):
-        teams[teamID] = db.session.get(Team, teamID).to_dict()
+        teams[teamID] = db.session.get(Team, teamID)
 
     for season in results:
-        season['team'] = teams[season['teamID']]
+        season['team'] = teams[season['teamID']].get_team_info().model_dump()
         season.pop('teamID', None)
 
     return json.dumps(results)
