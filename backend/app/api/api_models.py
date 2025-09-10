@@ -44,6 +44,17 @@ class PlayerInfo(BaseModel):
     team: Optional[TeamInfo] = Field(default=None)
     awards: list[AwardInfo]
 
+class SkaterTotalsRecords(BaseModel):
+    maxGamesPlayed: int = Field(ge=0)
+    maxGoals: int = Field(ge=0)
+    maxAssists: int = Field(ge=0)
+    maxPoints: int = Field(ge=0)
+    maxPlusMinus: int
+    maxPenaltyMinutes: int = Field(ge=0)
+    maxHits: int = Field(ge=0)
+    maxShotsOnGoal: int = Field(ge=0)
+    maxBlocks: int = Field(ge=0)
+
 class SkaterTotals(BaseModel):
     gamesPlayed: int = Field(ge=0)
     goals: int = Field(ge=0)
@@ -54,6 +65,7 @@ class SkaterTotals(BaseModel):
     blocks: int = Field(ge=0)
     penaltyMinutes: int = Field(ge=0)
     avgTOI: float = Field(ge=0)
+    records: Optional[SkaterTotalsRecords] = Field(default=None)
 
 class SkaterShooting(BaseModel):
     xg: float = Field(ge=0)
@@ -67,6 +79,14 @@ class SkaterStats(BaseModel):
     totals: SkaterTotals
     shooting: Optional[SkaterShooting] = Field(default=None)
 
+class GoalieTotalsRecords(BaseModel):
+    maxGamesPlayed: int = Field(ge=0)
+    maxGamesStarted: int = Field(ge=0)
+    maxWins: int = Field(ge=0)
+    maxLosses: int = Field(ge=0)
+    minGAA: float = Field(ge=0)
+    maxSavePct: float = Field(ge=0, le=1)
+
 class GoalieTotals(BaseModel):
     gamesPlayed: int = Field(ge=0)
     gamesStarted: int = Field(ge=0)
@@ -77,6 +97,7 @@ class GoalieTotals(BaseModel):
     savePct: float = Field(ge=0, le=1)
     evenStrengthSavePct: float = Field(ge=0, le=1)
     powerPlaySavePct: float = Field(ge=0, le=1)
+    records: Optional[GoalieTotalsRecords] = Field(default=None)
 
 class GoalieAdvanced(BaseModel):
     xgAgainst: float = Field(ge=0)

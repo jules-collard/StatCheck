@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
+import os
+import json
 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import text
 
 from app import app, db
 from app.updaters import games, log_error, players, ref_types, teams
 from app.models import Game, Player, GameImportError
-
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')
@@ -82,12 +84,36 @@ def update_all_players():
     for id in ids:
         players.insert_or_update_player(id)
 
+def update_skater_records(gameType: int):
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'skater_season_records.sql'), 'r') as f:
+        skater_query = f.read()
+
+    skater_query_result = db.session.execute(text(skater_query), {"gameType": gameType}).mappings().all()
+    results = [dict(row) for row in skater_query_result]
+
+    with open(os.path.join(os.path.dirname(__file__), 'records', f'skater_records_{gameType}.json'), 'w') as f:
+        json.dump(results, f)
+
+def update_goalie_records(gameType: int):
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'goalie_season_records.sql'), 'r') as f:
+        goalie_query = f.read()
+
+    goalie_query_result = db.session.execute(text(goalie_query), {"gameType": gameType}).mappings().all()
+    results = [dict(row) for row in goalie_query_result]
+
+    with open(os.path.join(os.path.dirname(__file__), 'records', f'goalie_records_{gameType}.json'), 'w') as f:
+        json.dump(results, f)
+
+def update_all_records():
+    update_skater_records(2)
+    update_skater_records(3)
+    update_goalie_records(2)
+    update_goalie_records(3)
+
 if __name__ == "__main__":
     app.app_context().push()
 
-    gameids = [game.id for game in Game.query.filter(Game.season == 20092010).all()]
-    for game in gameids:
-        remove_game(game)
+    update_all_records()
     # 10-11 REG + POST season done
     # 11-12 REG + POST season done
     # 12-13 REG + POST season done

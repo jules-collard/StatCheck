@@ -9,7 +9,7 @@ from pydantic import ValidationError
 
 from app.api import bp, db
 from app.models import Player, Team
-from app.api.api_models import SkaterStats, SkaterShooting, SkaterTotals, GoalieStats, GoalieAdvanced, GoalieTotals
+from app.api.api_models import SkaterStats, SkaterShooting, SkaterTotals, GoalieStats, GoalieAdvanced, GoalieTotals, SkaterTotalsRecords, GoalieTotalsRecords
 
 @bp.route('/players', methods=['GET'])
 @cross_origin()
@@ -59,13 +59,20 @@ def get_skater_stats(id: int, gameType: int):
     
     totals = [dict(row) for row in totals_query_result]
     shooting = [dict(row) for row in shooting_query_result]
+    
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'skater_records_{gameType}.json')) as f:
+        totals_records = json.load(f)
 
     stats: list[SkaterStats] = []
 
     for total in totals:
         season = total.pop('season')
         teamID = total.pop('teamID')
-        season_totals = SkaterTotals(**total)
+
+        if record_dict := next((r for r in totals_records if r.get('season', None) == season)):
+            records = SkaterTotalsRecords(**record_dict)
+
+        season_totals = SkaterTotals(**total, records=records)
         
         season_stats = SkaterStats(
             playerID=id,
@@ -75,8 +82,6 @@ def get_skater_stats(id: int, gameType: int):
         )
 
         if season_shooting := next((s for s in shooting if all([s.get('season') == season, s.get('teamID') == teamID])), None):
-            season_shooting.pop('season')
-            season_shooting.pop('teamID')
             season_stats.shooting = SkaterShooting(**season_shooting)
 
         stats.append(season_stats.model_dump())
@@ -96,12 +101,21 @@ def get_goalie_stats(id: int, gameType: int):
     totals = [dict(row) for row in totals_query_result]
     advanced = [dict(row) for row in advanced_query_result]
 
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'goalie_records_{gameType}.json')) as f:
+        totals_records = json.load(f)
+
     stats: list[GoalieStats] = []
 
     for total in totals:
         season = total.pop('season')
         teamID = total.pop('teamID')
-        season_totals = GoalieTotals(**total)
+
+        if record_dict := next((r for r in totals_records if r.get('season', None) == season)):
+            records = GoalieTotalsRecords(**record_dict)
+        else:
+            records = None
+
+        season_totals = GoalieTotals(**total, records=records)
         
         season_stats = GoalieStats(
             playerID=id,
@@ -111,8 +125,6 @@ def get_goalie_stats(id: int, gameType: int):
         )
 
         if season_advanced := next((s for s in advanced if all([s.get('season') == season, s.get('teamID') == teamID])), None):
-            season_advanced.pop('season')
-            season_advanced.pop('teamID')
             season_stats.advanced = GoalieAdvanced(**season_advanced)
 
         stats.append(season_stats.model_dump())

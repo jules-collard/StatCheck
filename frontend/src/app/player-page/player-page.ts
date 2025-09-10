@@ -36,23 +36,7 @@ export class PlayerPage implements OnInit {
   })
   
   regSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    let totals = this.playerService.getRegSeasonStats();
-    if (totals != null && totals.length > 0) {
-      if ('goals' in totals[0]) { // Check SeasonTotals[]
-        const records = this.playerService.getSkaterRecords()
-        return (totals as SkaterStats[]).map((stats) => {
-          stats.totals.records = records?.find((record) => record.season === stats.season);
-          return stats;
-        })
-      } else { // GoalieTotals[]
-        const records = this.playerService.getGoalieRecords()
-        return (totals as GoalieStats[]).map((stats) => {
-          stats.totals.records = records?.find((record) => record.season === stats.season);
-          return stats;
-        })
-      }
-    }
-    return totals;
+    return this.playerService.getRegSeasonStats()
   })
 
   postSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {

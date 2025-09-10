@@ -16,8 +16,6 @@ export class PlayerService {
     private playerData = httpResource<Player>(() => `http://localhost:5000/api/players/${this.playerID()}`);
     private regSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=2`);
     private postSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => `http://localhost:5000/api/players/${this.playerID()}/stats?gameType=3`);
-    private skaterRegSeasonRecords = httpResource<SkaterSeasonRecords[]>(() => `http://localhost:5000/api/records/skaters/2`)
-    private goalieRegSeasonRecords = httpResource<GoalieSeasonRecords[]>(() => 'http://localhost:5000/api/records/goalies/2')
 
     getPlayerData() {
         if (this.playerData.hasValue()) {
@@ -43,18 +41,6 @@ export class PlayerService {
 
     seasonStatsIsLoading(): boolean {
         return this.regSeasonStats.isLoading() || this.regSeasonStats.isLoading();
-    }
-
-    getSkaterRecords(): SkaterSeasonRecords[] | null {
-        if (this.skaterRegSeasonRecords.hasValue()) {
-            return this.skaterRegSeasonRecords.value();
-        } else return [];
-    }
-
-    getGoalieRecords(): GoalieSeasonRecords[] | null {
-        if (this.goalieRegSeasonRecords.hasValue()) {
-            return this.goalieRegSeasonRecords.value();
-        } else return [];
     }
 
     setPlayerID(id: number) {

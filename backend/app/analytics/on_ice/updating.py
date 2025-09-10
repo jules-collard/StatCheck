@@ -109,13 +109,16 @@ if __name__ == "__main__":
     # with pl.Config(tbl_cols=-1):
     #     print(cleaning.clean_shift_events(shift, get_shift_events(shift)))
 
-    gameIDs = db.session.execute(sa.select(Game.id).where(Game.season == 20222023)).scalars().all()
-    counter = 0
+    gameIDs = db.session.execute(sa.select(Game.id).where(Game.id >= 2024021234)).scalars().all()
+    counter = 1
     num_games = len(gameIDs)
     for gameID in gameIDs:
         shifts = get_game_shifts(gameID)
-        events = concat_shift_events(*shifts)
-        splitshifts = calculate_shift_data(events)
-        insert_split_shifts(splitshifts)
+        if len(shifts) > 0:
+            events = concat_shift_events(*shifts)
+            splitshifts = calculate_shift_data(events)
+            insert_split_shifts(splitshifts)
+            app.logger.info(f'Inserted Split Shifts for Game {gameID} ({counter}/{num_games})')
+        else:
+            app.logger.info(f'No shifts found for Game {gameID} ({counter}/{num_games})')
         counter += 1
-        app.logger.info(f'Inserted Split Shifts for Game {gameID} ({counter}/{num_games})')
