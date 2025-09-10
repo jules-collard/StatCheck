@@ -72,12 +72,25 @@ class SkaterShooting(BaseModel):
     xgGoals: int = Field(ge=0)
     fenwick: int = Field(ge=0)
 
+class SkaterOnIce(BaseModel):
+    onIceShootingPct: float = Field(ge=0, le=1)
+    fenwickFor: int = Field(ge=0)
+    fenwickAgainst: int = Field(ge=0)
+    corsiFor: int = Field(ge=0)
+    corsiAgainst: int = Field(ge=0)
+    xgFor: float = Field(ge=0)
+    xgAgainst: float = Field(ge=0)
+    oZoneStarts: int = Field(ge=0)
+    nZoneStarts: int = Field(ge=0)
+    dZoneStarts: int = Field(ge=0)
+
 class SkaterStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)
     teamTriCode: str = Field(pattern=r'^[A-Z]{3}$')
     totals: SkaterTotals
     shooting: Optional[SkaterShooting] = Field(default=None)
+    onIce: Optional[SkaterOnIce] = Field(default=None)
 
 class GoalieTotalsRecords(BaseModel):
     maxGamesPlayed: int = Field(ge=0)

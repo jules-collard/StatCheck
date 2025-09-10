@@ -9,7 +9,7 @@ from pydantic import ValidationError
 
 from app.api import bp, db
 from app.models import Player, Team
-from app.api.api_models import SkaterStats, SkaterShooting, SkaterTotals, GoalieStats, GoalieAdvanced, GoalieTotals, SkaterTotalsRecords, GoalieTotalsRecords
+from app.api.api_models import SkaterStats, SkaterShooting, SkaterOnIce, SkaterTotals, GoalieStats, GoalieAdvanced, GoalieTotals, SkaterTotalsRecords, GoalieTotalsRecords
 
 @bp.route('/players', methods=['GET'])
 @cross_origin()
@@ -54,11 +54,16 @@ def get_skater_stats(id: int, gameType: int):
     with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'skater_season_shooting.sql')) as f:
         shooting_query = f.read()
 
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../sql', 'skater_on_ice.sql')) as f:
+        on_ice_query = f.read()
+
     totals_query_result = db.session.execute(text(totals_query), {"playerID": id, "gameType": gameType}).mappings().all()
     shooting_query_result = db.session.execute(text(shooting_query), {"playerID": id, "gameType": gameType}).mappings().all()
+    on_ice_query_result = db.session.execute(text(on_ice_query), {"playerID": id, "gameType": gameType}).mappings().all()
     
     totals = [dict(row) for row in totals_query_result]
     shooting = [dict(row) for row in shooting_query_result]
+    on_ice = [dict(row) for row in on_ice_query_result]
     
     with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'skater_records_{gameType}.json')) as f:
         totals_records = json.load(f)
@@ -83,6 +88,9 @@ def get_skater_stats(id: int, gameType: int):
 
         if season_shooting := next((s for s in shooting if all([s.get('season') == season, s.get('teamID') == teamID])), None):
             season_stats.shooting = SkaterShooting(**season_shooting)
+
+        if season_on_ice := next((o for o in on_ice if all([o.get('season') == season, o.get('teamID') == teamID])), None):
+            season_stats.onIce = SkaterOnIce(**season_on_ice)
 
         stats.append(season_stats.model_dump())
 

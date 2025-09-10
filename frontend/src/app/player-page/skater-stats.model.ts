@@ -26,3 +26,16 @@ type SkaterShooting = {
     xgGoals: number;
     fenwick: number;
 }
+
+type SkaterOnIce = {
+    onIceShootingPct: number;
+    fenwickFor: number;
+    fenwickAgainst: number;
+    corsiFor: number;
+    corsiAgainst: number;
+    xgFor: number;
+    xgAgainst: number;
+    oZoneStarts: number;
+    nZoneStarts: number;
+    dZoneStarts: number;
+}
