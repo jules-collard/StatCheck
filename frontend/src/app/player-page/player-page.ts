@@ -9,7 +9,6 @@ import { Award } from './award.model';
 import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
 import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
 import { GoalieStats } from './goalie-stats.model';
-import { SkaterSeasonRecords } from './season-totals-table/skater-season-records.model';
 import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
 import { GoalieAnalyticsTable } from './goalie-analytics-table/goalie-analytics-table';
 
@@ -37,7 +36,7 @@ export class PlayerPage implements OnInit {
   })
   
   regSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    let totals = this.playerService.getRegSeasonTotals();
+    let totals = this.playerService.getRegSeasonStats();
     if (totals != null && totals.length > 0) {
       if ('goals' in totals[0]) { // Check SeasonTotals[]
         const records = this.playerService.getSkaterRecords()
@@ -57,7 +56,7 @@ export class PlayerPage implements OnInit {
   })
 
   postSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    return this.playerService.getPostSeasonTotals();
+    return this.playerService.getPostSeasonStats();
   })
 
   awards = computed<Award[]>(() => {
@@ -67,7 +66,7 @@ export class PlayerPage implements OnInit {
   })
 
   loading = computed<boolean>(() => {
-    return this.playerService.playerDataIsLoading() || this.playerService.seasonTotalsIsLoading()
+    return this.playerService.playerDataIsLoading() || this.playerService.seasonStatsIsLoading()
   })
 
   private awardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy', 'Conn Smythe Trophy', 'Stanley Cup']

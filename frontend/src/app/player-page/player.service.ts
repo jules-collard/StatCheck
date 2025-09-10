@@ -29,19 +29,19 @@ export class PlayerService {
         return this.playerData.isLoading();
     }
 
-    getRegSeasonTotals(): SkaterStats[] | GoalieStats[] | null {
+    getRegSeasonStats(): SkaterStats[] | GoalieStats[] | null {
         if (this.regSeasonStats.hasValue()) {
             return this.regSeasonStats.value();
         } else return null;
     }
 
-    getPostSeasonTotals(): SkaterStats[] | GoalieStats[] | null {
+    getPostSeasonStats(): SkaterStats[] | GoalieStats[] | null {
         if (this.postSeasonStats.hasValue()) {
             return this.postSeasonStats.value();
         } else return null;
     }
 
-    seasonTotalsIsLoading(): boolean {
+    seasonStatsIsLoading(): boolean {
         return this.regSeasonStats.isLoading() || this.regSeasonStats.isLoading();
     }
 
