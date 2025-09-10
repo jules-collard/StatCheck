@@ -29,7 +29,7 @@
                         } @else if (stats() == null ) {
                             <div class="badge badge-error">Seasons Not Found</div>
                         } @else if (playerData()!.position === 'G'){
-                            <app-goalie-analytics-table [seasonStats]="$any(stats()!)"/>
+                            <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
                         } @else {
                             <app-season-analytics-table [seasonStats]="$any(stats()!)"/>
                         }

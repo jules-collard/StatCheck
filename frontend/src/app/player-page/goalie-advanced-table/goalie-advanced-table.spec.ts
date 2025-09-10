@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoalieAnalyticsTable } from './goalie-analytics-table';
+import { GoalieAdvancedTable } from './goalie-advanced-table';
 
 describe('GoalieAnalyticsTable', () => {
-  let component: GoalieAnalyticsTable;
-  let fixture: ComponentFixture<GoalieAnalyticsTable>;
+  let component: GoalieAdvancedTable;
+  let fixture: ComponentFixture<GoalieAdvancedTable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GoalieAnalyticsTable]
+      imports: [GoalieAdvancedTable]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(GoalieAnalyticsTable);
+    fixture = TestBed.createComponent(GoalieAdvancedTable);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

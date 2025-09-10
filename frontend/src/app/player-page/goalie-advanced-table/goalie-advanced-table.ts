@@ -4,11 +4,11 @@ import { SeasonPipe } from '../../pipes/season.pipe';
 import { DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-goalie-analytics-table',
+  selector: 'app-goalie-advanced-table',
   imports: [SeasonPipe, DecimalPipe],
-  templateUrl: './goalie-analytics-table.html',
-  styleUrl: './goalie-analytics-table.css'
+  templateUrl: './goalie-advanced-table.html',
+  styleUrl: './goalie-advanced-table.css'
 })
-export class GoalieAnalyticsTable {
+export class GoalieAdvancedTable {
   seasonStats = input.required<GoalieStats[]>()
 }
