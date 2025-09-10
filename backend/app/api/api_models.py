@@ -48,7 +48,6 @@ class SkaterTotals(BaseModel):
     gamesPlayed: int = Field(ge=0)
     goals: int = Field(ge=0)
     assists: int = Field(ge=0)
-    powerPlayGoals: int = Field(ge=0)
     plusMinus: int
     hits: int = Field(ge=0)
     sog: int = Field(ge=0)

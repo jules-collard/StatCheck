@@ -12,7 +12,6 @@ type SkaterTotals = {
     gamesPlayed: number;
     goals: number;
     assists: number;
-    powerPlayGoals: number;
     plusMinus: number;
     hits: number;
     sog: number;
