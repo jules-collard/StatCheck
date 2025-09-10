@@ -22,10 +22,10 @@ class PlayerListItem(BaseModel):
 class PlayerInfo(BaseModel):
     id: int = Field(gt=0)
     isActive: bool
-    currentTeamID: Optional[int]
+    currentTeamID: Optional[int] = Field(default=None)
     firstName: str
     lastName: str
-    sweaterNumber: Optional[int]
+    sweaterNumber: Optional[int] = Field(default=None)
     position: str = Field(pattern=r'^[GDLCR]$')
     headshot: str = Field(pattern=r'^.*\.png$')
     heightInInches: int = Field(gt=0)
@@ -35,10 +35,13 @@ class PlayerInfo(BaseModel):
     birthDate: str
     birthCountry: str
     shootsCatches: str = Field(pattern=r'^[LR]$')
-    draftYear: Optional[int]
-    draftPickInRound: Optional[int]
-    inHHOF: Optional[bool]
-    team: Optional[TeamInfo]
+    draftYear: Optional[int] = Field(default=None)
+    draftTeamAbbrev: Optional[str] = Field(default=None)
+    draftRound: Optional[int] = Field(default=None)
+    draftPickInRound: Optional[int] = Field(default=None)
+    draftOverallPick: Optional[int] = Field(default=None)
+    inHHOF: Optional[bool] = Field(default=False)
+    team: Optional[TeamInfo] = Field(default=None)
     awards: list[AwardInfo]
 
 class SkaterTotals(BaseModel):

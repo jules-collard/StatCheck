@@ -38,10 +38,13 @@ def get_player_stats(id: int):
     except ValueError:
         abort(404)
 
-    if player.position != 'G':
-        return get_skater_stats(id, gameType)
-    else:
-        return get_goalie_stats(id, gameType)
+    try:
+        if player.position != 'G':
+            return get_skater_stats(id, gameType)
+        else:
+            return get_goalie_stats(id, gameType)
+    except ValidationError:
+        abort(406)
 
 
 def get_skater_stats(id: int, gameType: int):
