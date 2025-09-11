@@ -1,41 +1,30 @@
-@if (loading()) {
-    <div class="flex w-60 flex-col gap-4">
-        <div class="skeleton h-50 w-full"></div>
-        <div class="skeleton h-4 w-28"></div>
-        <div class="skeleton h-4 w-full"></div>
-        <div class="skeleton h-4 w-full"></div>
+<div class="card sm:card-sm md:card-md shadow-md bg-base-200">
+    <figure>
+        <img
+            [src]="playerData().headshot"
+            alt="Headshot" />
+    </figure>
+    <div class="card-body">
+        <h1 class="card-title text-2xl"> {{playerData().firstName}} {{playerData().lastName}} </h1>
+        <h2 class="text-lg text-base-content"> {{playerData().position | position}} | {{playerData().team?.triCode ?? 'FA'}} | #{{playerData().sweaterNumber}}</h2>
+        @if (playerData().inHHOF) {
+                <div class="badge badge-accent">HOF</div>
+            }
+        <ul class="list-none">
+            <li> <b>Nationality:</b> {{ playerData().birthCountry }} </li>
+            <li> <b>Age:</b> {{ playerData().birthDate | age}} </li>
+            <li> <b>Height:</b> {{ playerData().heightInInches | height: 'in' }} </li>
+            <li> <b>Weight:</b> {{ playerData().weightInPounds }} lbs </li>
+            @if (playerData().position === "G") {
+                <li> <b>Catches:</b> {{ playerData().shootsCatches }} </li>
+            } @else {
+                <li> <b>Shoots:</b> {{ playerData().shootsCatches }} </li>
+            }
+            @if (playerData().draftYear == null) {
+                <li> <b>Draft:</b> Undrafted</li>
+            } @else {
+                <li> <b>Draft:</b> {{playerData().draftTeamAbbrev}}, Rd {{ playerData().draftRound }} (#{{ playerData().draftOverallPick}} Ovr), {{playerData().draftYear}} </li>
+            }
+        </ul>
     </div>
-} @else if (playerData() == null ) {
-    <div class="badge badge-error">Player Not Found</div>
-} @else {
-    <div class="card sm:card-sm md:card-md shadow-md bg-base-200">
-        <figure>
-            <img
-                [src]="playerData()!.headshot"
-                alt="Headshot" />
-        </figure>
-        <div class="card-body">
-            <h1 class="card-title text-2xl"> {{playerData()!.firstName}} {{playerData()!.lastName}} </h1>
-            <h2 class="text-lg text-base-content"> {{playerData()!.position | position}} | {{playerData()!.team?.triCode ?? 'FA'}} | #{{playerData()!.sweaterNumber}}</h2>
-            @if (playerData()!.inHHOF) {
-                    <div class="badge badge-accent">HOF</div>
-                }
-            <ul class="list-none">
-                <li> <b>Nationality:</b> {{ playerData()!.birthCountry }} </li>
-                <li> <b>Age:</b> {{ playerData()!.birthDate | age}} </li>
-                <li> <b>Height:</b> {{ playerData()!.heightInInches | height: 'in' }} </li>
-                <li> <b>Weight:</b> {{ playerData()!.weightInPounds }} lbs </li>
-                @if (playerData()!.position === "G") {
-                    <li> <b>Catches:</b> {{ playerData()!.shootsCatches }} </li>
-                } @else {
-                    <li> <b>Shoots:</b> {{ playerData()!.shootsCatches }} </li>
-                }
-                @if (playerData()!.draftYear == null) {
-                    <li> <b>Draft:</b> Undrafted</li>
-                } @else {
-                    <li> <b>Draft:</b> {{playerData()!.draftTeamAbbrev}}, Rd {{ playerData()!.draftRound }} (#{{ playerData()!.draftOverallPick}} Ovr), {{playerData()!.draftYear}} </li>
-                }
-            </ul>
-        </div>
-    </div>
-}
+</div>

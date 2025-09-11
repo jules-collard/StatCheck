@@ -24,24 +24,24 @@ export class PlayerPage implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
 
-  playerData = computed<Player | null>(() => {
-    return this.playerService.getPlayerData();
-  })
-
   regularSeason = signal<boolean>(true)
 
-  stats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    if (this.regularSeason()) {
-      return this.regSeasonTotals();
-    } else { return this.postSeasonTotals()}
-  })
-  
-  regSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    return this.playerService.getRegSeasonStats()
+  private awardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy', 'Conn Smythe Trophy', 'Stanley Cup']
+
+  playerData = computed<Player | null>(() => {
+    return this.playerService.playerData.hasValue() ? this.playerService.playerData.value() : null;
   })
 
-  postSeasonTotals = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    return this.playerService.getPostSeasonStats();
+  stats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
+    return this.regularSeason() ? this.regSeasonStats() : this.postSeasonStats()
+  })
+  
+  regSeasonStats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
+    return this.playerService.regSeasonStats.hasValue() ? this.playerService.regSeasonStats.value() : null;
+  })
+
+  postSeasonStats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
+    return this.playerService.postSeasonStats.hasValue() ? this.playerService.postSeasonStats.value() : null;
   })
 
   awards = computed<Award[]>(() => {
@@ -49,12 +49,6 @@ export class PlayerPage implements OnInit {
       return this.awardNames.includes(award.awardName)
     }) ?? [];
   })
-
-  loading = computed<boolean>(() => {
-    return this.playerService.playerDataIsLoading() || this.playerService.seasonStatsIsLoading()
-  })
-
-  private awardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy', 'Conn Smythe Trophy', 'Stanley Cup']
 
   selectPlayoffs() {
     this.regularSeason.set(false)
@@ -68,6 +62,7 @@ export class PlayerPage implements OnInit {
     const subscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         this.playerService.setPlayerID(Number(paramMap.get('playerID')))
+        this.playerService.fetch()
       }
     })
 

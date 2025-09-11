@@ -1,6 +1,10 @@
 <div class="flex flex-row basis-auto gap-2">
     <div class="basis-auto min-w-45 max-w-70">
-        <app-player-details/>
+        @if (playerData() === null) {
+            <div class="skeleton h-100 w-70"></div>
+        } @else {
+            <app-player-details [playerData]="playerData()!"/>
+        }
     </div>
     <div class="basis-auto min-w-100">
         <div class="flex flex-col gap-2">
@@ -12,10 +16,8 @@
                 <div class="tabs tabs-border tabs-lg">
                     <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
                     <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
-                        @if (loading()) {
+                        @if (stats() === null || playerData() === null) {
                             <div class="skeleton h-50 w-200"></div>
-                        } @else if (stats() == null ) {
-                            <div class="badge badge-error">Seasons Not Found</div>
                         } @else if (playerData()!.position === 'G'){
                             <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         } @else {
@@ -24,10 +26,8 @@
                     </div>
                     <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
                     <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
-                        @if (loading()) {
+                        @if (stats() === null || playerData() === null) {
                             <div class="skeleton h-50 w-200"></div>
-                        } @else if (stats() == null ) {
-                            <div class="badge badge-error">Seasons Not Found</div>
                         } @else if (playerData()!.position === 'G'){
                             <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
                         } @else {
@@ -37,10 +37,8 @@
                     @if (playerData()!.position !== 'G') {
                         <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
                         <div class="tab-content overflow-x-auto overflow-y-auto rounded-box max-h-120 w-full">
-                            @if (loading()) {
+                            @if (stats() === null || playerData() === null) {
                                 <div class="skeleton h-50 w-200"></div>
-                            } @else if (stats() == null ) {
-                                <div class="badge badge-error">Seasons Not Found</div>
                             } @else {
                                 <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
                             }
