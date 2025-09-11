@@ -5,6 +5,11 @@
             <th>Team</th>
             <th>GP</th>
             <th>CF%</th>
+            <th>FF%</th>
+            <th>xG%</th>
+            <th>oiSh%</th>
+            <th>OZS%</th>
+            <th>DZS%</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +20,11 @@
                     <th>{{season.teamTriCode}}</th>
                     <td>{{season.totals.gamesPlayed}}</td>
                     <td>{{100 * season.onIce.corsiFor / (season.onIce.corsiFor + season.onIce.corsiAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * season.onIce.fenwickFor / (season.onIce.fenwickFor + season.onIce.fenwickAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * season.onIce.xgFor / (season.onIce.xgFor + season.onIce.xgAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * season.onIce.onIceShootingPct | number: '0.1-1'}}%</td>
+                    <td>{{100 * season.onIce.oZoneStarts / (season.onIce.oZoneStarts + season.onIce.nZoneStarts + season.onIce.dZoneStarts) | number: '0.1-1'}}%</td>
+                    <td>{{100 * season.onIce.dZoneStarts / (season.onIce.oZoneStarts + season.onIce.nZoneStarts + season.onIce.dZoneStarts) | number: '0.1-1'}}%</td>
                 </tr>
             }
         }
