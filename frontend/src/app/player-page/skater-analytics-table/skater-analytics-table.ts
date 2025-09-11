@@ -4,11 +4,11 @@ import { DecimalPipe } from '@angular/common';
 import { SkaterStats } from '../skater-stats.model';
 
 @Component({
-  selector: 'app-season-analytics-table',
+  selector: 'app-skater-analytics-table',
   imports: [SeasonPipe, DecimalPipe],
-  templateUrl: './season-analytics-table.html',
-  styleUrl: './season-analytics-table.css'
+  templateUrl: './skater-analytics-table.html',
+  styleUrl: './skater-analytics-table.css'
 })
-export class SeasonAnalyticsTable {
+export class SkaterAnalyticsTable {
   seasonStats = input.required<SkaterStats[]>();
 }

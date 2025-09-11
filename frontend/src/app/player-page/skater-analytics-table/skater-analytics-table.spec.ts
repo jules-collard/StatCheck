@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeasonAnalyticsTable } from './season-analytics-table';
+import { SkaterAnalyticsTable } from './skater-analytics-table';
 
 describe('SeasonAnalyticsTable', () => {
-  let component: SeasonAnalyticsTable;
-  let fixture: ComponentFixture<SeasonAnalyticsTable>;
+  let component: SkaterAnalyticsTable;
+  let fixture: ComponentFixture<SkaterAnalyticsTable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SeasonAnalyticsTable]
+      imports: [SkaterAnalyticsTable]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SeasonAnalyticsTable);
+    fixture = TestBed.createComponent(SkaterAnalyticsTable);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

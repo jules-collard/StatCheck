@@ -9,13 +9,13 @@ import { Award } from './award.model';
 import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
 import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
 import { GoalieStats } from './goalie-stats.model';
-import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
+import { SkaterAnalyticsTable } from './skater-analytics-table/skater-analytics-table';
 import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
 import { SkaterOnIceTable } from "./skater-onice-table/skater-onice-table";
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerDetails, SkaterTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
+  imports: [PlayerDetails, SkaterTotalsTable, GoalieTotalsTable, SkaterAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })

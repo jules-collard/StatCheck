@@ -30,7 +30,7 @@
                             @if (stats() === null || playerData() === null) {
                                 <div class="skeleton h-50 w-200"></div>
                             } @else {
-                                <app-season-analytics-table [seasonStats]="$any(stats()!)"/>
+                                <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
                             }
                         </div>
                     
