@@ -6,7 +6,7 @@
     </figure>
     <div class="card-body">
         <h1 class="card-title text-2xl"> {{playerData().firstName}} {{playerData().lastName}} </h1>
-        <h2 class="text-lg text-base-content"> {{playerData().position | position}} | {{playerData().team?.triCode ?? 'FA'}} | #{{playerData().sweaterNumber}}</h2>
+        <h2 class="text-lg text-base-content"> {{playerData().position | position}} | {{playerData().isActive ? playerData().team?.triCode ?? 'FA' : 'Retired'}} | #{{playerData().sweaterNumber}}</h2>
         @if (playerData().inHHOF) {
                 <div class="badge badge-accent">HOF</div>
             }
