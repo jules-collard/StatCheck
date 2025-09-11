@@ -1,7 +1,8 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { PlayerListItem } from './player-list-item.model';
 import { PositionPipe } from "../../pipes/position.pipe";
 import { Router } from '@angular/router';
+import { PlayerService } from '../../player-page/player.service';
 
 @Component({
   selector: 'app-player-list',
@@ -11,10 +12,12 @@ import { Router } from '@angular/router';
 })
 export class PlayerList {
   private router = inject(Router)
+  private playerService = inject(PlayerService)
   
   players = input<PlayerListItem[]>([])
 
   onSelectListItem(id: number) {
+    this.playerService.setPlayerID(id)
     this.router.navigate(['players', id])    
   }
 }

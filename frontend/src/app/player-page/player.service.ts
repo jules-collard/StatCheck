@@ -21,14 +21,10 @@ export class PlayerService {
     regSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => {
         const shouldFetch = this.shouldFetch();
         return shouldFetch ? `${this.PLAYER_URL}/${this.playerID()}/stats?gameType=2` : undefined
-    }, {
-        'defaultValue': []
     });
     postSeasonStats = httpResource<SkaterStats[] | GoalieStats[]>(() => {
         const shouldFetch = this.shouldFetch();
         return shouldFetch ? `${this.PLAYER_URL}/${this.playerID()}/stats?gameType=3` : undefined
-    }, {
-        'defaultValue': []
     });
 
     setPlayerID(id: number) {
