@@ -6,7 +6,14 @@ import { PlayerListItem } from "./player-list-item.model";
     providedIn: 'root'
 })
 export class PlayerListService {
-    private allPlayers = httpResource<PlayerListItem[]>(() => 'http://localhost:5000/api/players');
+    private URL = 'http://localhost:5000/api/players'
+
+    private shouldFetch = signal<boolean>(false)
+    
+    private allPlayers = httpResource<PlayerListItem[]>(() => {
+        const shouldFetch = this.shouldFetch();
+        return shouldFetch ? this.URL : undefined;
+    });
     nameToSearch = signal<string>('')
 
     getAllPlayers() {
@@ -27,7 +34,15 @@ export class PlayerListService {
         this.nameToSearch.set(name)
     }
 
+    reset() {
+        this.nameToSearch.set('')
+    }
+
     isLoading() {
         return this.allPlayers.isLoading()
+    }
+
+    fetch() {
+        this.shouldFetch.set(true)
     }
 }

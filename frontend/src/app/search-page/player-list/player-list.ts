@@ -18,6 +18,7 @@ export class PlayerList {
 
   onSelectListItem(id: number) {
     this.playerService.setPlayerID(id)
+    this.playerService.fetch()
     this.router.navigate(['players', id])    
   }
 }
