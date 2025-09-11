@@ -21,7 +21,7 @@
                         } @else if (playerData()!.position === 'G'){
                             <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         } @else {
-                            <app-season-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
+                            <app-skater-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                         }
                     </div>
                     @if (playerData()!.position !== 'G') {

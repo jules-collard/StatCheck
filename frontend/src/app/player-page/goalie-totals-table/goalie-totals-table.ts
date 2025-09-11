@@ -3,7 +3,7 @@ import { Award } from '../award.model';
 
 import { GoalieStats } from '../goalie-stats.model';
 import { SeasonPipe } from "../../pipes/season.pipe";
-import { AwardBadge } from "../season-totals-table/award-badge/award-badge";
+import { AwardBadge } from "../skater-totals-table/award-badge/award-badge";
 import { DecimalPipe } from '@angular/common';
 import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
 

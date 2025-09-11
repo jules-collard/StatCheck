@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SkaterStats } from './skater-stats.model';
 import { Player } from './player.model';
 import { Award } from './award.model';
-import { SeasonTotalsTable } from './season-totals-table/season-totals-table';
+import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
 import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
 import { GoalieStats } from './goalie-stats.model';
 import { SeasonAnalyticsTable } from './season-analytics-table/season-analytics-table';
@@ -15,7 +15,7 @@ import { SkaterOnIceTable } from "./skater-onice-table/skater-onice-table";
 
 @Component({
   selector: 'app-player-page',
-  imports: [PlayerDetails, SeasonTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
+  imports: [PlayerDetails, SkaterTotalsTable, GoalieTotalsTable, SeasonAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
   templateUrl: './player-page.html',
   styleUrl: './player-page.css'
 })

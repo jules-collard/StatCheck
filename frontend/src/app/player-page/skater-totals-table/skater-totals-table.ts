@@ -8,12 +8,12 @@ import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
 import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
 
 @Component({
-  selector: 'app-season-totals-table',
+  selector: 'app-skater-totals-table',
   imports: [SeasonPipe, timeOnIcePipe, BoldRecordPipe, AwardBadge],
-  templateUrl: './season-totals-table.html',
-  styleUrl: './season-totals-table.css'
+  templateUrl: './skater-totals-table.html',
+  styleUrl: './skater-totals-table.css'
 })
-export class SeasonTotalsTable {
+export class SkaterTotalsTable {
   seasonStats = input.required<SkaterStats[]>();
   awards = input<Award[]>([]);
 

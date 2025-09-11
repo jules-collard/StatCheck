@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SeasonTotalsTable } from './season-totals-table';
+import { SkaterTotalsTable } from './skater-totals-table';
 
 describe('SeasonTotalsTable', () => {
-  let component: SeasonTotalsTable;
-  let fixture: ComponentFixture<SeasonTotalsTable>;
+  let component: SkaterTotalsTable;
+  let fixture: ComponentFixture<SkaterTotalsTable>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SeasonTotalsTable]
+      imports: [SkaterTotalsTable]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SeasonTotalsTable);
+    fixture = TestBed.createComponent(SkaterTotalsTable);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

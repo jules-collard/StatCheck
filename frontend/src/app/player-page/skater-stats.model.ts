@@ -1,4 +1,4 @@
-import { SkaterSeasonRecords } from "./season-totals-table/skater-season-records.model";
+import { SkaterSeasonRecords } from "./skater-totals-table/skater-season-records.model";
 
 export type SkaterStats = {
     playerID: number;
