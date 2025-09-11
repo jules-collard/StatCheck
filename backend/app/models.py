@@ -331,9 +331,9 @@ class SplitShift(db.Model):
 
     shiftID: so.Mapped[int] = so.mapped_column(primary_key=True)
     split: so.Mapped[int] = so.mapped_column(primary_key=True)
-    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id))
-    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id))
-    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id))
+    teamID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Team.id), index=True)
+    playerID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), index=True)
+    gameID: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
     period: so.Mapped[int] = so.mapped_column()
     startTimeSec: so.Mapped[int] = so.mapped_column()
     endTimeSec: so.Mapped[int] = so.mapped_column()
