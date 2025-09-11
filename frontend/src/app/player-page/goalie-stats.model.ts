@@ -15,9 +15,9 @@ type GoalieTotals = {
     losses: number;
     goalsAgainst: number;
     goalsAgainstAvg: number;
-    savePct: number;
-    evenStrengthSavePct: number;
-    powerPlaySavePct: number;
+    savePct?: number;
+    evenStrengthSavePct?: number;
+    powerPlaySavePct?: number;
     xgAgainst: number;
     xgGoalsAgainst: number;
     fenwickAgainst: number;

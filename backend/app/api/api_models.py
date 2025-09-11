@@ -107,9 +107,9 @@ class GoalieTotals(BaseModel):
     losses: int = Field(ge=0)
     goalsAgainst: int = Field(ge=0)
     goalsAgainstAvg: float = Field(ge=0)
-    savePct: float = Field(ge=0, le=1)
-    evenStrengthSavePct: float = Field(ge=0, le=1)
-    powerPlaySavePct: float = Field(ge=0, le=1)
+    savePct: Optional[float] = Field(ge=0, le=1)
+    evenStrengthSavePct: Optional[float] = Field(ge=0, le=1)
+    powerPlaySavePct: Optional[float] = Field(ge=0, le=1)
     records: Optional[GoalieTotalsRecords] = Field(default=None)
 
 class GoalieAdvanced(BaseModel):

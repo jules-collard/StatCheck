@@ -43,7 +43,8 @@ def get_player_stats(id: int):
             return get_skater_stats(id, gameType)
         else:
             return get_goalie_stats(id, gameType)
-    except ValidationError:
+    except ValidationError as e:
+        print(e)
         abort(406)
 
 
