@@ -74,7 +74,7 @@ def get_skater_stats(id: int, gameType: int):
         season = total.pop('season')
         teamID = total.pop('teamID')
 
-        if record_dict := next((r for r in totals_records if r.get('season', None) == season)):
+        if record_dict := next((r for r in totals_records if r.get('season', None) == season), None):
             records = SkaterTotalsRecords(**record_dict)
 
         season_totals = SkaterTotals(**total, records=records)
@@ -118,7 +118,7 @@ def get_goalie_stats(id: int, gameType: int):
         season = total.pop('season')
         teamID = total.pop('teamID')
 
-        if record_dict := next((r for r in totals_records if r.get('season', None) == season)):
+        if record_dict := next((r for r in totals_records if r.get('season', None) == season), None):
             records = GoalieTotalsRecords(**record_dict)
         else:
             records = None
