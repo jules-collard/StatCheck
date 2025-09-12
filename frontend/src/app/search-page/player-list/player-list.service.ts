@@ -9,18 +9,12 @@ export class PlayerListService {
     private URL = 'http://localhost:5000/api/players'
 
     private shouldFetch = signal<boolean>(false)
+    nameToSearch = signal<string>('')
     
-    private allPlayers = httpResource<PlayerListItem[]>(() => {
+    allPlayers = httpResource<PlayerListItem[]>(() => {
         const shouldFetch = this.shouldFetch();
         return shouldFetch ? this.URL : undefined;
     });
-    nameToSearch = signal<string>('')
-
-    getAllPlayers() {
-        if (this.allPlayers.hasValue()) {
-            return this.allPlayers.value();
-        } else return []
-    }
 
     filteredPlayers = computed<PlayerListItem[]>(() => {
         if (this.allPlayers.hasValue()) {
@@ -36,10 +30,6 @@ export class PlayerListService {
 
     reset() {
         this.nameToSearch.set('')
-    }
-
-    isLoading() {
-        return this.allPlayers.isLoading()
     }
 
     fetch() {

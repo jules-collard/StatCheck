@@ -31,8 +31,6 @@ export class SearchPage {
     return Math.ceil(this.filteredPlayers().length / this.playersPerPage)
   })
 
-  isLoading = computed<boolean>(() => {return this.playerListService.isLoading()})
-
   firstPage() { this.searchService.firstPage() }
   nextPage() { this.searchService.nextPage() }
   prevPage() { this.searchService.prevPage() }
