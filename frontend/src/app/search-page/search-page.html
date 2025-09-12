@@ -1,4 +1,7 @@
 <div class="grid grid-cols-4">
+    <div class="col-start-1">
+        <app-player-filter/>
+    </div>
     <div class="col-start-2 col-end-4">
         @if (playersToList() == null || playersToList().length == 0) {
             <div class="badge badge-error">Players Not Found</div>

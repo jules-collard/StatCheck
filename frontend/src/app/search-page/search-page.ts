@@ -3,10 +3,11 @@ import { PlayerList } from './player-list/player-list';
 import { PlayerListService } from './player-list/player-list.service';
 import { PlayerListItem } from './player-list/player-list-item.model';
 import { SearchService } from './search.service';
+import { PlayerFilter } from './player-filter/player-filter';
 
 @Component({
   selector: 'app-search-page',
-  imports: [PlayerList],
+  imports: [PlayerList, PlayerFilter],
   templateUrl: './search-page.html',
   styleUrl: './search-page.css'
 })
