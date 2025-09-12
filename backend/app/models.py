@@ -123,6 +123,7 @@ class Player(db.Model, Util):
             return PlayerListItem(
                 id=self.id,
                 fullName=f'{self.firstName} {self.lastName}',
+                isActive=self.isActive,
                 position=self.position,
                 teamTriCode=self.team.triCode if self.team else None,
                 headshot=self.headshot

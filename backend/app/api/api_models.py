@@ -15,6 +15,7 @@ class AwardInfo(BaseModel):
 class PlayerListItem(BaseModel):
     id: int = Field(gt=0)
     fullName: str
+    isActive: bool
     position: str = Field(pattern=r'^[GDLCR]$')
     teamTriCode: Optional[str] = Field(pattern=r'^[A-Z]{3}$')
     headshot: str = Field(pattern=r'^.*\.png$')
