@@ -65,7 +65,6 @@ export class PlayerPage implements OnInit {
         this.playerService.fetch()
       }
     })
-
     this.destroyRef.onDestroy(() => subscription.unsubscribe())
   }
 
