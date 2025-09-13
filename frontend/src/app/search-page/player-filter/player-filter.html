@@ -1,7 +1,28 @@
-<fieldset class="fieldset bg-base-200 border border-base-300 rounded-box w-3/4 justify-self-center p-4">
+<fieldset class="fieldset bg-base-100 border border-base-300 rounded-box w-3/4 justify-self-center p-4">
     <legend class="fieldset-legend text-xl">Filters</legend>
     <label class="label text-sm">
         <input type="checkbox" class="checkbox checkbox-secondary" [(ngModel)]="hideRetired" (change)="onShowRetired()"/>
         Hide Retired
     </label>
+    <label class="label text-sm">Status</label>
+    <form class="filter">
+        <input class="btn btn-square" type="reset" value="×"/>
+        <input class="btn" type="radio" name="activeRetired" aria-label="Active"/>
+        <input class="btn" type="radio" name="activeRetired" aria-label="Retired"/>
+    </form>
+    <form>
+        <label class="label text-sm">Position</label>
+        <br>
+        <input class="btn btn-square" type="reset" value="×"/>
+        <input class="btn" type="checkbox" name="positions" aria-label="G"/>
+        <input class="btn" type="checkbox" name="positions" aria-label="D"/>
+        <input class="btn" type="checkbox" name="positions" aria-label="F"/>
+    </form>
+    <label class="label text-sm">Team</label>
+    <select class="select">
+        <option disabled selected>All</option>
+        <option>Crimson</option>
+        <option>Amber</option>
+        <option>Velvet</option>
+    </select>
 </fieldset>
