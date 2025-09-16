@@ -1,6 +1,6 @@
 SELECT
     "games"."season",
-    "teamID",
+    group_concat(DISTINCT "teamID") AS "teams",
     count("skater_appearances"."gameID") AS "gamesPlayed",
     sum("skater_appearances"."goals") AS "goals",
     sum("skater_appearances"."assists") AS "assists",
@@ -13,5 +13,5 @@ SELECT
 FROM "skater_appearances"
 LEFT JOIN games ON "skater_appearances"."gameID" == "games".id
 WHERE "playerID" == :playerID AND "games"."gameType" == :gameType
-GROUP BY games.season, "teamID"
-ORDER BY games.season, "teamID";
+GROUP BY games.season
+ORDER BY games.season;

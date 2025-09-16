@@ -1,6 +1,6 @@
 SELECT
     games.season,
-    "teamID",
+    group_concat(DISTINCT "teamID") AS "teams",
     1.0 * sum("goalsFor") / sum("sogFor") AS onIceShootingPct,
     sum("fenwickFor") AS fenwickFor,
     sum("fenwickAgainst") AS fenwickAgainst,
@@ -17,5 +17,5 @@ WHERE
     games."gameType" == :gameType
     AND split_shifts."playerID" == :playerID
     AND "attackingSkaters" == "defendingSkaters"
-GROUP BY games.season, split_shifts."teamID"
-ORDER BY games.season, split_shifts."teamID";
+GROUP BY games.season
+ORDER BY games.season;

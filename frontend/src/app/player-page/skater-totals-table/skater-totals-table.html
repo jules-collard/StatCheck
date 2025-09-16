@@ -20,7 +20,7 @@
         @for (season of seasonStats(); track $index) {
             <tr class="hover:bg-primary-content">
                 <th>{{season.season | season}}</th>
-                <th>{{season.teamTriCode}}</th>
+                <th>{{season.teamTriCodes.join('/')}}</th>
                 <td [innerHTML]="season.totals.gamesPlayed | boldRecord: season.totals.records?.maxGamesPlayed"></td>
                 <td>{{season.totals.avgTOI | timeOnIce}}</td>
                 <td [innerHTML]="season.totals.goals | boldRecord: season.totals.records?.maxGoals"></td>

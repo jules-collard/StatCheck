@@ -14,7 +14,7 @@
             @if (season.shooting !== null) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.teamTriCode}}</th>
+                    <th>{{season.teamTriCodes.join('/')}}</th>
                     <td>{{season.totals.gamesPlayed}}</td>
                     <td>{{season.shooting.xgGoals - season.shooting.xg | number: '0.1-1'}}</td>
                     <td>{{100 * season.totals.goals / season.totals.sog | number: '0.1-1'}}%</td>

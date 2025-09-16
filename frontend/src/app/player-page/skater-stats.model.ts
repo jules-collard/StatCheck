@@ -3,7 +3,7 @@ import { SkaterSeasonRecords } from "./skater-totals-table/skater-season-records
 export type SkaterStats = {
     playerID: number;
     season: number;
-    teamTriCode: string;
+    teamTriCodes: string[];
     totals: SkaterTotals;
     shooting: SkaterShooting;
     onIce: SkaterOnIce

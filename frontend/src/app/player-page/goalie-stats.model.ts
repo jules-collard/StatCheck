@@ -3,7 +3,7 @@ import { GoalieSeasonRecords } from "./goalie-totals-table/goalie-season-records
 export type GoalieStats = {
     playerID: number;
     season: number;
-    teamTriCode: string;
+    teamTriCodes: string[];
     totals: GoalieTotals;
     advanced: GoalieAdvanced;
 }

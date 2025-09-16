@@ -1,7 +1,7 @@
 WITH season_totals AS (
     SELECT
         "games"."season",
-        "teamID",
+        group_concat(DISTINCT "teamID") AS "teams",
         sum("goalie_appearances"."played") AS "gamesPlayed",
         sum("goalie_appearances"."starter") AS "gamesStarted",
         sum(CASE WHEN "goalie_appearances"."decision" == 'W' THEN 1 ELSE 0 END) AS "wins",
@@ -14,7 +14,7 @@ WITH season_totals AS (
     FROM "goalie_appearances"
     LEFT JOIN "games" ON goalie_appearances."gameID" == "games"."id"
     WHERE "goalie_appearances"."playerID" == :playerID AND "games"."gameType" == :gameType
-    GROUP BY "games"."season", "teamID"
-    ORDER BY games.season, "teamID"
+    GROUP BY "games"."season"
+    ORDER BY games.season
 )
 SELECT * FROM season_totals WHERE gamesPlayed > 0;

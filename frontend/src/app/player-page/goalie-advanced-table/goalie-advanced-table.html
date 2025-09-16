@@ -15,7 +15,7 @@
             @if (season.advanced !== null && season.totals.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.teamTriCode}}</th>
+                    <th>{{season.teamTriCodes.join('/')}}</th>
                     <td>{{season.totals.gamesPlayed}}</td>
                     <td>{{season.advanced.xgAgainst - season.totals.goalsAgainst | number: '0.1-1'}}</td>
                     <td>{{100 * (season.advanced.xgAgainst - season.advanced.xgGoalsAgainst) / season.advanced.fenwickAgainst | number: '0.1-1'}}%</td>

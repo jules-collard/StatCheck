@@ -17,7 +17,7 @@
             @if (season.totals.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.teamTriCode}}</th>
+                    <th>{{season.teamTriCodes.join('/')}}</th>
                     <td [innerHTML]="season.totals.gamesPlayed | boldRecord: season.totals.records?.maxGamesPlayed"></td>
                     <td [innerHTML]="season.totals.gamesStarted | boldRecord: season.totals.records?.maxGamesStarted"></td>
                     <td [innerHTML]="season.totals.wins | boldRecord: season.totals.records?.maxWins"></td>

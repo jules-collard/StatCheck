@@ -17,7 +17,7 @@
             @if (season.onIce !== null) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
-                    <th>{{season.teamTriCode}}</th>
+                    <th>{{season.teamTriCodes.join('/')}}</th>
                     <td>{{season.totals.gamesPlayed}}</td>
                     <td>{{100 * season.onIce.corsiFor / (season.onIce.corsiFor + season.onIce.corsiAgainst)| number: '0.1-1'}}%</td>
                     <td>{{100 * season.onIce.fenwickFor / (season.onIce.fenwickFor + season.onIce.fenwickAgainst)| number: '0.1-1'}}%</td>

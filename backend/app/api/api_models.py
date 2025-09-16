@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
@@ -88,7 +88,7 @@ class SkaterOnIce(BaseModel):
 class SkaterStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)
-    teamTriCode: str = Field(pattern=r'^[A-Z]{3}$')
+    teamTriCodes: List[str] = Field(min_length=1)
     totals: SkaterTotals
     shooting: Optional[SkaterShooting] = Field(default=None)
     onIce: Optional[SkaterOnIce] = Field(default=None)
@@ -121,6 +121,6 @@ class GoalieAdvanced(BaseModel):
 class GoalieStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)
-    teamTriCode: str = Field(pattern=r'^[A-Z]{3}$')
+    teamTriCodes: List[str] = Field(min_length=1)
     totals: GoalieTotals
     advanced: Optional[GoalieAdvanced] = Field(default=None)

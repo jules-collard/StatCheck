@@ -1,6 +1,6 @@
 SELECT
     games.season,
-    goalie_appearances."teamID",
+    group_concat(DISTINCT goalie_appearances."teamID") AS "teams",
     coalesce(SUM(xg), 0) AS xgAgainst,
     sum(CASE WHEN "typeCode" == 505 THEN 1 ELSE 0 END) AS xgGoalsAgainst,
     count(events.id) AS fenwickAgainst
@@ -11,5 +11,5 @@ WHERE
     (events."goalieInNetID" == :playerID)
     AND events.xg NOT NULL
     AND games."gameType" == :gameType
-GROUP BY games.season, goalie_appearances."teamID"
-ORDER BY games.season, "teamID";
+GROUP BY games.season
+ORDER BY games.season;

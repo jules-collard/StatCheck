@@ -73,7 +73,7 @@ def get_skater_stats(id: int, gameType: int):
 
     for total in totals:
         season = total.pop('season')
-        teamID = total.pop('teamID')
+        teams = total.pop('teams').split(',')
 
         if record_dict := next((r for r in totals_records if r.get('season', None) == season), None):
             records = SkaterTotalsRecords(**record_dict)
@@ -83,14 +83,14 @@ def get_skater_stats(id: int, gameType: int):
         season_stats = SkaterStats(
             playerID=id,
             season=season,
-            teamTriCode=db.session.get(Team, teamID).triCode,
+            teamTriCodes=[db.session.get(Team, int(teamID)).triCode for teamID in teams],
             totals=season_totals
         )
 
-        if season_shooting := next((s for s in shooting if all([s.get('season') == season, s.get('teamID') == teamID])), None):
+        if season_shooting := next((s for s in shooting if s.get('season') == season), None):
             season_stats.shooting = SkaterShooting(**season_shooting)
 
-        if season_on_ice := next((o for o in on_ice if all([o.get('season') == season, o.get('teamID') == teamID])), None):
+        if season_on_ice := next((o for o in on_ice if o.get('season') == season), None):
             season_stats.onIce = SkaterOnIce(**season_on_ice)
 
         stats.append(season_stats.model_dump())
@@ -117,7 +117,7 @@ def get_goalie_stats(id: int, gameType: int):
 
     for total in totals:
         season = total.pop('season')
-        teamID = total.pop('teamID')
+        teams = total.pop('teams').split(',')
 
         if record_dict := next((r for r in totals_records if r.get('season', None) == season), None):
             records = GoalieTotalsRecords(**record_dict)
@@ -129,11 +129,11 @@ def get_goalie_stats(id: int, gameType: int):
         season_stats = GoalieStats(
             playerID=id,
             season=season,
-            teamTriCode=db.session.get(Team, teamID).triCode,
+            teamTriCodes=[db.session.get(Team, int(teamID)).triCode for teamID in teams],
             totals=season_totals
         )
 
-        if season_advanced := next((s for s in advanced if all([s.get('season') == season, s.get('teamID') == teamID])), None):
+        if season_advanced := next((s for s in advanced if s.get('season') == season), None):
             season_stats.advanced = GoalieAdvanced(**season_advanced)
 
         stats.append(season_stats.model_dump())
