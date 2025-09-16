@@ -7,14 +7,14 @@
         <input [control]="activeRetiredForm.retired" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired"/>
     </form>
     <label class="label text-sm">Position</label>
-    <form class="filter">
-        <input class="btn btn-soft btn-secondary" type="reset" value="×"/>
-        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
-        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
-        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
+    <form class="filter" (change)="onChangePosition()">
+        <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetPosition()"/>
+        <input [control]="positionForm.goalie" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
+        <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
+        <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
     </form>
     <label class="label text-sm">Team</label>
-    <select class="select select-secondary">
+    <select class="select select-secondary" [(ngModel)]="team" (change)="onTeamChange()">
         <option>All</option>
         @for (team of playerListService.teams(); track $index) {
             <option>{{team}}</option>
