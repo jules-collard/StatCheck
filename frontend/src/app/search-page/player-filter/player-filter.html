@@ -19,9 +19,9 @@
     </form>
     <label class="label text-sm">Team</label>
     <select class="select select-secondary">
-        <option disabled selected>All</option>
-        <option>Crimson</option>
-        <option>Amber</option>
-        <option>Velvet</option>
+        <option>All</option>
+        @for (team of playerListService.teams(); track $index) {
+            <option>{{team}}</option>
+        }
     </select>
 </fieldset>

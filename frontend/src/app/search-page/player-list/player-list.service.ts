@@ -31,6 +31,15 @@ export class PlayerListService {
         } else { return [] }
     })
 
+    teams = computed<string[]>(() => {
+        if (this.allPlayers.hasValue()) {
+            return [... new Set(this.allPlayers.value()
+                .map((player) => player.teamTriCode)
+                .filter((triCode) => triCode !== null)
+                .sort())]
+        } else { return [] }
+    })
+
     setNameToSearch(name: string) {
         this.filterParams.update(params => ({...params, nameToSearch: name}));
     }
