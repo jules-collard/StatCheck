@@ -6,7 +6,7 @@
         @if (playersToList() == null || playersToList().length == 0) {
             <div class="badge badge-error">Players Not Found</div>
         } @else {
-            <div class="min-w-max max-h-full pb-2">
+            <div class="min-w-max pb-2">
                 <app-player-list [players]="playersToList()"/>
             </div>
             @if (filteredPlayers().length > playersPerPage) {
