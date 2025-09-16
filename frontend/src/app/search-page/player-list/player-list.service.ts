@@ -1,4 +1,4 @@
-import { HttpParams, httpResource } from "@angular/common/http";
+import { httpResource } from "@angular/common/http";
 import { computed, Injectable, signal } from "@angular/core";
 import { PlayerListItem } from "./player-list-item.model";
 import { FilterParams } from "../player-filter/filter-params.interface";
@@ -12,7 +12,8 @@ export class PlayerListService {
     private shouldFetch = signal<boolean>(false)
     filterParams = signal<FilterParams>({
         nameToSearch: '',
-        hideRetired: false
+        active: true,
+        retired: true
     })
     
     allPlayers = httpResource<PlayerListItem[]>(() => {
@@ -25,7 +26,7 @@ export class PlayerListService {
             return this.allPlayers.value().filter((player) => {
                 return (
                     player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
-                    && this.filterParams().hideRetired ? player.isActive === true : true
+                    && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
                 )
             })
         } else { return [] }

@@ -1,4 +1,5 @@
 export interface FilterParams {
     nameToSearch: string;
-    hideRetired: boolean;
+    active: boolean;
+    retired: boolean;
 }
