@@ -6,20 +6,19 @@
     </label>
     <label class="label text-sm">Status</label>
     <form class="filter">
-        <input class="btn btn-square" type="reset" value="×"/>
-        <input class="btn" type="radio" name="activeRetired" aria-label="Active"/>
-        <input class="btn" type="radio" name="activeRetired" aria-label="Retired"/>
+        <input class="btn btn-soft btn-secondary" type="reset" value="×"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Active"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired"/>
     </form>
-    <form>
-        <label class="label text-sm">Position</label>
-        <br>
-        <input class="btn btn-square" type="reset" value="×"/>
-        <input class="btn" type="checkbox" name="positions" aria-label="G"/>
-        <input class="btn" type="checkbox" name="positions" aria-label="D"/>
-        <input class="btn" type="checkbox" name="positions" aria-label="F"/>
+    <label class="label text-sm">Position</label>
+    <form class="filter">
+        <input class="btn btn-soft btn-secondary" type="reset" value="×"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
     </form>
     <label class="label text-sm">Team</label>
-    <select class="select">
+    <select class="select select-secondary">
         <option disabled selected>All</option>
         <option>Crimson</option>
         <option>Amber</option>
