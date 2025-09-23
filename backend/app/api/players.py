@@ -113,11 +113,21 @@ def get_goalie_stats(id: int, gameType: int):
     with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'goalie_records_{gameType}.json')) as f:
         totals_records = json.load(f)
 
+    if gameType == 2:
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', 'max_games.json')) as f:
+            max_games = json.load(f)
+
     stats: list[GoalieStats] = []
 
     for total in totals:
         season = total.pop('season')
         teams = total.pop('teams').split(',')
+
+        season_max_games = next((max.get('max_games') for max in max_games if max.get('season', None) == season), 82)
+        if gameType == 2:
+            qualified = total.get('gamesPlayed', 0) >= 0.3125 * season_max_games
+        else:
+            qualified = total.get('gamesPlayed', 0) >= 5
 
         if record_dict := next((r for r in totals_records if r.get('season', None) == season), None):
             records = GoalieTotalsRecords(**record_dict)
@@ -130,6 +140,7 @@ def get_goalie_stats(id: int, gameType: int):
             playerID=id,
             season=season,
             teamTriCodes=[db.session.get(Team, int(teamID)).triCode for teamID in teams],
+            qualified=qualified,
             totals=season_totals
         )
 

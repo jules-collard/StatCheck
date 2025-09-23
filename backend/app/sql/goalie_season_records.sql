@@ -1,4 +1,34 @@
-WITH goalie_seasons AS (
+WITH home_games AS (
+    SELECT
+        season,
+        "homeTeamID",
+        count(id) AS homeGames
+    FROM games
+    WHERE "gameType" == 2
+    GROUP BY season, "homeTeamID"
+),
+away_games AS (
+    SELECT
+        season,
+        "awayTeamID",
+        count(id) AS awayGames
+    FROM games
+    WHERE "gameType" == 2
+    GROUP BY season, "awayTeamID"
+),
+all_games AS (
+    SELECT
+        home_games.season,
+        homeGames + awayGames AS totalGames
+    FROM home_games
+    FULL JOIN away_games ON home_games.season == away_games.season AND home_games."homeTeamID" == away_games."awayTeamID"
+),
+max_games AS (
+    SELECT season, max(totalGames) AS games
+    FROM all_games
+    GROUP BY season
+),
+goalie_seasons AS (
     SELECT
         "playerID",
         "games"."season",
@@ -13,14 +43,14 @@ WITH goalie_seasons AS (
     WHERE "games"."gameType" == :gameType
     GROUP BY "playerID", "games"."season"
 ) SELECT
-    season,
+    goalie_seasons."season",
     max("gamesPlayed") AS maxGamesPlayed,
     max("gamesStarted") AS maxGamesStarted,
     max("wins") AS maxWins,
     max("losses") AS maxLosses,
     min("goalsAgainstAvg") AS minGAA,
     max("savePct") AS maxSavePct
-FROM goalie_seasons
-WHERE gamesPlayed >= 0.3125 * 82
-GROUP BY season
-ORDER BY season ASC;
+FROM goalie_seasons LEFT JOIN max_games ON goalie_seasons."season" == max_games.season
+WHERE gamesPlayed >= 0.3125 * max_games."games"
+GROUP BY goalie_seasons."season"
+ORDER BY goalie_seasons."season" ASC;

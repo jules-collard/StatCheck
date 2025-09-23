@@ -5,11 +5,14 @@ import { Pipe, PipeTransform } from "@angular/core";
     standalone: true
 })
 export class BoldRecordPipe implements PipeTransform {
-    transform(value: number, record: number | undefined, max: boolean = true) {
-        if (record == undefined || (value < record && max) || (value > record && !max)) {
-            return value
+    transform(value: number | undefined, record: number | undefined, qualified = true, max: boolean = true, round: boolean = false, digits = 0) {
+        const factor = 10 ** digits
+        if (value === undefined) {
+            return undefined
+        } else if (record == undefined || !qualified || (value < record && max) || (value > record && !max)) {
+            return round ? (Math.round(value * factor) / factor).toFixed(digits) : value
         } else {
-            return `<b>${value}</b>`
+            return round ? `<b>${(Math.round(value * factor) / factor).toFixed(digits)}</b>` : `<b>${value}</b>`
         }
     }
 }

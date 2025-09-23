@@ -122,5 +122,6 @@ class GoalieStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)
     teamTriCodes: List[str] = Field(min_length=1)
+    qualified: bool
     totals: GoalieTotals
     advanced: Optional[GoalieAdvanced] = Field(default=None)

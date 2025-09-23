@@ -4,12 +4,11 @@ import { Award } from '../award.model';
 import { GoalieStats } from '../goalie-stats.model';
 import { SeasonPipe } from "../../pipes/season.pipe";
 import { AwardBadge } from "../skater-totals-table/award-badge/award-badge";
-import { DecimalPipe } from '@angular/common';
 import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
 
 @Component({
   selector: 'app-goalie-totals-table',
-  imports: [SeasonPipe, DecimalPipe, BoldRecordPipe, AwardBadge],
+  imports: [SeasonPipe, BoldRecordPipe, AwardBadge],
   templateUrl: './goalie-totals-table.html',
   styleUrl: './goalie-totals-table.css'
 })

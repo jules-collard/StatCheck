@@ -104,6 +104,16 @@ def update_goalie_records(gameType: int):
     with open(os.path.join(os.path.dirname(__file__), 'records', f'goalie_records_{gameType}.json'), 'w') as f:
         json.dump(results, f)
 
+def update_max_games():
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'max_games.sql'), 'r') as f:
+        query = f.read()
+
+    query_result = db.session.execute(text(query)).mappings().all()
+    max_games = [dict(row) for row in query_result]
+
+    with open(os.path.join(os.path.dirname(__file__), 'records', 'max_games.json'), 'w') as f:
+        json.dump(max_games, f)
+
 def update_all_records():
     update_skater_records(2)
     update_skater_records(3)
@@ -113,7 +123,7 @@ def update_all_records():
 if __name__ == "__main__":
     app.app_context().push()
 
-    update_all_records()
+    update_max_games()
     # 10-11 REG + POST season done
     # 11-12 REG + POST season done
     # 12-13 REG + POST season done

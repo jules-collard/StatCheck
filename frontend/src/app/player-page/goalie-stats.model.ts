@@ -4,6 +4,7 @@ export type GoalieStats = {
     playerID: number;
     season: number;
     teamTriCodes: string[];
+    qualified: boolean;
     totals: GoalieTotals;
     advanced: GoalieAdvanced;
 }

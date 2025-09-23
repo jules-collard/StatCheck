@@ -22,8 +22,8 @@
                     <td [innerHTML]="season.totals.gamesStarted | boldRecord: season.totals.records?.maxGamesStarted"></td>
                     <td [innerHTML]="season.totals.wins | boldRecord: season.totals.records?.maxWins"></td>
                     <td [innerHTML]="season.totals.losses | boldRecord: season.totals.records?.maxLosses"></td>
-                    <td>{{season.totals.goalsAgainstAvg | number: '1.2-2'}}</td>
-                    <td>{{season.totals.savePct | number:'0.3-3'}}</td>
+                    <td [innerHTML]="season.totals.goalsAgainstAvg | boldRecord: season.totals.records?.minGAA : season.qualified : false : true : 2"></td>
+                    <td [innerHTML]="season.totals.savePct | boldRecord: season.totals.records?.maxSavePct : season.qualified : true : true : 3"></td>
                     <td>
                         @for (award of getSeasonAwards(season.season); track $index) {
                             <app-award-badge [award]="award"/>
