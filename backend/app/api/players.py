@@ -123,8 +123,8 @@ def get_goalie_stats(id: int, gameType: int):
         season = total.pop('season')
         teams = total.pop('teams').split(',')
 
-        season_max_games = next((max.get('max_games') for max in max_games if max.get('season', None) == season), 82)
         if gameType == 2:
+            season_max_games = next((max.get('max_games') for max in max_games if max.get('season', None) == season), 82)
             qualified = total.get('gamesPlayed', 0) >= 0.3125 * season_max_games
         else:
             qualified = total.get('gamesPlayed', 0) >= 5
