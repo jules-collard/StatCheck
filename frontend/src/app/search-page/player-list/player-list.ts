@@ -12,13 +12,10 @@ import { PlayerService } from '../../player-page/player.service';
 })
 export class PlayerList {
   private router = inject(Router)
-  private playerService = inject(PlayerService)
   
   players = input<PlayerListItem[]>([])
 
   onSelectListItem(id: number) {
-    this.playerService.setPlayerID(id)
-    this.playerService.fetch()
     this.router.navigate(['players', id])    
   }
 }
