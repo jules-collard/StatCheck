@@ -2,7 +2,6 @@ import { Component, inject, input } from '@angular/core';
 import { PlayerListItem } from './player-list-item.model';
 import { PositionPipe } from "../../pipes/position.pipe";
 import { Router } from '@angular/router';
-import { PlayerService } from '../../player-page/player.service';
 
 @Component({
   selector: 'app-player-list',

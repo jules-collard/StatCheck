@@ -1,8 +1,7 @@
 import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 
 import { PlayerDetails } from "./player-details/player-details";
-import { PlayerService } from './player.service';
-import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { SkaterStats } from './skater-stats.model';
 import { Player } from './player.model';
 import { Award } from './award.model';
