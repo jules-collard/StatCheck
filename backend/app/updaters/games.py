@@ -18,8 +18,7 @@ def insert_games(date: datetime) -> list[int]:
         return []
     
     for game_dets in game_dicts:
-        game = Game()
-        game.from_dict(game_dets)
+        game = Game(**game_dets)
         try:
             db.session.merge(game)
             app.logger.info(f'Inserted Game {game}')
