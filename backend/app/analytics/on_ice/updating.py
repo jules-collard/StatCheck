@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.dialects.sqlite import insert as sqlite_upsert
 import polars as pl
 from polars import col as c
@@ -67,7 +68,7 @@ def get_season_shifts(season: int) -> list[Shift]:
     stmt = sa.select(Shift).where(Shift.gameID.in_(gameIDs))
     return db.session.execute(stmt).scalars().all()
 
-def insert_split_shifts(data: pl.DataFrame):
+def commit_split_shifts(data: pl.DataFrame):
     dicts = data.rows(named=True)
     stmt = sqlite_upsert(SplitShift).values(dicts)
     stmt = stmt.on_conflict_do_update(
@@ -99,26 +100,26 @@ def insert_split_shifts(data: pl.DataFrame):
             SplitShift.oZoneStarts: stmt.excluded.oZoneStarts,
         }
     )
-    db.session.execute(stmt)
-    db.session.commit()
+    try:
+        db.session.execute(stmt)
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        raise IntegrityError
 
-if __name__ == "__main__":
-    app.app_context().push()
-
-    # shift = get_shift(7233472)
-    # with pl.Config(tbl_cols=-1):
-    #     print(cleaning.clean_shift_events(shift, get_shift_events(shift)))
-
-    gameIDs = db.session.execute(sa.select(Game.id).where(Game.id >= 2024021234)).scalars().all()
-    counter = 1
-    num_games = len(gameIDs)
+def insert_split_shifts(*gameIDs):
     for gameID in gameIDs:
         shifts = get_game_shifts(gameID)
         if len(shifts) > 0:
             events = concat_shift_events(*shifts)
             splitshifts = calculate_shift_data(events)
-            insert_split_shifts(splitshifts)
-            app.logger.info(f'Inserted Split Shifts for Game {gameID} ({counter}/{num_games})')
+            app.logger.info(f'Inserted Split Shifts for Game {gameID}')
+            try:
+                insert_split_shifts(splitshifts)
+            except IntegrityError:
+                app.logger.warning(f'Failed to insert Split Shifts for Game {gameID}')
         else:
-            app.logger.info(f'No shifts found for Game {gameID} ({counter}/{num_games})')
-        counter += 1
+            app.logger.info(f'No shifts found for Game {gameID}')
+
+if __name__ == "__main__":
+    pass
