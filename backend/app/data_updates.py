@@ -7,8 +7,9 @@ from sqlalchemy import text
 
 from app import app, db
 from app.inserters import games, log_error, players, ref_types, teams, events, shifts, appearances
-from app.models import Game, GameImportError, SplitShift
+from app.models import Game, GameImportError
 from app.analytics.on_ice.updating import insert_split_shifts, delete_split_shifts
+from app.analytics.expected_goals.updating import insert_xg
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')
@@ -28,17 +29,20 @@ def clear_db(complete=False):
         ref_types.delete_all_event_types()
         ref_types.delete_all_game_types()
 
-def import_game(id: int):
+def import_game(id: int, calc_xg = False):
     appearances.insert_appearances(id)
     events.insert_events(id)
     shifts.insert_shifts(id)
     insert_split_shifts(id)
+    if calc_xg:
+        insert_xg(id)
 
 def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
     game_ids = games.insert_games(date)
     for game_id in game_ids:
         import_game(game_id)
+    insert_xg(*game_ids)
 
 def import_games_date_range(start: datetime, end: datetime):
     date = start
