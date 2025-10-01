@@ -24,18 +24,18 @@ def insert_game_types():
         app.logger.warning('Failed to Inserted Game Types')
         log_error(e)
 
-def insert_event_type(tup: tuple[int, str]):
-    event = EventType()
-    event.from_tuple(tup)
+def insert_event_type(*tups: tuple[int, str]):
+    events = [EventType().from_tuple(tup) for tup in tups]
 
-    try:
-        db.session.add(event)
-        db.session.commit()
-        app.logger.info(f'Inserted {event}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert {event}')
-        log_error(e)
+    for event in events:
+        try:
+            db.session.add(event)
+            db.session.commit()
+            app.logger.info(f'Inserted {event}')
+        except IntegrityError as e:
+            db.session.rollback()
+            app.logger.warning(f'Failed to insert {event}')
+            log_error(e)
 
 def delete_all_event_types():
     EventType.query.delete()

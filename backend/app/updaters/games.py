@@ -4,9 +4,9 @@ from sqlalchemy.exc import IntegrityError
 from requests.exceptions import HTTPError
 
 from app import app, db
-from app.scrapers import scrape_pbp_boxscore, scrape_schedule, scrape_pbp, scrape_shifts, scrape_appearances_boxscore
-from app.models import Game, Event, EventType, Player, Shift, GameImportError, GoalieAppearance, SkaterAppearance
-from app.updaters import log_error, ref_types, players
+from app.scrapers import scrape_schedule, scrape_appearances_boxscore
+from app.models import Game, Player, GameImportError, GoalieAppearance, SkaterAppearance
+from app.updaters import log_error, players
 
 def insert_games(date: datetime) -> list[int]:
     date_string = date.date().strftime("%Y-%m-%d")
@@ -59,82 +59,6 @@ def insert_appearances(gameID: int):
     for id in new_player_ids:
         players.insert_or_update_player(id)
 
-def insert_events(gameID: int, insert_new_event_codes=True):
-    try:
-        plays = scrape_pbp(gameID)
-    except HTTPError as e:
-        app.logger.warning(f'Events not found for Game {gameID}')
-        app.logger.error(e)
-        db.session.add(GameImportError(gameID, "PBP"))
-        db.session.commit()
-        # app.logger.info(f'Trying pbp with boxscores for Game {gameID}')
-        # try:
-        #     plays = scrape_pbp_boxscore(gameID)
-        # except HTTPError as box_e:
-        #     app.logger.warning(f'Boxscore not found for Game {gameID}')
-        #     app.logger.error(box_e)
-        #     db.session.add(GameImportError(gameID, "BOX"))
-        #     db.session.commit()
-        #     return
-    
-    play_objs = []
-
-    # Add new event codes if not already in database
-    if insert_new_event_codes:
-        existing_event_codes = set(i[0] for i in db.session.query(EventType.typeCode).all())
-        new_event_codes = set(play['typeCode'] for play in plays) - existing_event_codes
-        new_event_tuples = set((play['typeCode'],play['typeDescKey']) for play in plays if play['typeCode'] in new_event_codes)
-
-        for tup in new_event_tuples:
-            ref_types.insert_event_type(tup)
-
-    # Insert events
-    for event in plays:
-        play_obj = Event()
-        play_obj.from_dict(event)
-        play_objs.append(play_obj)
-
-    try:
-        db.session.add_all(play_objs)
-        db.session.commit()
-        app.logger.info(f'Events Inserted for Game {gameID}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert events for Game {gameID}')
-        log_error(e)
-
-def insert_shifts(gameID: int):
-    try:
-        shifts = scrape_shifts(gameID)
-    except HTTPError as e:
-        app.logger.warning(f'Shifts not found for Game {gameID}')
-        app.logger.error(e)
-        db.session.add(GameImportError(gameID, "SHIFTS"))
-        db.session.commit()
-        return
-    
-    shift_objs = []
-
-    if len(shifts) == 0:
-        app.logger.warning(f'No shift data for Game {gameID}')
-        db.session.add(GameImportError(gameID, "SHIFTS"))
-        db.session.commit()
-        return
-
-    for shift in shifts:
-        shift_obj = Shift()
-        shift_obj.from_dict(shift)
-        shift_objs.append(shift_obj)
-
-    try:
-        db.session.add_all(shift_objs)
-        db.session.commit()
-        app.logger.info(f'Shifts Inserted for Game {gameID}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert shifts for Game {gameID}')
-        log_error(e)
-
 def delete_all_games():
     Game.query.delete()
     db.session.commit()
@@ -156,22 +80,4 @@ def delete_skater_appearances(gameID = None):
     else:
         GoalieAppearance.query.delete()
         app.logger.info('Deleted ALL Skater Appearances')
-    db.session.commit()
-
-def delete_all_events(gameID = None):
-    if gameID is not None:
-        Event.query.filter_by(gameID=gameID).delete()
-        app.logger.info(f'Deleted events for Game {gameID}')
-    else:
-        Event.query.delete()
-        app.logger.info('Deleted ALL Events')
-    db.session.commit()
-
-def delete_all_shifts(gameID = None):
-    if gameID is not None:
-        Shift.query.filter_by(gameID=gameID).delete()
-        app.logger.info(f'Deleted shifts for Game {gameID}')
-    else:
-        Shift.query.delete()
-        app.logger.info('Deleted ALL Shifts')
     db.session.commit()

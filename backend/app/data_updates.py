@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
 
 from app import app, db
-from app.updaters import games, log_error, players, ref_types, teams
+from app.updaters import games, log_error, players, ref_types, teams, events, shifts
 from app.models import Game, Player, GameImportError
 
 def initialise_db():
@@ -16,10 +16,11 @@ def initialise_db():
 
 def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
-    games.delete_all_events()
+    events.delete_events()
     games.delete_all_games()
-    games.delete_all_player_games()
-    games.delete_all_shifts()
+    games.delete_goalie_appearances()
+    games.delete_skater_appearances()
+    shifts.delete_shifts()
     
     if complete:
         players.delete_all_players()
@@ -32,8 +33,8 @@ def import_games_on_date(date: datetime):
     game_ids = games.insert_games(date)
     for game_id in game_ids:
         games.insert_appearances(game_id)
-        games.insert_events(game_id)
-        games.insert_shifts(game_id)
+        events.insert_events(game_id)
+        shifts.insert_shifts(game_id)
 
 def import_last_gameday():
     import_games_on_date(datetime.today() - timedelta(days = 1))
@@ -46,8 +47,8 @@ def import_games_date_range(start: datetime, end: datetime):
 
 def remove_game(id: int):
     try:
-        games.delete_all_events(id)
-        games.delete_all_shifts(id)
+        events.delete_events(id)
+        shifts.delete_shifts(id)
         games.delete_goalie_appearances(id)
         games.delete_skater_appearances(id)
         Game.query.filter_by(id=id).delete()
@@ -76,8 +77,8 @@ def update_games():
 
 def insert_game(gameID: int):
     games.insert_appearances(gameID)
-    games.insert_events(gameID)
-    games.insert_shifts(gameID)
+    events.insert_events(gameID)
+    shifts.insert_shifts(gameID)
 
 def update_all_players():
     ids = [player.id for player in Player.query.all()]
