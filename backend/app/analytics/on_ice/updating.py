@@ -113,13 +113,17 @@ def insert_split_shifts(*gameIDs):
         if len(shifts) > 0:
             events = concat_shift_events(*shifts)
             splitshifts = calculate_shift_data(events)
-            app.logger.info(f'Inserted Split Shifts for Game {gameID}')
             try:
-                insert_split_shifts(splitshifts)
+                commit_split_shifts(splitshifts)
+                app.logger.info(f'Inserted Split Shifts for Game {gameID}')
             except IntegrityError:
                 app.logger.warning(f'Failed to insert Split Shifts for Game {gameID}')
         else:
             app.logger.info(f'No shifts found for Game {gameID}')
+
+def delete_split_shifts(gameID):
+    SplitShift.query.filter_by(gameID=gameID).all().delete()
+    db.session.commit()
 
 if __name__ == "__main__":
     pass
