@@ -18,7 +18,7 @@ def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
     events.delete_events()
     appearances.delete_appearances()
-    games.delete_all_games()
+    games.delete_games()
     shifts.delete_shifts()
     
     if complete:
@@ -26,6 +26,11 @@ def clear_db(complete=False):
         teams.delete_all_teams()
         ref_types.delete_all_event_types()
         ref_types.delete_all_game_types()
+
+def import_game(id: int):
+    appearances.insert_appearances(id)
+    events.insert_events(id)
+    shifts.insert_shifts(id)
 
 def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
