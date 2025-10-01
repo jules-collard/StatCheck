@@ -29,7 +29,11 @@ def insert_games(date: datetime) -> list[int]:
 
     return game_ids
 
-def delete_all_games():
-    Game.query.delete()
+def delete_games(*ids: int):
+    if len(ids) == 0:
+        Game.query.delete()
+        app.logger.info('Deleted ALL Games')
+    else:
+        Game.query.filter(Game.id.in_(ids)).delete()
+        app.logger.info(f'Deleted games {ids}')
     db.session.commit()
-    app.logger.info('Deleted ALL Games')
