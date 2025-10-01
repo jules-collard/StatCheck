@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
 
 from app import app, db
-from app.updaters import games, log_error, players, ref_types, teams, events, shifts
+from app.updaters import games, log_error, players, ref_types, teams, events, shifts, appearances
 from app.models import Game, Player, GameImportError
 
 def initialise_db():
@@ -17,9 +17,8 @@ def initialise_db():
 def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')
     events.delete_events()
+    appearances.delete_appearances()
     games.delete_all_games()
-    games.delete_goalie_appearances()
-    games.delete_skater_appearances()
     shifts.delete_shifts()
     
     if complete:
@@ -32,7 +31,7 @@ def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
     game_ids = games.insert_games(date)
     for game_id in game_ids:
-        games.insert_appearances(game_id)
+        appearances.insert_appearances(game_id)
         events.insert_events(game_id)
         shifts.insert_shifts(game_id)
 
@@ -49,8 +48,7 @@ def remove_game(id: int):
     try:
         events.delete_events(id)
         shifts.delete_shifts(id)
-        games.delete_goalie_appearances(id)
-        games.delete_skater_appearances(id)
+        appearances.delete_appearances(id)
         Game.query.filter_by(id=id).delete()
         app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for Game {id}")
         db.session.commit()
