@@ -56,3 +56,8 @@ def delete_player(id: int):
     query.delete()
     db.session.commit()
     app.logger.info(f'Deleted {player}')
+
+def update_players():
+    ids = [player.id for player in Player.query.all()]
+    for id in ids:
+        insert_or_update_player(id)

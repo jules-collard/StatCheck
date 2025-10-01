@@ -36,9 +36,7 @@ def import_games_on_date(date: datetime):
     app.logger.info(f'IMPORTING GAMES FOR {datetime.strftime(date, '%Y-%m-%d')}')
     game_ids = games.insert_games(date)
     for game_id in game_ids:
-        appearances.insert_appearances(game_id)
-        events.insert_events(game_id)
-        shifts.insert_shifts(game_id)
+        import_game(game_id)
 
 def import_last_gameday():
     import_games_on_date(datetime.today() - timedelta(days = 1))
@@ -54,7 +52,7 @@ def remove_game(id: int):
         events.delete_events(id)
         shifts.delete_shifts(id)
         appearances.delete_appearances(id)
-        Game.query.filter_by(id=id).delete()
+        games.delete_games(id)
         app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for Game {id}")
         db.session.commit()
     except IntegrityError as e:
@@ -70,23 +68,8 @@ def update_games():
     ids = [game.gameID for game in GameImportError.query.all()]
     for gameID in ids:
         GameImportError.query.filter_by(gameID=gameID).delete()
-        games.delete_all_events(gameID)
-        games.delete_all_shifts(gameID)
-        games.delete_goalie_appearances(gameID)
-        games.delete_skater_appearances(gameID)
-        games.insert_appearances(gameID)
-        games.insert_events(gameID)
-        games.insert_shifts(gameID)
-
-def insert_game(gameID: int):
-    games.insert_appearances(gameID)
-    events.insert_events(gameID)
-    shifts.insert_shifts(gameID)
-
-def update_all_players():
-    ids = [player.id for player in Player.query.all()]
-    for id in ids:
-        players.insert_or_update_player(id)
+        remove_game(gameID)
+        import_game(gameID)
 
 def update_skater_records(gameType: int):
     with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'sql', 'skater_season_records.sql'), 'r') as f:
