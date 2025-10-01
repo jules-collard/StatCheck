@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.scrapers import scrape_schedule
 from app.models import Game
-from app.updaters import log_error
+from app.inserters import log_error
 
 def insert_games(date: datetime) -> list[int]:
     date_string = date.date().strftime("%Y-%m-%d")

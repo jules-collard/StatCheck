@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.scrapers import scrape_pbp
 from app.models import GameImportError, Event, EventType
-from app.updaters import log_error, ref_types
+from app.inserters import log_error, ref_types
 
 def insert_events(gameID: int, insert_new_event_codes=True):
     try:

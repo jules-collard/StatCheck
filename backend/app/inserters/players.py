@@ -5,7 +5,7 @@ from requests.exceptions import HTTPError
 from app import app,db
 from app.scrapers import scrape_player
 from app.models import Player, Award
-from app.updaters import log_error
+from app.inserters import log_error
 
 def insert_or_update_player(id: int):
     try:

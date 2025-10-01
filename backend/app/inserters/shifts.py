@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.scrapers import scrape_shifts
 from app.models import GameImportError, Shift
-from app.updaters import log_error
+from app.inserters import log_error
 
 def insert_shifts(gameID: int):
     try:

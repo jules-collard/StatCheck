@@ -6,8 +6,8 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import text
 
 from app import app, db
-from app.updaters import games, log_error, players, ref_types, teams, events, shifts, appearances
-from app.models import Game, Player, GameImportError
+from app.inserters import games, log_error, players, ref_types, teams, events, shifts, appearances
+from app.models import Game, GameImportError
 
 def initialise_db():
     app.logger.info('INITIALISING DATABASE')

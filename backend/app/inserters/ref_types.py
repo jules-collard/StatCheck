@@ -1,6 +1,6 @@
 from app import app, db
 from app.models import GameType, EventType
-from app.updaters import log_error
+from app.inserters import log_error
 
 from sqlalchemy.exc import IntegrityError
 

@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.scrapers import scrape_appearances_boxscore
 from app.models import Player, GameImportError, SkaterAppearance, GoalieAppearance
-from app.updaters import log_error, players
+from app.inserters import log_error, players
 
 def insert_appearances(gameID: int):
     try:
