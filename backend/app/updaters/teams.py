@@ -7,12 +7,7 @@ from app.updaters import log_error
 
 def insert_teams():
     team_dicts = scrapers.scrape_teams()
-    team_objects = []
-
-    for attrs in team_dicts:
-        team = Team()
-        team.from_dict(attrs)
-        team_objects.append(team)
+    team_objects = [Team(**team_dict) for team_dict in team_dicts]
 
     try:
         for team in team_objects:
