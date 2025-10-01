@@ -44,23 +44,13 @@ def insert_appearances(gameID: int):
     goalie_appearances_obj = [GoalieAppearance(**appearance) for appearance in goalie_appearances]
 
     try:
-        for appearance in skater_appearances_obj:
+        for appearance in skater_appearances_obj + goalie_appearances_obj:
             db.session.merge(appearance)
         db.session.commit()
-        app.logger.info(f'Skater Appearances Inserted for Game {gameID}')
+        app.logger.info(f'Appearances Inserted for Game {gameID}')
     except IntegrityError as e:
         db.session.rollback()
-        app.logger.warning(f'Failed to insert Skater Appearances for Game {gameID}')
-        log_error(e)
-
-    try:
-        for appearance in goalie_appearances_obj:
-            db.session.merge(appearance)
-        db.session.commit()
-        app.logger.info(f'Goalie Appearances Inserted for Game {gameID}')
-    except IntegrityError as e:
-        db.session.rollback()
-        app.logger.warning(f'Failed to insert Goalie Appearances for Game {gameID}')
+        app.logger.warning(f'Failed to insert Appearances for Game {gameID}')
         log_error(e)
 
     # Add new players to database
@@ -75,17 +65,17 @@ def insert_events(gameID: int, insert_new_event_codes=True):
     except HTTPError as e:
         app.logger.warning(f'Events not found for Game {gameID}')
         app.logger.error(e)
-        app.logger.info(f'Trying pbp with boxscores for Game {gameID}')
         db.session.add(GameImportError(gameID, "PBP"))
         db.session.commit()
-        try:
-            plays = scrape_pbp_boxscore(gameID)
-        except HTTPError as box_e:
-            app.logger.warning(f'Boxscore not found for Game {gameID}')
-            app.logger.error(box_e)
-            db.session.add(GameImportError(gameID, "BOX"))
-            db.session.commit()
-            return
+        # app.logger.info(f'Trying pbp with boxscores for Game {gameID}')
+        # try:
+        #     plays = scrape_pbp_boxscore(gameID)
+        # except HTTPError as box_e:
+        #     app.logger.warning(f'Boxscore not found for Game {gameID}')
+        #     app.logger.error(box_e)
+        #     db.session.add(GameImportError(gameID, "BOX"))
+        #     db.session.commit()
+        #     return
     
     play_objs = []
 
