@@ -8,18 +8,11 @@ def scrape_pbp(gameId: int):
     # Situation Code: *away G* *away skaters* *home skaters* *home G*
 
     url = f"https://api-web.nhle.com/v1/gamecenter/{gameId}/play-by-play"
-    cols = ['eventId', 'timeInPeriod', 'situationCode', 'homeTeamDefendingSide', 'typeCode', 'typeDescKey', 'sortOrder',
-       'periodDescriptor.number', 'periodDescriptor.periodType', 'periodDescriptor.maxRegulationPeriods', 'details.eventOwnerTeamId',
-       'details.losingPlayerId', 'details.winningPlayerId', 'details.xCoord', 'details.yCoord', 'details.zoneCode',
-       'details.hittingPlayerId', 'details.hitteePlayerId', 'details.blockingPlayerId', 'details.shootingPlayerId', 'details.reason',
-       'details.shotType', 'details.goalieInNetId', 'details.playerId', 'details.duration', 'details.committedByPlayerId',
-       'details.drawnByPlayerId', 'details.scoringPlayerId', 'details.assist1PlayerId', 'details.assist2PlayerId']
 
     response = requests.get(url)
     response.raise_for_status()
     response = response.json()
     pbp_df = pd.json_normalize(response["plays"])
-    pbp_df = pbp_df[pbp_df.columns[pbp_df.columns.isin(cols)]]
     
     pbp_df["gameID"] = gameId
     
@@ -28,17 +21,24 @@ def scrape_pbp(gameId: int):
     pbp_df['timeInPeriod'] = timeInPeriodSec
 
     pbp_df.rename(columns = {'eventId':'id',
-                                'timeInPeriod':'timeInPeriodSec',
-                                'periodDescriptor.number':'period',
-                                'periodDescriptor.periodType':'periodType',
-                                'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods'},
-                                inplace=True)
+                            'timeInPeriod':'timeInPeriodSec',
+                            'periodDescriptor.number':'period',
+                            'periodDescriptor.periodType':'periodType',
+                            'periodDescriptor.maxRegulationPeriods':'maxRegulationPeriods'},
+                            inplace=True)
     pbp_df.rename(columns = lambda x: x.replace("details.", ""), inplace=True)
     pbp_df.rename(columns = lambda x: x.replace("Id", "ID") if x.endswith("Id") else x, inplace=True)
     pbp_df['awayGoalie'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[0]) if pd.notna(x) else np.nan)
     pbp_df['awaySkaters'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[1]) if pd.notna(x) else np.nan)
     pbp_df['homeSkaters'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[2]) if pd.notna(x) else np.nan)
     pbp_df['homeGoalie'] = pbp_df['situationCode'].apply(lambda x: int(str(x)[3]) if pd.notna(x) else np.nan)
+
+    cols = ['id', 'timeInPeriodSec', 'awayGoalie', 'awaySkaters', 'homeGoalie', 'homeSkaters', 'homeTeamDefendingSide',
+            'typeCode', 'typeDescKey', 'sortOrder', 'period', 'periodType', 'eventOwnerTeamID', 'playerID', 'losingPlayerID',
+            'winningPlayerID', 'xCoord', 'yCoord', 'zoneCode', 'hittingPlayerID', 'hitteePlayerID', 'blockingPlayerID',
+            'shootingPlayerID', 'reason', 'shotType', 'goalieInNetID', 'eventOwnerPlayerID', 'duration', 'committedByPlayerID',
+            'drawnByPlayerID', 'scoringPlayerID', 'assist1PlayerID', 'assist2PlayerID', 'gameID']
+    pbp_df = pbp_df[pbp_df.columns[pbp_df.columns.isin(cols)]]
 
     return pbp_df.to_dict(orient='records')
 
