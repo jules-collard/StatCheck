@@ -18,7 +18,7 @@ def remove_game(id: int):
     events.delete_events(id)
     shifts.delete_shifts(id)
     appearances.delete_appearances(id)
-    delete_split_shifts()
+    delete_split_shifts(id)
     games.delete_games(id)
     app.logger.info(f"Removed Events, Rosters, Shifts and Game Info for Game {id}")
     db.session.commit()
@@ -29,10 +29,12 @@ def import_games_on_date(datestring: str):
     game_ids = games.insert_games(date)
     for game_id in game_ids:
         import_game(game_id)
-    insert_xg(*game_ids)
+    if len(game_ids) > 0:
+        insert_xg(*game_ids)
 
-def import_games_date_range(start: datetime, end: datetime):
-    date = start
+def import_games_date_range(start_string: str, end_string: str):
+    date = datetime.strptime(start_string, '%Y-%m-%d')
+    end = datetime.strptime(end_string, '%Y-%m-%d')
     while date <= end:
         import_games_on_date(date)
         date += timedelta(days=1)
@@ -40,6 +42,6 @@ def import_games_date_range(start: datetime, end: datetime):
 def import_games_from_errors():
     ids = [game.gameID for game in GameImportError.query.all()]
     for gameID in ids:
-        GameImportError.query.filter_by(gameID=gameID).delete()
         remove_game(gameID)
+        GameImportError.query.filter_by(gameID=gameID).delete()
         import_game(gameID)
