@@ -122,7 +122,7 @@ def insert_split_shifts(*gameIDs):
             app.logger.info(f'No shifts found for Game {gameID}')
 
 def delete_split_shifts(gameID):
-    SplitShift.query.filter_by(gameID=gameID).all().delete()
+    SplitShift.query.filter_by(gameID=gameID).delete()
     db.session.commit()
 
 if __name__ == "__main__":
