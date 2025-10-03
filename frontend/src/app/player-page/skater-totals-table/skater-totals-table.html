@@ -1,7 +1,7 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th>Season</th>
+            <th class="cursor-pointer" (click)="sortSeasons.set(toggleSort(this.sortSeasons()))">Season</th>
             <th>Team</th>
             <th>GP</th>
             <th>ATOI</th>
@@ -17,7 +17,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonStats(); track $index) {
+        @for (season of stats(); track $index) {
             <tr class="hover:bg-primary-content">
                 <th>{{season.season | season}}</th>
                 <th>{{season.teamTriCodes.join('/')}}</th>
