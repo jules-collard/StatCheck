@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 
 from app import app, db
-from app.scrapers import scrape_schedule
+from app.scrapers import scrape_schedule, scrape_game
 from app.models import Game
 from app.inserters import log_error
 
@@ -28,6 +28,22 @@ def insert_games(date: datetime) -> list[int]:
             log_error(e)
 
     return game_ids
+
+def insert_game(id: int):
+    game_dict = scrape_game(id)
+    
+    if len(game_dict) != 1:
+        app.logger.warning(f"Game {id} Not Found")
+        return
+    
+    try:
+        game = Game(**game_dict[0])
+        db.session.merge(game)
+        app.logger.info(f'Inserted Game {game}')
+    except IntegrityError as e:
+        db.session.rollback()
+        app.logger.warning(f'Failed to Insert Game {game}')
+        log_error(e)
 
 def delete_games(*ids: int):
     if len(ids) == 0:

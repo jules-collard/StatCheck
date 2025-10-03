@@ -6,7 +6,9 @@ from app.inserters import games, appearances, events, shifts
 from app.analytics.on_ice.updating import insert_split_shifts, delete_split_shifts
 from app.analytics.expected_goals.updating import insert_xg
 
-def import_game(id: int, calc_xg = False):
+def import_game(id: int, add_game = False, calc_xg = False):
+    if add_game:
+        games.insert_game(id)
     appearances.insert_appearances(id)
     events.insert_events(id)
     shifts.insert_shifts(id)
@@ -44,5 +46,5 @@ def import_games_from_errors():
     for gameID in ids:
         remove_game(gameID)
         GameImportError.query.filter_by(gameID=gameID).delete()
-        import_game(gameID)
+        import_game(gameID, add_game=True)
     insert_xg(ids)
