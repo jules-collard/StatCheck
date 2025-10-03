@@ -1,66 +1,54 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit } from '@angular/core';
+
 import { SkaterStats } from '../skater-stats.model';
 import { SeasonPipe } from '../../pipes/season.pipe';
 import { AwardBadge } from './award-badge/award-badge';
 import { Award } from '../award.model';
-
 import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
 import { BoldRecordPipe } from '../../pipes/bold-record.pipe';
-import { form } from '@angular/forms/signals';
+import { SortConfig, TableSortService } from '../../shared/table-sort.service';
 
 @Component({
   selector: 'app-skater-totals-table',
   imports: [SeasonPipe, timeOnIcePipe, BoldRecordPipe, AwardBadge],
   templateUrl: './skater-totals-table.html',
-  styleUrl: './skater-totals-table.css'
+  styleUrl: './skater-totals-table.css',
+  providers: [TableSortService]
 })
-export class SkaterTotalsTable {
+export class SkaterTotalsTable implements OnInit {
+  sortService = inject(TableSortService<SkaterStats>);
+
   seasonStats = input.required<SkaterStats[]>();
   awards = input<Award[]>([]);
 
-  sorting = signal<{
-    seasons: 'asc'|'desc'|null;
-    gamesPlayed: 'asc'|'desc'|null;
-  }>({
-    seasons: 'asc',
-    gamesPlayed: null
-  });
-
-  sortingForm = form(this.sorting)
-
-  stats = computed<SkaterStats[]>(() => {
-    if (this.sortingForm.seasons().value() === 'asc') {
-      return this.seasonStats().sort((a,b) => a.season - b.season);
-    } else if (this.sortingForm.seasons().value() === 'desc') {
-      return this.seasonStats().sort((a,b) => b.season - a.season);
-    }
-
-    if (this.sortingForm.gamesPlayed().value() === 'asc') {
-      return this.seasonStats().sort((a,b) => a.totals.gamesPlayed - b.totals.gamesPlayed);
-    } else if (this.sortingForm.gamesPlayed().value() === 'desc') {
-      return this.seasonStats().sort((a,b) => b.totals.gamesPlayed - a.totals.gamesPlayed);
-    }
-    return this.seasonStats();
+  statsEffect = effect(() => {
+    this.sortService.setData(this.seasonStats());
   })
 
-  toggleSort(currentVal: 'asc'|'desc'|null) {
-    this.resetSorting();
-    if (currentVal === 'desc') {
-        return 'asc';
-    } else {
-      return 'desc';
-    }
-  }
-
-  resetSorting() {
-    this.sortingForm.seasons().value.set(null)
-    this.sortingForm.gamesPlayed().value.set(null)
-  }
+  stats = computed(() => this.sortService.sortedData());
 
   getSeasonAwards(season: number) {
     let seasonAwards = this.awards().filter((award) => {
       return award.season == season;
     }).map((award) => award.awardName)
-    return seasonAwards
+    return seasonAwards;
+  }
+
+  ngOnInit(): void {
+    const sortConfig: SortConfig<SkaterStats> = {
+      season: (item) => item.season,
+      gamesPlayed: (item) => item.totals.gamesPlayed,
+      goals: (item) => item.totals.goals,
+      assists: (item) => item.totals.assists,
+      points: (item) => item.totals.goals + item.totals.assists,
+      plusMinus: (item) => item.totals.plusMinus,
+      sog: (item) => item.totals.sog,
+      hits: (item) => item.totals.hits,
+      blocks: (item) => item.totals.blocks,
+      penaltyMinutes: (item) => item.totals.penaltyMinutes,
+      avgTOI: (item) => item.totals.avgTOI
+    }
+
+    this.sortService.setSortGonfig(sortConfig);
   }
 }
