@@ -45,3 +45,4 @@ def import_games_from_errors():
         remove_game(gameID)
         GameImportError.query.filter_by(gameID=gameID).delete()
         import_game(gameID)
+    insert_xg(ids)
