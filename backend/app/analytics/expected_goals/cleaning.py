@@ -233,10 +233,10 @@ def load_seasons(start_season: int, end_season: int) -> pl.DataFrame:
     data = pl.DataFrame(data, schema=schema)
     return data
 
-def load_games(*gameIDs) -> pl.DataFrame:
+def load_games(id_list: list[int]) -> pl.DataFrame:
     app.app_context().push()
-    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.sortOrder, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID, Game.gameType, Game.neutralSite, Game.season)
-            .filter(Game.id.in_(gameIDs))
+    data = (db.session.query(Event.gameID, Event.id, Event.timeInPeriodSec, Event.typeCode, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.homeTeamDefendingSide, Event.period, Event.eventOwnerTeamID, Event.shootingPlayerID, Event.xCoord, Event.yCoord, Event.zoneCode, Event.shotType, Game.homeTeamID, Game.awayTeamID, Game.gameType, Game.neutralSite, Game.season)
+            .filter(Game.id.in_(id_list))
             .filter(sa.or_(Game.gameType == 2, Game.gameType == 3))
             .filter(Event.periodType != 'SO')
             .filter(Event.typeCode.in_(TYPECODES.keys()))
@@ -303,6 +303,3 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     transformed_df = pl.DataFrame(transformed_features.toarray(), schema=feature_names).cast(pl.Float64)
 
     return transformed_df, target, index
-
-if __name__ == "__main__":
-    pass

@@ -17,8 +17,8 @@ def calculate_xg(data: pl.DataFrame, model: xgb.XGBClassifier, model_name: Liter
     xg_fit = model.predict_proba(X_test)
     return index.with_columns(xg = xg_fit[:,1])
 
-def insert_xg(*gameIDs: int):
-    data = load_games(gameIDs)
+def insert_xg(id_list: list[int]):
+    data = load_games(id_list)
     es_shots, pp_shots, sh_shots = clean_data(data)
 
     es_mod = load_model('ES_model')
@@ -37,6 +37,5 @@ def insert_xg(*gameIDs: int):
 
 if __name__ == "__main__":
     app.app_context().push()
-    data = load_seasons(20242025, 20242025)
-    insert_xg(data)
+    pass
     
