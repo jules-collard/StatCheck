@@ -1,9 +1,9 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th class="cursor-pointer" (click)="sortSeasons.set(toggleSort(this.sortSeasons()))">Season</th>
+            <th class="cursor-pointer" (click)="sortingForm.seasons().value.set(toggleSort(sortingForm.seasons().value()))">Season</th>
             <th>Team</th>
-            <th>GP</th>
+            <th class="cursor-pointer" (click)="sortingForm.gamesPlayed().value.set(toggleSort(sortingForm.gamesPlayed().value()))">GP</th>
             <th>ATOI</th>
             <th>G</th>
             <th>A</th>
