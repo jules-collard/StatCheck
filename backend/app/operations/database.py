@@ -6,6 +6,7 @@ def initialise_db():
     app.logger.info('INITIALISING DATABASE')
     teams.insert_teams()
     ref_types.insert_game_types()
+    ref_types.insert_event_types()
 
 def clear_db(complete=False):
     app.logger.info('CLEARING DATABASE')

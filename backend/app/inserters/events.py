@@ -6,7 +6,7 @@ from app.scrapers import scrape_pbp
 from app.models import GameImportError, Event, EventType
 from app.inserters import log_error, ref_types
 
-def insert_events(gameID: int, insert_new_event_codes=True):
+def insert_events(gameID: int, check_new_event_codes=False):
     try:
         plays = scrape_pbp(gameID)
     except HTTPError as e:
@@ -25,14 +25,18 @@ def insert_events(gameID: int, insert_new_event_codes=True):
         #     return
 
     # Add new event codes if not already in database
-    if insert_new_event_codes:
+    if check_new_event_codes:
         existing_event_codes = set(i[0] for i in db.session.query(EventType.typeCode).all())
-        new_event_codes = set(play['typeCode'] for play in plays) - existing_event_codes
-        new_event_tuples = set((play['typeCode'],play['typeDescKey']) for play in plays if play['typeCode'] in new_event_codes)
-        ref_types.insert_event_type(*new_event_tuples)
+        new_event_codes = set(play.get('typeCode') for play in plays) - existing_event_codes
+        if len(new_event_codes) > 0:
+            app.logger.warning(f'New Event Types: {new_event_codes} (GameID: {gameID})')
+    
+    for play in plays:
+        play.pop('typeDescKey')
 
     # Insert events
     play_objs = [Event(**play) for play in plays]
+    print(play_objs)
 
     try:
         db.session.add_all(play_objs)

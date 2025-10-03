@@ -24,8 +24,38 @@ def insert_game_types():
         app.logger.warning('Failed to Inserted Game Types')
         log_error(e)
 
-def insert_event_type(*tups: tuple[int, str]):
-    events = [EventType().from_tuple(tup) for tup in tups]
+def insert_event_types():
+    event_type_dicts = [
+        {'typeCode': 502, 'typeDescKey': 'faceoff'},
+        {'typeCode': 503, 'typeDescKey': 'hit'},
+        {'typeCode': 504, 'typeDescKey': 'giveaway'},
+        {'typeCode': 505, 'typeDescKey': 'goal'},
+        {'typeCode': 506, 'typeDescKey': 'shot-on-goal'},
+        {'typeCode': 507, 'typeDescKey': 'missed-shot'},
+        {'typeCode': 508, 'typeDescKey': 'blocked-shot'},
+        {'typeCode': 509, 'typeDescKey': 'penalty'},
+        {'typeCode': 516, 'typeDescKey': 'stoppage'},
+        {'typeCode': 520, 'typeDescKey': 'period-start'},
+        {'typeCode': 521, 'typeDescKey': 'period-end'},
+        {'typeCode': 523, 'typeDescKey': 'shootout-complete'},
+        {'typeCode': 524, 'typeDescKey': 'game-end'},
+        {'typeCode': 525, 'typeDescKey': 'takeaway'},
+        {'typeCode': 535, 'typeDescKey': 'delayed-penalty'},
+        {'typeCode': 537, 'typeDescKey': 'failed-shot-attempt'}
+    ]
+    event_types = [EventType(**event_type_dict) for event_type_dict in event_type_dicts]
+    for event_type in event_types:
+        try:
+            db.session.merge(event_type)
+            db.session.commit()
+            app.logger.info(f'Inserted Event Type {event_type}')
+        except IntegrityError as e:
+            db.session.rollback()
+            app.logger.warning(f'Failed to insert Event Type {event_type}')
+            log_error(e)
+
+def insert_event_type(*dicts):
+    events = [EventType(**dict) for dict in dicts]
 
     for event in events:
         try:
