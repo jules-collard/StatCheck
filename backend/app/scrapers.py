@@ -13,6 +13,14 @@ def scrape_pbp(gameId: int):
     response.raise_for_status()
     response = response.json()
     pbp_df = pd.json_normalize(response["plays"])
+
+    init_cols = ['eventId', 'timeInPeriod', 'situationCode', 'homeTeamDefendingSide', 'typeCode', 'typeDescKey', 'sortOrder',
+       'periodDescriptor.number', 'periodDescriptor.periodType', 'periodDescriptor.maxRegulationPeriods', 'details.eventOwnerTeamId',
+       'details.losingPlayerId', 'details.winningPlayerId', 'details.xCoord', 'details.yCoord', 'details.zoneCode',
+       'details.hittingPlayerId', 'details.hitteePlayerId', 'details.blockingPlayerId', 'details.shootingPlayerId', 'details.reason',
+       'details.shotType', 'details.goalieInNetId', 'details.playerId', 'details.duration', 'details.committedByPlayerId',
+       'details.drawnByPlayerId', 'details.scoringPlayerId', 'details.assist1PlayerId', 'details.assist2PlayerId']
+    pbp_df = pbp_df[pbp_df.columns[pbp_df.columns.isin(init_cols)]]
     
     pbp_df["gameID"] = gameId
     
@@ -438,5 +446,5 @@ def scrape_appearances_boxscore(gameID: int):
     return skater_appearances, goalie_appearances
 
 if __name__ == "__main__":
-    print(scrape_skaters_boxscore(2020020009))
+    print(scrape_pbp(2024021291)[0])
     pass
