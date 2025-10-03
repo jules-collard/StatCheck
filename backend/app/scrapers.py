@@ -174,7 +174,7 @@ def scrape_player(playerId: int) -> dict:
     player_dict = player_df.to_dict(orient='records')[0]
     return player_dict, awards_dict
 
-def scrape_schedule(date: str):
+def scrape_schedule(date: str, filter_id = None):
     """
     Scrapes schedule data from the NHL website for a given date.
 
@@ -213,17 +213,27 @@ def scrape_schedule(date: str):
                                     'gameOutcome.lastPeriodType':'lastPeriodType'},
                                     inplace=True)
     
+    if filter_id is not None:
+        schedule_df = schedule_df[schedule_df['id'] == filter_id]
+    
     # Type cleaning
     schedule_df['season'] = schedule_df['season'].astype(str)
     schedule_df['startTimeUTC'] = schedule_df['startTimeUTC'].apply(lambda x: datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ'))
     schedule_df['venueUTCOffset'] = schedule_df['venueUTCOffset'].apply(lambda x: int(x.split(":")[0]))
     schedule_df[['awayTeamScore', 'homeTeamScore']] = schedule_df[['awayTeamScore', 'homeTeamScore']].astype('Int64')
-    schedule_df["date"] = schedule_df['startTimeUTC'].apply(lambda x: x.date())
 
     # Only completed games
     schedule_df = schedule_df[(schedule_df['gameState'] == 'OFF') & (schedule_df['gameScheduleState'] == 'OK')]
 
     return schedule_df.to_dict(orient="records")
+
+def scrape_game(id: int):
+    landing_page = requests.get(f'https://api-web.nhle.com/v1/gamecenter/{id}/landing')
+    landing_page.raise_for_status()
+    landing_data = landing_page.json()
+    game_date = landing_data.get('gameDate', None)
+    
+    return scrape_schedule(game_date, id)
 
 def scrape_shifts(gameId: int):
     """
@@ -444,7 +454,3 @@ def scrape_appearances_boxscore(gameID: int):
             })
 
     return skater_appearances, goalie_appearances
-
-if __name__ == "__main__":
-    print(scrape_pbp(2024021291)[0])
-    pass
