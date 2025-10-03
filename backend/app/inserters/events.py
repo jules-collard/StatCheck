@@ -36,7 +36,6 @@ def insert_events(gameID: int, check_new_event_codes=False):
 
     # Insert events
     play_objs = [Event(**play) for play in plays]
-    print(play_objs)
 
     try:
         db.session.add_all(play_objs)
