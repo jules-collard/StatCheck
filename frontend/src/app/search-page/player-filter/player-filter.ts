@@ -1,9 +1,7 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Control, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list/player-list.service';
-import { formatCurrency } from '@angular/common';
-import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-player-filter',
