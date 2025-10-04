@@ -49,6 +49,6 @@ export class SkaterTotalsTable implements OnInit {
       avgTOI: (item) => item.totals.avgTOI
     }
 
-    this.sortService.setSortGonfig(sortConfig);
+    this.sortService.setSortConfig(sortConfig);
   }
 }

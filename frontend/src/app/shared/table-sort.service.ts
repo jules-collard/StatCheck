@@ -12,12 +12,11 @@ export class TableSortService<T> {
         column: null,
         direction: null
     })
-    currentSort = this.sortState.asReadonly();
 
     private sortConfig = signal<SortConfig<T> | null>(null);
     private data = signal<T[]>([]);
     
-    setSortGonfig(config: SortConfig<T>) {
+    setSortConfig(config: SortConfig<T>) {
         this.sortConfig.set(config);
     }
 
@@ -50,7 +49,7 @@ export class TableSortService<T> {
 
     toggleSort(column: string) {
         if (this.sortState().column === column) {
-            // Cylce through desc -> asc -> null -> desc
+            // Cycle through desc -> asc -> null -> desc
             if (this.sortState().direction === 'desc') {
                 this.sortState.set({column, direction: 'asc'});
             } else if (this.sortState().direction === 'asc') {
