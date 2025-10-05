@@ -1,23 +1,35 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th>Season</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
+                <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
+            </th>
             <th>Team</th>
-            <th>GP</th>
-            <th>GSAx</th>
-            <th>dFSv%</th>
-            <th>EV Sv%</th>
-            <th>PP Sv%</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP {{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goalsSavedAx')">
+                GSAx {{sortService.getSortIcon('goalsSavedAx')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('deltaFenwick')">
+                dFSv% {{sortService.getSortIcon('deltaFenwick')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('evSavePct')">
+                EV Sv% {{sortService.getSortIcon('evSavePct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('ppSavePct')">
+                PP Sv% {{sortService.getSortIcon('ppSavePct')}}
+            </th>
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonStats(); track $index) {
+        @for (season of stats(); track $index) {
             @if (season.advanced !== null && season.totals.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
                     <th>{{season.teamTriCodes.join('/')}}</th>
                     <td>{{season.totals.gamesPlayed}}</td>
-                    <td>{{season.advanced.xgAgainst - season.totals.goalsAgainst | number: '0.1-1'}}</td>
+                    <td>{{season.advanced.xgAgainst - season.advanced.xgGoalsAgainst | number: '0.1-1'}}</td>
                     <td>{{100 * (season.advanced.xgAgainst - season.advanced.xgGoalsAgainst) / season.advanced.fenwickAgainst | number: '0.1-1'}}%</td>
                     <td>{{season.totals.evenStrengthSavePct | number:'0.3-3'}}</td>
                     <td>{{season.totals.powerPlaySavePct | number:'0.3-3'}}</td>
