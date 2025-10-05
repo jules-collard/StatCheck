@@ -1,3 +1,4 @@
+import os
 from logging.config import dictConfig
 
 from flask import Flask
@@ -70,5 +71,7 @@ def create_app(config_class=Config):
 
 app = create_app()
 app.logger.removeHandler(default_handler)
+
+ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 from app import routes, models  # noqa: E402, F401
