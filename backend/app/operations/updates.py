@@ -4,6 +4,7 @@ import click
 
 from app import app
 from . import games as g
+from . import records as r
 
 @click.group()
 def cli():
@@ -44,6 +45,15 @@ def remove_game(id: int):
     if id is None:
         click.Abort()
     g.remove_game(id)
+
+@cli.group()
+def records():
+    """Records updates"""
+    pass
+
+@records.command('update')
+def update_records():
+    r.update_all_records()
 
 if __name__ == '__main__':
     app.app_context().push()
