@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from "@angular/core";
+import { Injectable, signal, computed, linkedSignal } from "@angular/core";
 
 export type SortDirection = 'asc' | 'desc' | null;
 
@@ -24,42 +24,41 @@ export class TableSortService<T> {
         this.data.set(data)
     }
 
-    sortedData = computed(() => {
-        if (!this.sortState().column || !this.sortState().direction || !this.sortConfig()) {
-            return this.data();
-        }
-
-        // Function that gets corresponding value to sort by from object
-        const getValue = this.sortConfig()![this.sortState().column!];
-        if (!getValue) {
-            return this.data();
-        }
-
-        return this.data().sort((a,b) => {
-            const valueA = getValue(a);
-            const valueB = getValue(b);
-
-            if (this.sortState().direction === 'asc') {
-                return valueA - valueB;
-            } else {
-                return valueB - valueA;
-            }
-        })
-    })
+    sortedData = linkedSignal<T[]>(() => this.data())
 
     toggleSort(column: string) {
-        if (this.sortState().column === column) {
-            // Cycle through desc -> asc -> null -> desc
+        if (!this.sortConfig()) {
+            return;
+        } else if (this.sortState().column === column) {
+            // Cycle through null -> desc -> asc -> desc
             if (this.sortState().direction === 'desc') {
-                this.sortState.set({column, direction: 'asc'});
+                this.sortState.update((state) => ({...state, direction: 'asc'}));
             } else if (this.sortState().direction === 'asc') {
-                this.sortState.set({column, direction: 'desc'});
+                this.sortState.update((state) => ({...state, direction: 'desc'}));
             } else {
-                this.sortState.set({column, direction: 'desc'});
+                this.sortState.update((state) => ({...state, direction: 'desc'}));
             }
         } else {
-            this.sortState.set({column, direction: 'desc'})
+            this.sortState.set({column: column, direction: 'desc'})
         }
+
+        this.sortedData.update((data) => {
+            const getValue = this.sortConfig()![this.sortState().column!];
+            if (!getValue) {
+                return [...data];
+            } else {
+                return [...data].sort((a,b) => {
+                    const valueA = getValue(a);
+                    const valueB = getValue(b);
+
+                    if (this.sortState().direction === 'asc') {
+                        return valueA - valueB;
+                    } else {
+                        return valueB - valueA;
+                    }
+                })
+            }
+        })
     }
 
     getSortIcon(column: string): string {
