@@ -23,7 +23,14 @@ export class SkaterOnIceTable implements OnInit {
   
   ngOnInit(): void {
     const sortConfig: SortConfig<SkaterStats> = {
-      season: (item) => item.season
+      season: (item) => item.season,
+      gamesPlayed: (item) => item.totals.gamesPlayed,
+      corsiFor: (item) => item.onIce.corsiFor / (item.onIce.corsiFor + item.onIce.corsiAgainst),
+      fenwickFor: (item) => item.onIce.fenwickFor / (item.onIce.fenwickFor + item.onIce.fenwickAgainst),
+      xgFor: (item) => item.onIce.xgFor / (item.onIce.xgFor + item.onIce.xgAgainst),
+      onIceShootingPct: (item) => item.onIce.onIceShootingPct,
+      oZoneStarts: (item) => item.onIce.oZoneStarts / (item.onIce.oZoneStarts + item.onIce.nZoneStarts + item.onIce.dZoneStarts),
+      dZoneStarts: (item) => item.onIce.dZoneStarts / (item.onIce.oZoneStarts + item.onIce.nZoneStarts + item.onIce.dZoneStarts)
     }
 
     this.sortService.setSortConfig(sortConfig);

@@ -5,26 +5,26 @@
                 <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
             </th>
             <th>Team</th>
-            <th>
-                GP
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP {{sortService.getSortIcon('season')}}
             </th>
-            <th>
-                CF%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('corsiFor')">
+                CF% {{sortService.getSortIcon('corsiFor')}}
             </th>
-            <th>
-                FF%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('fenwickFor')">
+                FF% {{sortService.getSortIcon('fenwickFor')}}
             </th>
-            <th>
-                xG%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('xgFor')">
+                xG% {{sortService.getSortIcon('xgFor')}}
             </th>
-            <th>
-                oiSh%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('onIceShootingPct')">
+                oiSh% {{sortService.getSortIcon('onIceShootingPct')}}
             </th>
-            <th>
-                OZS%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('oZoneStarts')">
+                OZS% {{sortService.getSortIcon('oZoneStarts')}}
             </th>
-            <th>
-                DZS%
+            <th class="cursor-pointer" (click)="sortService.toggleSort('dZoneStarts')">
+                DZS% {{sortService.getSortIcon('dZoneStarts')}}
             </th>
         </tr>
     </thead>
