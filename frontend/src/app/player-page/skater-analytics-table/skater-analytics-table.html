@@ -1,16 +1,26 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th>Season</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
+                <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
+            </th>
             <th>Team</th>
-            <th>GP</th>
-            <th>GAx</th>
-            <th>Sh%</th>
-            <th>dFSh%</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP {{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goalsAx')">
+                GAx {{sortService.getSortIcon('goalsAx')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('shootingPct')">
+                Sh% {{sortService.getSortIcon('shootingPct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('deltaFenwick')">
+                dFSh% {{sortService.getSortIcon('deltaFenwick')}}
+            </th>
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonStats(); track $index) {
+        @for (season of stats(); track $index) {
             @if (season.shooting !== null) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
