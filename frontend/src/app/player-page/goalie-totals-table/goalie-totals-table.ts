@@ -21,15 +21,10 @@ export class GoalieTotalsTable implements OnInit {
   awards = input<Award[]>([]);
 
   statsEffect = effect(() => {
-    console.log('Sending Data: ', this.seasonStats()[0])
     this.sortService.setData(this.seasonStats())
   })
 
-  stats = computed<GoalieStats[]>(() => {
-    const data = this.sortService.sortedData();
-    console.log('Component: ', data[0]);
-    return data;
-  })
+  stats = computed<GoalieStats[]>(() => this.sortService.sortedData())
 
   getSeasonAwards(season: number) {
     let seasonAwards = this.awards().filter((award) => {
@@ -40,7 +35,13 @@ export class GoalieTotalsTable implements OnInit {
 
   ngOnInit(): void {
     const sortConfig: SortConfig<GoalieStats> = {
-      season: (item) => item.season
+      season: (item) => item.season,
+      gamesPlayed: (item) => item.totals.gamesPlayed,
+      gamesStarted: (item) => item.totals.gamesStarted,
+      wins: (item) => item.totals.wins,
+      losses: (item) => item.totals.losses,
+      goalsAgainstAvg: (item) => item.totals.goalsAgainstAvg,
+      savePct: (item) => item.totals.savePct ?? 0
     }
 
     this.sortService.setSortConfig(sortConfig);

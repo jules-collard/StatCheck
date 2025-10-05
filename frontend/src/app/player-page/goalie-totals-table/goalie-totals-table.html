@@ -2,15 +2,27 @@
     <thead>
         <tr>
             <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
-                Season {{sortService.getSortIcon('season')}}
+                <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
             </th>
             <th>Team</th>
-            <th>GP</th>
-            <th>GS</th>
-            <th>W</th>
-            <th>L</th>
-            <th>GAA</th>
-            <th>Sv%</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP {{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesStarted')">
+                GS {{sortService.getSortIcon('gamesStarted')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('wins')">
+                W {{sortService.getSortIcon('wins')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('losses')">
+                L {{sortService.getSortIcon('losses')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goalsAgainstAvg')">
+                GAA {{sortService.getSortIcon('goalsAgainstAvg')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('savePct')">
+                Sv% {{sortService.getSortIcon('savePct')}}
+            </th>
             <th>Awards</th>
         </tr>
     </thead>
