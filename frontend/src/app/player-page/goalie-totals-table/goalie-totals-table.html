@@ -1,7 +1,9 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th>Season</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
+                Season {{sortService.getSortIcon('season')}}
+            </th>
             <th>Team</th>
             <th>GP</th>
             <th>GS</th>
@@ -13,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonStats(); track $index) {
+        @for (season of stats(); track $index) {
             @if (season.totals.gamesPlayed > 0) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
