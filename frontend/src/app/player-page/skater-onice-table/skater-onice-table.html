@@ -1,19 +1,35 @@
 <table class="table table-auto">
     <thead>
         <tr>
-            <th>Season</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
+                <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
+            </th>
             <th>Team</th>
-            <th>GP</th>
-            <th>CF%</th>
-            <th>FF%</th>
-            <th>xG%</th>
-            <th>oiSh%</th>
-            <th>OZS%</th>
-            <th>DZS%</th>
+            <th>
+                GP
+            </th>
+            <th>
+                CF%
+            </th>
+            <th>
+                FF%
+            </th>
+            <th>
+                xG%
+            </th>
+            <th>
+                oiSh%
+            </th>
+            <th>
+                OZS%
+            </th>
+            <th>
+                DZS%
+            </th>
         </tr>
     </thead>
     <tbody>
-        @for (season of seasonStats(); track $index) {
+        @for (season of stats(); track $index) {
             @if (season.onIce !== null) {
                 <tr class="hover:bg-primary-content">
                     <th>{{season.season | season}}</th>
