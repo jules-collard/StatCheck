@@ -69,8 +69,8 @@ class SkaterTotals(BaseModel):
     avgTOI: float = Field(ge=0)
     records: Optional[SkaterTotalsRecords] = Field(default=None)
 
-class PlayerLeaderboardItem(BaseModel):
-    id: int = Field(gt=0)
+class SkaterLeaderboardItem(BaseModel):
+    playerID: int = Field(gt=0)
     firstName: str
     lastName: str
     teamTriCodes: list[str] = Field(min_length=1)

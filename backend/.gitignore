@@ -13,3 +13,4 @@ build/
 *.pkl
 *.png
 migrations/
+data/
