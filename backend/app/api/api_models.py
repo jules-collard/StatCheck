@@ -20,6 +20,7 @@ class PlayerListItem(BaseModel):
     teamTriCode: Optional[str] = Field(pattern=r'^[A-Z]{3}$')
     headshot: str = Field(pattern=r'^.*\.png$')
 
+
 class PlayerInfo(BaseModel):
     id: int = Field(gt=0)
     isActive: bool
@@ -68,6 +69,13 @@ class SkaterTotals(BaseModel):
     avgTOI: float = Field(ge=0)
     records: Optional[SkaterTotalsRecords] = Field(default=None)
 
+class PlayerLeaderboardItem(BaseModel):
+    id: int = Field(gt=0)
+    firstName: str
+    lastName: str
+    teamTriCodes: list[str] = Field(min_length=1)
+    totals: SkaterTotals
+    
 class SkaterShooting(BaseModel):
     xg: float = Field(ge=0)
     xgGoals: int = Field(ge=0)
