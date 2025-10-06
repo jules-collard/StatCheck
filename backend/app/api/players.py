@@ -66,7 +66,7 @@ def get_skater_stats(id: int, gameType: int):
     shooting = [dict(row) for row in shooting_query_result]
     on_ice = [dict(row) for row in on_ice_query_result]
     
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'skater_records_{gameType}.json')) as f:
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/records', f'skater_records_{gameType}.json')) as f:
         totals_records = json.load(f)
 
     stats: list[SkaterStats] = []
@@ -110,11 +110,11 @@ def get_goalie_stats(id: int, gameType: int):
     totals = [dict(row) for row in totals_query_result]
     advanced = [dict(row) for row in advanced_query_result]
 
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', f'goalie_records_{gameType}.json')) as f:
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/records', f'goalie_records_{gameType}.json')) as f:
         totals_records = json.load(f)
 
     if gameType == 2:
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../records', 'max_games.json')) as f:
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/records', 'max_games.json')) as f:
             max_games = json.load(f)
 
     stats: list[GoalieStats] = []
