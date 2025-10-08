@@ -31,7 +31,8 @@ GAMETYPES = ['REG', 'POST']
 
 TEAMS = ['10', '5', '30', '21', '22', '29', '1', '12', '17', '9', '11', '6', '7', '2', '15', '14', '19', '18', '16', '28', '23', '27', '20', '4', '26', '8', '24', '25', '3', '13', '52', '53', '54', '55', '59']
 
-SEASONS = ['20102011', '20112012', '20122013', '20132014', '20142015', '20152016', '20162017', '20172018', '20182019', '20192020', '20202021', '20212022', '20222023', '20232024', '20242025']
+SEASONS = ['20102011', '20112012', '20122013', '20132014', '20142015', '20152016', '20162017', '20172018', '20182019', '20192020', '20202021', '20212022', '20222023', '20232024', '20242025', '20252026']
+MODEL_SEASONS = ['20102011', '20112012', '20122013', '20132014', '20142015', '20152016', '20162017', '20172018', '20182019', '20192020', '20202021', '20212022', '20222023', '20232024', '20242025']
 
 teams_enum = pl.Enum(TEAMS)
 seasons_enum = pl.Enum(SEASONS)
@@ -286,7 +287,7 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     categorical_transformer = Pipeline(steps=[
         ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing')),
         ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing')),
-        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, SEASONS, GAMETYPES, homevenue_categories]))
+        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, MODEL_SEASONS, GAMETYPES, homevenue_categories]))
     ])
 
     categorical_features = ['lastEventType', 'shotType', 'season', 'gameType', 'homeVenue']
@@ -303,3 +304,9 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     transformed_df = pl.DataFrame(transformed_features.toarray(), schema=feature_names).cast(pl.Float64)
 
     return transformed_df, target, index
+
+if __name__ == "__main__":
+    data = load_games([2025020001, 2025020002, 2025020001])
+    data = clean_data(data)
+    print(data[0].select(c('season')))
+
