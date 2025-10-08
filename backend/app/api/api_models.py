@@ -73,7 +73,8 @@ class SkaterLeaderboardItem(BaseModel):
     playerID: int = Field(gt=0)
     firstName: str
     lastName: str
-    teamTriCodes: list[str] = Field(min_length=1)
+    position: str = Field(pattern=r'^[GDLCR]$')
+    teamTriCode: Optional[str] = Field(pattern=r'^[A-Z]{3}$')
     totals: SkaterTotals
     
 class SkaterShooting(BaseModel):
