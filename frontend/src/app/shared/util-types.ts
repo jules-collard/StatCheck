@@ -1,0 +1,1 @@
+export type Position = 'G' | 'D' | 'L' | 'R' | 'C';
