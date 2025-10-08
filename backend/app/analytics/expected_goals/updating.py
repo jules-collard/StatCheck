@@ -34,6 +34,7 @@ def insert_xg(id_list: list[int]):
     mappings = xg.to_dicts()
     db.session.execute(sa.update(Event), mappings)
     db.session.commit()
+    app.logger.info(f'Calculated XG for Games {id_list}')
 
 if __name__ == "__main__":
     app.app_context().push()
