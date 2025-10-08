@@ -9,7 +9,7 @@ export type SkaterStats = {
     onIce: SkaterOnIce
 }
 
-type SkaterTotals = {
+export type SkaterTotals = {
     gamesPlayed: number;
     goals: number;
     assists: number;

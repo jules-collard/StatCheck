@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { PlayerPage, resolvePlayer, resolvePostSeasonStats, resolveRegSeasonStats } from "./player-page/player-page";
 import { SearchPage } from "./search-page/search-page";
 import { HomePage } from "./home-page/home-page";
+import { LeaderboardPage } from "./leaderboard-page/leaderboard-page";
 
 export const routes: Routes = [
     {
@@ -16,6 +17,10 @@ export const routes: Routes = [
             regSeasonResource: resolveRegSeasonStats,
             postSeasonResource: resolvePostSeasonStats
         }
+    },
+    {
+        path: 'leaderboards/:season',
+        component: LeaderboardPage
     },
     {
         path: 'search',
