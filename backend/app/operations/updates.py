@@ -40,11 +40,12 @@ def fix_games():
     g.import_games_from_errors()
 
 @games.command('remove')
-@click.option('-i', '--id', prompt=True, type=int)
+@click.option('-i', '--id', prompt=True, type=int, multiple = True)
 def remove_game(id: int):
-    if id is None:
-        click.Abort()
-    g.remove_game(id)
+    for gameID in id:
+        if id is None:
+            click.Abort()
+        g.remove_game(gameID)
 
 @cli.group()
 def records():
