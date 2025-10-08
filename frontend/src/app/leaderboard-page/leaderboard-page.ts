@@ -1,17 +1,16 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { LeaderboardConfig, LeaderboardService } from './leaderboard.service';
+import { Component, computed, effect, inject, input, signal, OnInit } from '@angular/core';
 import { SkaterLeaderboardItem } from './skater-leaderboard-item.model';
+import { ListConfig, LeaderboardConfig, PlayerListService } from '../shared/player-list.service';
 
 @Component({
   selector: 'app-leaderboard-page',
   imports: [],
   templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
-  providers: [LeaderboardService]
+  providers: [PlayerListService]
 })
-export class LeaderboardPage {
-  private leaderboardService = inject(LeaderboardService);
+export class LeaderboardPage implements OnInit {
+  private listService = inject(PlayerListService<SkaterLeaderboardItem>);
   season = input.required<number>();
   playerType = signal<'skaters'|'goalies'>('skaters');
   gameType = signal<2|3>(2);
@@ -25,9 +24,18 @@ export class LeaderboardPage {
     return config
   })
 
-  configEffect = effect(() => {
-    this.leaderboardService.setConfig(this.config())
-  })
+  leaderboard = computed<SkaterLeaderboardItem[]>(() => this.listService.filteredPlayers());
 
-  leaderboard = computed<SkaterLeaderboardItem[]>(() => this.leaderboardService.getLeaderboard())
+  ngOnInit(): void {
+    const listConfig: ListConfig = {
+      type: 'leaderboard',
+      itemsPerPage: 15,
+      leaderboardConfig: {
+        season: this.season(),
+        playerType: this.playerType(),
+        gameType: this.gameType()
+      }
+    }
+    this.listService.setConfig(listConfig);
+  }
 }
