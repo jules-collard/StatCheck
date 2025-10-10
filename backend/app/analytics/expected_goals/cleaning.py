@@ -231,7 +231,7 @@ def load_seasons(start_season: int, end_season: int) -> pl.DataFrame:
             .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
             .all())
     
-    data = pl.DataFrame(data, schema=schema)
+    data = pl.DataFrame(data, schema=schema, strict=False)
     return data
 
 def load_games(id_list: list[int]) -> pl.DataFrame:
@@ -245,7 +245,7 @@ def load_games(id_list: list[int]) -> pl.DataFrame:
             .order_by(Game.id, Event.period, Event.timeInPeriodSec, Event.sortOrder)
             .all())
     
-    data = pl.DataFrame(data, schema=schema)
+    data = pl.DataFrame(data, schema=schema, strict=False)
     return data
 
 def clean_data(data: pl.DataFrame, remove_empty_net = True):
