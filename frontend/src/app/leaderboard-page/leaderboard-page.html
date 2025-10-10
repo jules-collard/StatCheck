@@ -1,3 +1,1 @@
-@for (item of leaderboard(); track item.playerID) {
-    <p>{{item.firstName}} {{item.lastName}}</p>
-}
+<app-skater-table [skaters]="leaderboard()"/>

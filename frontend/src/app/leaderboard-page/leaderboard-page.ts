@@ -1,10 +1,11 @@
 import { Component, computed, effect, inject, input, signal, OnInit } from '@angular/core';
 import { SkaterLeaderboardItem } from './skater-leaderboard-item.model';
 import { ListConfig, LeaderboardConfig, PlayerListService } from '../shared/player-list.service';
+import { SkaterTable } from './skater-table/skater-table';
 
 @Component({
   selector: 'app-leaderboard-page',
-  imports: [],
+  imports: [SkaterTable],
   templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
   providers: [PlayerListService]
@@ -29,7 +30,6 @@ export class LeaderboardPage implements OnInit {
   ngOnInit(): void {
     const listConfig: ListConfig = {
       type: 'leaderboard',
-      itemsPerPage: 15,
       leaderboardConfig: {
         season: this.season(),
         playerType: this.playerType(),

@@ -12,21 +12,12 @@ export interface LeaderboardConfig {
 
 export interface ListConfig {
     type: 'search' | 'leaderboard';
-    itemsPerPage: number;
     leaderboardConfig: LeaderboardConfig | null;
 }
 
 export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem> {
 
     private listConfig = signal<ListConfig | null>(null)
-    private currPage = signal<number>(0)
-    private maxPages = computed<number>(() => {
-        if (this.listConfig()) {
-            return Math.ceil(this.filteredPlayers().length / this.listConfig()!.itemsPerPage);
-        } else {
-            return 1;
-        }
-    })
 
     private playerListResource = httpResource<T[]>(() => {
         if (this.listConfig()) {
@@ -44,8 +35,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
 
     filteredPlayers = computed<T[]>(() => {
         if (this.listConfig() && this.playerListResource.hasValue()) {
-            const players = this.playerListResource.value();
-            return players.slice(this.currPage() * this.listConfig()!.itemsPerPage, (this.currPage() + 1) * this.listConfig()!.itemsPerPage);
+            return this.playerListResource.value();
         } else {
             return [];
         }
@@ -63,22 +53,6 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
 
     setConfig(config: ListConfig) {
         this.listConfig.set(config);
-    }
-
-    nextPage() {
-        this.currPage.set(Math.min(this.currPage() + 1, this.maxPages() - 1));
-    }
-
-    prevPage() {
-        this.currPage.set(Math.max(this.currPage() - 1, 0));
-    }
-
-    firstPage() {
-        this.currPage.set(0);
-    }
-
-    lastPage() {
-        this.currPage.set(this.maxPages() - 1);
     }
     
 }
