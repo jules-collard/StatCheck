@@ -12,10 +12,10 @@ def row_to_object(row: dict):
     totals = {key: row.get(key) for key in [
         'gamesPlayed', 'goals', 'assists', 'plusMinus', 'hits', 'sog', 'blocks', 'penaltyMinutes', 'avgTOI'
     ]}
-    teamTriCode = db.session.get(Team, int(teamID)).triCode if (teamID := row.get('currentTeamID')) else None
+    teamTriCodes = [db.session.get(Team, int(teamID)).triCode for teamID in row.get('teams').split(',')]
 
     obj_dict['totals'] = totals
-    obj_dict['teamTriCode'] = teamTriCode
+    obj_dict['teamTriCodes'] = teamTriCodes
     obj = SkaterLeaderboardItem(**obj_dict)
     return obj.model_dump()
 

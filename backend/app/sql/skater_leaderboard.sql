@@ -3,7 +3,7 @@ SELECT
     players."firstName",
     players."lastName",
     players."position",
-    players."currentTeamID",
+    group_concat(DISTINCT "teamID") AS "teams",
     count("skater_appearances"."gameID") AS "gamesPlayed",
     sum("skater_appearances"."goals") AS "goals",
     sum("skater_appearances"."assists") AS "assists",
