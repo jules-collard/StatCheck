@@ -1,8 +1,8 @@
 import { httpResource } from "@angular/common/http";
-import { SkaterLeaderboardItem } from "../leaderboard-page/skater-leaderboard-item.model";
-import { PlayerListItem } from "../search-page/player-list/player-list-item.model";
+import { SkaterLeaderboardItem } from "../../leaderboard-page/skater-leaderboard-item.model";
+import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
 import { computed, signal } from "@angular/core";
-import { FilterParams } from "../search-page/player-filter/filter-params.interface";
+import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
 
 export interface LeaderboardConfig {
     season: number;

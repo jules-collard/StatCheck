@@ -1,8 +1,8 @@
 import { Component, computed, inject, input, signal, OnInit } from '@angular/core';
 import { SkaterLeaderboardItem } from './skater-leaderboard-item.model';
-import { ListConfig, LeaderboardConfig, PlayerListService } from '../shared/player-list.service';
+import { ListConfig, LeaderboardConfig, PlayerListService } from '../shared/player-list/player-list.service';
 import { SkaterTable } from './skater-table/skater-table';
-import { PlayerListButton } from "../shared/player-list-button/player-list-button";
+import { PlayerListButton } from "../shared/player-list/player-list-button/player-list-button";
 
 @Component({
   selector: 'app-leaderboard-page',
