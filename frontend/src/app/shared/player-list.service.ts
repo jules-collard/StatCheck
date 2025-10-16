@@ -12,6 +12,7 @@ export interface LeaderboardConfig {
 
 export interface ListConfig {
     type: 'search' | 'leaderboard';
+    itemsPerPage: number;
     leaderboardConfig: LeaderboardConfig | null;
 }
 
@@ -33,11 +34,19 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
         return undefined;
     })
 
-    filteredPlayers = computed<T[]>(() => {
+    private filteredPlayers = computed<T[]>(() => {
         if (this.listConfig() && this.playerListResource.hasValue()) {
             return this.playerListResource.value();
         } else {
             return [];
+        }
+    })
+
+    slicedPlayers = computed<T[]>(() => {
+        if (this.listConfig()) {
+            return this.filteredPlayers().slice(this.currPage() * this.listConfig()!.itemsPerPage, (this.currPage() + 1) * this.listConfig()!.itemsPerPage)
+        } else {
+            return []
         }
     })
 
@@ -53,6 +62,31 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
 
     setConfig(config: ListConfig) {
         this.listConfig.set(config);
+    }
+
+    currPage = signal<number>(0)
+    maxPages = computed<number>(() => {
+        if (this.listConfig()) {
+            return Math.ceil(this.filteredPlayers().length / this.listConfig()!.itemsPerPage);
+        } else {
+            return 1;
+        }
+    })
+
+    nextPage() {
+        this.currPage.set(Math.min(this.currPage() + 1, this.maxPages() - 1));
+    }
+
+    prevPage() {
+        this.currPage.set(Math.max(this.currPage() - 1, 0));
+    }
+
+    firstPage() {
+        this.currPage.set(0);
+    }
+
+    lastPage() {
+        this.currPage.set(this.maxPages() - 1);
     }
     
 }
