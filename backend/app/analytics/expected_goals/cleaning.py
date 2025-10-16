@@ -287,13 +287,19 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     categorical_transformer = Pipeline(steps=[
         ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing')),
         ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing')),
-        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, MODEL_SEASONS, GAMETYPES, homevenue_categories]))
+        ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, MODEL_SEASONS, GAMETYPES]))
     ])
 
-    categorical_features = ['lastEventType', 'shotType', 'season', 'gameType', 'homeVenue']
+    homevenue_transformer = Pipeline(steps=[
+        ('nan-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='neutral')),
+        ('onehot', OneHotEncoder(categories=[homevenue_categories]))
+    ])
+
+    categorical_features = ['lastEventType', 'shotType', 'season', 'gameType']
     preprocessor = ColumnTransformer(
         transformers=[
-            ('cat', categorical_transformer, categorical_features)
+            ('cat', categorical_transformer, categorical_features),
+            ('venue', homevenue_transformer, ['homeVenue'])
         ],
         remainder='passthrough',
         verbose_feature_names_out=False
