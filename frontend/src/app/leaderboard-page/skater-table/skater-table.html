@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         @for (skater of skaters(); track skater.playerID) {
-            <tr class="hover:bg-primary-content">
+            <tr class="hover:bg-primary-content hover:cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
                 <th>{{skater.fullName}}</th>
                 <td>{{skater.teamTriCodes.join('/')}}</td>
                 <td>{{skater.totals.avgTOI | timeOnIce}}</td>
