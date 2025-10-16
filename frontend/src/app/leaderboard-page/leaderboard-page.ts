@@ -3,10 +3,11 @@ import { SkaterLeaderboardItem } from './skater-leaderboard-item.model';
 import { ListConfig, LeaderboardConfig, PlayerListService } from '../shared/player-list/player-list.service';
 import { SkaterTable } from './skater-table/skater-table';
 import { PlayerListButton } from "../shared/player-list/player-list-button/player-list-button";
+import { PlayerFilter } from '../shared/player-list/player-filter/player-filter';
 
 @Component({
   selector: 'app-leaderboard-page',
-  imports: [SkaterTable, PlayerListButton],
+  imports: [SkaterTable, PlayerListButton, PlayerFilter],
   templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
   providers: [PlayerListService]

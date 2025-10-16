@@ -36,7 +36,51 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
 
     private filteredPlayers = computed<T[]>(() => {
         if (this.listConfig() && this.playerListResource.hasValue()) {
-            return this.playerListResource.value();
+            return this.playerListResource.value().filter((player) => {
+                switch (this.listConfig()!.type) {
+                    case 'search':
+                        return (
+                            player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
+                            && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
+                            && (this.positionsToShow().includes(player.position))
+                            && (this.filterParams().team === 'All' ? true : this.filterParams().team === (player as PlayerListItem).teamTriCode)
+                        )
+                    case 'leaderboard':
+                        return (
+                            player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
+                            && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
+                            && (this.positionsToShow().includes(player.position))
+                            && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
+                        )
+                }
+            })
+        } else {
+            return [];
+        }
+    })
+
+    positionsToShow = computed<string[]>(() => {
+        let pos = [];
+        if (this.filterParams().goalie) {pos.push('G');}
+        if (this.filterParams().defenseman) {pos.push('D');}
+        if (this.filterParams().forward) {pos.push('L', 'R', 'C');}
+        return pos
+    })
+
+    teams = computed<string[]>(() => {
+        if (this.playerListResource.hasValue() && this.listConfig()) {
+            switch (this.listConfig()!.type) {
+                case 'search':
+                    return [... new Set(this.playerListResource.value()
+                    .map((player) => (player as PlayerListItem).teamTriCode)
+                    .filter((triCode) => triCode !== null)
+                    .sort())];
+                case 'leaderboard':
+                    return [... new Set(this.playerListResource.value()
+                    .map((player) => (player as SkaterLeaderboardItem).teamTriCodes)
+                    .flat()
+                    .sort())];
+            }
         } else {
             return [];
         }

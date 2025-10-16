@@ -1,0 +1,23 @@
+<fieldset class="fieldset bg-base-100 border border-base-300 rounded-box p-4">
+    <legend class="fieldset-legend text-xl">Filters</legend>
+    <label class="label text-sm">Status</label>
+    <form class="filter" (change)="onChangeActiveRetired()">
+        <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetActiveRetired()"/>
+        <input [control]="activeRetiredForm.active" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Active"/>
+        <input [control]="activeRetiredForm.retired" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired"/>
+    </form>
+    <label class="label text-sm">Position</label>
+    <form class="filter" (change)="onChangePosition()">
+        <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetPosition()"/>
+        <input [control]="positionForm.goalie" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
+        <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
+        <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
+    </form>
+    <label class="label text-sm">Team</label>
+    <select class="select select-secondary" [(ngModel)]="team" (change)="onTeamChange()">
+        <option>All</option>
+        @for (team of playerListService.teams(); track $index) {
+            <option>{{team}}</option>
+        }
+    </select>
+</fieldset>

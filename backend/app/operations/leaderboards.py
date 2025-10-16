@@ -8,7 +8,7 @@ from app.models import Team
 from app.api.api_models import SkaterLeaderboardItem
 
 def row_to_object(row: dict):
-    obj_dict = {key: row.get(key) for key in ['playerID', 'firstName', 'lastName', 'position']}
+    obj_dict = {key: row.get(key) for key in ['playerID', 'fullName', 'position', 'isActive']}
     totals = {key: row.get(key) for key in [
         'gamesPlayed', 'goals', 'assists', 'plusMinus', 'hits', 'sog', 'blocks', 'penaltyMinutes', 'avgTOI'
     ]}
