@@ -1,12 +1,13 @@
 SELECT
     skater_appearances."playerID",
-    players."firstName",
-    players."lastName",
+    players."firstName" || " " || players."lastName" AS "fullName",
     players."position",
+    players."isActive",
     group_concat(DISTINCT "teamID") AS "teams",
     count("skater_appearances"."gameID") AS "gamesPlayed",
     sum("skater_appearances"."goals") AS "goals",
     sum("skater_appearances"."assists") AS "assists",
+    sum("skater_appearances"."goals") + sum("skater_appearances"."assists") AS "points",
     sum("skater_appearances"."plusMinus") AS "plusMinus",
     sum("skater_appearances"."pim") AS "penaltyMinutes",
     sum("skater_appearances"."hits") AS "hits",
@@ -18,4 +19,4 @@ LEFT JOIN games ON "skater_appearances"."gameID" == "games".id
 LEFT JOIN players ON skater_appearances."playerID" == "players".id
 WHERE "games"."gameType" == :gameType AND games.season == :season
 GROUP BY skater_appearances."playerID"
-ORDER BY "goals" DESC;
+ORDER BY "points" DESC;

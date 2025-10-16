@@ -3,8 +3,8 @@ import { Position } from "../shared/util-types";
 
 export type SkaterLeaderboardItem = {
     playerID: number;
-    firstName: string;
-    lastName: string;
+    fullName: string;
+    isActive: boolean;
     position: Position;
     teamTriCodes: string[];
     totals: SkaterTotals
