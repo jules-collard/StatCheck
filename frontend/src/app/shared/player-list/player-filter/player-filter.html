@@ -1,5 +1,6 @@
 <fieldset class="fieldset bg-base-100 border border-base-300 rounded-box p-4">
     <legend class="fieldset-legend text-xl">Filters</legend>
+    <input type="text" placeholder="Search" class="input input-secondary" [(ngModel)]="nameToSearch"/>
     <label class="label text-sm">Status</label>
     <form class="filter" (change)="onChangeActiveRetired()">
         <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetActiveRetired()"/>

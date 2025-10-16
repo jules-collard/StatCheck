@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Control, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list.service';
+import { FilterParams } from './filter-params.interface';
 
 @Component({
   selector: 'app-player-filter',
@@ -12,12 +13,19 @@ import { PlayerListService } from '../player-list.service';
 export class PlayerFilter {
   playerListService = inject(PlayerListService);
 
-  team = 'All'
+  team = 'All';
+  nameToSearch = signal<string>('');
+
+  searchEffect = effect(() => {
+    this.playerListService.filterParams.update(params =>
+      ({...params, nameToSearch: this.nameToSearch()})
+    )
+  })
 
   activeRetired = signal<{active: boolean; retired: boolean;}>({
     active: false,
     retired: false
-  });
+  })
 
   activeRetiredForm = form(this.activeRetired);
 
