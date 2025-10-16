@@ -1,6 +1,6 @@
 <table class="table table-pin-rows bg-base-200">
     <thead>
-        <tr>
+        <tr class="bg-base-200">
             <th>Name</th>
             <th>Team</th>
             <th>ATOI</th>
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        @for (skater of skatersPage(); track skater.playerID) {
+        @for (skater of skaters(); track skater.playerID) {
             <tr class="hover:bg-primary-content">
                 <th>{{skater.firstName}} {{skater.lastName}} </th>
                 <td>{{skater.teamTriCodes.join('/')}}</td>
