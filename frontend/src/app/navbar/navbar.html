@@ -3,8 +3,12 @@
         <a [routerLink]="['/']"><button class="btn btn-ghost text-3xl text-primary-content">StatCheck</button></a>
     </div>
     <div class="navbar-center">
-        <button class="btn btn-secondary" (click)="onSelectPlayers()">Players</button>
-        <button class="btn btn-secondary">Leaderboards</button>
+        <a [routerLink]="['search']">
+            <button class="btn btn-secondary">Players</button>
+        </a>
+        <a [routerLink]="['leaderboards', config.currentSeason]">
+            <button class="btn btn-secondary">Leaderboards</button>
+        </a>
     </div>
     <div class="navbar-end">
         <app-search/>

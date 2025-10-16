@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Search } from './search/search';
 import { Router, RouterLink } from '@angular/router';
 import { PlayerListService } from '../search-page/player-list/player-list.service';
+import { GlobalConfigService } from '../shared/global-config.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,12 +11,5 @@ import { PlayerListService } from '../search-page/player-list/player-list.servic
   styleUrl: './navbar.css'
 })
 export class Navbar {
-  private router = inject(Router)
-  private playerListService = inject(PlayerListService)
-
-  onSelectPlayers() {
-    this.playerListService.fetch()
-    this.playerListService.reset()
-    this.router.navigate(['search'])
-  }
+  config = inject(GlobalConfigService)
 }
