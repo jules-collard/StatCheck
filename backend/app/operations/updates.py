@@ -5,6 +5,9 @@ import click
 from app import app
 from . import games as g
 from . import records as r
+from . import leaderboards as l
+
+SEASONS = [20102011, 20112012, 20122013, 20132014, 20142015, 20152016, 20162017, 20172018, 20182019, 20192020, 20202021, 20212022, 20222023, 20232024, 20242025, 20252026]
 
 @click.group()
 def cli():
@@ -55,6 +58,25 @@ def records():
 @records.command('update')
 def update_records():
     r.update_all_records()
+
+@cli.group()
+def leaderboards():
+    """Leaderboard Updates"""
+    pass
+
+@leaderboards.command('update-all')
+def update_all_leaderboards():
+    app.app_context().push()
+    for season in SEASONS:
+        l.update_skater_leaderboard(season, 2)
+        l.update_skater_leaderboard(season, 3)
+
+@leaderboards.command('update-current')
+def update_current_leaderboard():
+    app.app_context().push()
+    season = max(SEASONS)
+    l.update_skater_leaderboard(season, 2)
+    l.update_skater_leaderboard(season, 3)
 
 if __name__ == '__main__':
     app.app_context().push()
