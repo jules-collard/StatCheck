@@ -69,4 +69,8 @@ export class TableSortService<T> {
             default: return '';
         }
     }
+
+    reset() {
+        this.sortState.set({column: null, direction: null});
+    }
 }

@@ -52,6 +52,7 @@ export class LeaderboardPage {
   })
 
   navigateSeason(season: number) {
+    this.sortService.reset();
     this.router.navigate(['leaderboards', season]);
   }
 
