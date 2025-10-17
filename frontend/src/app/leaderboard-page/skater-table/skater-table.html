@@ -3,6 +3,7 @@
         <tr class="bg-base-200">
             <th>Name</th>
             <th>Team</th>
+            <th>GP</th>
             <th>ATOI</th>
             <th>G</th>
             <th>A</th>
@@ -19,6 +20,7 @@
             <tr class="hover:bg-primary-content hover:cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
                 <th>{{skater.fullName}}</th>
                 <td>{{skater.teamTriCodes.join('/')}}</td>
+                <td>{{skater.totals.gamesPlayed}}</td>
                 <td>{{skater.totals.avgTOI | timeOnIce}}</td>
                 <td>{{skater.totals.goals}}</td>
                 <td>{{skater.totals.assists}}</td>
