@@ -3,16 +3,36 @@
         <tr class="bg-base-200">
             <th>Name</th>
             <th>Team</th>
-            <th>GP</th>
-            <th>ATOI</th>
-            <th>G</th>
-            <th>A</th>
-            <th>Pts</th>
-            <th>+/-</th>
-            <th>SOG</th>
-            <th>Hits</th>
-            <th>Blocks</th>
-            <th>PIM</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP{{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('avgTOI')">
+                ATOI{{sortService.getSortIcon('avgTOI')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goals')">
+                G{{sortService.getSortIcon('goals')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('assists')">
+                A{{sortService.getSortIcon('assists')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('points')">
+                Pts{{sortService.getSortIcon('points')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('plusMinus')">
+                +/-{{sortService.getSortIcon('plusMinus')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('sog')">
+                SOG{{sortService.getSortIcon('sog')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('hits')">
+                Hits{{sortService.getSortIcon('hits')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('blocks')">
+                Blocks{{sortService.getSortIcon('blocks')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('pim')">
+                PIM{{sortService.getSortIcon('pim')}}
+            </th>
         </tr>
     </thead>
     <tbody>

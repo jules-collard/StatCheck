@@ -8,18 +8,21 @@ import { PlayerListButton } from "../shared/player-list/player-list-button/playe
 import { PlayerFilter } from '../shared/player-list/player-filter/player-filter';
 import { GlobalConfigService } from '../shared/global-config.service';
 import { SeasonPipe } from '../pipes/season.pipe';
+import { SortConfig, TableSortService } from '../shared/table-sort.service';
 
 @Component({
   selector: 'app-leaderboard-page',
   imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe],
   templateUrl: './leaderboard-page.html',
   styleUrl: './leaderboard-page.css',
-  providers: [PlayerListService]
+  providers: [PlayerListService, TableSortService]
 })
 export class LeaderboardPage {
   router = inject(Router)
   globalConfig = inject(GlobalConfigService);
+
   private listService = inject(PlayerListService<SkaterLeaderboardItem>);
+  private sortService = inject(TableSortService<SkaterLeaderboardItem>);
   
   // Leaderboard properties
   season = routeBinding.required<number>();
@@ -51,4 +54,21 @@ export class LeaderboardPage {
   navigateSeason(season: number) {
     this.router.navigate(['leaderboards', season]);
   }
+
+  // Sorting
+  sortingEffect = effect(() => {
+    const sortConfig: SortConfig<SkaterLeaderboardItem> = {
+      gamesPlayed: (item) => item.totals.gamesPlayed,
+      goals: (item) => item.totals.goals,
+      assists: (item) => item.totals.assists,
+      points: (item) => item.totals.goals + item.totals.assists,
+      plusMinus: (item) => item.totals.plusMinus,
+      sog: (item) => item.totals.sog,
+      hits: (item) => item.totals.hits,
+      blocks: (item) => item.totals.blocks,
+      penaltyMinutes: (item) => item.totals.penaltyMinutes,
+      avgTOI: (item) => item.totals.avgTOI
+    }
+    this.sortService.setSortConfig(sortConfig);
+  })
 }

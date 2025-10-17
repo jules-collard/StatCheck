@@ -1,8 +1,9 @@
 import { httpResource } from "@angular/common/http";
 import { SkaterLeaderboardItem } from "../../leaderboard-page/skater-leaderboard-item.model";
 import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
-import { computed, signal } from "@angular/core";
+import { computed, effect, inject, signal } from "@angular/core";
 import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
+import { TableSortService } from "../table-sort.service";
 
 export interface LeaderboardConfig {
     season: number;
@@ -18,7 +19,9 @@ export interface ListConfig {
 
 export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem> {
 
-    private listConfig = signal<ListConfig | null>(null)
+    private sortService = inject(TableSortService);
+
+    private listConfig = signal<ListConfig | null>(null);
 
     private playerListResource = httpResource<T[]>(() => {
         if (this.listConfig()) {
@@ -59,6 +62,11 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
         }
     })
 
+    dataEffect = effect(() => {
+        this.sortService.setData(this.filteredPlayers());
+    })
+
+    // Filtering
     positionsToShow = computed<string[]>(() => {
         let pos = [];
         if (this.filterParams().goalie) {pos.push('G');}
@@ -85,15 +93,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
             return [];
         }
     })
-
-    slicedPlayers = computed<T[]>(() => {
-        if (this.listConfig()) {
-            return this.filteredPlayers().slice(this.currPage() * this.listConfig()!.itemsPerPage, (this.currPage() + 1) * this.listConfig()!.itemsPerPage)
-        } else {
-            return []
-        }
-    })
-
+    
     filterParams = signal<FilterParams>({
         nameToSearch: '',
         team: 'All',
@@ -104,10 +104,19 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
         forward: true
     })
 
+    slicedPlayers = computed<T[]>(() => {
+        if (this.listConfig()) {
+            return this.sortService.sortedData().slice(this.currPage() * this.listConfig()!.itemsPerPage, (this.currPage() + 1) * this.listConfig()!.itemsPerPage)
+        } else {
+            return []
+        }
+    })
+
     setConfig(config: ListConfig) {
         this.listConfig.set(config);
     }
 
+    // Paging logic
     currPage = signal<number>(0)
     maxPages = computed<number>(() => {
         if (this.listConfig()) {
