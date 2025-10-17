@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Search } from './search/search';
-import { Router, RouterLink } from '@angular/router';
-import { PlayerListService } from '../search-page/player-list/player-list.service';
+import { RouterLink } from '@angular/router';
 import { GlobalConfigService } from '../shared/global-config.service';
 
 @Component({
