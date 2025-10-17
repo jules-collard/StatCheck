@@ -9,13 +9,23 @@
     </div>
 </div>  -->
 <div class="grid grid-cols-4 auto-rows-[6.5dvh] gap-2">
-    <div class="bg-base-200">!</div>
-    <div class="bg-base-200">1</div>
-    <div class="bg-base-200">1</div>
-    <div class="bg-base-200">1</div>
-    <div class="bg-base-200">2</div>
-    <div class="rounded-box col-span-3 row-span-10 bg-base-200 shadow-md overflow-x-auto"><app-skater-table [skaters]="leaderboard()"/></div>
-    <div class="bg-base-200">3</div>
+    <div class="justify-self-left">
+        <select class="select select-lg min-w-full">
+            <option disabled selected>{{season() | season}}</option>
+            @for (season of seasonsList; track season) {
+                <option (click)="navigateSeason(season)">{{season | season}}</option>
+            }
+        </select>
+    </div>
+    <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto"><app-skater-table [skaters]="leaderboard()"/></div>
+    <div class="join w-full">
+        <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="gameType.set(2)">
+        <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Playoffs" (click)="gameType.set(3)"/>
+    </div>
+    <div class="join">
+        <input class="join-item btn btn-lg" type="radio" name="std_adv" aria-label="Standard" checked="checked">
+        <input class="join-item btn btn-lg" type="radio" name="std_adv" aria-label="Advanced"/>
+    </div>
     <div class="row-start-4 row-end-10 p-4"><app-player-filter/></div>
     <div class="bg-base-200">10</div>
     <div class="bg-base-200">11</div>
