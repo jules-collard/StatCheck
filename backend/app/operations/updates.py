@@ -70,6 +70,8 @@ def update_all_leaderboards():
     for season in SEASONS:
         l.update_skater_leaderboard(season, 2)
         l.update_skater_leaderboard(season, 3)
+        l.update_goalie_leaderboard(season, 2)
+        l.update_goalie_leaderboard(season, 3)
 
 @leaderboards.command('update-current')
 def update_current_leaderboard():
@@ -77,6 +79,8 @@ def update_current_leaderboard():
     season = max(SEASONS)
     l.update_skater_leaderboard(season, 2)
     l.update_skater_leaderboard(season, 3)
+    l.update_goalie_leaderboard(season, 2)
+    l.update_goalie_leaderboard(season, 3)
 
 if __name__ == '__main__':
     app.app_context().push()

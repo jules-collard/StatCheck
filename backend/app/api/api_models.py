@@ -127,6 +127,15 @@ class GoalieAdvanced(BaseModel):
     xgGoalsAgainst: int = Field(ge=0)
     fenwickAgainst: int = Field(ge=0)
 
+class GoalieLeaderboardItem(BaseModel):
+    playerID: int = Field(gt=0)
+    fullName: str
+    qualified: bool
+    isActive: bool
+    teamTriCodes: list[str] = Field(min_length=1)
+    totals: GoalieTotals
+    advanced: Optional[GoalieAdvanced] = Field(default=None)
+
 class GoalieStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)
