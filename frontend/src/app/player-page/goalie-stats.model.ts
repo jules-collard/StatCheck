@@ -9,7 +9,7 @@ export type GoalieStats = {
     advanced: GoalieAdvanced;
 }
 
-type GoalieTotals = {
+export type GoalieTotals = {
     gamesPlayed: number;
     gamesStarted: number;
     wins: number;
@@ -25,7 +25,7 @@ type GoalieTotals = {
     records?: GoalieSeasonRecords;
 }
 
-type GoalieAdvanced = {
+export type GoalieAdvanced = {
     xgAgainst: number;
     xgGoalsAgainst: number;
     fenwickAgainst: number;

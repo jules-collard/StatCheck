@@ -4,6 +4,7 @@ import { PlayerListItem } from "../../search-page/player-list/player-list-item.m
 import { computed, effect, inject, signal } from "@angular/core";
 import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
 import { TableSortService } from "../table-sort.service";
+import { GoalieLeaderboardItem } from "../../goalie-leaderboard-page/goalie-leaderboard-item.model";
 
 export interface LeaderboardConfig {
     season: number;
@@ -17,7 +18,7 @@ export interface ListConfig {
     leaderboardConfig: LeaderboardConfig | null;
 }
 
-export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem> {
+export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem | GoalieLeaderboardItem> {
 
     private sortService = inject(TableSortService);
 
@@ -53,7 +54,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
                             player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
                             && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
                             && (this.positionsToShow().includes(player.position))
-                            && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
+                            && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
                         )
                 }
             })
@@ -85,7 +86,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
                     .sort())];
                 case 'leaderboard':
                     return [... new Set(this.playerListResource.value()
-                    .map((player) => (player as SkaterLeaderboardItem).teamTriCodes)
+                    .map((player) => (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes)
                     .flat()
                     .sort())];
             }
