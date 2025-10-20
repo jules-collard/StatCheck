@@ -33,6 +33,7 @@ def goalie_row_to_object(row: dict):
     obj_dict['totals'] = totals
     obj_dict['advanced'] = advanced if all([item is not None for item in advanced.values()]) else None
     obj_dict['teamTriCodes'] = teamTriCodes
+    obj_dict['position'] = 'G'
     obj = GoalieLeaderboardItem(**obj_dict)
     return obj.model_dump()
 

@@ -130,6 +130,7 @@ class GoalieAdvanced(BaseModel):
 class GoalieLeaderboardItem(BaseModel):
     playerID: int = Field(gt=0)
     fullName: str
+    position: str = Field(pattern=r'^G$')
     qualified: bool
     isActive: bool
     teamTriCodes: list[str] = Field(min_length=1)
