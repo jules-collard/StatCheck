@@ -3,6 +3,7 @@ import { PlayerPage, resolvePlayer, resolvePostSeasonStats, resolveRegSeasonStat
 import { SearchPage } from "./search-page/search-page";
 import { HomePage } from "./home-page/home-page";
 import { SkaterLeaderboardPage } from "./skater-leaderboard-page/skater-leaderboard-page";
+import { GoalieLeaderboardPage } from "./goalie-leaderboard-page/goalie-leaderboard-page";
 
 export const routes: Routes = [
     {
@@ -19,8 +20,12 @@ export const routes: Routes = [
         }
     },
     {
-        path: 'leaderboards/:season',
+        path: 'leaderboards/:season/skaters',
         component: SkaterLeaderboardPage
+    },
+    {
+        path: 'leaderboards/:season/goalies',
+        component: GoalieLeaderboardPage
     },
     {
         path: 'search',
