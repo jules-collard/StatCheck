@@ -1,5 +1,5 @@
 import { httpResource } from "@angular/common/http";
-import { SkaterLeaderboardItem } from "../../leaderboard-page/skater-leaderboard-item.model";
+import { SkaterLeaderboardItem } from "../../skater-leaderboard-page/skater-leaderboard-item.model";
 import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
 import { computed, effect, inject, signal } from "@angular/core";
 import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
