@@ -8,5 +8,5 @@ export type GoalieLeaderboardItem = {
     isActive: boolean;
     teamTriCodes: string[];
     totals: GoalieTotals;
-    advanced: GoalieAdvanced | null;
+    advanced: GoalieAdvanced;
 }

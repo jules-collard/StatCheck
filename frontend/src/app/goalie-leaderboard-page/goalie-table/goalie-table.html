@@ -1,0 +1,57 @@
+<table class="table table-pin-rows bg-base-200">
+    <thead>
+        <tr class="bg-base-200">
+            <th>Name</th>
+            <th>Team</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP{{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesStarted')">
+                GS{{sortService.getSortIcon('gamesStarted')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('wins')">
+                W{{sortService.getSortIcon('wins')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('losses')">
+                L{{sortService.getSortIcon('losses')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goalsAgainstAvg')">
+                GAA{{sortService.getSortIcon('goalsAgainstAvg')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('savePct')">
+                Sv%{{sortService.getSortIcon('savePct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goalsSavedAx')">
+                GSAx{{sortService.getSortIcon('goalsSavedAx')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('deltaFenwick')">
+                dFSv%{{sortService.getSortIcon('deltaFenwick')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('evSavePct')">
+                EV Sv%{{sortService.getSortIcon('evSavePct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('ppSavePct')">
+                PP Sv%{{sortService.getSortIcon('ppSavePct')}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (goalie of goalies(); track goalie.playerID) {
+            <tr class="hover:bg-primary-content hover:cursor-pointer" (click)="navigateToPlayer(goalie.playerID)">
+                <th>{{goalie.fullName}}</th>
+                <td>{{goalie.teamTriCodes.join('/')}}</td>
+                <td>{{goalie.totals.gamesPlayed}}</td>
+                <td>{{goalie.totals.gamesStarted}}</td>
+                <td>{{goalie.totals.wins}}</td>
+                <td>{{goalie.totals.losses}}</td>
+                <td>{{goalie.totals.goalsAgainstAvg | number: '0.2-2'}}</td>
+                <td>{{goalie.totals.savePct | number: '0.3-3'}}</td>
+                <td>{{goalie.advanced.xgAgainst - goalie.advanced.xgGoalsAgainst | number: '0.1-1'}}</td>
+                <td>{{100*(goalie.advanced.xgAgainst - goalie.advanced.xgGoalsAgainst) / goalie.advanced.fenwickAgainst | number: '0.1-1'}}%</td>
+                <td>{{goalie.totals.evenStrengthSavePct | number: '0.3-3'}}</td>
+                <td>{{goalie.totals.powerPlaySavePct | number: '0.3-3'}}</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
