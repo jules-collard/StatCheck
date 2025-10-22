@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Control, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list.service';
@@ -12,6 +12,15 @@ import { FilterParams } from './filter-params.interface';
 })
 export class PlayerFilter {
   playerListService = inject(PlayerListService);
+  
+  positionOptions = input<{goalie: boolean, defenseman: boolean, forward: boolean}>({
+    goalie: true,
+    defenseman: true,
+    forward: true
+  })
+  anyPositions = computed<boolean>(() => {
+    return this.positionOptions().goalie || this.positionOptions().defenseman || this.positionOptions().forward;
+  })
 
   team = 'All';
   nameToSearch = signal<string>('');
