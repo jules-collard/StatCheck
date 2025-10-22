@@ -5,10 +5,12 @@ import { ListConfig, PlayerListService } from '../shared/player-list/player-list
 import { GoalieLeaderboardItem } from './goalie-leaderboard-item.model';
 import { SortConfig, TableSortService } from '../shared/table-sort.service';
 import { GoalieTable } from "./goalie-table/goalie-table";
+import { SeasonPipe } from '../pipes/season.pipe';
+import { PlayerListButton } from '../shared/player-list/player-list-button/player-list-button';
 
 @Component({
   selector: 'app-goalie-leaderboard-page',
-  imports: [GoalieTable],
+  imports: [GoalieTable, SeasonPipe, PlayerListButton],
   templateUrl: './goalie-leaderboard-page.html',
   styleUrl: './goalie-leaderboard-page.css',
   providers: [PlayerListService, TableSortService]
@@ -21,7 +23,7 @@ export class GoalieLeaderboardPage {
 
   navigateSeason(season: number) {
     this.sortService.reset();
-    this.router.navigate(['leaderboards', season]);
+    this.router.navigate(['leaderboards', season, 'goalies']);
   }
   
   // Leaderboard Setup
