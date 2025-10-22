@@ -14,6 +14,10 @@
         <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
         <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
     </form>
+    <label class="label text-sm">
+        Qualified
+    </label>
+    <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" />
     <label class="label text-sm">Team</label>
     <select class="select select-secondary" [(ngModel)]="team" (change)="onTeamChange()">
         <option>All</option>
