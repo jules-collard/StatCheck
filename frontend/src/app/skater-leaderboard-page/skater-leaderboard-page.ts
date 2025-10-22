@@ -53,7 +53,7 @@ export class SkaterLeaderboardPage {
 
   navigateSeason(season: number) {
     this.sortService.reset();
-    this.router.navigate(['leaderboards', season]);
+    this.router.navigate(['leaderboards', season, 'skaters']);
   }
 
   // Sorting
