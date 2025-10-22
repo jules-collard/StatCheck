@@ -7,10 +7,11 @@ import { SortConfig, TableSortService } from '../shared/table-sort.service';
 import { GoalieTable } from "./goalie-table/goalie-table";
 import { SeasonPipe } from '../pipes/season.pipe';
 import { PlayerListButton } from '../shared/player-list/player-list-button/player-list-button';
+import { PlayerFilter } from '../shared/player-list/player-filter/player-filter';
 
 @Component({
   selector: 'app-goalie-leaderboard-page',
-  imports: [GoalieTable, SeasonPipe, PlayerListButton],
+  imports: [GoalieTable, SeasonPipe, PlayerListButton, PlayerFilter],
   templateUrl: './goalie-leaderboard-page.html',
   styleUrl: './goalie-leaderboard-page.css',
   providers: [PlayerListService, TableSortService]
