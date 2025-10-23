@@ -9,7 +9,7 @@ from app.models import Team
 from app.api.api_models import SkaterLeaderboardItem, GoalieLeaderboardItem
 
 def skater_row_to_object(row: dict):
-    obj_dict = {key: row.get(key) for key in ['playerID', 'fullName', 'position', 'isActive']}
+    obj_dict = {key: row.get(key) for key in ['playerID', 'fullName', 'position', 'isActive', 'qualified']}
     totals = {key: row.get(key) for key in [
         'gamesPlayed', 'goals', 'assists', 'plusMinus', 'hits', 'sog', 'blocks', 'penaltyMinutes', 'avgTOI'
     ]}
