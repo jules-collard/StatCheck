@@ -61,6 +61,5 @@ leaderboard AS (
     LEFT JOIN "advanced" ON goalie_appearances."playerID" == advanced."goalieInNetID"
     WHERE "games".season == :season AND "games"."gameType" == :gameType
     GROUP BY goalie_appearances."playerID"
-    ORDER BY gamesStarted DESC
 )
-SELECT * FROM leaderboard WHERE gamesPlayed > 0;
+SELECT * FROM leaderboard WHERE gamesPlayed > 0 ORDER BY savePct DESC;
