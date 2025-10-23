@@ -57,7 +57,7 @@ leaderboard AS (
     FROM "goalie_appearances"
     LEFT JOIN "games" ON goalie_appearances."gameID" == "games"."id"
     LEFT JOIN "players" ON goalie_appearances."playerID" == "players"."id"
-    LEFT JOIN "team_games" ON players."currentTeamID" == team_games."teamID"
+    LEFT JOIN "team_games" ON goalie_appearances."teamID" == team_games."teamID"
     LEFT JOIN "advanced" ON goalie_appearances."playerID" == advanced."goalieInNetID"
     WHERE "games".season == :season AND "games"."gameType" == :gameType
     GROUP BY goalie_appearances."playerID"
