@@ -25,7 +25,7 @@
     <label class="label text-sm">
         Qualified
     </label>
-    <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" />
+    <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" [(ngModel)]="qualified"/>
     <label class="label text-sm">Team</label>
     <select class="select select-secondary" [(ngModel)]="team" (change)="onTeamChange()">
         <option>All</option>

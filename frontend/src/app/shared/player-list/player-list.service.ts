@@ -2,7 +2,7 @@ import { httpResource } from "@angular/common/http";
 import { SkaterLeaderboardItem } from "../../skater-leaderboard-page/skater-leaderboard-item.model";
 import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
 import { computed, effect, inject, signal } from "@angular/core";
-import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
+import { FilterParams } from "./player-filter/filter-params.interface";
 import { TableSortService } from "../table-sort.service";
 import { GoalieLeaderboardItem } from "../../goalie-leaderboard-page/goalie-leaderboard-item.model";
 
@@ -55,6 +55,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
                             && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
                             && (this.positionsToShow().includes(player.position))
                             && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
+                            && (this.filterParams().qualified ? (player as SkaterLeaderboardItem | GoalieLeaderboardItem).qualified : true)
                         )
                 }
             })
@@ -100,6 +101,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
         team: 'All',
         active: true,
         retired: true,
+        qualified: true,
         goalie: true,
         defenseman: true,
         forward: true
@@ -112,6 +114,10 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
             return []
         }
     })
+
+    resetSorting() {
+        this.sortService.reset();
+    }
 
     setConfig(config: ListConfig) {
         this.listConfig.set(config);
