@@ -1,9 +1,10 @@
 import { httpResource } from "@angular/common/http";
-import { SkaterLeaderboardItem } from "../../leaderboard-page/skater-leaderboard-item.model";
+import { SkaterLeaderboardItem } from "../../skater-leaderboard-page/skater-leaderboard-item.model";
 import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
 import { computed, effect, inject, signal } from "@angular/core";
-import { FilterParams } from "../../search-page/player-filter/filter-params.interface";
+import { FilterParams } from "./player-filter/filter-params.interface";
 import { TableSortService } from "../table-sort.service";
+import { GoalieLeaderboardItem } from "../../goalie-leaderboard-page/goalie-leaderboard-item.model";
 
 export interface LeaderboardConfig {
     season: number;
@@ -17,7 +18,7 @@ export interface ListConfig {
     leaderboardConfig: LeaderboardConfig | null;
 }
 
-export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem> {
+export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem | GoalieLeaderboardItem> {
 
     private sortService = inject(TableSortService);
 
@@ -53,7 +54,8 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
                             player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
                             && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
                             && (this.positionsToShow().includes(player.position))
-                            && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
+                            && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
+                            && (this.filterParams().qualified ? (player as SkaterLeaderboardItem | GoalieLeaderboardItem).qualified : true)
                         )
                 }
             })
@@ -85,7 +87,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
                     .sort())];
                 case 'leaderboard':
                     return [... new Set(this.playerListResource.value()
-                    .map((player) => (player as SkaterLeaderboardItem).teamTriCodes)
+                    .map((player) => (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes)
                     .flat()
                     .sort())];
             }
@@ -99,6 +101,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
         team: 'All',
         active: true,
         retired: true,
+        qualified: true,
         goalie: true,
         defenseman: true,
         forward: true
@@ -111,6 +114,10 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem>
             return []
         }
     })
+
+    resetSorting() {
+        this.sortService.reset();
+    }
 
     setConfig(config: ListConfig) {
         this.listConfig.set(config);

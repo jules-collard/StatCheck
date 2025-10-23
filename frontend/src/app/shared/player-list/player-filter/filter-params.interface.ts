@@ -3,6 +3,7 @@ export interface FilterParams {
     team: string;
     active: boolean;
     retired: boolean;
+    qualified: boolean;
     goalie: boolean;
     defenseman: boolean;
     forward: boolean;

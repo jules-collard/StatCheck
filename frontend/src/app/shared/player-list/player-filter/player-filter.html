@@ -7,13 +7,25 @@
         <input [control]="activeRetiredForm.active" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Active"/>
         <input [control]="activeRetiredForm.retired" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired"/>
     </form>
-    <label class="label text-sm">Position</label>
-    <form class="filter" (change)="onChangePosition()">
-        <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetPosition()"/>
-        <input [control]="positionForm.goalie" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
-        <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
-        <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
-    </form>
+    @if (anyPositions()) {
+        <label class="label text-sm">Position</label>
+        <form class="filter" (change)="onChangePosition()">
+            <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetPosition()"/>
+            @if (positionOptions().goalie) {
+                <input [control]="positionForm.goalie" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
+            }
+            @if (positionOptions().defenseman) {
+                <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
+            }
+            @if (positionOptions().forward) {
+                <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
+            }
+        </form>
+    }
+    <label class="label text-sm">
+        Qualified
+    </label>
+    <input type="checkbox" checked="checked" class="checkbox checkbox-secondary" [(ngModel)]="qualified"/>
     <label class="label text-sm">Team</label>
     <select class="select select-secondary" [(ngModel)]="team" (change)="onTeamChange()">
         <option>All</option>

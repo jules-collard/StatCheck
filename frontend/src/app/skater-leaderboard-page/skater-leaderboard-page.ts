@@ -13,11 +13,11 @@ import { SortConfig, TableSortService } from '../shared/table-sort.service';
 @Component({
   selector: 'app-leaderboard-page',
   imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe],
-  templateUrl: './leaderboard-page.html',
-  styleUrl: './leaderboard-page.css',
+  templateUrl: './skater-leaderboard-page.html',
+  styleUrl: './skater-leaderboard-page.css',
   providers: [PlayerListService, TableSortService]
 })
-export class LeaderboardPage {
+export class SkaterLeaderboardPage {
   router = inject(Router)
   globalConfig = inject(GlobalConfigService);
 
@@ -53,7 +53,7 @@ export class LeaderboardPage {
 
   navigateSeason(season: number) {
     this.sortService.reset();
-    this.router.navigate(['leaderboards', season]);
+    this.router.navigate(['leaderboards', season, 'skaters']);
   }
 
   // Sorting
