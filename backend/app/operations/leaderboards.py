@@ -54,20 +54,10 @@ def update_goalie_leaderboard(season: int, gameType: int):
 
     query_result = db.session.execute(text(query), {"season": season, "gameType": gameType}).mappings().all()
     result_rows = [dict(row) for row in query_result]
-    # leaderboard = [goalie_row_to_object(row) for row in result_rows]
 
     leaderboard = []
     for row in result_rows:
-        try:
-            leaderboard.append(goalie_row_to_object(row))
-        except ValidationError as e:
-            print(season)
-            print(e)
-            print(row)
+        leaderboard.append(goalie_row_to_object(row))
 
     with open(os.path.join(ROOT_PATH, 'data', 'leaderboards', f'goalies_{season}_{gameType}.json'), 'w') as f:
         json.dump(leaderboard, f)
-
-if __name__ == "__main__":
-    app.app_context().push()
-    update_goalie_leaderboard(20242025, 2)
