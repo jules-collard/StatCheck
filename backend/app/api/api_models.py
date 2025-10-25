@@ -69,14 +69,6 @@ class SkaterTotals(BaseModel):
     avgTOI: float = Field(ge=0)
     records: Optional[SkaterTotalsRecords] = Field(default=None)
 
-class SkaterLeaderboardItem(BaseModel):
-    playerID: int = Field(gt=0)
-    fullName: str
-    position: str = Field(pattern=r'^[GDLCR]$')
-    isActive: bool
-    qualified: bool
-    teamTriCodes: list[str] = Field(min_length=1)
-    totals: SkaterTotals
     
 class SkaterShooting(BaseModel):
     xg: float = Field(ge=0)
@@ -95,6 +87,17 @@ class SkaterOnIce(BaseModel):
     nZoneStarts: int = Field(ge=0)
     dZoneStarts: int = Field(ge=0)
 
+class SkaterLeaderboardItem(BaseModel):
+    playerID: int = Field(gt=0)
+    fullName: str
+    position: str = Field(pattern=r'^[GDLCR]$')
+    isActive: bool
+    qualified: bool
+    teamTriCodes: list[str] = Field(min_length=1)
+    totals: SkaterTotals
+    advanced: SkaterShooting
+    onice: SkaterOnIce
+    
 class SkaterStats(BaseModel):
     playerID: int = Field(gt=0)
     season: int = Field(gt=0)

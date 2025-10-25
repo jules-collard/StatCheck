@@ -74,19 +74,19 @@ SELECT
     sum("skater_appearances"."sog") AS "sog",
     sum("skater_appearances"."blocks") AS "blocks",
     sum("skater_appearances"."toiSeconds") * 1.0 / count("skater_appearances"."gameID") AS "avgTOI",
-    advanced.xg,
-    advanced.xgGoals,
-    advanced.fenwick,
-    onice.onIceShootingPct,
-    onice.fenwickFor,
-    onice.fenwickAgainst,
-    onice.corsiFor,
-    onice.corsiAgainst,
-    onice.xgFor,
-    onice.xgAgainst,
-    onice.oZoneStarts,
-    onice.nZoneStarts,
-    onice.dZoneStarts
+    coalesce(advanced.xg, 0) AS xg,
+    coalesce(advanced.xgGoals, 0) AS xgGoals,
+    coalesce(advanced.fenwick, 0) AS fenwick,
+    coalesce(onice.onIceShootingPct, 0) AS onIceShootingPct,
+    coalesce(onice.fenwickFor, 0) AS fenwickFor,
+    coalesce(onice.fenwickAgainst, 0) AS fenwickAgainst,
+    coalesce(onice.corsiFor, 0) AS corsiFor,
+    coalesce(onice.corsiAgainst, 0) AS corsiAgainst,
+    coalesce(onice.xgFor, 0) AS xgFor,
+    coalesce(onice.xgAgainst, 0) AS xgAgainst,
+    coalesce(onice.oZoneStarts, 0) AS oZoneStarts,
+    coalesce(onice.nZoneStarts, 0) AS nZoneStarts,
+    coalesce(onice.dZoneStarts, 0) AS dZoneStarts
 FROM "skater_appearances"
 LEFT JOIN games ON "skater_appearances"."gameID" == "games".id
 LEFT JOIN players ON skater_appearances."playerID" == "players".id
