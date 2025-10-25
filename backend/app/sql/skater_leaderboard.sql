@@ -20,6 +20,42 @@ team_games AS (
         coalesce(homeGames, 0) + coalesce(awayGames, 0) AS totalGames
     FROM home_games
     FULL JOIN away_games ON home_games."homeTeamID" == away_games."awayTeamID"
+),
+advanced AS (
+    SELECT
+        skater_appearances."playerID",
+        coalesce(SUM(xg), 0) AS xg,
+        sum(CASE WHEN "typeCode" == 505 THEN 1 ELSE 0 END) AS xgGoals,
+        count(*) AS fenwick
+    FROM events
+    LEFT JOIN games ON events."gameID" == games.id
+    LEFT JOIN skater_appearances ON coalesce(events."shootingPlayerID", events."scoringPlayerID") == skater_appearances."playerID" AND events."gameID" == skater_appearances."gameID"
+    WHERE
+        games."season" == :season
+        AND events.xg NOT NULL
+        AND games."gameType" == :gameType
+    GROUP BY skater_appearances."playerID"
+),
+onice AS (
+    SELECT
+        "playerID",
+        1.0 * sum("goalsFor") / sum("sogFor") AS onIceShootingPct,
+        sum("fenwickFor") AS fenwickFor,
+        sum("fenwickAgainst") AS fenwickAgainst,
+        sum("corsiFor") AS corsiFor,
+        sum("corsiAgainst") AS corsiAgainst,
+        sum("xgFor") AS xgFor,
+        sum("xgAgainst") AS xgAgainst,
+        sum("oZoneStarts") AS oZoneStarts,
+        sum("nZoneStarts") AS nZoneStarts,
+        sum("dZoneStarts") AS dZoneStarts
+    FROM split_shifts
+    LEFT JOIN games on split_shifts."gameID" == games.id
+    WHERE
+        games."gameType" == :gameType
+        AND games.season == :season
+        AND "attackingSkaters" == "defendingSkaters"
+    GROUP BY "playerID"
 )
 SELECT
     skater_appearances."playerID",
@@ -37,11 +73,26 @@ SELECT
     sum("skater_appearances"."hits") AS "hits",
     sum("skater_appearances"."sog") AS "sog",
     sum("skater_appearances"."blocks") AS "blocks",
-    sum("skater_appearances"."toiSeconds") * 1.0 / count("skater_appearances"."gameID") AS "avgTOI"
+    sum("skater_appearances"."toiSeconds") * 1.0 / count("skater_appearances"."gameID") AS "avgTOI",
+    advanced.xg,
+    advanced.xgGoals,
+    advanced.fenwick,
+    onice.onIceShootingPct,
+    onice.fenwickFor,
+    onice.fenwickAgainst,
+    onice.corsiFor,
+    onice.corsiAgainst,
+    onice.xgFor,
+    onice.xgAgainst,
+    onice.oZoneStarts,
+    onice.nZoneStarts,
+    onice.dZoneStarts
 FROM "skater_appearances"
 LEFT JOIN games ON "skater_appearances"."gameID" == "games".id
 LEFT JOIN players ON skater_appearances."playerID" == "players".id
 LEFT JOIN team_games ON skater_appearances."teamID" == team_games."teamID"
+LEFT JOIN advanced ON advanced."playerID" == skater_appearances."playerID"
+LEFT JOIN onice ON skater_appearances."playerID" == onice."playerID"
 WHERE "games"."gameType" == :gameType AND games.season == :season
 GROUP BY skater_appearances."playerID"
 ORDER BY "points" DESC;
