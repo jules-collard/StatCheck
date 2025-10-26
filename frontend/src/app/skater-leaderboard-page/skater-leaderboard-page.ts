@@ -75,7 +75,7 @@ export class SkaterLeaderboardPage {
       penaltyMinutes: (item) => item.totals.penaltyMinutes,
       avgTOI: (item) => item.totals.avgTOI,
       goalsAx: (item) => item.shooting.xgGoals - item.shooting.xg,
-      shootingPct: (item) => item.totals.goals - item.totals.sog,
+      shootingPct: (item) => item.totals.goals / item.totals.sog,
       deltaFenwick: (item) => (item.shooting.xgGoals - item.shooting.xg) / item.shooting.fenwick,
       corsiFor: (item) => item.onIce.corsiFor / (item.onIce.corsiFor + item.onIce.corsiAgainst),
       fenwickFor: (item) => item.onIce.fenwickFor / (item.onIce.fenwickFor + item.onIce.fenwickAgainst),
