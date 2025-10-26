@@ -3,6 +3,7 @@
         <tr class="bg-base-200">
             <th>Name</th>
             <th>Team</th>
+            <th>Position</th>
             <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
                 GP{{sortService.getSortIcon('gamesPlayed')}}
             </th>
@@ -40,6 +41,7 @@
             <tr class="hover:bg-primary-content hover:cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
                 <th>{{skater.fullName}}</th>
                 <td>{{skater.teamTriCodes.join('/')}}</td>
+                <td>{{skater.position | position}}</td>
                 <td>{{skater.totals.gamesPlayed}}</td>
                 <td>{{skater.totals.avgTOI | timeOnIce}}</td>
                 <td>{{skater.totals.goals}}</td>

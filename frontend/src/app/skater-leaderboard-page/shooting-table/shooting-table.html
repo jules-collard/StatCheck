@@ -3,6 +3,7 @@
         <tr class="bg-base-200">
             <th>Name</th>
             <th>Team</th>
+            <th>Position</th>
             <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
                 GP{{sortService.getSortIcon('gamesPlayed')}}
             </th>
@@ -23,6 +24,7 @@
                 <tr class="hover:bg-primary-content cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
                     <th>{{skater.fullName}}</th>
                     <th>{{skater.teamTriCodes.join('/')}}</th>
+                    <td>{{skater.position | position}}</td>
                     <td>{{skater.totals.gamesPlayed}}</td>
                     <td>{{skater.shooting.xgGoals - skater.shooting.xg | number: '0.1-1'}}</td>
                     <td>{{100 * skater.totals.goals / skater.totals.sog | number: '0.1-1'}}%</td>
