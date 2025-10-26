@@ -22,13 +22,13 @@ export type SkaterTotals = {
     records?: SkaterSeasonRecords;
 }
 
-type SkaterShooting = {
+export type SkaterShooting = {
     xg: number;
     xgGoals: number;
     fenwick: number;
 }
 
-type SkaterOnIce = {
+export type SkaterOnIce = {
     onIceShootingPct: number;
     fenwickFor: number;
     fenwickAgainst: number;

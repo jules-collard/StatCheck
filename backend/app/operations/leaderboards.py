@@ -9,13 +9,22 @@ from app.models import Team
 from app.api.api_models import SkaterLeaderboardItem, GoalieLeaderboardItem
 
 def skater_row_to_object(row: dict):
-    obj_dict = {key: row.get(key) for key in ['playerID', 'fullName', 'position', 'isActive', 'qualified']}
+    obj_dict = {key: row.get(key) for key in ['playerID', 'fullName', 'position', 'isActive', 'qualified', 'shotsQualified']}
     totals = {key: row.get(key) for key in [
         'gamesPlayed', 'goals', 'assists', 'plusMinus', 'hits', 'sog', 'blocks', 'penaltyMinutes', 'avgTOI'
+    ]}
+    shooting = {key: row.get(key) for key in [
+        'xg', 'xgGoals', 'fenwick'
+    ]}
+    onice = {key: row.get(key) for key in [
+        'onIceShootingPct', 'fenwickFor', 'fenwickAgainst', 'corsiFor', 'corsiAgainst', 'xgFor', 'xgAgainst',
+        'oZoneStarts', 'nZoneStarts', 'dZoneStarts'
     ]}
     teamTriCodes = [db.session.get(Team, int(teamID)).triCode for teamID in row.get('teams').split(',')]
 
     obj_dict['totals'] = totals
+    obj_dict['shooting'] = shooting
+    obj_dict['onIce'] = onice
     obj_dict['teamTriCodes'] = teamTriCodes
     obj = SkaterLeaderboardItem(**obj_dict)
     return obj.model_dump()
