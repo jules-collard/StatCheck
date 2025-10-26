@@ -72,7 +72,7 @@ export class SkaterLeaderboardPage {
       avgTOI: (item) => item.totals.avgTOI,
       goalsAx: (item) => item.shooting.xgGoals - item.shooting.xg,
       shootingPct: (item) => item.totals.goals - item.totals.sog,
-      deltaFenwick: (item) => item.shooting.xgGoals / item.shooting.fenwick
+      deltaFenwick: (item) => (item.shooting.xgGoals - item.shooting.xg) / item.shooting.fenwick
     }
     this.sortService.setSortConfig(sortConfig);
   })
