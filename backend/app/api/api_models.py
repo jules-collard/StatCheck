@@ -96,7 +96,7 @@ class SkaterLeaderboardItem(BaseModel):
     teamTriCodes: list[str] = Field(min_length=1)
     totals: SkaterTotals
     shooting: SkaterShooting
-    onice: SkaterOnIce
+    onIce: SkaterOnIce
     
 class SkaterStats(BaseModel):
     playerID: int = Field(gt=0)

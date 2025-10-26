@@ -24,7 +24,7 @@ def skater_row_to_object(row: dict):
 
     obj_dict['totals'] = totals
     obj_dict['shooting'] = shooting
-    obj_dict['onice'] = onice
+    obj_dict['onIce'] = onice
     obj_dict['teamTriCodes'] = teamTriCodes
     obj = SkaterLeaderboardItem(**obj_dict)
     return obj.model_dump()
