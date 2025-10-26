@@ -7,7 +7,22 @@
             }
         </select>
     </div>
-    <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto"><app-skater-table [skaters]="leaderboard()"/></div>
+    <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto">
+        <div class="tabs tabs-border tabs-lg">
+            <input type="radio" name="leaderboard_tabs" class="tab" checked="checked" aria-label="Totals" />
+            <div class="tab-content overflow-x-auto overflow-y-auto">
+                <app-skater-table [skaters]="leaderboard()"/>
+            </div>
+            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" />
+            <div class="tab-content overflow-x-auto overflow-y-auto">
+                <!-- <app-skater-table [skaters]="leaderboard()"/> -->
+            </div>
+            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" />
+            <div class="tab-content overflow-x-auto overflow-y-auto">
+                <!-- <app-skater-table [skaters]="leaderboard()"/> -->
+            </div>
+        </div>
+    </div>
     <div class="join w-full">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="gameType.set(2)">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Playoffs" (click)="gameType.set(3)"/>
