@@ -9,10 +9,11 @@ import { PlayerFilter } from '../shared/player-list/player-filter/player-filter'
 import { GlobalConfigService } from '../shared/global-config.service';
 import { SeasonPipe } from '../pipes/season.pipe';
 import { SortConfig, TableSortService } from '../shared/table-sort.service';
+import { ShootingTable } from "./shooting-table/shooting-table";
 
 @Component({
   selector: 'app-leaderboard-page',
-  imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe],
+  imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe, ShootingTable],
   templateUrl: './skater-leaderboard-page.html',
   styleUrl: './skater-leaderboard-page.css',
   providers: [PlayerListService, TableSortService]
@@ -68,7 +69,10 @@ export class SkaterLeaderboardPage {
       hits: (item) => item.totals.hits,
       blocks: (item) => item.totals.blocks,
       penaltyMinutes: (item) => item.totals.penaltyMinutes,
-      avgTOI: (item) => item.totals.avgTOI
+      avgTOI: (item) => item.totals.avgTOI,
+      goalsAx: (item) => item.shooting.xgGoals - item.shooting.xg,
+      shootingPct: (item) => item.totals.goals - item.totals.sog,
+      deltaFenwick: (item) => item.shooting.xgGoals / item.shooting.fenwick
     }
     this.sortService.setSortConfig(sortConfig);
   })

@@ -1,16 +1,16 @@
 import { Component, inject, input } from '@angular/core';
-import { SkaterLeaderboardItem } from '../skater-leaderboard-item.model';
-import { timeOnIcePipe } from '../../pipes/timeOnIce.pipe';
 import { Router } from '@angular/router';
+import { SkaterLeaderboardItem } from '../skater-leaderboard-item.model';
 import { TableSortService } from '../../shared/table-sort.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-skater-table',
-  imports: [timeOnIcePipe],
-  templateUrl: './skater-table.html',
-  styleUrl: './skater-table.css'
+  selector: 'app-shooting-table',
+  imports: [DecimalPipe],
+  templateUrl: './shooting-table.html',
+  styleUrl: './shooting-table.css'
 })
-export class SkaterTable {
+export class ShootingTable {
   private router = inject(Router)
   sortService = inject(TableSortService)
 

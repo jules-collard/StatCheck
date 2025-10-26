@@ -1,0 +1,34 @@
+<table class="table table-pin-rows bg-base-200">
+    <thead>
+        <tr class="bg-base-200">
+            <th>Name</th>
+            <th>Team</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP{{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('goals')">
+                GAx{{sortService.getSortIcon('goalsAx')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('shootingPct')">
+                Sh% {{sortService.getSortIcon('shootingPct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('deltaFenwick')">
+                dFSh% {{sortService.getSortIcon('deltaFenwick')}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (skater of skaters(); track skater.playerID) {
+            @if (skater.shooting !== undefined) {
+                <tr class="hover:bg-primary-content cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
+                    <th>{{skater.fullName}}</th>
+                    <th>{{skater.teamTriCodes.join('/')}}</th>
+                    <td>{{skater.totals.gamesPlayed}}</td>
+                    <td>{{skater.shooting.xgGoals - skater.shooting.xg | number: '0.1-1'}}</td>
+                    <td>{{100 * skater.totals.goals / skater.totals.sog | number: '0.1-1'}}%</td>
+                    <td>{{100 * (skater.shooting.xgGoals - skater.shooting.xg) / skater.shooting.fenwick | number: '0.1-1'}}%</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
