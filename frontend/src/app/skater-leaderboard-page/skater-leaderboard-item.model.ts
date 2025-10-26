@@ -6,6 +6,7 @@ export type SkaterLeaderboardItem = {
     fullName: string;
     isActive: boolean;
     qualified: boolean;
+    shotsQualified: boolean;
     position: Position;
     teamTriCodes: string[];
     totals: SkaterTotals

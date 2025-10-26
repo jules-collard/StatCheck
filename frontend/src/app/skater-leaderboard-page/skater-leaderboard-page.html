@@ -10,14 +10,14 @@
     <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto">
         <div class="tabs tabs-border tabs-lg">
             <input type="radio" name="leaderboard_tabs" class="tab" checked="checked" aria-label="Totals" />
-            <div class="tab-content overflow-x-auto overflow-y-auto">
+            <div class="tab-content overflow-x-auto overflow-y-auto" (click)="this.shootingTab.set(false)">
                 <app-skater-table [skaters]="leaderboard()"/>
             </div>
-            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" />
+            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" (click)="this.shootingTab.set(true)" />
             <div class="tab-content overflow-x-auto overflow-y-auto">
                 <app-shooting-table [skaters]="leaderboard()"/>
             </div>
-            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" />
+            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" (click)="this.shootingTab.set(false)"/>
             <div class="tab-content overflow-x-auto overflow-y-auto">
                 <app-on-ice-table [skaters]="leaderboard()"/>
             </div>
@@ -34,3 +34,4 @@
     <div class="row-start-4 row-end-11 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: true, forward: true}"/></div>
     <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
 </div>
+{{shootingTab()}}

@@ -10,6 +10,7 @@ export interface LeaderboardConfig {
     season: number;
     playerType: 'skaters' | 'goalies';
     gameType: 2 | 3;
+    shotsFilter?: boolean;
 }
 
 export interface ListConfig {
@@ -56,6 +57,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
                             && (this.positionsToShow().includes(player.position))
                             && (this.filterParams().team === 'All' ? true : (player as SkaterLeaderboardItem | GoalieLeaderboardItem).teamTriCodes.includes(this.filterParams().team))
                             && (this.filterParams().qualified ? (player as SkaterLeaderboardItem | GoalieLeaderboardItem).qualified : true)
+                            && (this.listConfig()!.leaderboardConfig!.shotsFilter && this.filterParams().qualified ? (player as SkaterLeaderboardItem).shotsQualified : true)
                         )
                 }
             })

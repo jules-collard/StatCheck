@@ -93,6 +93,7 @@ class SkaterLeaderboardItem(BaseModel):
     position: str = Field(pattern=r'^[GDLCR]$')
     isActive: bool
     qualified: bool
+    shotsQualified: bool
     teamTriCodes: list[str] = Field(min_length=1)
     totals: SkaterTotals
     shooting: SkaterShooting

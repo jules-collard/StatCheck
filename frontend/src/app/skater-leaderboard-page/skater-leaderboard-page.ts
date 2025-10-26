@@ -25,6 +25,8 @@ export class SkaterLeaderboardPage {
 
   private listService = inject(PlayerListService<SkaterLeaderboardItem>);
   private sortService = inject(TableSortService<SkaterLeaderboardItem>);
+
+  shootingTab = signal<boolean>(false)
   
   // Leaderboard properties
   season = routeBinding.required<number>();
@@ -43,7 +45,8 @@ export class SkaterLeaderboardPage {
       leaderboardConfig: {
         season: this.season(),
         playerType: this.playerType(),
-        gameType: this.gameType()
+        gameType: this.gameType(),
+        shotsFilter: this.shootingTab()
       }
     }
     return config
