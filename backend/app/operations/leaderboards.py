@@ -13,7 +13,7 @@ def skater_row_to_object(row: dict):
     totals = {key: row.get(key) for key in [
         'gamesPlayed', 'goals', 'assists', 'plusMinus', 'hits', 'sog', 'blocks', 'penaltyMinutes', 'avgTOI'
     ]}
-    advanced = {key: row.get(key) for key in [
+    shooting = {key: row.get(key) for key in [
         'xg', 'xgGoals', 'fenwick'
     ]}
     onice = {key: row.get(key) for key in [
@@ -23,7 +23,7 @@ def skater_row_to_object(row: dict):
     teamTriCodes = [db.session.get(Team, int(teamID)).triCode for teamID in row.get('teams').split(',')]
 
     obj_dict['totals'] = totals
-    obj_dict['advanced'] = advanced
+    obj_dict['shooting'] = shooting
     obj_dict['onice'] = onice
     obj_dict['teamTriCodes'] = teamTriCodes
     obj = SkaterLeaderboardItem(**obj_dict)

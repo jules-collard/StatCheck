@@ -95,7 +95,7 @@ class SkaterLeaderboardItem(BaseModel):
     qualified: bool
     teamTriCodes: list[str] = Field(min_length=1)
     totals: SkaterTotals
-    advanced: SkaterShooting
+    shooting: SkaterShooting
     onice: SkaterOnIce
     
 class SkaterStats(BaseModel):
