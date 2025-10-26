@@ -63,6 +63,7 @@ SELECT
     players."position",
     players."isActive",
     CASE WHEN count("skater_appearances"."gameID") >= 0.3125 * "team_games"."totalGames" THEN 1 ELSE 0 END AS "qualified",
+    CASE WHEN sum("skater_appearances"."sog") >= team_games.totalGames THEN 1 ELSE 0 END AS "shotsQualified",
     group_concat(DISTINCT "skater_appearances"."teamID") AS "teams",
     count("skater_appearances"."gameID") AS "gamesPlayed",
     sum("skater_appearances"."goals") AS "goals",
