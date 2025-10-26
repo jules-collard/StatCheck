@@ -32,7 +32,7 @@ advanced AS (
     LEFT JOIN skater_appearances ON coalesce(events."shootingPlayerID", events."scoringPlayerID") == skater_appearances."playerID" AND events."gameID" == skater_appearances."gameID"
     WHERE
         games."season" == :season
-        AND events.xg NOT NULL
+        AND events.xg IS NOT NULL
         AND games."gameType" == :gameType
     GROUP BY skater_appearances."playerID"
 ),

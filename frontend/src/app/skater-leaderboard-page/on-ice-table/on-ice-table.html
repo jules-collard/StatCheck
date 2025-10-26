@@ -29,7 +29,7 @@
     </thead>
     <tbody>
         @for (skater of skaters(); track skater.playerID) {
-            @if (skater.shooting !== undefined) {
+            @if (skater.onIce !== undefined) {
                 <tr class="hover:bg-primary-content cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
                     <th>{{skater.fullName}}</th>
                     <th>{{skater.teamTriCodes.join('/')}}</th>
