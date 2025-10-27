@@ -32,8 +32,9 @@ def import_games_on_date(datestring: str):
     game_ids = games.insert_games(date)
     for game_id in game_ids:
         import_game(game_id, calc_xg=False, split_shifts=False)
-    insert_xg(game_ids)
-    insert_split_shifts(game_ids)
+    if len(game_ids) > 0:
+        insert_xg(game_ids)
+        insert_split_shifts(game_ids)
 
 def import_games_date_range(start_string: str, end_string: str):
     date = datetime.strptime(start_string, '%Y-%m-%d')
