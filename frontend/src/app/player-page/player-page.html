@@ -6,10 +6,10 @@
         <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="selectRegular()">
         <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Playoffs" (click)="selectPlayoffs()"/>
     </div>
-    <div class="col-start-2 col-end-6 row-start-2 row-end-10 rounded-box bg-base-200 shadow-md overflow-x-auto">
+    <div class="col-start-2 col-end-6 row-start-2 row-end-10 rounded-box bg-base-200 shadow-md">
         <div class="tabs tabs-border tabs-lg">
             <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
-            <div class="tab-content overflow-x-auto overflow-y-auto">
+            <div class="tab-content">
                 @if (playerData()!.position === 'G'){
                     <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                 } @else {
@@ -18,17 +18,16 @@
             </div>
             @if (playerData()?.position !== 'G') {
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
-                <div class="tab-content overflow-x-auto overflow-y-auto">
+                <div class="tab-content">
                     <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
                 </div>
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
-                <div class="tab-content overflow-x-auto overflow-y-auto">
+                <div class="tab-content">
                     <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
                 </div>
-            }
-            @else {
+            } @else {
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
-                <div class="tab-content overflow-x-auto overflow-y-auto">
+                <div class="tab-content">
                     <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
                 </div>                    
             }

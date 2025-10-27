@@ -1,65 +1,67 @@
-<table class="table table-pin-rows">
-    <thead>
-        <tr class="bg-base-200">
-            <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
-                <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
-            </th>
-            <th>Team</th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
-                GP {{sortService.getSortIcon('gamesPlayed')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('avgTOI')">
-                ATOI {{sortService.getSortIcon('avgTOI')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('goals')">
-                G {{sortService.getSortIcon('goals')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('assists')">
-                A {{sortService.getSortIcon('assists')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('points')">
-                Pts {{sortService.getSortIcon('points')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('plusMinus')">
-                +/- {{sortService.getSortIcon('plusMinus')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('sog')">
-                SOG {{sortService.getSortIcon('sog')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('hits')">
-                Hits {{sortService.getSortIcon('hits')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('blocks')">
-                Blocks {{sortService.getSortIcon('blocks')}}
-            </th>
-            <th class="cursor-pointer" (click)="sortService.toggleSort('penaltyMinutes')">
-                PIM {{sortService.getSortIcon('penaltyMinutes')}}
-            </th>
-            <th>Awards</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (season of stats(); track $index) {
-            <tr class="hover:bg-primary-content">
-                <th>{{season.season | season}}</th>
-                <th>{{season.teamTriCodes.join('/')}}</th>
-                <td [innerHTML]="season.totals.gamesPlayed | boldRecord: season.totals.records?.maxGamesPlayed"></td>
-                <td>{{season.totals.avgTOI | timeOnIce}}</td>
-                <td [innerHTML]="season.totals.goals | boldRecord: season.totals.records?.maxGoals"></td>
-                <td [innerHTML]="season.totals.assists | boldRecord: season.totals.records?.maxAssists"></td>
-                <td [innerHTML]="season.totals.goals + season.totals.assists | boldRecord: season.totals.records?.maxPoints"></td>
-                <td [innerHTML]="season.totals.plusMinus | boldRecord: season.totals.records?.maxPlusMinus"></td>
-                <td [innerHTML]="season.totals.sog | boldRecord: season.totals.records?.maxShotsOnGoal"></td>
-                <td [innerHTML]="season.totals.hits | boldRecord: season.totals.records?.maxHits"></td>
-                <td [innerHTML]="season.totals.blocks | boldRecord: season.totals.records?.maxBlocks"></td>
-                <td [innerHTML]="season.totals.penaltyMinutes | boldRecord: season.totals.records?.maxPenaltyMinutes"></td>
-                <td>
-                    @for (award of getSeasonAwards(season.season); track $index) {
-                        <app-award-badge [award]="award"/>
-                        <br/>
-                    }
-                </td>
+<div class="overflow-auto rounded-box h-[53dvh]">
+    <table class="table table-pin-rows">
+        <thead>
+            <tr class="bg-base-200">
+                <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
+                    <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
+                </th>
+                <th>Team</th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                    GP {{sortService.getSortIcon('gamesPlayed')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('avgTOI')">
+                    ATOI {{sortService.getSortIcon('avgTOI')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('goals')">
+                    G {{sortService.getSortIcon('goals')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('assists')">
+                    A {{sortService.getSortIcon('assists')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('points')">
+                    Pts {{sortService.getSortIcon('points')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('plusMinus')">
+                    +/- {{sortService.getSortIcon('plusMinus')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('sog')">
+                    SOG {{sortService.getSortIcon('sog')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('hits')">
+                    Hits {{sortService.getSortIcon('hits')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('blocks')">
+                    Blocks {{sortService.getSortIcon('blocks')}}
+                </th>
+                <th class="cursor-pointer" (click)="sortService.toggleSort('penaltyMinutes')">
+                    PIM {{sortService.getSortIcon('penaltyMinutes')}}
+                </th>
+                <th>Awards</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (season of stats(); track $index) {
+                <tr class="hover:bg-primary-content">
+                    <th>{{season.season | season}}</th>
+                    <th>{{season.teamTriCodes.join('/')}}</th>
+                    <td [innerHTML]="season.totals.gamesPlayed | boldRecord: season.totals.records?.maxGamesPlayed"></td>
+                    <td>{{season.totals.avgTOI | timeOnIce}}</td>
+                    <td [innerHTML]="season.totals.goals | boldRecord: season.totals.records?.maxGoals"></td>
+                    <td [innerHTML]="season.totals.assists | boldRecord: season.totals.records?.maxAssists"></td>
+                    <td [innerHTML]="season.totals.goals + season.totals.assists | boldRecord: season.totals.records?.maxPoints"></td>
+                    <td [innerHTML]="season.totals.plusMinus | boldRecord: season.totals.records?.maxPlusMinus"></td>
+                    <td [innerHTML]="season.totals.sog | boldRecord: season.totals.records?.maxShotsOnGoal"></td>
+                    <td [innerHTML]="season.totals.hits | boldRecord: season.totals.records?.maxHits"></td>
+                    <td [innerHTML]="season.totals.blocks | boldRecord: season.totals.records?.maxBlocks"></td>
+                    <td [innerHTML]="season.totals.penaltyMinutes | boldRecord: season.totals.records?.maxPenaltyMinutes"></td>
+                    <td>
+                        @for (award of getSeasonAwards(season.season); track $index) {
+                            <app-award-badge [award]="award"/>
+                            <br/>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
