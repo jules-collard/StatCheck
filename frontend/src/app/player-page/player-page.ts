@@ -1,16 +1,17 @@
 import { Component, computed, effect, inject, input as routeBinding, signal } from '@angular/core';
 
-import { PlayerDetails } from "./player-details/player-details";
-import { SkaterStats } from './skater-stats.model';
+import { PlayerService } from './player.service';
+
 import { Player } from './player.model';
 import { Award } from './award.model';
-import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
-import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
+import { PlayerDetails } from "./player-details/player-details";
+import { SkaterStats } from './skater-stats.model';
 import { GoalieStats } from './goalie-stats.model';
+import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
 import { SkaterAnalyticsTable } from './skater-analytics-table/skater-analytics-table';
-import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
 import { SkaterOnIceTable } from "./skater-onice-table/skater-onice-table";
-import { PlayerService } from './player.service';
+import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
+import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
 
 @Component({
   selector: 'app-player-page',
