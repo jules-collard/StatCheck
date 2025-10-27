@@ -6,15 +6,16 @@ from app.inserters import games, appearances, events, shifts
 from app.analytics.on_ice.updating import insert_split_shifts, delete_split_shifts
 from app.analytics.expected_goals.updating import insert_xg
 
-def import_game(id: int, add_game = False, calc_xg = False):
+def import_game(id: int, add_game = False, calc_xg = True, split_shifts = True):
     if add_game:
         games.insert_game(id)
     appearances.insert_appearances(id)
     events.insert_events(id)
     shifts.insert_shifts(id)
-    insert_split_shifts(id)
     if calc_xg:
         insert_xg(id)
+    if split_shifts:
+        insert_split_shifts(id)
 
 def remove_game(id: int):
     events.delete_events(id)
@@ -30,9 +31,10 @@ def import_games_on_date(datestring: str):
     app.logger.info(f'IMPORTING GAMES FOR {datestring}')
     game_ids = games.insert_games(date)
     for game_id in game_ids:
-        import_game(game_id)
+        import_game(game_id, calc_xg=False, split_shifts=False)
     if len(game_ids) > 0:
         insert_xg(game_ids)
+        insert_split_shifts(game_ids)
 
 def import_games_date_range(start_string: str, end_string: str):
     date = datetime.strptime(start_string, '%Y-%m-%d')
@@ -46,5 +48,6 @@ def import_games_from_errors():
     for gameID in ids:
         remove_game(gameID)
         GameImportError.query.filter_by(gameID=gameID).delete()
-        import_game(gameID, add_game=True)
+        import_game(gameID, add_game=True, calc_xg=False, split_shifts=False)
     insert_xg(ids)
+    insert_split_shifts(ids)
