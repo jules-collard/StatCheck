@@ -1,6 +1,10 @@
 <div class="grid grid-cols-6 auto-rows-[6.5dvh] gap-2">
     <div class="col-1 row-start-1 row-end-11">
-        <app-player-details [playerData]="playerData()!"/>
+        @if (!playerData()) {
+            <span class="loading loading-spinner loading-lg justify-self-center"></span>
+        } @else {
+            <app-player-details [playerData]="playerData()!"/>
+        }
     </div>
     <div class="join row-1 col-2">
         <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="selectRegular()">
@@ -10,7 +14,9 @@
         <div class="tabs tabs-border tabs-lg">
             <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
             <div class="tab-content">
-                @if (playerData()!.position === 'G'){
+                @if (!stats()) {
+                    <span class="loading loading-spinner loading-lg justify-self-center"></span>
+                } @else if (playerData()!.position === 'G'){
                     <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
                 } @else {
                     <app-skater-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
@@ -19,16 +25,22 @@
             @if (playerData()?.position !== 'G') {
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
                 <div class="tab-content">
-                    <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
+                    @if (stats()) {
+                        <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
+                    }
                 </div>
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
                 <div class="tab-content">
-                    <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
+                    @if (stats()) {
+                        <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
+                    }
                 </div>
             } @else {
                 <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
                 <div class="tab-content">
-                    <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
+                    @if (stats()) {
+                        <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
+                    }
                 </div>                    
             }
         </div>
