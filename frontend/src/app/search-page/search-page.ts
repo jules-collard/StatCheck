@@ -29,6 +29,12 @@ export class SearchPage {
     })
   })
 
+  searchEffect = effect(() => {
+    this.listService.filterParams.update(params =>
+      ({...params, nameToSearch: this.searchParam()})
+    )
+  })
+
   playersToList = computed<PlayerListItem[]>(() => this.listService.slicedPlayers());
 
   onSelectListItem(id: number) {
