@@ -1,33 +1,23 @@
-<div class="grid grid-cols-4">
-    <div class="col-start-1">
+<div class="grid grid-cols-4 auto-rows-[6.5dvh] gap-2">
+    <div class="col-start-1 row-start-3 pl-4 pr-4">
         <app-player-filter/>
     </div>
-    <div class="col-start-2 col-end-4">
-        @if (playersToList() == null || playersToList().length == 0) {
-            <div class="badge badge-error">Players Not Found</div>
-        } @else {
-            <div class="min-w-max pb-2">
-                <app-player-list [players]="playersToList()"/>
-            </div>
-            @if (filteredPlayers().length > playersPerPage) {
-                <div class="justify-self-center">
-                    <div class="join">
-                        <button class="join-item btn" (click)="firstPage()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
-                        </button>
-                        <button class="join-item btn" (click)="prevPage()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-                        </button>
-                        <button class="join-item btn">{{currPage() + 1}}/{{maxPages()}}</button>
-                        <button class="join-item btn" (click)="nextPage()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-                        </button>
-                        <button class="join-item btn" (click)="lastPage()">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5M6 17l5-5-5-5"/></svg>
-                        </button>
-                    </div>
-                </div>
-            }
+    <div class="col-start-2 col-end-4 row-start-1 row-end-11">
+        @if (playersToList()) {
+            <ul class="list rounded-box shadow-md bg-base-200 border border-base-300 max-h-[81dvh] overflow-y-auto">
+                @for (player of playersToList(); track player.id) {
+                    <li class="list-row hover:bg-primary-content hover:cursor-pointer" (click)=onSelectListItem(player.id)>
+                        <div><img class="size-10 rounded-box" [src]="player.headshot"></div>
+                        <div class="list-col-grow">
+                            <div>{{player.fullName}}</div>
+                            <div class="text-sm font-semibold">{{player.position | position}} | {{player.isActive ? player.teamTriCode ?? 'FA' : 'Retired'}}</div>
+                        </div>
+                    </li>
+                }
+            </ul>
         }
+    </div>
+    <div class="col-start-2 col-end-4 row-12 bg-base-200 justify-self-center">
+        <app-player-list-button/>
     </div>
 </div>

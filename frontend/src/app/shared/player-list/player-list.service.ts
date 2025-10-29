@@ -1,6 +1,6 @@
 import { httpResource } from "@angular/common/http";
 import { SkaterLeaderboardItem } from "../../skater-leaderboard-page/skater-leaderboard-item.model";
-import { PlayerListItem } from "../../search-page/player-list/player-list-item.model";
+import { PlayerListItem } from "../../search-page/player-list-item.model";
 import { computed, effect, inject, signal } from "@angular/core";
 import { FilterParams } from "./player-filter/filter-params.interface";
 import { TableSortService } from "../table-sort.service";
@@ -16,7 +16,7 @@ export interface LeaderboardConfig {
 export interface ListConfig {
     type: 'search' | 'leaderboard';
     itemsPerPage: number;
-    leaderboardConfig: LeaderboardConfig | null;
+    leaderboardConfig?: LeaderboardConfig;
 }
 
 export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem | GoalieLeaderboardItem> {
