@@ -9,10 +9,12 @@ import { PlayerFilter } from '../shared/player-list/player-filter/player-filter'
 import { GlobalConfigService } from '../shared/global-config.service';
 import { SeasonPipe } from '../pipes/season.pipe';
 import { SortConfig, TableSortService } from '../shared/table-sort.service';
+import { ShootingTable } from "./shooting-table/shooting-table";
+import { OnIceTable } from "./on-ice-table/on-ice-table";
 
 @Component({
   selector: 'app-leaderboard-page',
-  imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe],
+  imports: [SkaterTable, PlayerListButton, PlayerFilter, SeasonPipe, ShootingTable, OnIceTable],
   templateUrl: './skater-leaderboard-page.html',
   styleUrl: './skater-leaderboard-page.css',
   providers: [PlayerListService, TableSortService]
@@ -23,6 +25,8 @@ export class SkaterLeaderboardPage {
 
   private listService = inject(PlayerListService<SkaterLeaderboardItem>);
   private sortService = inject(TableSortService<SkaterLeaderboardItem>);
+
+  shootingTab = signal<boolean>(false)
   
   // Leaderboard properties
   season = routeBinding.required<number>();
@@ -41,7 +45,8 @@ export class SkaterLeaderboardPage {
       leaderboardConfig: {
         season: this.season(),
         playerType: this.playerType(),
-        gameType: this.gameType()
+        gameType: this.gameType(),
+        shotsFilter: this.shootingTab()
       }
     }
     return config
@@ -68,7 +73,16 @@ export class SkaterLeaderboardPage {
       hits: (item) => item.totals.hits,
       blocks: (item) => item.totals.blocks,
       penaltyMinutes: (item) => item.totals.penaltyMinutes,
-      avgTOI: (item) => item.totals.avgTOI
+      avgTOI: (item) => item.totals.avgTOI,
+      goalsAx: (item) => item.shooting.xgGoals - item.shooting.xg,
+      shootingPct: (item) => item.totals.goals / item.totals.sog,
+      deltaFenwick: (item) => (item.shooting.xgGoals - item.shooting.xg) / item.shooting.fenwick,
+      corsiFor: (item) => item.onIce.corsiFor / (item.onIce.corsiFor + item.onIce.corsiAgainst),
+      fenwickFor: (item) => item.onIce.fenwickFor / (item.onIce.fenwickFor + item.onIce.fenwickAgainst),
+      xgFor: (item) => item.onIce.xgFor / (item.onIce.xgFor + item.onIce.xgAgainst),
+      onIceShootingPct: (item) => item.onIce.onIceShootingPct,
+      oZoneStarts: (item) => item.onIce.oZoneStarts / (item.onIce.oZoneStarts + item.onIce.nZoneStarts + item.onIce.dZoneStarts),
+      dZoneStarts: (item) => item.onIce.dZoneStarts / (item.onIce.oZoneStarts + item.onIce.nZoneStarts + item.onIce.dZoneStarts)
     }
     this.sortService.setSortConfig(sortConfig);
   })

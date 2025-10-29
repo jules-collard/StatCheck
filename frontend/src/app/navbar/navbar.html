@@ -3,11 +3,14 @@
         <a [routerLink]="['/']"><button class="btn btn-ghost text-3xl text-primary-content">StatCheck</button></a>
     </div>
     <div class="navbar-center">
-        <a [routerLink]="['search']">
-            <button class="btn btn-secondary">Players</button>
-        </a>
         <a [routerLink]="['leaderboards', config.currentSeason, 'skaters']">
-            <button class="btn btn-secondary">Leaderboards</button>
+            <button class="btn btn-secondary">Skaters</button>
+        </a>
+        <a [routerLink]="['leaderboards', config.currentSeason, 'goalies']">
+            <button class="btn btn-secondary">Goalies</button>
+        </a>
+        <a [routerLink]="['search']">
+            <button class="btn btn-secondary">Search</button>
         </a>
     </div>
     <div class="navbar-end">

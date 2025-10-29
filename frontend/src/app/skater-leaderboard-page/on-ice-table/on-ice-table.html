@@ -1,0 +1,48 @@
+<table class="table table-pin-rows bg-base-200">
+    <thead>
+        <tr class="bg-base-200">
+            <th>Name</th>
+            <th>Team</th>
+            <th>Position</th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
+                GP {{sortService.getSortIcon('gamesPlayed')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('corsiFor')">
+                CF% {{sortService.getSortIcon('corsiFor')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('fenwickFor')">
+                FF% {{sortService.getSortIcon('fenwickFor')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('xgFor')">
+                xG% {{sortService.getSortIcon('xgFor')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('onIceShootingPct')">
+                oiSh% {{sortService.getSortIcon('onIceShootingPct')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('oZoneStarts')">
+                OZS% {{sortService.getSortIcon('oZoneStarts')}}
+            </th>
+            <th class="cursor-pointer" (click)="sortService.toggleSort('dZoneStarts')">
+                DZS% {{sortService.getSortIcon('dZoneStarts')}}
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (skater of skaters(); track skater.playerID) {
+            @if (skater.onIce !== undefined) {
+                <tr class="hover:bg-primary-content cursor-pointer" (click)="navigateToPlayer(skater.playerID)">
+                    <th>{{skater.fullName}}</th>
+                    <th>{{skater.teamTriCodes.join('/')}}</th>
+                    <td>{{skater.position | position}}</td>
+                    <td>{{skater.totals.gamesPlayed}}</td>
+                    <td>{{100 * skater.onIce.corsiFor / (skater.onIce.corsiFor + skater.onIce.corsiAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * skater.onIce.fenwickFor / (skater.onIce.fenwickFor + skater.onIce.fenwickAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * skater.onIce.xgFor / (skater.onIce.xgFor + skater.onIce.xgAgainst)| number: '0.1-1'}}%</td>
+                    <td>{{100 * skater.onIce.onIceShootingPct | number: '0.1-1'}}%</td>
+                    <td>{{100 * skater.onIce.oZoneStarts / (skater.onIce.oZoneStarts + skater.onIce.nZoneStarts + skater.onIce.dZoneStarts) | number: '0.1-1'}}%</td>
+                    <td>{{100 * skater.onIce.dZoneStarts / (skater.onIce.oZoneStarts + skater.onIce.nZoneStarts + skater.onIce.dZoneStarts) | number: '0.1-1'}}%</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

@@ -1,54 +1,58 @@
-import { Component, computed, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, input as routeBinding, signal } from '@angular/core';
 
-import { PlayerDetails } from "./player-details/player-details";
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { SkaterStats } from './skater-stats.model';
+import { PlayerService } from './player.service';
+
 import { Player } from './player.model';
 import { Award } from './award.model';
-import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
-import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
+import { PlayerDetails } from "./player-details/player-details";
+import { SkaterStats } from './skater-stats.model';
 import { GoalieStats } from './goalie-stats.model';
+import { SkaterTotalsTable } from './skater-totals-table/skater-totals-table';
 import { SkaterAnalyticsTable } from './skater-analytics-table/skater-analytics-table';
-import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
 import { SkaterOnIceTable } from "./skater-onice-table/skater-onice-table";
-import { httpResource, HttpResourceRef } from '@angular/common/http';
+import { GoalieTotalsTable } from "./goalie-totals-table/goalie-totals-table";
+import { GoalieAdvancedTable } from './goalie-advanced-table/goalie-advanced-table';
 
 @Component({
   selector: 'app-player-page',
   imports: [PlayerDetails, SkaterTotalsTable, GoalieTotalsTable, SkaterAnalyticsTable, GoalieAdvancedTable, SkaterOnIceTable],
   templateUrl: './player-page.html',
-  styleUrl: './player-page.css'
+  styleUrl: './player-page.css',
+  providers: [PlayerService]
 })
 export class PlayerPage {
-  regularSeason = signal<boolean>(true)
+  playerID = routeBinding.required<number>();
+  playerService = inject(PlayerService);
 
-  playerInfoResource = input.required<HttpResourceRef<Player | undefined>>()
-  regSeasonResource = input.required<HttpResourceRef<SkaterStats[] | GoalieStats[] | undefined>>()
-  postSeasonResource = input.required<HttpResourceRef<SkaterStats[] | GoalieStats[] | undefined>>()
+  idEffect = effect(() => {
+    this.playerService.setPlayerID(this.playerID());
+  })
+
+  regularSeason = signal<boolean>(true);
 
   private awardNames = ['Vezina Trophy', 'Hart Memorial Trophy', 'Calder Memorial Trophy', 'James Norris Memorial Trophy', 'Frank J. Selke Trophy', 'Conn Smythe Trophy', 'Stanley Cup']
 
   playerData = computed<Player | null>(() => {
-    if (this.playerInfoResource().hasValue()) {
-      return this.playerInfoResource().value()!
+    if (this.playerService.playerData.hasValue()) {
+      return this.playerService.playerData.value();
     } else {
-      return null
+      return null;
     }
   })
 
   regSeasonStats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    if (this.regSeasonResource().hasValue()) {
-      return this.regSeasonResource().value()!
+    if (this.playerService.regSeasonStats.hasValue()) {
+      return this.playerService.regSeasonStats.value();
     } else {
-      return null
+      return null;
     }
   })
 
   postSeasonStats = computed<SkaterStats[] | GoalieStats[] | null>(() => {
-    if (this.postSeasonResource().hasValue()) {
-      return this.postSeasonResource().value()!
+    if (this.playerService.postSeasonStats.hasValue()) {
+      return this.playerService.postSeasonStats.value();
     } else {
-      return null
+      return null;
     }
   })
 
@@ -71,20 +75,3 @@ export class PlayerPage {
   }
 
 }
-
-const PLAYER_URL = 'http://localhost:5000/api/players'
-
-export const resolvePlayer: ResolveFn<HttpResourceRef<Player | undefined>> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
-  const playerID = Number(activatedRoute.paramMap.get('playerID'))
-  return httpResource<Player>(() => `${PLAYER_URL}/${playerID}`)
-};
-
-export const resolveRegSeasonStats: ResolveFn<HttpResourceRef<SkaterStats[] | GoalieStats[] | undefined>> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
-  const playerID = Number(activatedRoute.paramMap.get('playerID'))
-  return httpResource<SkaterStats[] | GoalieStats[]>(() => `${PLAYER_URL}/${playerID}/stats?gameType=2`)
-};
-
-export const resolvePostSeasonStats: ResolveFn<HttpResourceRef<SkaterStats[] | GoalieStats[] | undefined>> = (activatedRoute: ActivatedRouteSnapshot, routerState: RouterStateSnapshot) => {
-  const playerID = Number(activatedRoute.paramMap.get('playerID'))
-  return httpResource<SkaterStats[] | GoalieStats[]>(() => `${PLAYER_URL}/${playerID}/stats?gameType=3`)
-};

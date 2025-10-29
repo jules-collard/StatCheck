@@ -1,12 +1,13 @@
-<table class="table table-auto">
+<div class="overflow-auto h-[53dvh]">
+<table class="table table-pin-rows">
     <thead>
-        <tr>
+        <tr class="bg-base-200">
             <th class="cursor-pointer" (click)="sortService.toggleSort('season')">
                 <div class="float-left text-left">Season</div><div class="float-right text-right">{{sortService.getSortIcon('season')}}</div>
             </th>
             <th>Team</th>
             <th class="cursor-pointer" (click)="sortService.toggleSort('gamesPlayed')">
-                GP {{sortService.getSortIcon('season')}}
+                GP {{sortService.getSortIcon('gamesPlayed')}}
             </th>
             <th class="cursor-pointer" (click)="sortService.toggleSort('corsiFor')">
                 CF% {{sortService.getSortIcon('corsiFor')}}
@@ -46,3 +47,4 @@
         }
     </tbody>
 </table>
+</div>
