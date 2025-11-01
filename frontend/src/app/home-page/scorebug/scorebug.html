@@ -1,0 +1,16 @@
+<div class="stats shadow-md bg-base-200">
+    <div class="stat place-items-center">
+        <div class="stat-title text-lg">{{home().abbreviation}}</div>
+        <div class="stat-value">{{home().goals}}</div>
+    </div>
+    <div class="stat place-items-center">
+        <div class="stat-title text-lg">{{away().abbreviation}}</div>
+        <div class="stat-value">{{away().goals}}</div>
+    </div>
+    <div class="stat place-items-center">
+        @if (!state().finished) {
+            <div class="stat-title text-lg">{{state().period}}</div>
+        }
+        <div class="stat-value text-lg">{{stateShow()}}</div>
+    </div>
+</div>
