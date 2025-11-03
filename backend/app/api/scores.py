@@ -1,6 +1,5 @@
 import re
-from datetime import datetime, timezone
-from zoneinfo import ZoneInfo
+from datetime import datetime
 import pytz
 
 import requests
@@ -11,8 +10,8 @@ from pydantic import ValidationError
 from app.api import bp
 from app.api.api_models import GameDetails, GameList
 
-@cross_origin()
 @bp.route('/scores/<date>', methods=['GET'])
+@cross_origin()
 def get_scores(date: str):
     if not re.match(r'^\d{4}-\d{2}-\d{2}$', date):
         abort(400)
@@ -27,7 +26,7 @@ def get_scores(date: str):
     try:
         games = data.get('games')
         for game in games:
-            game['startTimeEastern'] = pytz.timezone('UTC').localize(datetime.strptime(game.get('startTimeUTC'), "%Y-%m-%dT%H:%M:%SZ")).astimezone(pytz.timezone('Canada/Eastern')).strftime("%Y-%m-%dT%H:%M:%S")
+            game['startTimeEastern'] = pytz.timezone('UTC').localize(datetime.strptime(game.get('startTimeUTC'), "%Y-%m-%dT%H:%M:%SZ")).astimezone(pytz.timezone('Canada/Eastern')).strftime("%H:%M")
         games = [GameDetails(**game) for game in games]
         gamelist = GameList(games=games)
         return gamelist.model_dump().get('games')

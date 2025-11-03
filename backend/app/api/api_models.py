@@ -1,5 +1,4 @@
 from typing import Optional, List, Literal
-from datetime import datetime
 
 from pydantic import BaseModel, Field
 
@@ -20,7 +19,6 @@ class PlayerListItem(BaseModel):
     position: str = Field(pattern=r'^[GDLCR]$')
     teamTriCode: Optional[str] = Field(pattern=r'^[A-Z]{3}$')
     headshot: str = Field(pattern=r'^.*\.png$')
-
 
 class PlayerInfo(BaseModel):
     id: int = Field(gt=0)
