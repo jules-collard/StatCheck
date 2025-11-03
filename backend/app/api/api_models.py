@@ -1,4 +1,5 @@
-from typing import Optional, List
+from typing import Optional, List, Literal
+from datetime import datetime
 
 from pydantic import BaseModel, Field
 
@@ -149,3 +150,36 @@ class GoalieStats(BaseModel):
     qualified: bool
     totals: GoalieTotals
     advanced: Optional[GoalieAdvanced] = Field(default=None)
+
+# Live Scores
+
+class Team(BaseModel):
+    id: int
+    abbrev: str = Field(max_length=3)
+    record: Optional[str] = None
+    score: Optional[int] = None
+    sog: Optional[int] = None
+
+class Clock(BaseModel):
+    timeRemaining: str
+    inIntermission: bool
+
+class PeriodDescriptor(BaseModel):
+    number: int
+    periodType: Literal['REG', 'OT', 'SO']
+
+class GameOutcome(BaseModel):
+    lastPeriodType: Literal['REG', 'OT', 'SO']
+
+class GameDetails(BaseModel):
+    id: int
+    startTimeEastern: str
+    gameState: Literal['FUT', 'OFF', 'LIVE']
+    awayTeam: Team
+    homeTeam: Team
+    clock: Optional[Clock] = None
+    periodDescriptor: Optional[PeriodDescriptor] = None
+    gameOutcome: Optional[GameOutcome] = None
+
+class GameList(BaseModel):
+    games: list[GameDetails]
