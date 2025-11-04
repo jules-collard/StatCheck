@@ -172,7 +172,7 @@ class GameOutcome(BaseModel):
 class GameDetails(BaseModel):
     id: int
     startTimeEastern: str
-    gameState: Literal['FUT', 'OFF', 'LIVE']
+    gameState: Literal['FUT', 'OFF', 'PRE', 'LIVE']
     awayTeam: Team
     homeTeam: Team
     clock: Optional[Clock] = None
