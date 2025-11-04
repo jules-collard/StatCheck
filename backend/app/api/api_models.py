@@ -181,3 +181,19 @@ class GameDetails(BaseModel):
 
 class GameList(BaseModel):
     games: list[GameDetails]
+
+class StandingsItem(BaseModel):
+    conferenceAbbrev: Literal['E', 'W']
+    divisionAbbrev: Literal['C', 'P', 'M', 'A']
+    gamesPlayed: int
+    goalDifferential: int
+    goalAgainst: int
+    goalFor: int
+    losses: int
+    otLosses: int
+    wins: int
+    points: int
+    pointPctg: float
+    leagueSequence: int
+    teamAbbrev: str = Field(max_length=3)
+    teamLogo: str
