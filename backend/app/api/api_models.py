@@ -197,3 +197,6 @@ class StandingsItem(BaseModel):
     leagueSequence: int
     teamAbbrev: str = Field(max_length=3)
     teamLogo: str
+    l10Wins: int
+    l10Losses: int
+    l10OtLosses: int
