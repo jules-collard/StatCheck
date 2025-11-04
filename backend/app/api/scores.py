@@ -30,5 +30,5 @@ def get_scores(date: str):
         games = [GameDetails(**game) for game in games]
         gamelist = GameList(games=games)
         return gamelist.model_dump().get('games')
-    except KeyError or ValidationError:
+    except (KeyError, ValidationError):
         abort(500)

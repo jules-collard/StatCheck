@@ -26,6 +26,6 @@ def get_league_standings():
 
         standings = [StandingsItem(**team) for team in standings]
         return json.dumps([item.model_dump() for item in standings])
-    except TypeError or ValidationError:
+    except (KeyError, ValidationError):
         abort(500)
 
