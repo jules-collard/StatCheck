@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Scorebug } from "./scorebug/scorebug";
 import { httpResource } from '@angular/common/http';
 import { GlobalConfigService } from '../shared/global-config.service';
@@ -13,6 +13,24 @@ import { GameDetails } from './game-details.model';
 export class HomePage {
   globalConfig = inject(GlobalConfigService)
 
-  date = new Date().toLocaleDateString('en-CA', { timeZone: 'Canada/Eastern' }).replace(/\//g, '-');
-  scoresResource = httpResource<GameDetails[]>(() => `${this.globalConfig.backendURL}/scores/${this.date}`)
+  date = signal(new Date())
+  dateString = computed(() => this.date().toLocaleDateString('en-CA', {
+    timeZone: 'Canada/Eastern',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric'
+  }))
+
+  dateForQuery = computed(() => this.date().toLocaleDateString('en-CA', { timeZone: 'Canada/Eastern' }).replace(/\//g, '-'))
+  scoresResource = httpResource<GameDetails[]>(() => `${this.globalConfig.backendURL}/scores/${this.dateForQuery()}`)
+
+  addDays(date: Date, days: number) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
+  moveDay(diff: number) {
+    this.date.set(this.addDays(this.date(), diff))
+  }
 }
