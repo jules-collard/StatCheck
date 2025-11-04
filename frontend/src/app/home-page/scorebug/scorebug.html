@@ -1,16 +1,22 @@
-<div class="stats shadow-md bg-base-200">
+<div class="stats shadow-md bg-base-200 border border-secondary w-full h-full">
     <div class="stat place-items-center">
-        <div class="stat-title text-lg">{{home().abbreviation}}</div>
-        <div class="stat-value">{{home().goals}}</div>
-    </div>
-    <div class="stat place-items-center">
-        <div class="stat-title text-lg">{{away().abbreviation}}</div>
-        <div class="stat-value">{{away().goals}}</div>
-    </div>
-    <div class="stat place-items-center">
-        @if (!state().finished) {
-            <div class="stat-title text-lg">{{state().period}}</div>
+        @if (gameDetails().gameState !== 'FUT') {
+            <div class="stat-title text-lg">{{gameDetails().homeTeam.abbrev}}</div>
         }
-        <div class="stat-value text-lg">{{stateShow()}}</div>
+        <div class="stat-value">{{scoreShow()[0]}}</div>
+        <div class="stat-desc">{{scoreDetails()[0]}}</div>
+    </div>
+    <div class="stat place-items-center">
+        @if (gameDetails().gameState !== 'FUT') {
+            <div class="stat-title text-lg">{{gameDetails().awayTeam.abbrev}}</div>
+        }
+        <div class="stat-value">{{scoreShow()[1]}}</div>
+        <div class="stat-desc">{{scoreDetails()[1]}}</div>
+    </div>
+    <div class="stat place-items-center">
+        @if (gameDetails().gameState == 'LIVE') {
+            <div class="stat-title text-lg">{{gameDetails().periodDescriptor?.number}}</div>
+        }
+        <div class="stat-value text-lg">{{timeShow()}}</div>
     </div>
 </div>

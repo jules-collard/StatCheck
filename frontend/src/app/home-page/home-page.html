@@ -1,8 +1,10 @@
 <div class="grid grid-cols-2 auto-rows-[10dvh]">
     <p class="text-2xl text-center font-extrabold">Latest Scores</p>
     <div class="grid grid-cols-2 col-1 gap-2 justify-self-center">
-        <app-scorebug [home]="{abbreviation: 'BOS', goals: 2, sog:25}" [away]="{abbreviation: 'CAR', goals: 3, sog:32}" [state]="{finished: true, timeRemaining: '00:00', period: 3, periodType: 'REG', lastPeriodType: 'REG'}"/>
-        <app-scorebug [home]="{abbreviation: 'MTL', goals: 2, sog:25}" [away]="{abbreviation: 'TOR', goals: 3, sog:32}" [state]="{finished: false, timeRemaining: '05:30', period: 2, periodType: 'REG', lastPeriodType: 'REG'}"/>
-        <app-scorebug [home]="{abbreviation: 'BOS', goals: 2, sog:25}" [away]="{abbreviation: 'CAR', goals: 3, sog:32}" [state]="{finished: true, timeRemaining: '00:00', period: 3, periodType: 'REG', lastPeriodType: 'REG'}"/>
+        @if (scoresResource.hasValue()) {
+            @for (game of scoresResource.value(); track game.id) {
+                <app-scorebug [gameDetails]="game"/>
+            }
+        }
     </div>
 </div>
