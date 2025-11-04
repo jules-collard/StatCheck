@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Control, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list.service';
@@ -11,6 +11,8 @@ import { PlayerListService } from '../player-list.service';
 })
 export class PlayerFilter {
   playerListService = inject(PlayerListService);
+
+  searchParam = input<string>('');
   
   positionOptions = input<{goalie: boolean, defenseman: boolean, forward: boolean}>({
     goalie: true,
@@ -23,7 +25,7 @@ export class PlayerFilter {
 
   team = 'All';
   qualified = signal<boolean>(true);
-  nameToSearch = signal<string>('');
+  nameToSearch = linkedSignal<string>(() => this.searchParam());
 
   qualifiedEffect = effect(() => {
     this.playerListService.filterParams.update(params =>

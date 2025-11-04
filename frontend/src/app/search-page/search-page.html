@@ -1,6 +1,6 @@
 <div class="grid grid-cols-4 auto-rows-[6.5dvh] gap-2">
     <div class="col-start-1 row-start-3 pl-4 pr-4">
-        <app-player-filter/>
+        <app-player-filter [searchParam]="searchParam()"/>
     </div>
     <div class="col-start-2 col-end-4 row-start-1 row-end-11">
         @if (playersToList()) {
