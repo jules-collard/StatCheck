@@ -5,12 +5,15 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.database import Base, ALEMBIC_URL
+from app.database import Base, URL, USERNAME, PASSWORD, DBNAME
 from app.models import Player # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+ALEMBIC_URL = f"postgresql://{USERNAME}:{PASSWORD}@{URL}/{DBNAME}"
+print(ALEMBIC_URL)
 
 config.set_main_option("sqlalchemy.url", ALEMBIC_URL)
 

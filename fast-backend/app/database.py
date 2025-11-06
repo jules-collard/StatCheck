@@ -1,23 +1,23 @@
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 ENV = os.getenv("ENVIRONMENT", "development")
-env_file = f".env.{ENV}"
+env_file = BASE_DIR / f".env.{ENV}"
 
 load_dotenv(env_file)
 
-SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql+asyncpg://user:pass@hostname/dbname"
-)
+URL = os.getenv("URL")
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
+DBNAME = os.getenv("DBNAME")
 
-ALEMBIC_URL = os.getenv(
-    "ALEMBIC_URL",
-    "postgresql://dev_user:dev_pass@localhost:5432/statcheck_dev"
-)
+SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{USERNAME}:{PASSWORD}@{URL}/{DBNAME}"
 
 if ENV == "production":
     engine = create_async_engine(
