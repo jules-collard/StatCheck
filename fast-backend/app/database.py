@@ -14,6 +14,11 @@ SQLALCHEMY_DATABASE_URL = os.getenv(
     "postgresql+asyncpg://user:pass@hostname/dbname"
 )
 
+ALEMBIC_URL = os.getenv(
+    "ALEMBIC_URL",
+    "postgresql://dev_user:dev_pass@localhost:5432/statcheck_dev"
+)
+
 if ENV == "production":
     engine = create_async_engine(
         SQLALCHEMY_DATABASE_URL,
