@@ -3,6 +3,7 @@ from datetime import datetime
 import requests
 
 from ..schemas import PlayerBase, AwardBase
+from .. import BACKEND_URL
 
 def scrape_player(playerID: int) -> dict:
     url = f"https://api-web.nhle.com/v1/player/{playerID}/landing"
@@ -36,9 +37,7 @@ def scrape_player(playerID: int) -> dict:
     response['birthDate'] = datetime.strptime(response.get('birthDate', None), '%Y-%m-%d').date()
 
     player = PlayerBase(**response)
-    
-    return player.model_dump_json()
+    return player
 
-
-if __name__ == "__main__":
-    print(scrape_player(8448208))
+def post_player(player: PlayerBase):
+    requests.post(BACKEND_URL, json=player.model_dump_json())
