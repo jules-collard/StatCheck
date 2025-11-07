@@ -41,6 +41,35 @@ class Player(Base):
     def __repr__(self):
         return f"Player <{self.id}>: {self.firstName} {self.lastName}"
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'isActive': self.isActive,
+            'currentTeamID': self.currentTeamID,
+            'firstName': self.firstName,
+            'lastName': self.lastName,
+            'sweaterNumber': self.sweaterNumber,
+            'position': self.position,
+            'headshot': self.headshot,
+            'heroImage': self.heroImage,
+            'heightInInches': self.heightInInches,
+            'heightInCentimeters': self.heightInCentimeters,
+            'weightInPounds': self.weightInPounds,
+            'weightInKilograms': self.weightInKilograms,
+            'birthDate': self.birthDate.strftime('%m-%d-%Y'),
+            'birthCity': self.birthCity,
+            'birthCountry': self.birthCountry,
+            'shootsCatches': self.shootsCatches,
+            'draftYear': self.draftYear,
+            'draftTeamAbbrev': self.draftTeamAbbrev,
+            'draftRound': self.draftRound,
+            'draftPickInRound': self.draftPickInRound,
+            'draftOverallPick': self.draftOverallPick,
+            'inHHOF': self.inHHOF,
+            'team': self.team.to_dict() if self.team else None,
+            'awards': [award.to_dict() for award in self.awards]
+        }
+    
 
 class Team(Base):
     __tablename__ = 'teams'
@@ -58,6 +87,14 @@ class Team(Base):
 
     def __repr__(self):
         return f"Team <{self.id}>: {self.fullName}"
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'franchiseID': self.franchiseID,
+            'fullName': self.fullName,
+            'triCode': self.triCode
+        }
 
 
 class Award(Base):
@@ -72,6 +109,12 @@ class Award(Base):
 
     def __repr__(self):
         return f"Award <{self.id}>: {self.season} {self.awardName}"
+    
+    def to_dict(self):
+        return {
+            'awardName': self.awardName,
+            'season': self.season
+        }
     
 
 class Game(Base):
