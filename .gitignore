@@ -3,5 +3,6 @@
 .vscode
 *.log
 *.DS_Store
+compose.yaml
 
 __pycache__/
