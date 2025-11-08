@@ -190,7 +190,7 @@ class Event(Base):
     sortOrder: Mapped[Optional[int]] = mapped_column()
     period: Mapped[Optional[int]] = mapped_column()
     periodType: Mapped[Optional[str]] = mapped_column()
-    eventOwnerTeamID: Mapped[Optional[int]] = mapped_column(ForeignKey('Team.id'), index=True)
+    eventOwnerTeamID: Mapped[Optional[int]] = mapped_column(ForeignKey('teams.id'), index=True)
     playerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)
     losingPlayerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)
     winningPlayerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)

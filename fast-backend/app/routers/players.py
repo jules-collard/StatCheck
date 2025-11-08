@@ -17,9 +17,9 @@ async def get_player(
     else:
         return player.to_dict()
     
-@router.put('/players', response_model=Player, status_code=200)
-async def upsert_player(
-    player: Player,
-    session: AsyncSession = Depends(get_session)
-):
-    session.merge(player)
+# @router.put('/players', response_model=Player, status_code=200)
+# async def upsert_player(
+#     player: Player,
+#     session: AsyncSession = Depends(get_session)
+# ):
+#     session.merge(player)
