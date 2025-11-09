@@ -2,7 +2,7 @@ from datetime import datetime
 
 import requests
 
-from ..schemas import PlayerBase, AwardBase
+from ..schemas.players import PlayerBase, AwardBase
 from .. import BACKEND_URL
 
 def scrape_player(playerID: int) -> dict:

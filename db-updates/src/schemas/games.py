@@ -1,50 +1,7 @@
-from pydantic import BaseModel, Field
-from typing import Optional, List
+from typing import Optional
 from datetime import date, datetime
 
-
-class PlayerBase(BaseModel):
-    id: int
-    isActive: bool
-    currentTeamID: Optional[int] = None
-    firstName: str
-    lastName: str
-    sweaterNumber: Optional[int] = None
-    position: str
-    headshot: Optional[str] = None
-    heightInInches: Optional[int] = None
-    heightInCentimeters: Optional[int] = None
-    weightInPounds: Optional[int] = None
-    weightInKilograms: Optional[int] = None
-    birthDate: date
-    birthCountry: str
-    shootsCatches: str
-    draftYear: Optional[int] = None
-    draftTeamAbbrev: Optional[str] = None
-    draftRound: Optional[int] = None
-    draftPickInRound: Optional[int] = None
-    draftOverallPick: Optional[int] = None
-    inHHOF: Optional[bool] = False
-    metaDateTime: datetime = Field(default_factory=datetime.now)
-
-    awards: Optional[List['AwardBase']] = []
-
-
-class TeamBase(BaseModel):
-    id: int
-    franchiseID: Optional[int] = None
-    fullName: str
-    triCode: str
-    placeName: Optional[str] = None
-    commonNameFR: Optional[str] = None
-    fullNameFR: Optional[str] = None
-    metaDateTime: datetime
-
-
-class AwardBase(BaseModel):
-    awardName: str
-    season: int
-    winningPlayerID: int
+from pydantic import BaseModel
 
 
 class GameBase(BaseModel):
