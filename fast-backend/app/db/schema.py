@@ -2,7 +2,6 @@ from typing import Optional, List
 from datetime import date, datetime, timezone
 
 from sqlalchemy import ForeignKey
-from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -22,7 +21,7 @@ class Player(Base):
     heightInCentimeters: Mapped[Optional[int]] = mapped_column()
     weightInPounds: Mapped[Optional[int]] = mapped_column()
     weightInKilograms: Mapped[Optional[int]] = mapped_column()
-    birthDateStr: Mapped[str] = mapped_column()
+    birthDate: Mapped[date] = mapped_column()
     birthCountry: Mapped[str] = mapped_column()
     shootsCatches: Mapped[str] = mapped_column()
     draftYear: Mapped[Optional[int]] = mapped_column()
@@ -31,11 +30,7 @@ class Player(Base):
     draftPickInRound: Mapped[Optional[int]] = mapped_column()
     draftOverallPick: Mapped[Optional[int]] = mapped_column()
     inHHOF: Mapped[Optional[bool]] = mapped_column(nullable=True, default=False)
-    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc))
-
-    @hybrid_property
-    def birthDate(self) -> date:
-        return datetime.strptime(self.birthDateStr, '%Y/%m/%d').date()
+    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc).replace(tzinfo=None))
 
     team: Mapped['Team'] = relationship('Team', back_populates='players')
     awards: Mapped[List['Award']] = relationship(
@@ -56,13 +51,11 @@ class Player(Base):
             'sweaterNumber': self.sweaterNumber,
             'position': self.position,
             'headshot': self.headshot,
-            'heroImage': self.heroImage,
             'heightInInches': self.heightInInches,
             'heightInCentimeters': self.heightInCentimeters,
             'weightInPounds': self.weightInPounds,
             'weightInKilograms': self.weightInKilograms,
             'birthDate': self.birthDate.strftime('%m-%d-%Y'),
-            'birthCity': self.birthCity,
             'birthCountry': self.birthCountry,
             'shootsCatches': self.shootsCatches,
             'draftYear': self.draftYear,

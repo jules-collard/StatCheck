@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -23,8 +25,8 @@ async def upsert_player(
     player: PlayerBase,
     session: AsyncSession = Depends(get_session)
 ):
-    playerObj = Player(**player.model_dump())
+    attributes = player.model_dump()
+    attributes['birthDate'] = datetime.strptime(attributes.get('birthDate'), '%Y-%m-%d').date()
+    playerObj = Player(**attributes)
     session.add(playerObj)
-    await session.flush()
-    await session.refresh(playerObj)
-    return playerObj.to_dict()
+    return {"message" : "success"}

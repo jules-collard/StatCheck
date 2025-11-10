@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import requests
 
 from ..schemas.players import PlayerBase, AwardBase
@@ -40,10 +38,12 @@ def scrape_player(playerID: int) -> dict:
     return player
 
 def post_player(player: PlayerBase):
-    r = requests.put(f"{BACKEND_URL}/players", json=player.model_dump_json(), headers={"Content-Type": "application/json"})
+    r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())
     return r.json()
 
 
 if __name__ == "__main__":
-    player = scrape_player(8458943)
+    player: PlayerBase = scrape_player(8458943)
     print(post_player(player))
+    # r = requests.put(f"{BACKEND_URL}/healthcheck", json={'id': 2, 'body': 'testing'})
+    # print(r.json())
