@@ -25,7 +25,6 @@ class PlayerBase(BaseModel):
     draftPickInRound: Optional[int] = None
     draftOverallPick: Optional[int] = None
     inHHOF: Optional[bool] = False
-    metaDateTime: datetime = Field(default_factory=datetime.now)
 
     awards: Optional[List['AwardBase']] = []
 

@@ -16,7 +16,7 @@ class PlayerBase(BaseModel):
     heightInCentimeters: Optional[int] = None
     weightInPounds: Optional[int] = None
     weightInKilograms: Optional[int] = None
-    birthDate: date
+    birthDate: str
     birthCountry: str
     shootsCatches: str
     draftYear: Optional[int] = None
@@ -25,7 +25,6 @@ class PlayerBase(BaseModel):
     draftPickInRound: Optional[int] = None
     draftOverallPick: Optional[int] = None
     inHHOF: Optional[bool] = False
-    metaDateTime: datetime = Field(default_factory=datetime.now)
 
     awards: Optional[List['AwardBase']] = []
 
