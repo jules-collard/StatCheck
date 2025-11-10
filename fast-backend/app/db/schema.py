@@ -41,7 +41,7 @@ class Player(Base):
     def __repr__(self):
         return f"Player <{self.id}>: {self.firstName} {self.lastName}"
     
-    def to_dict(self):
+    async def to_dict(self):
         return {
             'id': self.id,
             'isActive': self.isActive,
@@ -65,7 +65,7 @@ class Player(Base):
             'draftOverallPick': self.draftOverallPick,
             'inHHOF': self.inHHOF,
             'team': self.team.to_dict() if self.team else None,
-            'awards': [award.to_dict() for award in self.awards]
+            'awards': [award.to_dict() for award in await self.awaitable_attrs.awards]
         }
     
 
