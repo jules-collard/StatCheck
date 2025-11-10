@@ -17,4 +17,4 @@ class Config(BaseSettings):
         return f"postgresql://{self.db_user}:{self.db_password}@{self.db_host}/{self.db_name}"
     
 
-config = Config()
+app_config = Config()

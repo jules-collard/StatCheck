@@ -5,17 +5,15 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from app.db.database import Base, URL, USERNAME, PASSWORD, DBNAME
+from app.core.config import app_config
+from app.db.database import Base
 from app.db.schema import Player, Team, Award, Game, EventType, Event, Shift, SplitShift, GoalieAppearance, SkaterAppearance  # noqa: F401
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-ALEMBIC_URL = f"postgresql://{USERNAME}:{PASSWORD}@{URL}/{DBNAME}"
-print(ALEMBIC_URL)
-
-config.set_main_option("sqlalchemy.url", ALEMBIC_URL)
+config.set_main_option("sqlalchemy.url", app_config.db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
