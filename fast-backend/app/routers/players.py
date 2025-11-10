@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
 from app.models.players import PlayerBase
-from app.models import Player
+from app.db.schema import Player
 
 router = APIRouter()
 
