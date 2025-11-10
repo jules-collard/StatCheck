@@ -2,6 +2,7 @@ from typing import Optional, List
 from datetime import date, datetime, timezone
 
 from sqlalchemy import ForeignKey
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -21,7 +22,7 @@ class Player(Base):
     heightInCentimeters: Mapped[Optional[int]] = mapped_column()
     weightInPounds: Mapped[Optional[int]] = mapped_column()
     weightInKilograms: Mapped[Optional[int]] = mapped_column()
-    birthDate: Mapped[date] = mapped_column()
+    birthDateStr: Mapped[str] = mapped_column()
     birthCountry: Mapped[str] = mapped_column()
     shootsCatches: Mapped[str] = mapped_column()
     draftYear: Mapped[Optional[int]] = mapped_column()
@@ -31,6 +32,10 @@ class Player(Base):
     draftOverallPick: Mapped[Optional[int]] = mapped_column()
     inHHOF: Mapped[Optional[bool]] = mapped_column(nullable=True, default=False)
     metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc))
+
+    @hybrid_property
+    def birthDate(self) -> date:
+        return datetime.strptime(self.birthDateStr, '%Y/%m/%d').date()
 
     team: Mapped['Team'] = relationship('Team', back_populates='players')
     awards: Mapped[List['Award']] = relationship(
