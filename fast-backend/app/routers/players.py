@@ -4,8 +4,9 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
-from app.models.players import PlayerBase
 from app.db.schema import Player, Award
+from app.models.players import PlayerBase
+from app.services.player_service import PlayerService
 
 router = APIRouter(prefix='/api/players')
 
@@ -14,11 +15,8 @@ async def get_player(
     id: int,
     session: AsyncSession = Depends(get_session)
 ):
-    player: Player | None = await session.get(Player, id)
-    if player is None:
-        raise HTTPException(404, detail="Player not found")
-    else:
-        return await player.to_dict()
+    service = PlayerService(session)
+    return await service.get_player(id)
     
 @router.put('/', status_code=status.HTTP_201_CREATED)
 async def upsert_player(
