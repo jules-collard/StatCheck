@@ -1,10 +1,7 @@
-from datetime import datetime
-
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
-from app.db.schema import Player, Award
 from app.models.players import PlayerBase
 from app.services.player_service import PlayerService
 
@@ -18,18 +15,10 @@ async def get_player(
     service = PlayerService(session)
     return await service.get_player(id)
     
-@router.put('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED)
 async def upsert_player(
     player: PlayerBase,
     session: AsyncSession = Depends(get_session)
 ):
-    attributes = player.model_dump()
-    awards = attributes.pop('awards', [])
-    attributes['birthDate'] = datetime.strptime(attributes.get('birthDate'), '%Y-%m-%d').date()
-    
-    playerObj = Player(**attributes)
-    for award in awards:
-        awardObj = Award(**award)
-        playerObj.awards.append(awardObj)
-    session.add(playerObj)
-    return {"message" : "success"}
+    service = PlayerService(session)
+    return await service.add_player(player)
