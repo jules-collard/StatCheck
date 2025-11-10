@@ -1,11 +1,12 @@
 from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql import update
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
 from app.db.schema import Player, Award
-from app.models.players import PlayerBase, PlayerRead
+from app.models.players import PlayerBase, PlayerRead, PlayerUpdate
 
 class PlayerService:
 
@@ -39,3 +40,16 @@ class PlayerService:
         
         self.session.add(playerObj)
         return {"message" : "success"}
+    
+    async def update_player(self, update_model: PlayerUpdate):
+        update_data = update_model.model_dump()
+        playerID = update_data.pop('id')
+        awards = update_data.pop('awards', [])
+        
+        stmt = (
+            update(Player)
+            .where(Player.id == playerID)
+            .values(**update_data)
+            .returning(Player)
+        )
+        result = await self.session.execute(stmt)

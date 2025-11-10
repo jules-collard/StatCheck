@@ -56,7 +56,24 @@ class PlayerRead(BaseModel):
     team: Optional['TeamRead'] = None
 
 
+class PlayerUpdate(BaseModel):
+    id: int
+    isActive: Optional[bool]
+    currentTeamID: Optional[int]
+    sweaterNumber: Optional[int]
+    position: Optional[str]
+    headshot: Optional[str]
+    heightInInches: Optional[int]
+    heightInCentimeters: Optional[int]
+    weightInPounds: Optional[int]
+    weightInKilograms: Optional[int]
+    inHHOF: Optional[bool]
+    awards: Optional[List['AwardBase']]
+
+
+
 class AwardBase(BaseModel):
     awardName: str
     season: int
     winningPlayerID: int
+    
