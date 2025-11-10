@@ -2,9 +2,10 @@ from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
+from pydantic import ValidationError
 
 from app.db.schema import Player, Award
-from app.models.players import PlayerBase
+from app.models.players import PlayerBase, PlayerRead
 
 class PlayerService:
 
@@ -16,7 +17,11 @@ class PlayerService:
         if player is None:
             raise HTTPException(404, detail="Player not found")
         else:
-            return await player.to_dict()
+            data = await player.to_dict()
+            try:
+                return PlayerRead(**data).model_dump()
+            except ValidationError as e:
+                raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
         
     async def add_player(self, player: PlayerBase):
         if await self.session.get(Player, player.id) is not None:

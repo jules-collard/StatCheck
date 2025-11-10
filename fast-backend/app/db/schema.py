@@ -77,8 +77,6 @@ class Team(Base):
     fullName: Mapped[str] = mapped_column()
     triCode: Mapped[str] = mapped_column()
     placeName: Mapped[Optional[str]] = mapped_column()
-    commonNameFR: Mapped[Optional[str]] = mapped_column()
-    fullNameFR: Mapped[Optional[str]] = mapped_column()
     metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc))
 
     players: Mapped[List['Player']] = relationship('Player', back_populates='team')

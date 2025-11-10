@@ -1,7 +1,8 @@
 from typing import Optional, List
-from datetime import datetime, date
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+
+from .teams import TeamRead
 
 class PlayerBase(BaseModel):
     id: int
@@ -27,6 +28,32 @@ class PlayerBase(BaseModel):
     inHHOF: Optional[bool] = False
 
     awards: Optional[List['AwardBase']] = []
+
+class PlayerRead(BaseModel):
+    id: int
+    isActive: bool
+    currentTeamID: Optional[int] = None
+    firstName: str
+    lastName: str
+    sweaterNumber: Optional[int] = None
+    position: str
+    headshot: Optional[str] = None
+    heightInInches: Optional[int] = None
+    heightInCentimeters: Optional[int] = None
+    weightInPounds: Optional[int] = None
+    weightInKilograms: Optional[int] = None
+    birthDate: str
+    birthCountry: str
+    shootsCatches: str
+    draftYear: Optional[int] = None
+    draftTeamAbbrev: Optional[str] = None
+    draftRound: Optional[int] = None
+    draftPickInRound: Optional[int] = None
+    draftOverallPick: Optional[int] = None
+    inHHOF: Optional[bool] = False
+
+    awards: Optional[List['AwardBase']] = []
+    team: Optional['TeamRead'] = None
 
 
 class AwardBase(BaseModel):
