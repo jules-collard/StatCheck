@@ -16,7 +16,7 @@ class PlayerBase(BaseModel):
     heightInCentimeters: Optional[int] = None
     weightInPounds: Optional[int] = None
     weightInKilograms: Optional[int] = None
-    birthDate: date
+    birthDate: str
     birthCountry: str
     shootsCatches: str
     draftYear: Optional[int] = None

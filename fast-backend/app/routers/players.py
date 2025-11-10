@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.database import get_session
+from app.db.database import get_session
+from app.models.players import PlayerBase
 from app.models import Player
 
 router = APIRouter()
@@ -17,9 +18,10 @@ async def get_player(
     else:
         return player.to_dict()
     
-# @router.put('/players', response_model=Player, status_code=200)
-# async def upsert_player(
-#     player: Player,
-#     session: AsyncSession = Depends(get_session)
-# ):
-#     session.merge(player)
+@router.put('/players/', response_model=PlayerBase, status_code=200)
+async def upsert_player(
+    player: PlayerBase,
+    session: AsyncSession = Depends(get_session)
+):
+    playerObj = Player(**player.model_dump())
+    session.merge(playerObj)

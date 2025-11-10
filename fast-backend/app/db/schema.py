@@ -4,7 +4,7 @@ from datetime import date, datetime, timezone
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.database import Base
+from .database import Base
 
 class Player(Base):
     __tablename__ = 'players'
