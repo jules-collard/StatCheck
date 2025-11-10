@@ -13,7 +13,7 @@ from app.db.schema import Player, Team, Award, Game, EventType, Event, Shift, Sp
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", app_config.db_url)
+config.set_main_option("sqlalchemy.url", app_config.alembic_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
