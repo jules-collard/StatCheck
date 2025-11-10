@@ -1,7 +1,7 @@
 from typing import Optional, List
 from datetime import date, datetime, timezone
 
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
@@ -103,6 +103,8 @@ class Award(Base):
     season: Mapped[int] = mapped_column(index=True)
     winningPlayerID: Mapped[int] = mapped_column(ForeignKey('players.id'))
 
+    __tableargs__ = (UniqueConstraint("awardName", "season"))
+
     winningPlayer: Mapped['Player'] = relationship('Player', back_populates='awards')
 
     def __repr__(self):
@@ -111,7 +113,8 @@ class Award(Base):
     def to_dict(self):
         return {
             'awardName': self.awardName,
-            'season': self.season
+            'season': self.season,
+            'winningPlayerID': self.winningPlayerID
         }
     
 
