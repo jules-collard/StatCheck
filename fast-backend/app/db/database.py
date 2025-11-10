@@ -1,27 +1,11 @@
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from app.core.config import app_config
 
-ENV = os.getenv("ENVIRONMENT", "development")
-env_file = BASE_DIR / f".env.{ENV}"
-
-load_dotenv(env_file)
-
-URL = os.getenv("URL")
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
-DBNAME = os.getenv("DBNAME")
-
-SQLALCHEMY_DATABASE_URL = f"postgresql+asyncpg://{USERNAME}:{PASSWORD}@{URL}/{DBNAME}"
-
-if ENV == "production":
+if app_config.environment == "prod":
     engine = create_async_engine(
-        SQLALCHEMY_DATABASE_URL,
+        app_config.db_url,
         echo=False,
         pool_size=10,
         max_overflow=20,
@@ -31,7 +15,7 @@ if ENV == "production":
     )
 else:
     engine = create_async_engine(
-        SQLALCHEMY_DATABASE_URL,
+        app_config.db_url,
         echo=True
     )
 
