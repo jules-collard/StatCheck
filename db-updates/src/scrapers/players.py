@@ -30,9 +30,7 @@ def scrape_player(playerID: int) -> dict:
             award_obj = AwardBase(awardName=award.get('trophy').get('default'), season=season.get('seasonId'), winningPlayerID=playerID)
             award_list.append(award_obj)
     
-    # response['awards'] = award_list
-
-    # response['birthDate'] = datetime.strptime(response.get('birthDate', None), '%Y-%m-%d').date()
+    response['awards'] = award_list
 
     player = PlayerBase(**response)
     return player
@@ -43,7 +41,7 @@ def post_player(player: PlayerBase):
 
 
 if __name__ == "__main__":
-    player: PlayerBase = scrape_player(8458943)
+    player: PlayerBase = scrape_player(8455710)
     print(post_player(player))
     # r = requests.put(f"{BACKEND_URL}/healthcheck", json={'id': 2, 'body': 'testing'})
     # print(r.json())

@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
 from app.models.players import PlayerBase
-from app.db.schema import Player
+from app.db.schema import Player, Award
 
 router = APIRouter(prefix='/api/players')
 
@@ -26,7 +26,12 @@ async def upsert_player(
     session: AsyncSession = Depends(get_session)
 ):
     attributes = player.model_dump()
+    awards = attributes.pop('awards', [])
     attributes['birthDate'] = datetime.strptime(attributes.get('birthDate'), '%Y-%m-%d').date()
+    
     playerObj = Player(**attributes)
+    for award in awards:
+        awardObj = Award(**award)
+        playerObj.awards.append(awardObj)
     session.add(playerObj)
     return {"message" : "success"}
