@@ -1,17 +1,20 @@
 from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.sql import update
+from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
 from app.db.schema import Player, Award
-from app.models.players import PlayerBase, PlayerRead, PlayerUpdate
+from app.models.players import PlayerBase, PlayerRead, AwardBase
 
 class PlayerService:
 
     def __init__(self, session: AsyncSession):
         self.session = session
+
+    async def player_exists(self, id: int):
+        return await self.session.get(Player, id) is not None
 
     async def get_player(self, id: int):
         player: Player | None = await self.session.get(Player, id)
@@ -25,31 +28,53 @@ class PlayerService:
                 raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
         
     async def add_player(self, player: PlayerBase):
-        if await self.session.get(Player, player.id) is not None:
-            raise HTTPException(status.HTTP_409_CONFLICT, detail="Player already exists")
-        
         data = player.model_dump()
         awards = data.pop('awards', [])
         data['birthDate'] = datetime.strptime(data.get('birthDate', ''), '%Y-%m-%d').date()
         
         playerObj = Player(**data)
+        self.session.add(playerObj)
         
         for award in awards:
-            awardObj = Award(**award)
-            playerObj.awards.append(awardObj)
+            awardObj = AwardBase(**award)
+            await self.upsert_award(awardObj)
         
-        self.session.add(playerObj)
-        return {"message" : "success"}
+        return await playerObj.to_dict()
     
-    async def update_player(self, update_model: PlayerUpdate):
-        update_data = update_model.model_dump()
-        playerID = update_data.pop('id')
-        awards = update_data.pop('awards', [])
-        
-        stmt = (
-            update(Player)
-            .where(Player.id == playerID)
-            .values(**update_data)
-            .returning(Player)
-        )
-        result = await self.session.execute(stmt)
+    async def upsert_player(self, player: PlayerBase):
+        data = player.model_dump()
+        awards = data.pop('awards', [])
+        data['birthDate'] = datetime.strptime(data.get('birthDate', ''), '%Y-%m-%d').date()
+
+        for award in awards:
+            awardObj = AwardBase(**award)
+            await self.upsert_award(awardObj)
+
+        stmt = insert(Player).values(**data).returning(Player)
+        update_stmt = (stmt.on_conflict_do_update(
+            index_elements=[Player.id],
+            set_=dict(
+                isActive=stmt.excluded.isActive,
+                currentTeamID=stmt.excluded.currentTeamID,
+                sweaterNumber=stmt.excluded.sweaterNumber,
+                position=stmt.excluded.position,
+                headshot=stmt.excluded.headshot,
+                heightInInches=stmt.excluded.heightInInches,
+                heightInCentimeters=stmt.excluded.heightInCentimeters,
+                weightInPounds=stmt.excluded.weightInPounds,
+                weightInKilograms=stmt.excluded.weightInKilograms,
+                inHHOF=stmt.excluded.inHHOF,
+            )
+        ))
+
+        result = await self.session.execute(update_stmt)
+        newPlayer: Player = result.scalar_one()
+        return await newPlayer.to_dict()
+
+
+    async def upsert_award(self, award: AwardBase):
+        stmt = (insert(Award)
+                .values(**award.model_dump())
+                .on_conflict_do_nothing(constraint="awards_constraint"))
+        await self.session.execute(stmt)
+        return
