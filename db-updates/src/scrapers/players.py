@@ -36,12 +36,9 @@ def scrape_player(playerID: int) -> dict:
     return player
 
 def post_player(player: PlayerBase):
+    r = requests.post(f"{BACKEND_URL}/players/", json=player.model_dump())
+    print(r.status_code)
+
+def put_player(player: PlayerBase):
     r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())
-    return r.json()
-
-
-if __name__ == "__main__":
-    player: PlayerBase = scrape_player(8455710)
-    print(post_player(player))
-    # r = requests.put(f"{BACKEND_URL}/healthcheck", json={'id': 2, 'body': 'testing'})
-    # print(r.json())
+    print(r.status_code)
