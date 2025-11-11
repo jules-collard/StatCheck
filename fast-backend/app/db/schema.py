@@ -96,13 +96,12 @@ class Team(Base):
 
 class Award(Base):
     __tablename__ = 'awards'
+    __table_args__ = (UniqueConstraint("awardName", "season", name='awards_constraint'),)
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     awardName: Mapped[str] = mapped_column()
     season: Mapped[int] = mapped_column(index=True)
     winningPlayerID: Mapped[int] = mapped_column(ForeignKey('players.id'))
-
-    __tableargs__ = (UniqueConstraint("awardName", "season"))
 
     winningPlayer: Mapped['Player'] = relationship('Player', back_populates='awards')
 
