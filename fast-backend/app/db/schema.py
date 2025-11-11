@@ -35,7 +35,8 @@ class Player(Base):
     team: Mapped['Team'] = relationship('Team', back_populates='players')
     awards: Mapped[List['Award']] = relationship(
         'Award',
-        back_populates='winningPlayer'
+        back_populates='winningPlayer',
+        cascade="all, delete"
     )
 
     def __repr__(self):
