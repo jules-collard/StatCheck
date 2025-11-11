@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException, status
@@ -26,6 +27,10 @@ class PlayerService:
                 return PlayerRead(**data).model_dump()
             except ValidationError as e:
                 raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+            
+    async def get_all_ids(self):
+        result = await self.session.execute(select(Player.id))
+        return result.scalars().all()
         
     async def add_player(self, player: PlayerBase):
         data = player.model_dump()

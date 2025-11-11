@@ -8,13 +8,20 @@ from app.services.player_service import PlayerService
 
 router = APIRouter(prefix='/api/players')
 
-@router.get('/{id}', status_code=status.HTTP_200_OK)
+@router.get('/info/{id}', status_code=status.HTTP_200_OK)
 async def get_player(
     id: int,
     session: AsyncSession = Depends(get_session)
 ):
     service = PlayerService(session)
     return await service.get_player(id)
+
+@router.get('/all/ids', status_code=status.HTTP_200_OK)
+async def get_all_ids(
+    session: AsyncSession = Depends(get_session)
+):
+    service = PlayerService(session)
+    return await service.get_all_ids()
     
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def post_player(
