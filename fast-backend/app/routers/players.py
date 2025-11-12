@@ -43,10 +43,10 @@ async def post_player(
     player: PlayerBase,
     session: AsyncSession = Depends(get_session)
 ):
-    if await session.get(Player, player.id) is not None:
+    service = PlayerService(session)
+    if await service.player_exists(player.id):
         raise HTTPException(status.HTTP_409_CONFLICT, detail="Player already exists")
     
-    service = PlayerService(session)
     return await service.add_player(player)
 
 @router.put('/', status_code=200)
