@@ -1,5 +1,6 @@
 import requests
 
+from src.models.teams import TeamBase
 from .. import BACKEND_URL
 
 def scrape_teams():
