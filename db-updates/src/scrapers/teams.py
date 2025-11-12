@@ -10,14 +10,16 @@ def scrape_teams():
     response.raise_for_status()
     response = response.json()
     teams = [{k:team.get(k) for k in ["id", "franchiseId", "fullName", "triCode"]} for team in response.get('data')]
+    for team in teams:
+        team['franchiseID'] = team.pop('franchiseId')
     teamObjs = [TeamBase(**data) for data in teams]
 
     return teamObjs
 
 def post_team(team: TeamBase):
-    r = requests.post(f"{BACKEND_URL}/teams/", json=team.model_dump())
+    r = requests.put(f"{BACKEND_URL}/teams/", json=team.model_dump())
     print(r.status_code)
 
 if __name__ == "__main__":
     teams = scrape_teams()
-    print(post_team(teams[0]))
+    print(post_team(teams[1]))

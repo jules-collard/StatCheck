@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends, HTTPException, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
@@ -17,3 +17,17 @@ async def post_team(
         raise HTTPException(status.HTTP_409_CONFLICT, detail="Team already exists")
     
     return await service.add_team(team)
+
+@router.put('/', status_code=status.HTTP_200_OK)
+async def put_team(
+    team: TeamBase,
+    response: Response,
+    session: AsyncSession = Depends(get_session),
+):
+    service = TeamService(session)
+    if not await service.team_exists(team.id):
+        response.status_code = status.HTTP_201_CREATED
+        return await service.add_team(team)
+    else:
+        return await service.get_team(team.id)
+        
