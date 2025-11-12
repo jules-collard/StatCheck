@@ -16,12 +16,27 @@ async def get_player(
     service = PlayerService(session)
     return await service.get_player(id)
 
+@router.get('/{id}/list-item', status_code=status.HTTP_200_OK)
+async def get_player_list_item(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = PlayerService(session)
+    return await service.get_list_item(id)
+
 @router.get('/all/ids', status_code=status.HTTP_200_OK)
 async def get_all_ids(
     session: AsyncSession = Depends(get_session)
 ):
     service = PlayerService(session)
     return await service.get_all_ids()
+
+@router.get('/all/list-items', status_code=status.HTTP_200_OK)
+async def get_all_list_items(
+    session: AsyncSession = Depends(get_session)
+):
+    service = PlayerService(session)
+    return await service.get_all_list_items()
     
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def post_player(

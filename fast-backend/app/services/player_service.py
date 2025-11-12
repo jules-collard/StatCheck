@@ -6,8 +6,8 @@ from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
-from app.db.schema import Player, Award
-from app.models.players import PlayerBase, PlayerRead, AwardBase
+from app.db.schema import Player, Award, Team
+from app.models.players import PlayerBase, PlayerRead, PlayerListItem, AwardBase
 
 class PlayerService:
 
@@ -30,10 +30,34 @@ class PlayerService:
             raise HTTPException(404, detail="Player not found")
         else:
             return await self.return_player(player)
+        
+    async def get_list_item(self, id: int):
+        player: Player | None = await self.session.get(Player, id)
+        if player is None:
+            raise HTTPException(404, detail="Player not found")
+        else:
+            try:
+                playerObj: PlayerListItem = await player.to_list_item()
+                return playerObj.model_dump()
+            except ValidationError as e:
+                raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
             
     async def get_all_ids(self):
         result = await self.session.execute(select(Player.id))
         return result.scalars().all()
+    
+    async def get_all_list_items(self):
+        stmt = (select(Player.id, Player.firstName, Player.lastName, Player.isActive, Player.position, Team.triCode, Player.headshot)
+                .outerjoin(Team)
+                .order_by(Player.lastName))
+        result = await self.session.execute(stmt)
+        return [PlayerListItem(
+            id=row.id,
+            fullName=f"{row.firstName} {row.lastName}",
+            isActive=row.isActive,
+            position=row.position,
+            teamTriCode=row.triCode,
+            headshot=row.headshot).model_dump() for row in result]
         
     async def add_player(self, player: PlayerBase):
         data = player.model_dump()

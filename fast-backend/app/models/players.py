@@ -71,6 +71,14 @@ class PlayerUpdate(BaseModel):
     awards: Optional[List['AwardBase']]
 
 
+class PlayerListItem(BaseModel):
+    id: int
+    fullName: str
+    isActive: bool
+    position: str
+    teamTriCode: Optional[str]
+    headshot: Optional[str]
+
 
 class AwardBase(BaseModel):
     awardName: str
