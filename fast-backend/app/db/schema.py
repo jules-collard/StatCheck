@@ -44,6 +44,13 @@ class Player(Base):
     def __repr__(self):
         return f"Player <{self.id}>: {self.firstName} {self.lastName}"
     
+    async def get_team_to_read(self) -> TeamBase:
+        team: Team | None = await self.awaitable_attrs.team
+        if team is None:
+            return None
+        else:
+            return team.to_read()
+    
     async def to_read(self) -> PlayerRead:
         return PlayerRead(
             id=self.id,
@@ -67,7 +74,7 @@ class Player(Base):
             draftPickInRound=self.draftPickInRound,
             draftOverallPick=self.draftOverallPick,
             inHHOF=self.inHHOF,
-            team=await self.awaitable_attrs.team.to_read() if self.team else None,
+            team=await self.get_team_to_read(),
             awards=[award.to_read() for award in await self.awaitable_attrs.awards]
         )
     
