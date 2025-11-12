@@ -16,17 +16,20 @@ class PlayerService:
 
     async def player_exists(self, id: int):
         return await self.session.get(Player, id) is not None
+    
+    async def return_player(self, player: Player):
+        try:
+            playerObj: PlayerRead = await player.to_read()
+            return playerObj.model_dump()
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
 
     async def get_player(self, id: int):
         player: Player | None = await self.session.get(Player, id)
         if player is None:
             raise HTTPException(404, detail="Player not found")
         else:
-            data = await player.to_dict()
-            try:
-                return PlayerRead(**data).model_dump()
-            except ValidationError as e:
-                raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+            return await self.return_player(player)
             
     async def get_all_ids(self):
         result = await self.session.execute(select(Player.id))
@@ -44,7 +47,8 @@ class PlayerService:
             awardObj = AwardBase(**award)
             await self.upsert_award(awardObj)
         
-        return await playerObj.to_dict()
+        return await self.return_player(playerObj)
+
     
     async def upsert_player(self, player: PlayerBase):
         data = player.model_dump()
@@ -74,7 +78,7 @@ class PlayerService:
 
         result = await self.session.execute(update_stmt)
         newPlayer: Player = result.scalar_one()
-        return await newPlayer.to_dict()
+        return await self.return_player(newPlayer)
 
 
     async def upsert_award(self, award: AwardBase):

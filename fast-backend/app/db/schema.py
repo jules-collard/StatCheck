@@ -5,6 +5,7 @@ from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
+from app.models.players import PlayerRead
 
 class Player(Base):
     __tablename__ = 'players'
@@ -42,8 +43,8 @@ class Player(Base):
     def __repr__(self):
         return f"Player <{self.id}>: {self.firstName} {self.lastName}"
     
-    async def to_dict(self):
-        return {
+    async def to_read(self) -> PlayerRead:
+        data = {
             'id': self.id,
             'isActive': self.isActive,
             'currentTeamID': self.currentTeamID,
@@ -68,6 +69,7 @@ class Player(Base):
             'team': self.team.to_dict() if self.team else None,
             'awards': [award.to_dict() for award in await self.awaitable_attrs.awards]
         }
+        return PlayerRead(**data)
     
 
 class Team(Base):
