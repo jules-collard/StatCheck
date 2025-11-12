@@ -8,7 +8,7 @@ from app.services.player_service import PlayerService
 
 router = APIRouter(prefix='/api/players')
 
-@router.get('/info/{id}', status_code=status.HTTP_200_OK)
+@router.get('/{id}/info', status_code=status.HTTP_200_OK)
 async def get_player(
     id: int,
     session: AsyncSession = Depends(get_session)
