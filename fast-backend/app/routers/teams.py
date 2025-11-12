@@ -7,6 +7,14 @@ from app.services.team_service import TeamService
 
 router = APIRouter(prefix='/api/teams')
 
+@router.get('/{id}', status_code=status.HTTP_200_OK)
+async def get_team(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = TeamService(session)
+    return await service.get_team(id)
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def post_team(
     team: TeamBase,
@@ -30,4 +38,12 @@ async def put_team(
         return await service.add_team(team)
     else:
         return await service.get_team(team.id)
+    
+@router.delete('/{id}', status_code=status.HTTP_200_OK)
+async def delete_team(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = TeamService(session)
+    return await service.delete_team(id)
         

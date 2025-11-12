@@ -16,10 +16,16 @@ def scrape_teams():
 
     return teamObjs
 
-def post_team(team: TeamBase):
-    r = requests.put(f"{BACKEND_URL}/teams/", json=team.model_dump())
+def post_teams(*teams: TeamBase):
+    for team in teams:
+        r = requests.post(f"{BACKEND_URL}/teams/", json=team.model_dump())
+        print(r.status_code)
+        print(r.json())
+
+def delete_team(id: int):
+    r = requests.delete(f"{BACKEND_URL}/teams/{id}")
     print(r.status_code)
 
 if __name__ == "__main__":
     teams = scrape_teams()
-    print(post_team(teams[1]))
+    post_teams(*teams)

@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import delete
 from pydantic import ValidationError
 from fastapi import HTTPException, status
 
@@ -41,3 +42,9 @@ class TeamService:
         result = await self.session.execute(stmt)
         newTeam = result.scalar_one()
         return await self.return_team(newTeam)
+    
+    async def delete_team(self, id: int):
+        result = await self.session.execute(delete(Team).where(Team.id == id))
+        if result.rowcount < 1:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Team not found")
+        return
