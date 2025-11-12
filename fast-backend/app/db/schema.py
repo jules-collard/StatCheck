@@ -5,7 +5,8 @@ from sqlalchemy import ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
-from app.models.players import PlayerRead, PlayerListItem
+from app.models.players import PlayerRead, PlayerListItem, AwardBase
+from app.models.teams import TeamBase
 
 class Player(Base):
     __tablename__ = 'players'
@@ -44,32 +45,31 @@ class Player(Base):
         return f"Player <{self.id}>: {self.firstName} {self.lastName}"
     
     async def to_read(self) -> PlayerRead:
-        data = {
-            'id': self.id,
-            'isActive': self.isActive,
-            'currentTeamID': self.currentTeamID,
-            'firstName': self.firstName,
-            'lastName': self.lastName,
-            'sweaterNumber': self.sweaterNumber,
-            'position': self.position,
-            'headshot': self.headshot,
-            'heightInInches': self.heightInInches,
-            'heightInCentimeters': self.heightInCentimeters,
-            'weightInPounds': self.weightInPounds,
-            'weightInKilograms': self.weightInKilograms,
-            'birthDate': self.birthDate.strftime('%m-%d-%Y'),
-            'birthCountry': self.birthCountry,
-            'shootsCatches': self.shootsCatches,
-            'draftYear': self.draftYear,
-            'draftTeamAbbrev': self.draftTeamAbbrev,
-            'draftRound': self.draftRound,
-            'draftPickInRound': self.draftPickInRound,
-            'draftOverallPick': self.draftOverallPick,
-            'inHHOF': self.inHHOF,
-            'team': self.team.to_dict() if self.team else None,
-            'awards': [award.to_dict() for award in await self.awaitable_attrs.awards]
-        }
-        return PlayerRead(**data)
+        return PlayerRead(
+            id=self.id,
+            isActive=self.isActive,
+            currentTeamID=self.currentTeamID,
+            firstName=self.firstName,
+            lastName=self.lastName,
+            sweaterNumber=self.sweaterNumber,
+            position=self.position,
+            headshot=self.headshot,
+            heightInInches=self.heightInInches,
+            heightInCentimeters=self.heightInCentimeters,
+            weightInPounds=self.weightInPounds,
+            weightInKilograms=self.weightInKilograms,
+            birthDate=self.birthDate.strftime('%m-%d-%Y'),
+            birthCountry=self.birthCountry,
+            shootsCatches=self.shootsCatches,
+            draftYear=self.draftYear,
+            draftTeamAbbrev=self.draftTeamAbbrev,
+            draftRound=self.draftRound,
+            draftPickInRound=self.draftPickInRound,
+            draftOverallPick=self.draftOverallPick,
+            inHHOF=self.inHHOF,
+            team=await self.awaitable_attrs.team.to_read() if self.team else None,
+            awards=[award.to_read() for award in await self.awaitable_attrs.awards]
+        )
     
     async def to_list_item(self) -> PlayerListItem:
         return PlayerListItem(
@@ -89,21 +89,20 @@ class Team(Base):
     franchiseID: Mapped[Optional[int]] = mapped_column()
     fullName: Mapped[str] = mapped_column()
     triCode: Mapped[str] = mapped_column()
-    placeName: Mapped[Optional[str]] = mapped_column()
-    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc))
+    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc).replace(tzinfo=None))
 
     players: Mapped[List['Player']] = relationship('Player', back_populates='team')
 
     def __repr__(self):
         return f"Team <{self.id}>: {self.fullName}"
     
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'franchiseID': self.franchiseID,
-            'fullName': self.fullName,
-            'triCode': self.triCode
-        }
+    def to_read(self):
+        return TeamBase(
+            id=self.id,
+            franchiseID=self.franchiseID,
+            fullName=self.fullName,
+            triCode=self.triCode
+        )
 
 
 class Award(Base):
@@ -120,12 +119,12 @@ class Award(Base):
     def __repr__(self):
         return f"Award <{self.id}>: {self.season} {self.awardName}"
     
-    def to_dict(self):
-        return {
-            'awardName': self.awardName,
-            'season': self.season,
-            'winningPlayerID': self.winningPlayerID
-        }
+    def to_read(self):
+        return AwardBase(
+            awardName=self.awardName,
+            season=self.season,
+            winningPlayerID=self.winningPlayerID
+        )
     
 
 class Game(Base):

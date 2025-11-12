@@ -7,10 +7,3 @@ class TeamBase(BaseModel):
     franchiseID: Optional[int] = None
     fullName: str
     triCode: str
-    placeName: Optional[str]
-
-class TeamRead(BaseModel):
-    id: int
-    franchiseID: Optional[int] = None
-    fullName: str
-    triCode: str

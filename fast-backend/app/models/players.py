@@ -2,7 +2,7 @@ from typing import Optional, List
 
 from pydantic import BaseModel
 
-from .teams import TeamRead
+from .teams import TeamBase
 
 class PlayerBase(BaseModel):
     id: int
@@ -53,7 +53,7 @@ class PlayerRead(BaseModel):
     inHHOF: Optional[bool] = False
 
     awards: Optional[List['AwardBase']] = []
-    team: Optional['TeamRead'] = None
+    team: Optional['TeamBase'] = None
 
 
 class PlayerUpdate(BaseModel):
