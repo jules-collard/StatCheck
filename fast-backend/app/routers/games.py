@@ -7,6 +7,14 @@ from app.services.game_service import GameService
 
 router = APIRouter(prefix='/api/games')
 
+@router.get('/{id}', status_code=status.HTTP_200_OK)
+async def get_game(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = GameService(session)
+    return await service.get_game(id)
+
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def post_game(
     game: GameBase,
