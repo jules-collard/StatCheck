@@ -6,7 +6,7 @@ class TestModel(BaseModel):
     body: str
 
 
-router = APIRouter(prefix='/api/healthcheck')
+router = APIRouter(prefix='/healthcheck')
 
 @router.get('/', status_code=200)
 def return_check():

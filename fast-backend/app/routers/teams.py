@@ -5,7 +5,7 @@ from app.db.database import get_session
 from app.models.teams import TeamBase
 from app.services.team_service import TeamService
 
-router = APIRouter(prefix='/api/teams')
+router = APIRouter(prefix='/teams')
 
 @router.get('/{id}', status_code=status.HTTP_200_OK)
 async def get_team(

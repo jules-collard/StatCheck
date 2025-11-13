@@ -2,11 +2,10 @@ from fastapi import APIRouter, Response, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.database import get_session
-from app.db.schema import Player
 from app.models.players import PlayerBase
 from app.services.player_service import PlayerService
 
-router = APIRouter(prefix='/api/players')
+router = APIRouter(prefix='/players')
 
 @router.get('/{id}/info', status_code=status.HTTP_200_OK)
 async def get_player(

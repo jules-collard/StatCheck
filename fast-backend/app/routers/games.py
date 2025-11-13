@@ -5,7 +5,7 @@ from app.models.games import GameBase
 from app.db.database import get_session
 from app.services.game_service import GameService
 
-router = APIRouter(prefix='/api/games')
+router = APIRouter(prefix='/games')
 
 @router.get('/{id}', status_code=status.HTTP_200_OK)
 async def get_game(
