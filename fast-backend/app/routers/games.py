@@ -1,9 +1,13 @@
+from typing import List
+
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.games import GameBase
+from app.models.events import EventTypeBase
 from app.db.database import get_session
 from app.services.game_service import GameService
+from app.services.event_service import EventService
 
 router = APIRouter(prefix='/games')
 
@@ -32,3 +36,11 @@ async def delete_game(
 ):
     service = GameService(session)
     return await service.delete_game(id)
+
+@router.post('/event-types', status_code=status.HTTP_201_CREATED)
+def post_event_types(
+    event_types: List[EventTypeBase],
+    session: AsyncSession = Depends(get_session)
+):
+    service = EventService(session)
+    service.add_event_types(event_types)
