@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .database import Base
 from app.models.players import PlayerRead, PlayerListItem, AwardBase
 from app.models.teams import TeamBase
+from app.models.games import GameBase
 
 class Player(Base):
     __tablename__ = 'players'
@@ -150,7 +151,7 @@ class Game(Base):
     homeTeamID: Mapped[int] = mapped_column(ForeignKey('teams.id'))
     homeTeamScore: Mapped[int] = mapped_column()
     lastPeriodType: Mapped[str] = mapped_column()
-    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc))
+    metaDateTime: Mapped[datetime] = mapped_column(default = lambda: datetime.now(timezone.utc).replace(tzinfo=None))
 
     events: Mapped[List['Event']] = relationship(
         'Event',
@@ -180,6 +181,22 @@ class Game(Base):
 
     def __repr__(self):
         return f"Game <{self.id}>: {self.awayTeamID} @ {self.homeTeamID} ({self.gameDate})"
+    
+    def to_read(self):
+        return GameBase(
+            id=self.id,
+            season=self.season,
+            gameType=self.gameType,
+            neutralSite=self.neutralSite,
+            gameDate=self.gameDate.strftime('%m-%d-%Y'),
+            gameScheduleState=self.gameScheduleState,
+            defaultVenue=self.defaultVenue,
+            awayTeamID=self.awayTeamID,
+            homeTeamID=self.homeTeamID,
+            homeTeamScore=self.homeTeamScore,
+            awayTeamScore=self.awayTeamScore,
+            lastPeriodType=self.lastPeriodType
+        )
 
 
 class EventType(Base):

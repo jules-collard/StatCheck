@@ -3,12 +3,13 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from .routers import players, check, teams
+from .routers import players, check, teams, games
 
 app = FastAPI()
 
 app.include_router(players.router)
 app.include_router(teams.router)
+app.include_router(games.router)
 app.include_router(check.router)
 
 @app.exception_handler(RequestValidationError)
