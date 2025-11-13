@@ -143,8 +143,6 @@ class Game(Base):
     gameType: Mapped[int] = mapped_column(index=True)
     neutralSite: Mapped[bool] = mapped_column()
     gameDate: Mapped[date] = mapped_column()
-    gameState: Mapped[str] = mapped_column()
-    gameScheduleState: Mapped[str] = mapped_column()
     defaultVenue: Mapped[str] = mapped_column()
     awayTeamID: Mapped[int] = mapped_column(ForeignKey('teams.id'))
     awayTeamScore: Mapped[int] = mapped_column()
@@ -189,7 +187,6 @@ class Game(Base):
             gameType=self.gameType,
             neutralSite=self.neutralSite,
             gameDate=self.gameDate.strftime('%m-%d-%Y'),
-            gameScheduleState=self.gameScheduleState,
             defaultVenue=self.defaultVenue,
             awayTeamID=self.awayTeamID,
             homeTeamID=self.homeTeamID,
