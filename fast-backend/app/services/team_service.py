@@ -1,6 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy import delete
 from pydantic import ValidationError
 from fastapi import HTTPException, status
 
@@ -20,7 +19,7 @@ class TeamService:
             teamObj: TeamBase = team.to_read()
             return teamObj.model_dump()
         except ValidationError as e:
-            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
         
     async def get_team(self, id: int):
         team: Team | None = await self.session.get(Team, id)

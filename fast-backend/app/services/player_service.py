@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import select, delete
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException, status
@@ -22,7 +22,7 @@ class PlayerService:
             playerObj: PlayerRead = await player.to_read()
             return playerObj.model_dump()
         except ValidationError as e:
-            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
 
     async def get_player(self, id: int):
         player: Player | None = await self.session.get(Player, id)
@@ -40,7 +40,7 @@ class PlayerService:
                 playerObj: PlayerListItem = await player.to_list_item()
                 return playerObj.model_dump()
             except ValidationError as e:
-                raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e)
+                raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
             
     async def get_all_ids(self):
         result = await self.session.execute(select(Player.id))
