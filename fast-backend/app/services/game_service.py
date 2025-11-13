@@ -35,3 +35,10 @@ class GameService:
         gameObj = Game(**data)
         self.session.add(gameObj)
         return self.return_game(gameObj)
+    
+    async def delete_game(self, id: int):
+        game: Game | None = await self.session.get(Game, id)
+        if game is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Game not found")
+        else:
+            await self.session.delete(game)

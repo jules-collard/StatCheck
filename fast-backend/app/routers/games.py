@@ -24,3 +24,11 @@ async def post_game(
     if await service.game_exists(game.id):
         raise HTTPException(status.HTTP_409_CONFLICT, detail='Game already exists')
     return service.add_game(game)
+
+@router.delete('/{id}', status_code=status.HTTP_200_OK)
+async def delete_game(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = GameService(session)
+    return await service.delete_game(id)
