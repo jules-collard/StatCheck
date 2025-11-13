@@ -3,6 +3,7 @@
 .vscode
 *.log
 *.DS_Store
+*.env
 compose.yaml
 
 __pycache__/
