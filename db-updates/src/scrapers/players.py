@@ -1,9 +1,9 @@
 import requests
 
-from ..schemas.players import PlayerBase, AwardBase
+from ..models.players import PlayerBase, AwardBase
 from .. import BACKEND_URL
 
-def scrape_player(playerID: int) -> dict:
+def scrape_player(playerID: int) -> PlayerBase:
     url = f"https://api-web.nhle.com/v1/player/{playerID}/landing"
 
     response: dict = requests.get(url)
@@ -41,4 +41,8 @@ def post_player(player: PlayerBase):
 
 def put_player(player: PlayerBase):
     r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())
+    print(r.status_code)
+
+def delete_player(id: int):
+    r = requests.delete(f"{BACKEND_URL}/players/{id}")
     print(r.status_code)
