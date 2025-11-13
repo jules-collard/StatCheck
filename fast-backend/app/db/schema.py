@@ -211,6 +211,8 @@ class Event(Base):
 
     eventID: Mapped[int] = mapped_column(primary_key=True)
     gameID: Mapped[int] = mapped_column(ForeignKey('games.id'), primary_key=True, index=True)
+    awayScore: Mapped[Optional[int]] = mapped_column()
+    homeScore: Mapped[Optional[int]] = mapped_column()
     timeInPeriodSec: Mapped[Optional[int]] = mapped_column()
     awayGoalie: Mapped[Optional[int]] = mapped_column()
     awaySkaters: Mapped[Optional[int]] = mapped_column()
@@ -227,6 +229,8 @@ class Event(Base):
     winningPlayerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)
     xCoord: Mapped[Optional[float]] = mapped_column()
     yCoord: Mapped[Optional[float]] = mapped_column()
+    xStd: Mapped[Optional[float]] = mapped_column()
+    yStd: Mapped[Optional[float]] = mapped_column()
     zoneCode: Mapped[Optional[str]] = mapped_column()
     hittingPlayerID: Mapped[Optional[int]] = mapped_column(ForeignKey('players.id'), index=True)
     hitteePlayerID: Mapped[Optional[int]] = mapped_column(ForeignKey('players.id'), index=True)
