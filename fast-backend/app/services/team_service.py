@@ -44,7 +44,9 @@ class TeamService:
         return await self.return_team(newTeam)
     
     async def delete_team(self, id: int):
-        result = await self.session.execute(delete(Team).where(Team.id == id))
-        if result.rowcount < 1:
+        team: Team | None = await self.session.get(Team, id)
+        if team is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Team not found")
-        return
+        else:
+            await self.session.delete(team)
+            return
