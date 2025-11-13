@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import select
+from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from fastapi import HTTPException, status
@@ -104,6 +104,13 @@ class PlayerService:
         newPlayer: Player = result.scalar_one()
         return await self.return_player(newPlayer)
 
+    async def delete_player(self, id: int):
+        player: Player | None = await self.session.get(Player, id)
+        if player is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Player not found")
+        else:
+            await self.session.delete(player)
+            return
 
     async def upsert_award(self, award: AwardBase):
         stmt = (insert(Award)

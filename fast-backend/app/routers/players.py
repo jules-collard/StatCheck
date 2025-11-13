@@ -49,7 +49,7 @@ async def post_player(
     
     return await service.add_player(player)
 
-@router.put('/', status_code=200)
+@router.put('/', status_code=status.HTTP_200_OK)
 async def put_player(
     player: PlayerBase,
     response: Response,
@@ -59,3 +59,11 @@ async def put_player(
     if not await service.player_exists(player.id):
         response.status_code = status.HTTP_201_CREATED
     return await service.upsert_player(player)
+
+@router.delete('/{id}', status_code=status.HTTP_200_OK)
+async def delete_player(
+    id: int,
+    session: AsyncSession = Depends(get_session),
+):
+    service = PlayerService(session)
+    return await service.delete_player(id)
