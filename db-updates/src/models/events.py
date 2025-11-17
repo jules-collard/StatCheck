@@ -11,38 +11,38 @@ class EventTypeBase(BaseModel):
 class EventBase(BaseModel):
     eventID: int
     gameID: int
-    timeInPeriodSec: Optional[int]
-    awayScore: Optional[int]
-    homeScore: Optional[int]
-    awayGoalie: Optional[int]
-    awaySkaters: Optional[int]
-    homeGoalie: Optional[int]
-    homeSkaters: Optional[int]
-    homeTeamDefendingSide: Optional[Literal['left', 'right']]
+    timeInPeriodSec: int
+    awayScore: int = 0
+    homeScore: int = 0
+    awayGoalie: Optional[int] = None
+    awaySkaters: Optional[int] = None
+    homeGoalie: Optional[int] = None
+    homeSkaters: Optional[int] = None
+    homeTeamDefendingSide: Optional[Literal['left', 'right']] = None
     typeCode: int
-    sortOrder: Optional[int]
-    period: Optional[int]
-    periodType: Optional[str]
-    eventOwnerTeamID: Optional[int]
-    playerID: int
-    losingPlayerID: int
-    winningPlayerID: int
-    xCoord: Optional[float]
-    yCoord: Optional[float]
-    xStd: Optional[float]
-    yStd: Optional[float]
-    zoneCode: Optional[str]
-    hittingPlayerID: Optional[int]
-    hitteePlayerID: Optional[int]
-    blockingPlayerID: Optional[int]
-    shootingPlayerID: Optional[int]
-    shotType: Optional[str]
-    goalieInNetID: Optional[int]
-    eventOwnerPlayerID: Optional[int]
-    duration: Optional[int]
-    committedByPlayerID: Optional[int]
-    drawnByPlayerID: Optional[int]
-    scoringPlayerID: Optional[int]
-    assist1PlayerID: Optional[int]
-    assist2PlayerID: Optional[int]
-    xg: Optional[float]
+    sortOrder: Optional[int] = None
+    period: int
+    periodType: Optional[str] = None
+    eventOwnerTeamID: Optional[int] = None
+    losingPlayerID: Optional[int] = None
+    winningPlayerID: Optional[int] = None
+    xCoord: Optional[float] = None
+    yCoord: Optional[float] = None
+    xStd: Optional[float] = None
+    yStd: Optional[float] = None
+    zoneCode: Optional[Literal['D', 'N', 'O']] = None
+    hittingPlayerID: Optional[int] = None
+    hitteePlayerID: Optional[int] = None
+    blockingPlayerID: Optional[int] = None
+    shootingPlayerID: Optional[int] = None
+    shotType: Optional[str] = None
+    goalieInNetID: Optional[int] = None
+    eventOwnerPlayerID: Optional[int] = None
+    duration: Optional[int] = None
+    committedByPlayerID: Optional[int] = None
+    drawnByPlayerID: Optional[int] = None
+    scoringPlayerID: Optional[int] = None
+    assist1PlayerID: Optional[int] = None
+    assist2PlayerID: Optional[int] = None
+    xg: Optional[float] = None
+    highlightClipSharingURL: Optional[str] = None
