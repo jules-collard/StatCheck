@@ -12,8 +12,8 @@ class EventBase(BaseModel):
     eventID: int
     gameID: int
     timeInPeriodSec: int
-    awayScore: int = 0
-    homeScore: int = 0
+    awayScore: Optional[int] = 0
+    homeScore: Optional[int] = 0
     awayGoalie: Optional[int] = None
     awaySkaters: Optional[int] = None
     homeGoalie: Optional[int] = None

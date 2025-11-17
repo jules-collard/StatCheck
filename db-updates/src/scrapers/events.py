@@ -1,3 +1,5 @@
+from typing import List
+
 import requests
 import polars as pl
 from polars import col as c
@@ -37,7 +39,7 @@ def set_side_period(group: pl.DataFrame):
         .alias('homeTeamDefendingSide')
     )
 
-def scrape_pbp(gameID: int):
+def scrape_pbp(gameID: int) -> List[EventBase]:
     url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/play-by-play"
 
     response = requests.get(url)
@@ -74,7 +76,7 @@ def scrape_pbp(gameID: int):
               ))
     
     pbp_dicts = pbp_df.to_dicts()
-    return [EventBase(**event).model_dump() for event in pbp_dicts]
+    return [EventBase(**event) for event in pbp_dicts]
 
 def post_event_types():
     event_type_dicts = [
@@ -98,11 +100,11 @@ def post_event_types():
     r = requests.post(f"{BACKEND_URL}/games/event-types", json=event_type_dicts)
     print(r.status_code)
 
-def post_pbp(gameID: int):
-    pbp_dicts = scrape_pbp(gameID)
+def post_pbp(gameID: int, events: List[EventBase]):
+    pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
     print(r.status_code)
 
 if __name__ == "__main__":
     pbp = scrape_pbp(2025020255)
-    # print(pbp[50])
+    post_pbp(2025020255, pbp)
