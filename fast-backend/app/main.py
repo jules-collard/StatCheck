@@ -12,13 +12,6 @@ app.include_router(teams.router, prefix='/api')
 app.include_router(games.router, prefix='/api')
 app.include_router(check.router, prefix='/api')
 
-@app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError):
-    return JSONResponse(
-        status_code=422,
-        content=jsonable_encoder({"detail": exc.errors(), "body": exc.body}),
-    )
-
 @app.get("/")
 async def root():
     return {"message": "Hello World"}

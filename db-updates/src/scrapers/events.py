@@ -104,7 +104,3 @@ def post_pbp(gameID: int, events: List[EventBase]):
     pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
     print(r.status_code)
-
-if __name__ == "__main__":
-    pbp = scrape_pbp(2025020255)
-    post_pbp(2025020255, pbp)
