@@ -28,6 +28,9 @@ class EventService:
         
     async def insert_events(self, gameID: int, events: List[EventBase]):
         await self.check_events_exist(gameID)
-        eventObjs = [Event(**event.model_dump()) for event in events]
-        self.session.add_all(eventObjs)
+        try:
+            eventObjs = [Event(**event.model_dump()) for event in events]
+            self.session.add_all(eventObjs)
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
         
