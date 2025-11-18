@@ -5,9 +5,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.games import GameBase
 from app.models.events import EventTypeBase, EventBase
+from app.models.appearances import SkaterAppearanceBase, GoalieAppearanceBase
 from app.db.database import get_session
 from app.services.game_service import GameService
 from app.services.event_service import EventService
+from app.services.appearance_service import AppearanceService
 
 router = APIRouter(prefix='/games')
 
@@ -53,3 +55,21 @@ async def post_game_events(
 ):
     service = EventService(session)
     return await service.insert_events(id, events)
+
+@router.post('/{id}/skater-apps', status_code=status.HTTP_201_CREATED)
+async def post_skater_appearances(
+    id: int,
+    apps: List[SkaterAppearanceBase],
+    session: AsyncSession = Depends(get_session)
+):
+    service = AppearanceService(session)
+    return await service.insert_skater_appearances(id, apps)
+
+@router.post('/{id}/goalie-apps', status_code=status.HTTP_201_CREATED)
+async def post_goalie_appearances(
+    id: int,
+    apps: List[GoalieAppearanceBase],
+    session: AsyncSession = Depends(get_session)
+):
+    service = AppearanceService(session)
+    return await service.insert_goalie_appearances(id, apps)
