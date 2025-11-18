@@ -3,13 +3,15 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.db.database import get_session
 from app.models.games import GameBase
 from app.models.events import EventTypeBase, EventBase
 from app.models.appearances import SkaterAppearanceBase, GoalieAppearanceBase
-from app.db.database import get_session
+from app.models.shifts import ShiftBase
 from app.services.game_service import GameService
 from app.services.event_service import EventService
 from app.services.appearance_service import AppearanceService
+from app.services.shift_service import ShiftService
 
 router = APIRouter(prefix='/games')
 
@@ -73,3 +75,12 @@ async def post_goalie_appearances(
 ):
     service = AppearanceService(session)
     return await service.insert_goalie_appearances(id, apps)
+
+@router.post('/{id}/shifts', status_code=status.HTTP_201_CREATED)
+async def post_shifts(
+    id: int,
+    shifts: List[ShiftBase],
+    session: AsyncSession = Depends(get_session)
+):
+    service = ShiftService(session)
+    return await service.insert_shifts(id, shifts)

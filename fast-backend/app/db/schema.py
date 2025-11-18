@@ -254,14 +254,14 @@ class Shift(Base):
     __tablename__ = "shifts"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    gameID: Mapped[int] = mapped_column(ForeignKey('games.id'), index=True)
+    playerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)
+    teamID: Mapped[int] = mapped_column(ForeignKey('teams.id'), index=True)
     durationSec: Mapped[int] = mapped_column()
     startTimeSec: Mapped[int] = mapped_column()
     endTimeSec: Mapped[int] = mapped_column()
-    gameID: Mapped[int] = mapped_column(ForeignKey('games.id'), index=True)
     period: Mapped[int] = mapped_column()
-    playerID: Mapped[int] = mapped_column(ForeignKey('players.id'), index=True)
     shiftNumber: Mapped[int] = mapped_column()
-    teamID: Mapped[int] = mapped_column(ForeignKey('teams.id'), index=True)
 
     game: Mapped['Game'] = relationship('Game', back_populates='shifts')
 
