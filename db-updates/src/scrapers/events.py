@@ -57,8 +57,8 @@ def scrape_pbp(gameID: int) -> List[EventBase]:
               .with_columns(
                   c('timeInPeriod').str.split(":").alias('timeList'),
                   c('situationCode').str.split_exact('', 3).struct.rename_fields(['awayGoalie', 'awaySkaters', 'homeSkaters', 'homeGoalie']).struct.unnest(),
-                  c('awayScore').fill_null(strategy='forward').alias('awayScore'),
-                  c('homeScore').fill_null(strategy='forward').alias('homeScore'),
+                  c('awayScore').fill_null(strategy='forward').fill_null(strategy='zero').alias('awayScore'),
+                  c('homeScore').fill_null(strategy='forward').fill_null(strategy='zero').alias('homeScore'),
                   gameID = gameID
               )
               .with_columns(
@@ -104,3 +104,7 @@ def post_pbp(gameID: int, events: List[EventBase]):
     pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
     print(r.status_code)
+
+if __name__ == "__main__":
+    events = scrape_pbp(2025020253)
+    post_pbp(2025020253, events)
