@@ -25,7 +25,3 @@ def post_teams(*teams: TeamBase):
 def delete_team(id: int):
     r = requests.delete(f"{BACKEND_URL}/teams/{id}")
     print(r.status_code)
-
-if __name__ == "__main__":
-    teams = scrape_teams()
-    post_teams(*teams)

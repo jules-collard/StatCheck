@@ -32,7 +32,7 @@ def scrape_schedule(date: str):
 
 def post_game(game: GameBase):
     r = requests.post(f"{BACKEND_URL}/games/", json=game.model_dump())
-    print(r.status_code)
+    print(f"Game {game.id}: {r.status_code}")
 
 def delete_game(id: int):
     r = requests.delete(f"{BACKEND_URL}/games/{id}")

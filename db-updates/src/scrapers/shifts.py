@@ -39,7 +39,3 @@ def post_shifts(gameID: int, shifts: List[ShiftBase]):
     data = [shift.model_dump() for shift in shifts]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/shifts", json=data)
     print(f"{gameID} Shifts: {r.status_code}")
-
-if __name__ == "__main__":
-    shifts = scrape_shifts(2025020260)
-    print([shift for shift in shifts if shift.id == 15733052])

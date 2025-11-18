@@ -67,9 +67,6 @@ def post_appearances(gameID: int, skaters: List[SkaterAppearanceBase], goalies: 
 
     skater_r = requests.post(f"{BACKEND_URL}/games/{gameID}/skater-apps", json=[skater.model_dump() for skater in skaters])
     goalie_r = requests.post(f"{BACKEND_URL}/games/{gameID}/goalie-apps", json=[goalie.model_dump() for goalie in goalies])
-    print(f"Skaters: {skater_r.status_code}")
-    print(f"Goalies: {goalie_r.status_code}")
-
-if __name__ == "__main__":
-    skaters, goalies = scrape_appearances(2025020253)
-    post_appearances(2025020253, skaters, goalies)
+    print(f"{gameID} Skaters: {skater_r.status_code}")
+    print(f"{gameID} Goalies: {goalie_r.status_code}")
+    

@@ -37,7 +37,7 @@ def scrape_player(playerID: int) -> PlayerBase:
 
 def post_player(player: PlayerBase):
     r = requests.post(f"{BACKEND_URL}/players/", json=player.model_dump())
-    print(r.status_code)
+    print(f"{player.firstName} {player.lastName}: {r.status_code}")
 
 def put_player(player: PlayerBase):
     r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())
