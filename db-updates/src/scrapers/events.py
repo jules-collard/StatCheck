@@ -46,7 +46,7 @@ def scrape_pbp(gameID: int) -> List[EventBase]:
     response.raise_for_status()
     response = response.json()
     
-    pbp_df = pl.json_normalize(response["plays"])
+    pbp_df = pl.json_normalize(response["plays"], infer_schema_length=None)
     homeTeamID = response.get('homeTeam', {}).get('id', None)
     awayTeamID = response.get('awayTeam', {}).get('id', None)
     
@@ -103,8 +103,4 @@ def post_event_types():
 def post_pbp(gameID: int, events: List[EventBase]):
     pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
-    print(r.status_code)
-
-if __name__ == "__main__":
-    events = scrape_pbp(2025020253)
-    post_pbp(2025020253, events)
+    print(f"{gameID} Events: {r.status_code}")
