@@ -10,7 +10,7 @@ from src.scrapers.shifts import scrape_shifts, post_shifts
 from src.models.games import GameBase
 
 @click.group()
-def cli():
+def daily():
     """StatCheck Daily DB-Updates CLI"""
     pass
 
@@ -27,7 +27,7 @@ def import_game(game: GameBase):
     shifts = scrape_shifts(game.id)
     post_shifts(game.id, shifts)
 
-@cli.command('import-gameday')
+@daily.command('import-gameday')
 @click.option('-d', '--date', default=(datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'), type=str)
 def import_games_date(date: str):
     games: List[GameBase] = scrape_schedule(date)
@@ -36,4 +36,4 @@ def import_games_date(date: str):
 
 
 if __name__ == '__main__':
-    cli()
+    daily()
