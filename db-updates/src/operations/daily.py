@@ -21,7 +21,7 @@ def import_game(game: GameBase):
     skater_apps, goalie_apps = scrape_appearances(game.id)
     post_appearances(game.id, skater_apps, goalie_apps)
 
-    pbp = scrape_pbp(game.id)
+    pbp = scrape_pbp(game.id, neutralSite=game.neutralSite)
     post_pbp(game.id, pbp)
 
     shifts = scrape_shifts(game.id)
