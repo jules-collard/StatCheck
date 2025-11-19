@@ -2,10 +2,10 @@ from typing import List
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, update, bindparam
 from pydantic import ValidationError
 
-from app.models.events import EventTypeBase, EventBase, EventRead
+from app.models.events import EventTypeBase, EventBase, EventPatchXG
 from app.db.schema import EventType, Event
 
 class EventService:
@@ -41,3 +41,7 @@ class EventService:
             return event_dicts
         except ValidationError as e:
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+        
+    async def update_xg(self, shots: List[EventPatchXG]):
+        shot_dicts = [shot.model_dump() for shot in shots]
+        await self.session.execute(update(Event), shot_dicts)

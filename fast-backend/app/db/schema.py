@@ -265,6 +265,7 @@ class Event(Base):
             period=self.period,
             periodType=self.periodType,
             eventOwnerTeamID=self.eventOwnerTeamID,
+            shootingPlayerID=self.shootingPlayerID,
             xCoord=self.xCoord,
             yCoord=self.yCoord,
             xStd=self.xStd,
@@ -272,8 +273,6 @@ class Event(Base):
             zoneCode=self.zoneCode,
             shotType=self.shotType,
             goalieInNetID=self.goalieInNetID,
-            eventOwnerPlayerID=self.eventOwnerPlayerID,
-            xg=self.xg
         )
     
 

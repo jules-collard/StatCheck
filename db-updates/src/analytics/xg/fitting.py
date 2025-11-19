@@ -173,7 +173,7 @@ def calculate_xg(data: pl.DataFrame, model: xgb.XGBClassifier, model_name: Liter
     xg_fit = model.predict_proba(X_test)
     return index.with_columns(xg = xg_fit[:,1])
 
-def fit_xg(data: pl.DataFrame):
+def fit_xg(data: pl.DataFrame, join=True):
     es_shots, pp_shots, sh_shots = clean_data(data)
 
     es_mod = load_model('ES_model')
@@ -186,4 +186,7 @@ def fit_xg(data: pl.DataFrame):
 
     xg = pl.concat([es_xg, pp_xg, sh_xg])
     
-    return data.join(xg, on=['gameID','eventID'], how='left')
+    if join:
+        return data.join(xg, on=['gameID','eventID'], how='left')
+    else:
+        return xg

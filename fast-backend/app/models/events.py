@@ -61,6 +61,7 @@ class EventRead(BaseModel):
     period: int
     periodType: Optional[str] = None
     eventOwnerTeamID: Optional[int] = None
+    shootingPlayerID: Optional[int] = None
     xCoord: Optional[float] = None
     yCoord: Optional[float] = None
     xStd: Optional[float] = None
@@ -68,5 +69,8 @@ class EventRead(BaseModel):
     zoneCode: Optional[Literal['D', 'N', 'O']] = None
     shotType: Optional[str] = None
     goalieInNetID: Optional[int] = None
-    eventOwnerPlayerID: Optional[int] = None
-    xg: Optional[float] = None
+
+class EventPatchXG(BaseModel):
+    eventID: int
+    gameID: int
+    xg: float

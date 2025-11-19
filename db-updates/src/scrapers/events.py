@@ -117,3 +117,28 @@ def post_pbp(gameID: int, events: List[EventBase]):
     pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
     print(f"{gameID} Events: {r.status_code}")
+
+def patch_xg(gameID: int):
+    game_info = requests.get(f"{BACKEND_URL}/games/{gameID}").json()
+    homeTeamID = game_info.get('homeTeamID', None)
+    awayTeamID = game_info.get('awayTeamID', None)
+    gameType = game_info.get('gameType', None)
+    season = game_info.get('season', None)
+    neutralSite = game_info.get('neutralSite', None)
+    
+    events = requests.get(f"{BACKEND_URL}/games/{gameID}/events").json()
+    data = (pl.DataFrame(events, infer_schema_length=None)
+            .with_columns(
+                homeTeamID=homeTeamID,
+                awayTeamID=awayTeamID,
+                gameType=gameType,
+                season=season,
+                neutralSite=neutralSite
+            ))
+    data = data.pipe(fit_xg, join=False)
+    xg_data = data.to_dicts()
+    r = requests.patch(f"{BACKEND_URL}/events", json=xg_data)
+    print(f"Game {gameID} XG: {r.status_code}")
+
+if __name__ == '__main__':
+    patch_xg(2025020266)
