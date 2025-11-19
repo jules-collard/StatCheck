@@ -9,6 +9,7 @@ from app.models.players import PlayerRead, PlayerListItem, AwardBase
 from app.models.teams import TeamBase
 from app.models.games import GameBase
 from app.models.events import EventRead
+from app.models.shifts import ShiftBase
 
 class Player(Base):
     __tablename__ = 'players'
@@ -290,6 +291,19 @@ class Shift(Base):
     shiftNumber: Mapped[int] = mapped_column()
 
     game: Mapped['Game'] = relationship('Game', back_populates='shifts')
+
+    def to_read(self) -> ShiftBase:
+        return ShiftBase(
+            id=self.id,
+            gameID=self.gameID,
+            playerID=self.playerID,
+            teamID=self.teamID,
+            durationSec=self.durationSec,
+            startTimeSec=self.startTimeSec,
+            endTimeSec=self.endTimeSec,
+            period=self.period,
+            shiftNumber=self.shiftNumber
+        )
 
 class SplitShift(Base):
     __tablename__ = "split_shifts"

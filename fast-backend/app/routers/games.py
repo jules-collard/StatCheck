@@ -92,3 +92,11 @@ async def post_shifts(
 ):
     service = ShiftService(session)
     return await service.insert_shifts(id, shifts)
+
+@router.get('/{id}/shifts', status_code=status.HTTP_200_OK)
+async def get_game_shifts(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = ShiftService(session)
+    return await service.get_shifts(id)

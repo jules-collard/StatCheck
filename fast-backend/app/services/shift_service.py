@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select, insert
+from pydantic import ValidationError
 
 from app.db.schema import Shift
 from app.models.shifts import ShiftBase
@@ -26,3 +27,11 @@ class ShiftService:
             await self.session.execute(stmt)
         except IntegrityError as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
+        
+    async def get_shifts(self, gameID: int):
+        events: List[Shift] = await self.session.scalars(select(Shift).where(Shift.gameID == gameID))
+        try:
+            shift_dicts = [shift.to_read().model_dump() for shift in events]
+            return shift_dicts
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
