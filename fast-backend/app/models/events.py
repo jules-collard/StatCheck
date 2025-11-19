@@ -46,3 +46,27 @@ class EventBase(BaseModel):
     assist2PlayerID: Optional[int] = None
     xg: Optional[float] = None
     highlightClipSharingURL: Optional[str] = None
+
+class EventRead(BaseModel):
+    eventID: int
+    gameID: int
+    timeInPeriodSec: int
+    awayGoalie: Optional[int] = None
+    awaySkaters: Optional[int] = None
+    homeGoalie: Optional[int] = None
+    homeSkaters: Optional[int] = None
+    homeTeamDefendingSide: Optional[Literal['left', 'right']] = None
+    typeCode: int
+    sortOrder: Optional[int] = None
+    period: int
+    periodType: Optional[str] = None
+    eventOwnerTeamID: Optional[int] = None
+    xCoord: Optional[float] = None
+    yCoord: Optional[float] = None
+    xStd: Optional[float] = None
+    yStd: Optional[float] = None
+    zoneCode: Optional[Literal['D', 'N', 'O']] = None
+    shotType: Optional[str] = None
+    goalieInNetID: Optional[int] = None
+    eventOwnerPlayerID: Optional[int] = None
+    xg: Optional[float] = None

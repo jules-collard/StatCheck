@@ -8,6 +8,7 @@ from .database import Base
 from app.models.players import PlayerRead, PlayerListItem, AwardBase
 from app.models.teams import TeamBase
 from app.models.games import GameBase
+from app.models.events import EventRead
 
 class Player(Base):
     __tablename__ = 'players'
@@ -248,6 +249,32 @@ class Event(Base):
     highlightClipSharingURL: Mapped[Optional[str]] = mapped_column()
 
     game: Mapped['Game'] = relationship('Game', back_populates='events')
+
+    def to_read(self) -> EventRead:
+        return EventRead(
+            eventID=self.eventID,
+            gameID=self.gameID,
+            timeInPeriodSec=self.timeInPeriodSec,
+            awayGoalie=self.awayGoalie,
+            homeGoalie=self.homeGoalie,
+            awaySkaters=self.awaySkaters,
+            homeSkaters=self.homeSkaters,
+            homeTeamDefendingSide=self.homeTeamDefendingSide,
+            typeCode=self.typeCode,
+            sortOrder=self.sortOrder,
+            period=self.period,
+            periodType=self.periodType,
+            eventOwnerTeamID=self.eventOwnerTeamID,
+            xCoord=self.xCoord,
+            yCoord=self.yCoord,
+            xStd=self.xStd,
+            yStd=self.yStd,
+            zoneCode=self.zoneCode,
+            shotType=self.shotType,
+            goalieInNetID=self.goalieInNetID,
+            eventOwnerPlayerID=self.eventOwnerPlayerID,
+            xg=self.xg
+        )
     
 
 class Shift(Base):

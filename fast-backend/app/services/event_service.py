@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from pydantic import ValidationError
 
-from app.models.events import EventTypeBase, EventBase
+from app.models.events import EventTypeBase, EventBase, EventRead
 from app.db.schema import EventType, Event
 
 class EventService:
@@ -34,3 +34,10 @@ class EventService:
         except ValidationError as e:
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
         
+    async def get_events(self, gameID: int):
+        events: List[Event] = await self.session.scalars(select(Event).where(Event.gameID == gameID))
+        try:
+            event_dicts = [event.to_read().model_dump() for event in events]
+            return event_dicts
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())

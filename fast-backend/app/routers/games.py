@@ -58,6 +58,14 @@ async def post_game_events(
     service = EventService(session)
     return await service.insert_events(id, events)
 
+@router.get('/{id}/events', status_code=status.HTTP_200_OK)
+async def get_game_events(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    service = EventService(session)
+    return await service.get_events(id)
+
 @router.post('/{id}/skater-apps', status_code=status.HTTP_201_CREATED)
 async def post_skater_appearances(
     id: int,
