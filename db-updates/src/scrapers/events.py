@@ -6,6 +6,7 @@ from polars import col as c
 
 from .. import BACKEND_URL
 from src.models.events import EventBase
+from src.analytics.xg.fitting import fit_xg
 
 def set_side_period(group: pl.DataFrame):
     if group.select('homeTeamDefendingSide').to_series().is_null().any():
@@ -39,7 +40,7 @@ def set_side_period(group: pl.DataFrame):
         .alias('homeTeamDefendingSide')
     )
 
-def scrape_pbp(gameID: int) -> List[EventBase]:
+def scrape_pbp(gameID: int, neutralSite=False, return_df=False) -> List[EventBase]:
     url = f"https://api-web.nhle.com/v1/gamecenter/{gameID}/play-by-play"
 
     response = requests.get(url)
@@ -49,6 +50,8 @@ def scrape_pbp(gameID: int) -> List[EventBase]:
     pbp_df = pl.json_normalize(response["plays"], infer_schema_length=None)
     homeTeamID = response.get('homeTeam', {}).get('id', None)
     awayTeamID = response.get('awayTeam', {}).get('id', None)
+    gameType = response.get('gameType', None)
+    season = response.get('season', None)
     
     pbp_df = (pbp_df
               .select(pl.all().exclude('details.typeCode'))
@@ -59,7 +62,12 @@ def scrape_pbp(gameID: int) -> List[EventBase]:
                   c('situationCode').str.split_exact('', 3).struct.rename_fields(['awayGoalie', 'awaySkaters', 'homeSkaters', 'homeGoalie']).struct.unnest(),
                   c('awayScore').fill_null(strategy='forward').fill_null(strategy='zero').alias('awayScore'),
                   c('homeScore').fill_null(strategy='forward').fill_null(strategy='zero').alias('homeScore'),
-                  gameID = gameID
+                  gameID = gameID,
+                  homeTeamID = homeTeamID,
+                  awayTeamID = awayTeamID,
+                  gameType = gameType,
+                  season = season,
+                  neutralSite = neutralSite
               )
               .with_columns(
                   (c('timeList').list.first().cast(pl.Int32) * 60 + c('timeList').list.last().cast(pl.Int32)).alias('timeInPeriodSec')
@@ -74,6 +82,11 @@ def scrape_pbp(gameID: int) -> List[EventBase]:
                 .otherwise(pl.struct(xStd=c('xCoord'), yStd=c('yCoord')))
                 .struct.unnest()
               ))
+    
+    if return_df:
+        return pbp_df
+    
+    pbp_df = pbp_df.pipe(fit_xg)
     
     pbp_dicts = pbp_df.to_dicts()
     return [EventBase(**event) for event in pbp_dicts]
