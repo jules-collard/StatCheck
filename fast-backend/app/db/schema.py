@@ -316,7 +316,7 @@ class SplitShift(Base):
     period: Mapped[int] = mapped_column()
     startTimeSec: Mapped[int] = mapped_column()
     endTimeSec: Mapped[int] = mapped_column()
-    splitDuration: Mapped[int] = mapped_column()
+    duration: Mapped[int] = mapped_column()
     attackingSkaters: Mapped[int] = mapped_column()
     defendingSkaters: Mapped[int] = mapped_column()
     attackingGoalie: Mapped[bool] = mapped_column()
@@ -334,6 +334,7 @@ class SplitShift(Base):
     dZoneStarts: Mapped[int] = mapped_column()
     nZoneStarts: Mapped[int] = mapped_column()
     oZoneStarts: Mapped[int] = mapped_column()
+    score: Mapped[int] = mapped_column()
 
     game: Mapped['Game'] = relationship('Game', back_populates='splitShifts')
 

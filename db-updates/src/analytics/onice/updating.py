@@ -61,9 +61,13 @@ def get_split_shifts(gameID: int):
                      .pipe(add_strengths)
                      .pipe(add_faceoff_zone)
                      .pipe(add_score))
-    splitshifts = calculate_shift_data(all_events_df)
+    splitshifts: pl.Dataframe = calculate_shift_data(all_events_df)
     return [SplitShiftBase(**splitshift) for splitshift in splitshifts.to_dicts()]
 
 def post_split_shifts(gameID: int, splitshifts: List[SplitShiftBase]):
-    r = requests.post(f"{BACKEND_URL}/games/{gameID}/split-shifts", json=splitshifts)
+    r = requests.post(f"{BACKEND_URL}/games/{gameID}/split-shifts", json=[spl.model_dump() for spl in splitshifts])
     print(f"{gameID} Split-Shifts: {r.status_code}")
+
+if __name__ == '__main__':
+    spl = get_split_shifts(2025020256)
+    post_split_shifts(2025020256, spl)

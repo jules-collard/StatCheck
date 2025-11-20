@@ -7,7 +7,7 @@ from app.db.database import get_session
 from app.models.games import GameBase
 from app.models.events import EventTypeBase, EventBase
 from app.models.appearances import SkaterAppearanceBase, GoalieAppearanceBase
-from app.models.shifts import ShiftBase
+from app.models.shifts import ShiftBase, SplitShiftBase
 from app.services.game_service import GameService
 from app.services.event_service import EventService
 from app.services.appearance_service import AppearanceService
@@ -100,3 +100,12 @@ async def get_game_shifts(
 ):
     service = ShiftService(session)
     return await service.get_shifts(id)
+
+@router.post('/{id}/split-shifts', status_code=status.HTTP_201_CREATED)
+async def post_split_shifts(
+    id: int,
+    splitshifts: List[SplitShiftBase],
+    session: AsyncSession = Depends(get_session)
+):
+    service = ShiftService(session)
+    return await service.insert_split_shifts(id, splitshifts)

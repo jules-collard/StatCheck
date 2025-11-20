@@ -71,10 +71,8 @@ def add_strengths(data: pl.DataFrame):
                           defendingSkaters = pl.when(c('homeTeamID') == c('teamID')).then(c('awaySkaters')).otherwise(c('homeSkaters')),
                           attackingGoalie = pl.when(c('homeTeamID') == c('teamID')).then(c('homeGoalie')).otherwise(c('awayGoalie')),
                           defendingGoalie = pl.when(c('homeTeamID') == c('teamID')).then(c('awayGoalie')).otherwise(c('homeGoalie')))
-            .with_columns(manAdvantage = c('attackingSkaters') - c('defendingSkaters'),
-                          strengthState = pl.struct(['attackingSkaters', 'defendingSkaters', 'attackingGoalie', 'defendingGoalie']))
-            .with_columns(split = c('manAdvantage').rle_id().over('shiftID'))
-            .drop(cs.contains('Goalie', 'Skaters')))
+            .with_columns(strengthState = pl.struct(['attackingSkaters', 'defendingSkaters', 'attackingGoalie', 'defendingGoalie']))
+            .with_columns(split = c('strengthState').rle_id().over('shiftID')))
 
 def add_score(data: pl.DataFrame):
     return (data
