@@ -46,3 +46,24 @@ class EventBase(BaseModel):
     assist2PlayerID: Optional[int] = None
     xg: Optional[float] = None
     highlightClipSharingURL: Optional[str] = None
+
+class EventReadShift(BaseModel):
+    period: int
+    timeInPeriodSec: int
+    awayGoalie: int
+    awaySkaters: int
+    homeGoalie: int
+    homeSkaters: int
+    typeCode: int
+    xStd: int
+    homeScore: int
+    awayScore: int
+    eventOwnerTeamID: int
+    homeTeamID: int
+    xg: Optional[float]
+    
+
+class EventPatchXG(BaseModel):
+    eventID: int
+    gameID: int
+    xg: float

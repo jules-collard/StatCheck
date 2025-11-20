@@ -2,11 +2,11 @@ from typing import List
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update, bindparam
+from sqlalchemy import select, update
 from pydantic import ValidationError
 
 from app.models.events import EventTypeBase, EventBase, EventPatchXG
-from app.db.schema import EventType, Event
+from app.db.schema import EventType, Event, Game
 
 class EventService:
 
@@ -41,6 +41,17 @@ class EventService:
             return event_dicts
         except ValidationError as e:
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+        
+    async def get_events_shift(self, gameID: int, period: int, startTimeSec: int, endTimeSec: int):
+        stmt = (select(Event.period, Event.timeInPeriodSec, Event.awayGoalie, Event.awaySkaters, Event.homeGoalie, Event.homeSkaters, Event.typeCode, Event.homeScore, Event.awayScore, Event.xStd, Event.eventOwnerTeamID, Game.homeTeamID, Event.xg)
+                .join(Event.game)
+                .where(Event.gameID == gameID,
+                    Event.period == period,
+                    Event.timeInPeriodSec >= startTimeSec,
+                    Event.timeInPeriodSec <= endTimeSec)
+                .order_by(Event.timeInPeriodSec, Event.sortOrder))
+        result = await self.session.execute(stmt)
+        return [row._asdict() for row in result.all()]
         
     async def update_xg(self, shots: List[EventPatchXG]):
         shot_dicts = [shot.model_dump() for shot in shots]

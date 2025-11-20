@@ -40,5 +40,6 @@ class SplitShiftBase(BaseModel):
     dZoneStarts: int
     nZoneStarts: int
     oZoneStarts: int
+    score: int
 
 

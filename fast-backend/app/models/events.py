@@ -70,6 +70,23 @@ class EventRead(BaseModel):
     shotType: Optional[str] = None
     goalieInNetID: Optional[int] = None
 
+
+class EventReadShift(BaseModel):
+    period: int
+    timeInPeriodSec: int
+    awayGoalie: int
+    awaySkaters: int
+    homeGoalie: int
+    homeSkaters: int
+    typeCode: int
+    xStd: Optional[int]
+    homeScore: int
+    awayScore: int
+    eventOwnerTeamID: Optional[int]
+    homeTeamID: int
+    xg: Optional[float]
+    
+
 class EventPatchXG(BaseModel):
     eventID: int
     gameID: int
