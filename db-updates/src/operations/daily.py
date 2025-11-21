@@ -7,6 +7,7 @@ from src.scrapers.games import scrape_schedule, post_game
 from src.scrapers.appearances import scrape_appearances, post_appearances
 from src.scrapers.events import scrape_pbp, post_pbp
 from src.scrapers.shifts import scrape_shifts, post_shifts
+from src.analytics.onice.updating import get_split_shifts, post_split_shifts
 from src.models.games import GameBase
 
 @click.group()
@@ -26,6 +27,9 @@ def import_game(game: GameBase):
 
     shifts = scrape_shifts(game.id)
     post_shifts(game.id, shifts)
+
+    split_shifts = get_split_shifts(shifts)
+    post_split_shifts(game.id, split_shifts)
 
 @daily.command('import-gameday')
 @click.option('-d', '--date', default=(datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'), type=str)

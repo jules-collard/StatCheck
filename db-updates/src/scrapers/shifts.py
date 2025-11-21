@@ -16,7 +16,7 @@ def scrape_shifts(gameID: int):
 
     shifts: pl.DataFrame = pl.json_normalize(response.get('data', {}), infer_schema_length=None)
     if shifts.is_empty():
-        return {}
+        return []
     
     shifts = (shifts
               .rename({'playerId':'playerID', 'gameId':'gameID', 'teamId':'teamID'})

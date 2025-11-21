@@ -48,9 +48,8 @@ def calculate_shift_data(event_data: pl.DataFrame) -> pl.DataFrame:
     )
     return q
 
-def get_split_shifts(gameID: int):
+def get_split_shifts(shifts: List[ShiftBase]):
     all_events = []
-    shifts = get_shifts(gameID)
     for shift in shifts:
         events = get_shift_events(shift)
         shift_events = clean_shift_events(shift, events)
@@ -67,7 +66,3 @@ def get_split_shifts(gameID: int):
 def post_split_shifts(gameID: int, splitshifts: List[SplitShiftBase]):
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/split-shifts", json=[spl.model_dump() for spl in splitshifts])
     print(f"{gameID} Split-Shifts: {r.status_code}")
-
-if __name__ == '__main__':
-    spl = get_split_shifts(2025020256)
-    post_split_shifts(2025020256, spl)

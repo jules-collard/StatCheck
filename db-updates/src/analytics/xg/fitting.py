@@ -139,13 +139,13 @@ def transform_data(data: pl.DataFrame, model: Literal['ES', 'PP', 'SH']):
     homevenue_categories = [*[str(team) for team in TEAMS], 'neutral']
 
     categorical_transformer = Pipeline(steps=[
-        ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing')),
-        ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing')),
+        ('nan-imputer', SimpleImputer(strategy='constant', fill_value='missing', keep_empty_features=True)),
+        ('none-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='missing', keep_empty_features=True)),
         ('onehot', OneHotEncoder(categories=[typecode_categories, shottype_categories, GAMETYPES, SEASONS]))
     ])
 
     homevenue_transformer = Pipeline(steps=[
-        ('null-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='neutral')),
+        ('null-imputer', SimpleImputer(strategy='constant', missing_values=None, fill_value='neutral', keep_empty_features=True)),
         ('onehot', OneHotEncoder(categories=[homevenue_categories]))
     ])
 
