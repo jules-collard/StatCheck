@@ -38,6 +38,16 @@ def import_games_date(date: str):
     for game in games:
         import_game(game)
 
+@daily.command('import-game')
+@click.option('-i', '--id', type=int)
+@click.option('-d', '--date', type=str)
+def import_game_id(id: int, date: str):
+    games: List[GameBase] = scrape_schedule(date)
+    game_with_id = [g for g in games if g.id == id]
+    game = game_with_id[0] if len(game_with_id) > 0 else None
+    if game:
+        import_game(game)
+
 
 if __name__ == '__main__':
     daily()

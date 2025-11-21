@@ -38,6 +38,8 @@ def scrape_player(playerID: int) -> PlayerBase:
 def post_player(player: PlayerBase):
     r = requests.post(f"{BACKEND_URL}/players/", json=player.model_dump())
     print(f"{player.firstName} {player.lastName}: {r.status_code}")
+    if r.status_code != 201:
+        print(r.json())
 
 def put_player(player: PlayerBase):
     r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())

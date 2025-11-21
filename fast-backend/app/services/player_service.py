@@ -3,6 +3,7 @@ from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
@@ -59,20 +60,20 @@ class PlayerService:
             teamTriCode=row.triCode,
             headshot=row.headshot).model_dump() for row in result]
         
-    async def add_player(self, player: PlayerBase):
+    async def insert_player(self, player: PlayerBase):
         data = player.model_dump()
         awards = data.pop('awards', [])
         data['birthDate'] = datetime.strptime(data.get('birthDate', ''), '%Y-%m-%d').date()
         
-        playerObj = Player(**data)
-        self.session.add(playerObj)
+        try:
+            stmt = insert(Player).values(data)
+            await self.session.execute(stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
         
         for award in awards:
             awardObj = AwardBase(**award)
             await self.upsert_award(awardObj)
-        
-        return await self.return_player(playerObj)
-
     
     async def upsert_player(self, player: PlayerBase):
         data = player.model_dump()
@@ -83,7 +84,7 @@ class PlayerService:
             awardObj = AwardBase(**award)
             await self.upsert_award(awardObj)
 
-        stmt = insert(Player).values(**data).returning(Player)
+        stmt = insert(Player).values(**data)
         update_stmt = (stmt.on_conflict_do_update(
             index_elements=[Player.id],
             set_=dict(
@@ -99,10 +100,10 @@ class PlayerService:
                 inHHOF=stmt.excluded.inHHOF,
             )
         ))
-
-        result = await self.session.execute(update_stmt)
-        newPlayer: Player = result.scalar_one()
-        return await self.return_player(newPlayer)
+        try:
+            await self.session.execute(update_stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
 
     async def delete_player(self, id: int):
         player: Player | None = await self.session.get(Player, id)
@@ -110,11 +111,13 @@ class PlayerService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Player not found")
         else:
             await self.session.delete(player)
-            return
 
     async def upsert_award(self, award: AwardBase):
         stmt = (insert(Award)
                 .values(**award.model_dump())
                 .on_conflict_do_nothing(constraint="awards_constraint"))
-        await self.session.execute(stmt)
-        return
+        try:
+            await self.session.execute(stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
+        

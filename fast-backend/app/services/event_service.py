@@ -2,7 +2,8 @@ from typing import List
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, update
+from sqlalchemy import select, update, insert
+from sqlalchemy.exc import IntegrityError
 from pydantic import ValidationError
 
 from app.models.events import EventTypeBase, EventBase, EventPatchXG
@@ -29,10 +30,10 @@ class EventService:
     async def insert_events(self, gameID: int, events: List[EventBase]):
         await self.check_events_exist(gameID)
         try:
-            eventObjs = [Event(**event.model_dump()) for event in events]
-            self.session.add_all(eventObjs)
-        except ValidationError as e:
-            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+            stmt = insert(Event).values([event.model_dump() for event in events])
+            await self.session.execute(stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
         
     async def get_events(self, gameID: int):
         events: List[Event] = await self.session.scalars(select(Event).where(Event.gameID == gameID))

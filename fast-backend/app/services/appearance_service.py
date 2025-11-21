@@ -2,7 +2,8 @@ from typing import List
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, insert
+from sqlalchemy.exc import IntegrityError
 from pydantic import ValidationError
 
 from app.db.schema import SkaterAppearance, GoalieAppearance
@@ -29,15 +30,19 @@ class AppearanceService:
     async def insert_skater_appearances(self, gameID: int, apps: List[SkaterAppearanceBase]):
         await self.check_skater_appearances_exist(gameID)
         try:
-            app_objs = [SkaterAppearance(**skater.model_dump()) for skater in apps]
-            self.session.add_all(app_objs)
-        except ValidationError as e:
-            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+            stmt = insert(SkaterAppearance).values(
+                [skater.model_dump() for skater in apps]
+            )
+            await self.session.execute(stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
         
     async def insert_goalie_appearances(self, gameID: int, apps: List[GoalieAppearanceBase]):
         await self.check_goalie_appearances_exist(gameID)
         try:
-            app_objs = [GoalieAppearance(**goalie.model_dump()) for goalie in apps]
-            self.session.add_all(app_objs)
-        except ValidationError as e:
-            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+            stmt = insert(GoalieAppearance).values(
+                [goalie.model_dump() for goalie in apps]
+            )
+            await self.session.execute(stmt)
+        except IntegrityError as e:
+            raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))

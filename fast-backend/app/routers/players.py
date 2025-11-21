@@ -46,7 +46,7 @@ async def post_player(
     if await service.player_exists(player.id):
         raise HTTPException(status.HTTP_409_CONFLICT, detail="Player already exists")
     
-    return await service.add_player(player)
+    return await service.insert_player(player)
 
 @router.put('/', status_code=status.HTTP_200_OK)
 async def put_player(
