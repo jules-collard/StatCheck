@@ -23,6 +23,13 @@ async def get_player_list_item(
     service = PlayerService(session)
     return await service.get_list_item(id)
 
+@router.get('/{id}/stats', status_code=status.HTTP_200_OK)
+async def get_player_stats(
+    id: int,
+    session: AsyncSession = Depends(get_session)
+):
+    pass
+
 @router.get('/all/ids', status_code=status.HTTP_200_OK)
 async def get_all_ids(
     session: AsyncSession = Depends(get_session)
