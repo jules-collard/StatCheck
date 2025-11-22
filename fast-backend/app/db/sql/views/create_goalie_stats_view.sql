@@ -64,7 +64,3 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
     LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID"
     LEFT JOIN players ON totals."playerID" = players."id"
     WHERE totals."gamesPlayed" > 0;
-
-CREATE INDEX goalie_index ON goalie_stats ("playerID");
-CREATE INDEX season_index ON goalie_stats ("season");
-CREATE INDEX game_index ON goalie_stats ("gameType");

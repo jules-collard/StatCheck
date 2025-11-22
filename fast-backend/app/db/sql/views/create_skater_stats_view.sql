@@ -95,7 +95,3 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS skater_stats AS
     LEFT JOIN onice ON totals."season" = onice."season" AND totals."gameType" = onice."gameType" AND totals."playerID" = onice."playerID"
     LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID"
     LEFT JOIN players ON totals."playerID" = players."id";
-
-CREATE INDEX skater_index ON skater_stats ("playerID");
-CREATE INDEX skater_season_index ON skater_stats ("season");
-CREATE INDEX skater_game_index ON skater_stats ("gameType");

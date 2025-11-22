@@ -2,7 +2,9 @@ from typing import List
 from datetime import datetime, timedelta
 
 import click
+import requests
 
+from .. import BACKEND_URL
 from src.scrapers.games import scrape_schedule, post_game
 from src.scrapers.appearances import scrape_appearances, post_appearances
 from src.scrapers.events import scrape_pbp, post_pbp
@@ -14,7 +16,6 @@ from src.models.games import GameBase
 def daily():
     """StatCheck Daily DB-Updates CLI"""
     pass
-
 
 def import_game(game: GameBase):
     post_game(game)
@@ -37,6 +38,7 @@ def import_games_date(date: str):
     games: List[GameBase] = scrape_schedule(date)
     for game in games:
         import_game(game)
+    requests.get(f"{BACKEND_URL}/admin/refresh-views")
 
 @daily.command('import-game')
 @click.option('-i', '--id', type=int)
