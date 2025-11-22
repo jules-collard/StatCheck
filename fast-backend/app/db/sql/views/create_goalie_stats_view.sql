@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW goalie_stats AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
     WITH totals AS (
         SELECT
             games."season",
