@@ -1,4 +1,4 @@
-type GameState = 'FUT' | 'OFF' | 'PRE' | 'LIVE';
+type GameState = 'FUT' | 'PRE' | 'LIVE' | 'CRIT' | 'OVER' | 'FINAL' | 'OFF';
 type PeriodType = 'REG' | 'OT' | 'SO';
 
 type Team = {
