@@ -84,4 +84,72 @@ class AwardBase(BaseModel):
     awardName: str
     season: int
     winningPlayerID: int
-    
+
+
+class SkaterStats(BaseModel):
+    playerID: int
+    season: int
+    teamTriCodes: List[str]
+    qualified: bool
+    shotsQualified: bool
+    totals: 'SkaterTotals'
+    shooting: Optional['SkaterShooting'] = None
+    onice: Optional['SkaterOnIce'] = None
+
+
+class SkaterTotals(BaseModel):
+    gamesPlayed: int
+    goals: int
+    assists: int
+    plusMinus: int
+    penaltyMinutes: int
+    hits: int
+    sog: int
+    blocks: int
+    avgTOI: float
+
+
+class SkaterShooting(BaseModel):
+    xg: Optional[float]
+    xgGoals: Optional[int]
+    fenwick: Optional[int]
+
+
+class SkaterOnIce(BaseModel):
+    onIceShootingPct: Optional[float]
+    fenwickFor: Optional[int]
+    fenwickAgainst: Optional[int]
+    corsiFor: Optional[int]
+    corsiAgainst: Optional[int]
+    xgFor: Optional[float]
+    xgAgainst: Optional[float]
+    oZoneStarts: Optional[int]
+    nZoneStarts: Optional[int]
+    dZoneStarts: Optional[int]
+
+
+class GoalieStats(BaseModel):
+    playerID: int
+    season: int
+    teamTriCodes: List[str]
+    qualified: bool
+    totals: 'GoalieTotals'
+    advanced: Optional['GoalieAdvanced']
+
+
+class GoalieTotals(BaseModel):
+    gamesPlayed: int
+    gamesStarted: int
+    wins: int
+    losses: int
+    goalsAgainst: int
+    goalsAgainstAvg: float
+    savePct: Optional[float]
+    evenStrengthSavePct: Optional[float]
+    powerPlaySavePct: Optional[float]
+
+
+class GoalieAdvanced(BaseModel):
+    xgAgainst: float
+    xgGoalsAgainst: int
+    fenwickAgainst: int

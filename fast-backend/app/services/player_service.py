@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import List
 
-from sqlalchemy import select
+from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError
@@ -9,6 +10,8 @@ from pydantic import ValidationError
 
 from app.db.schema import Player, Award, Team
 from app.models.players import PlayerBase, PlayerRead, PlayerListItem, AwardBase
+from app.models.players import SkaterStats, SkaterTotals, SkaterShooting, SkaterOnIce
+from app.models.players import GoalieStats, GoalieTotals, GoalieAdvanced
 
 class PlayerService:
 
@@ -121,3 +124,96 @@ class PlayerService:
         except IntegrityError as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
         
+    async def get_player_stats(self, id: int):
+        player: Player | None = await self.session.get(Player, id)
+        if not player:
+            raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Player not in database")
+        
+        if player.position == 'G':
+            q = f"""SELECT * FROM goalie_stats WHERE "playerID" = {player.id}"""
+        else:
+            q = f"""SELECT * FROM skater_stats WHERE "playerID" = {player.id}"""
+        result = await self.session.execute(text(q))
+        stats: List[SkaterStats | GoalieStats] = []
+        for row in result.all():
+            if player.position == 'G':
+                stats.append(await self.row_to_goalie_stats(row))
+            else:
+                stats.append(await self.row_to_skater_stats(row))
+        return [season.model_dump() for season in stats]
+
+    async def get_team_tricodes(self, ids: List[int]):
+        return await self.session.scalars(select(Team.triCode).where(Team.id.in_(ids)))
+    
+    async def row_to_skater_stats(self, row: List) -> SkaterStats:
+        triCodes = await self.get_team_tricodes(row[7])
+        try:
+            return SkaterStats(
+                playerID=row[2],
+                season=row[0],
+                teamTriCodes=triCodes,
+                qualified=row[8],
+                shotsQualified=row[9],
+                totals=SkaterTotals(
+                    gamesPlayed=row[10],
+                    goals=row[11],
+                    assists=row[12],
+                    plusMinus=row[13],
+                    penaltyMinutes=row[14],
+                    hits=row[15],
+                    sog=row[16],
+                    blocks=row[17],
+                    avgTOI=row[18]
+                ),
+                shooting=SkaterShooting(
+                    xg=row[19],
+                    xgGoals=row[20],
+                    fenwick=row[21]
+                ),
+                onice=SkaterOnIce(
+                    onIceShootingPct=row[22],
+                    fenwickFor=row[23],
+                    fenwickAgainst=row[24],
+                    corsiFor=row[25],
+                    corsiAgainst=row[26],
+                    xgFor=row[27],
+                    xgAgainst=row[28],
+                    oZoneStarts=row[29],
+                    nZoneStarts=row[30],
+                    dZoneStarts=row[31]
+                )
+            )
+        except IndexError:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error reading row")
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
+        
+    async def row_to_goalie_stats(self, row: List) -> GoalieStats:
+        triCodes = await self.get_team_tricodes(row[6])
+        try:
+            return GoalieStats(
+                playerID=row[2],
+                season=row[0],
+                teamTriCodes=triCodes,
+                qualified=row[7],
+                totals=GoalieTotals(
+                    gamesPlayed=row[8],
+                    gamesStarted=row[9],
+                    wins=row[10],
+                    losses=row[11],
+                    goalsAgainst=row[12],
+                    goalsAgainstAvg=row[13],
+                    savePct=row[14],
+                    evenStrengthSavePct=row[15],
+                    powerPlaySavePct=row[16]
+                ),
+                advanced=GoalieAdvanced(
+                    xgAgainst=row[17],
+                    xgGoalsAgainst=row[18],
+                    fenwickAgainst=row[19]
+                )
+            )
+        except IndexError:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Error reading row")
+        except ValidationError as e:
+            raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
