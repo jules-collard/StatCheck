@@ -6,14 +6,14 @@ from .routers import players, admin, teams, games, events, leaderboards, scores,
 app = FastAPI()
 
 origins = [
-    'http://localhost:4200',
-    'https://localhost:4200',
+    'http://localhost:8080',
+    'https://localhost:8080',
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["*"],
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
