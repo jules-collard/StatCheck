@@ -5,6 +5,7 @@ import { computed, effect, inject, signal } from "@angular/core";
 import { FilterParams } from "./player-filter/filter-params.interface";
 import { TableSortService } from "../table-sort.service";
 import { GoalieLeaderboardItem } from "../../goalie-leaderboard-page/goalie-leaderboard-item.model";
+import { GlobalConfigService } from "../global-config.service";
 
 export interface LeaderboardConfig {
     season: number;
@@ -22,6 +23,7 @@ export interface ListConfig {
 export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem | GoalieLeaderboardItem> {
 
     private sortService = inject(TableSortService);
+    private config = inject(GlobalConfigService)
 
     private listConfig = signal<ListConfig | null>(null);
 
@@ -29,10 +31,10 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
         if (this.listConfig()) {
             switch (this.listConfig()!.type) {
                 case 'search':
-                    return 'http://localhost:5000/api/players';
+                    return `${this.config.backendURL}/players/all/list-items`;
                 case 'leaderboard':
                     if (this.listConfig()!.leaderboardConfig) {
-                        return `http://localhost:5000/api/leaderboards/${this.listConfig()!.leaderboardConfig!.season}/${this.listConfig()!.leaderboardConfig!.playerType}?gameType=${this.listConfig()!.leaderboardConfig!.gameType}`;
+                        return `${this.config.backendURL}/leaderboards/${this.listConfig()!.leaderboardConfig!.season}/${this.listConfig()!.leaderboardConfig!.playerType}?gameType=${this.listConfig()!.leaderboardConfig!.gameType}`;
                     }
             }
         }
