@@ -124,15 +124,15 @@ class PlayerService:
         except IntegrityError as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
         
-    async def get_player_stats(self, id: int):
+    async def get_player_stats(self, id: int, gameType: int):
         player: Player | None = await self.session.get(Player, id)
         if not player:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Player not in database")
         
         if player.position == 'G':
-            q = f"""SELECT * FROM goalie_stats WHERE "playerID" = {player.id}"""
+            q = f"""SELECT * FROM goalie_stats WHERE "playerID" = {player.id} AND "gameType" = {gameType}"""
         else:
-            q = f"""SELECT * FROM skater_stats WHERE "playerID" = {player.id}"""
+            q = f"""SELECT * FROM skater_stats WHERE "playerID" = {player.id} AND "gameType" = {gameType}"""
         result = await self.session.execute(text(q))
         stats: List[SkaterStats | GoalieStats] = []
         for row in result.all():
