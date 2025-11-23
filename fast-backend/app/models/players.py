@@ -128,6 +128,19 @@ class SkaterOnIce(BaseModel):
     dZoneStarts: Optional[int]
 
 
+class SkaterLeaderboardItem(BaseModel):
+    playerID: int
+    fullName: str
+    position: str
+    isActive: bool
+    qualified: bool
+    shotsQualified: bool
+    teamTriCodes: list[str]
+    totals: SkaterTotals
+    shooting: SkaterShooting
+    onIce: SkaterOnIce
+
+
 class GoalieStats(BaseModel):
     playerID: int
     season: int
@@ -150,6 +163,17 @@ class GoalieTotals(BaseModel):
 
 
 class GoalieAdvanced(BaseModel):
-    xgAgainst: float
-    xgGoalsAgainst: int
-    fenwickAgainst: int
+    xgAgainst: Optional[float]
+    xgGoalsAgainst: Optional[int]
+    fenwickAgainst: Optional[int]
+
+
+class GoalieLeaderboardItem(BaseModel):
+    playerID: int
+    fullName: str
+    position: str
+    qualified: bool
+    isActive: bool
+    teamTriCodes: list[str]
+    totals: GoalieTotals
+    advanced: Optional[GoalieAdvanced]
