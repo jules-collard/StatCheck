@@ -2,7 +2,7 @@ import logfire
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import players, admin, teams, games, events, leaderboards, scores, standings
+from app.routers import players, admin, teams, games, events, leaderboards, scores, standings
 
 app = FastAPI()
 
