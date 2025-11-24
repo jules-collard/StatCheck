@@ -1,5 +1,4 @@
 import polars as pl
-import polars.selectors as cs
 from polars import col as c
 
 from src.models.shifts import ShiftBase

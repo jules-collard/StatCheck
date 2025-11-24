@@ -1,7 +1,7 @@
 from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, text
+from sqlalchemy import select, text, literal_column
 from fastapi import HTTPException, status
 from pydantic import ValidationError
 
@@ -15,8 +15,8 @@ class LeaderboardService:
         self.session = session
 
     async def get_skater_leaderboard(self, season: int, gameType: int):
-        q = f"""SELECT * FROM skater_stats WHERE "season" = {season} AND "gameType" = {gameType}"""
-        result = await self.session.execute(text(q))
+        q = (select(literal_column('*'))).select_from(text('skater_stats')).where('''"season" = :season AND "gameType" = :game_type''')
+        result = await self.session.execute(q, {'season': season, 'game_type': gameType})
         leaderboardItems: List[SkaterLeaderboardItem] = []
         for row in result.all():
             leaderboardItems.append(await self.row_to_skater_leaderboard(row))
@@ -24,8 +24,8 @@ class LeaderboardService:
         return [item.model_dump() for item in leaderboardItems]
     
     async def get_goalie_leaderboard(self, season: int, gameType: int):
-        q = f"""SELECT * FROM goalie_stats WHERE "season" = {season} AND "gameType" = {gameType}"""
-        result = await self.session.execute(text(q))
+        q = (select(literal_column('*'))).select_from(text('goalie_stats')).where('''"season" = :season AND "gameType" = :game_type''')
+        result = await self.session.execute(q, {'season': season, 'game_type': gameType})
         leaderboardItems: List[GoalieLeaderboardItem] = []
         for row in result.all():
             leaderboardItems.append(await self.row_to_goalie_leaderboard(row))
