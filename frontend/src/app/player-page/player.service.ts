@@ -14,7 +14,7 @@ export class PlayerService {
 
     playerData = httpResource<Player>(() => {
         if (this.playerID()) {
-            return `${this.PLAYER_URL}/${this.playerID()}`;
+            return `${this.PLAYER_URL}/${this.playerID()}/info`;
         } else {
             return undefined;
         }

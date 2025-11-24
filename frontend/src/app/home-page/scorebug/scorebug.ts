@@ -26,8 +26,8 @@ export class Scorebug {
 
   timeShow = computed(() => {
     switch (this.gameDetails().gameState) {
-      case 'LIVE': return this.gameDetails().clock?.timeRemaining;
-      case 'OFF': return this.gameDetails().gameOutcome?.lastPeriodType === 'REG' ? 'FINAL' : `FINAL (${this.gameDetails().gameOutcome?.lastPeriodType})`
+      case 'LIVE': case 'CRIT': return this.gameDetails().clock?.timeRemaining;
+      case 'OVER': case 'FINAL': case 'OFF': return this.gameDetails().gameOutcome?.lastPeriodType === 'REG' ? 'FINAL' : `FINAL (${this.gameDetails().gameOutcome?.lastPeriodType})`
       default: return `${this.gameDetails().startTimeEastern} ET`;
     }
   })
