@@ -1,43 +1,43 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { PlayerList } from './player-list/player-list';
-import { PlayerListService } from './player-list/player-list.service';
-import { PlayerListItem } from './player-list/player-list-item.model';
-import { SearchService } from './search.service';
-import { PlayerFilter } from './player-filter/player-filter';
+import { Component, computed, effect, inject, input as inputBinding, linkedSignal } from '@angular/core';
+import { PlayerListService } from '../shared/player-list/player-list.service';
+import { PlayerListItem } from './player-list-item.model';
+import { PlayerFilter } from '../shared/player-list/player-filter/player-filter';
+import { PositionPipe } from '../pipes/position.pipe';
+import { Router } from '@angular/router';
+import { TableSortService } from '../shared/table-sort.service';
+import { PlayerListButton } from "../shared/player-list/player-list-button/player-list-button";
+
 
 @Component({
   selector: 'app-search-page',
-  imports: [PlayerList, PlayerFilter],
+  imports: [PlayerFilter, PositionPipe, PlayerListButton],
   templateUrl: './search-page.html',
-  styleUrl: './search-page.css'
+  styleUrl: './search-page.css',
+  providers: [PlayerListService, TableSortService]
 })
-export class SearchPage implements OnInit {
-  private playerListService = inject(PlayerListService)
-  private searchService = inject(SearchService)
-  playersPerPage = 10;
+export class SearchPage {
+  private listService = inject(PlayerListService<PlayerListItem>);
+  private router = inject(Router);
 
-  currPage = computed<number>(() => {
-    return this.searchService.currPage()
+  q = inputBinding.required<string | undefined>();
+  searchParam = linkedSignal(() => this.q() ?? '');
+
+  configEffect = effect(() => {
+    this.listService.setConfig({
+      type: 'search',
+      itemsPerPage: 10
+    })
   })
 
-  filteredPlayers = computed<PlayerListItem[]>(() => {
-    return this.playerListService.filteredPlayers()
+  searchEffect = effect(() => {
+    this.listService.filterParams.update(params =>
+      ({...params, nameToSearch: this.searchParam()})
+    )
   })
 
-  playersToList = computed<PlayerListItem[]>(() => {
-    return this.playerListService.filteredPlayers().slice(this.searchService.currPage() * this.playersPerPage, (this.searchService.currPage() + 1) * this.playersPerPage)
-  })
+  playersToList = computed<PlayerListItem[]>(() => this.listService.slicedPlayers());
 
-  maxPages = computed<number>(() => {
-    return Math.ceil(this.filteredPlayers().length / this.playersPerPage)
-  })
-
-  firstPage() { this.searchService.firstPage() }
-  nextPage() { this.searchService.nextPage() }
-  prevPage() { this.searchService.prevPage() }
-  lastPage() {this.searchService.goToPage(this.maxPages() - 1)}
-
-  ngOnInit(): void {
-    this.playerListService.fetch()
+  onSelectListItem(id: number) {
+    this.router.navigate(['players', id]);
   }
 }

@@ -1,0 +1,42 @@
+<div class="table table-pin-rows border-collapse">
+    <thead>
+        <tr class="bg-base-300">
+            <th>Rank</th>
+            <th></th>
+            <th>Team</th>
+            <th>GP</th>
+            <th>W</th>
+            <th>L</th>
+            <th>OTL</th>
+            <th>Pts</th>
+            <th>P%</th>
+            <th>GF</th>
+            <th>GA</th>
+            <th>Diff</th>
+            <th>L10</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (team of teams(); track team.leagueSequence) {
+            <tr>
+                <td>{{team.leagueSequence}}</td>
+                <td>
+                    <div class="avatar h-6 w-6">
+                        <img [src]="team.teamLogo" alt="Logo" />
+                    </div>     
+                </td>
+                <td>{{team.teamAbbrev}}</td>
+                <td>{{team.gamesPlayed}}</td>
+                <td>{{team.wins}}</td>
+                <td>{{team.losses}}</td>
+                <td>{{team.otLosses}}</td>
+                <td>{{team.points}}</td>
+                <td>{{team.pointPctg | number: '0.3-3'}}</td>
+                <td>{{team.goalFor}}</td>
+                <td>{{team.goalAgainst}}</td>
+                <td>{{team.goalDifferential}}</td>
+                <td>{{team.l10Wins}}-{{team.l10Losses}}-{{team.l10OtLosses}}</td>
+            </tr>
+        }
+    </tbody>
+</div>

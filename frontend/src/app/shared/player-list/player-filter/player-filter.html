@@ -2,23 +2,23 @@
     <legend class="fieldset-legend text-xl">Filters</legend>
     <input type="text" placeholder="Search" class="input input-secondary" [(ngModel)]="nameToSearch"/>
     <label class="label text-sm">Status</label>
-    <form class="filter" (change)="onChangeActiveRetired()">
-        <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetActiveRetired()"/>
-        <input [control]="activeRetiredForm.active" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Active"/>
-        <input [control]="activeRetiredForm.retired" class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired"/>
+    <form class="filter">
+        <input class="btn filter-reset btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="×" (change)="activeRetired.set(null)"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Active" (change)="activeRetired.set('active')"/>
+        <input class="btn btn-soft btn-secondary" type="radio" name="activeRetired" aria-label="Retired" (change)="activeRetired.set('retired')"/>
     </form>
     @if (anyPositions()) {
         <label class="label text-sm">Position</label>
-        <form class="filter" (change)="onChangePosition()">
-            <input class="btn btn-soft btn-secondary" type="reset" value="×" (click)="resetPosition()"/>
+        <form class="filter">
+            <input class="btn filter-reset btn-soft btn-secondary" type="radio" name="positions" aria-label="×" (change)="position.set(null)"/>
             @if (positionOptions().goalie) {
-                <input [control]="positionForm.goalie" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G"/>
+                <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="G" (change)="position.set('G')"/>
             }
             @if (positionOptions().defenseman) {
-                <input [control]="positionForm.defenseman" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D"/>
+                <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="D" (change)="position.set('D')"/>
             }
             @if (positionOptions().forward) {
-                <input [control]="positionForm.forward" class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F"/>
+                <input class="btn btn-soft btn-secondary" type="radio" name="positions" aria-label="F" (change)="position.set('F')"/>
             }
         </form>
     }

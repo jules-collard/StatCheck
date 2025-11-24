@@ -1,16 +1,17 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Control, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list.service';
 
 @Component({
   selector: 'app-player-filter',
-  imports: [FormsModule, Control],
+  imports: [FormsModule],
   templateUrl: './player-filter.html',
   styleUrl: './player-filter.css'
 })
 export class PlayerFilter {
   playerListService = inject(PlayerListService);
+
+  searchParam = input<string>('');
   
   positionOptions = input<{goalie: boolean, defenseman: boolean, forward: boolean}>({
     goalie: true,
@@ -23,7 +24,7 @@ export class PlayerFilter {
 
   team = 'All';
   qualified = signal<boolean>(true);
-  nameToSearch = signal<string>('');
+  nameToSearch = linkedSignal<string>(() => this.searchParam());
 
   qualifiedEffect = effect(() => {
     this.playerListService.filterParams.update(params =>
@@ -38,57 +39,40 @@ export class PlayerFilter {
     )
   })
 
-  activeRetired = signal<{active: boolean; retired: boolean;}>({
-    active: false,
-    retired: false
+  activeRetired = signal<'active' | 'retired' | null>(null);
+
+  activeRetiredEffect = effect(() => {
+    switch (this.activeRetired()) {
+      case 'active': this.playerListService.filterParams.update(params => ({
+        ...params, active: true, retired: false
+      })); break;
+      case 'retired': this.playerListService.filterParams.update(params => ({
+        ...params, active: false, retired: true
+      })); break;
+      default: this.playerListService.filterParams.update(params => ({
+        ...params, active: true, retired: true
+      })); break;
+    }
   })
 
-  activeRetiredForm = form(this.activeRetired);
+  position = signal<'G' | 'D' | 'F' | null>(null);
 
-  onChangeActiveRetired() {
-    if (!(this.activeRetiredForm.active().value() || this.activeRetiredForm.retired().value())) {
-      this.playerListService.filterParams.update(params =>
-        ({...params, active: true, retired: true})
-      );
-    } else {
-      this.playerListService.filterParams.update(params =>
-        ({...params, active: this.activeRetiredForm.active().value(), retired: this.activeRetiredForm.retired().value()})
-      );
+  positionEffect = effect(() => {
+    switch (this.position()) {
+      case 'G': this.playerListService.filterParams.update(params => ({
+        ...params, goalie: true, defenseman: false, forward: false
+      })); break;
+      case 'D': this.playerListService.filterParams.update(params => ({
+        ...params, goalie: false, defenseman: true, forward: false
+      })); break;
+      case 'F': this.playerListService.filterParams.update(params => ({
+        ...params, goalie: false, defenseman: false, forward: true
+      })); break;
+      default: this.playerListService.filterParams.update(params => ({
+        ...params, goalie: true, defenseman: true, forward: true
+      }));
     }
-  }
-
-  resetActiveRetired() {
-    this.activeRetiredForm.active().value.set(false)
-    this.activeRetiredForm.retired().value.set(false)
-    this.onChangeActiveRetired()
-  }
-
-  position = signal<{goalie: boolean, defenseman: boolean, forward: boolean}>({
-    goalie: false,
-    defenseman: false,
-    forward: false
-  });
-
-  positionForm = form(this.position);
-
-  onChangePosition() {
-    if (!(this.positionForm.goalie().value() || this.positionForm.defenseman().value() || this.positionForm.forward().value())) {
-      this.playerListService.filterParams.update(params =>
-        ({...params, goalie: true, defenseman: true, forward: true})
-      )
-    } else {
-      this.playerListService.filterParams.update(params =>
-        ({...params, goalie: this.positionForm.goalie().value(), defenseman: this.positionForm.defenseman().value(), forward: this.positionForm.forward().value()})
-      )
-    }
-  }
-
-  resetPosition() {
-    this.positionForm.goalie().value.set(false)
-    this.positionForm.defenseman().value.set(false)
-    this.positionForm.forward().value.set(false)
-    this.onChangePosition()
-  }
+  })
 
   onTeamChange() {
     this.playerListService.filterParams.update(params => ({...params, team: this.team}))
