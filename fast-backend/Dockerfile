@@ -11,4 +11,4 @@ RUN uv sync --locked
 
 EXPOSE 80
 
-CMD ["uv", "run", "fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "80", "--reload"]
+ENTRYPOINT [ "./entrypoint.sh" ]
