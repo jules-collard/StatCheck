@@ -4,7 +4,6 @@ from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, insert
 from sqlalchemy.exc import IntegrityError
-from pydantic import ValidationError
 
 from app.db.schema import SkaterAppearance, GoalieAppearance
 from app.models.appearances import SkaterAppearanceBase, GoalieAppearanceBase

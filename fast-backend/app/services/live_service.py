@@ -28,7 +28,7 @@ class LiveService:
             return [GameDetails(**game).model_dump() for game in games]
         except AssertionError:
             raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data not available")
-        except KeyError or ValidationError:
+        except (KeyError, ValidationError):
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Could not process games")
         
     async def get_standings(self):
@@ -40,5 +40,5 @@ class LiveService:
             return [TeamStandingsItem(**team).model_dump() for team in standings]
         except AssertionError:
             raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, detail="Data not available")
-        except KeyError or ValidationError:
+        except (KeyError, ValidationError):
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Could not process games")

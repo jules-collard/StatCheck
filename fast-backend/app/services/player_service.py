@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from sqlalchemy import select, text
+from sqlalchemy import select, text, literal_column
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import IntegrityError
@@ -130,10 +130,10 @@ class PlayerService:
             raise HTTPException(status.HTTP_404_NOT_FOUND, detail="Player not in database")
         
         if player.position == 'G':
-            q = f"""SELECT * FROM goalie_stats WHERE "playerID" = {player.id} AND "gameType" = {gameType}"""
+            q = select(literal_column('*')).select_from(text('goalie_stats')).where(text('''"playerID" = :player_id AND "gameType" = :game_type'''))
         else:
-            q = f"""SELECT * FROM skater_stats WHERE "playerID" = {player.id} AND "gameType" = {gameType}"""
-        result = await self.session.execute(text(q))
+            q = select(literal_column('*')).select_from(text('skater_stats')).where(text('''"playerID" = :player_id AND "gameType" = :game_type'''))
+        result = await self.session.execute(q, {'player_id': player.id, 'game_type': gameType})
         stats: List[SkaterStats | GoalieStats] = []
         for row in result.all():
             if player.position == 'G':
