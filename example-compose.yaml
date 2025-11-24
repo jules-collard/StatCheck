@@ -1,0 +1,59 @@
+services:
+  backend:
+    container_name: backend
+    build: ./fast-backend
+    ports:
+      - 80:80
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - environment=dev
+      - db_host=db:5432
+      - db_user=user
+      - db_password=pass
+      - db_name=db
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync
+          path: ./fast-backend
+          target: /code/backend
+          initial_sync: true
+  
+  frontend:
+    build: ./frontend
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src/app
+          target: /app
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d db -U user"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - statcheckdb:/var/lib/postgresql
+    ports:
+      - 5432:5432
+
+volumes:
+  statcheckdb:
