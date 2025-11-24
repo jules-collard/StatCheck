@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Field, form } from '@angular/forms/signals';
 import { PlayerListService } from '../player-list.service';
 
 @Component({
