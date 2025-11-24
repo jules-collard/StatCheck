@@ -40,6 +40,18 @@ def import_games_date(date: str):
         import_game(game)
     requests.get(f"{BACKEND_URL}/admin/refresh-views")
 
+@daily.command('import-daterange')
+@click.argument('start', type=str)
+@click.argument('end', type=str)
+def import_games_date_range(start: str, end: str):
+    start_date = datetime.strptime(start, '%Y-%m-%d')
+    end_date = datetime.strptime(end, '%Y-%m-%d')
+    while start_date <= end_date:
+        games: List[GameBase] = scrape_schedule(start_date.strftime('%Y-%m-%d'))
+        for game in games:
+            import_game(game)
+        start_date += timedelta(days=1)
+
 @daily.command('import-game')
 @click.option('-i', '--id', type=int)
 @click.option('-d', '--date', type=str)

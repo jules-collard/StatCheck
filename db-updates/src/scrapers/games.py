@@ -15,15 +15,15 @@ def scrape_schedule(date: str):
     if response["gameWeek"][0]["numberOfGames"] == 0:
         return []
     
-    games = response.get('gameWeek', [None])[0].get('games', None)
+    games = response.get('gameWeek', [{}])[0].get('games', None)
 
     for game in games:
-        game['defaultVenue'] = game.pop('venue', None).pop('default', None)
-        game['awayTeamID'] = game.get('awayTeam', None).pop('id', None)
-        game['homeTeamID'] = game.get('homeTeam', None).pop('id', None)
-        game['awayTeamScore'] = game.pop('awayTeam', None).pop('score', None)
-        game['homeTeamScore'] = game.pop('homeTeam', None).pop('score', None)
-        game['lastPeriodType'] = game.pop('gameOutcome', None).pop('lastPeriodType', None)
+        game['defaultVenue'] = game.pop('venue', {}).pop('default', None)
+        game['awayTeamID'] = game.get('awayTeam', {}).pop('id', None)
+        game['homeTeamID'] = game.get('homeTeam', {}).pop('id', None)
+        game['awayTeamScore'] = game.pop('awayTeam', {}).pop('score', None)
+        game['homeTeamScore'] = game.pop('homeTeam', {}).pop('score', None)
+        game['lastPeriodType'] = game.pop('gameOutcome', {}).pop('lastPeriodType', None)
         game['gameDate'] = date
 
     games = [game for game in games if game.get('gameState', None) == 'OFF' and game.get('gameScheduleState', None) == 'OK']
