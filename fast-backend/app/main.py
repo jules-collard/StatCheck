@@ -1,9 +1,13 @@
+import logfire
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import players, admin, teams, games, events, leaderboards, scores, standings
 
 app = FastAPI()
+
+logfire.configure()
+logfire.instrument_fastapi(app)
 
 origins = [
     'http://localhost:8080',
