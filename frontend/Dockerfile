@@ -14,7 +14,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install project dependencies using npm ci (ensures a clean, reproducible install)
-RUN --mount=type=cache,id=8b821d79-2ec8-42b9-96cd-cfb7743be9af,target=/root/.npm npm ci
+RUN --mount=type=cache,id=s/8b821d79-2ec8-42b9-96cd-cfb7743be9af-/root/.npm,target=/root/.npm npm ci
 
 # Copy the rest of the application source code into the container
 COPY . .
@@ -39,7 +39,7 @@ COPY --chown=nginx:nginx --from=builder /app/dist/*/browser /usr/share/nginx/htm
 
 # Expose port 8080 to allow HTTP traffic
 # Note: The default NGINX container now listens on port 8080 instead of 80 
-EXPOSE 8080
+# EXPOSE 8080
 
 # Start Nginx directly with custom config
 ENTRYPOINT ["nginx", "-c", "/etc/nginx/nginx.conf"]
