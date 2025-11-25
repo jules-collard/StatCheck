@@ -23,14 +23,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(players.router, prefix='/api')
-app.include_router(teams.router, prefix='/api')
-app.include_router(games.router, prefix='/api')
-app.include_router(admin.router, prefix='/api')
-app.include_router(events.router, prefix='/api')
-app.include_router(leaderboards.router, prefix='/api')
-app.include_router(scores.router, prefix='/api')
-app.include_router(standings.router, prefix='/api')
+app.include_router(players.router)
+app.include_router(teams.router)
+app.include_router(games.router)
+app.include_router(admin.router)
+app.include_router(events.router)
+app.include_router(leaderboards.router)
+app.include_router(scores.router)
+app.include_router(standings.router)
 
 @app.get("/")
 async def root():
