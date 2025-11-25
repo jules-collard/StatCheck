@@ -3,4 +3,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BACKEND_URL = os.getenv("BACKEND_URL")
+BACKEND_URL = f"http://{os.getenv("BACKEND_URL")}/api"
