@@ -170,7 +170,7 @@ class PlayerService:
                     xgGoals=row[20],
                     fenwick=row[21]
                 ),
-                onice=SkaterOnIce(
+                onIce=SkaterOnIce(
                     onIceShootingPct=row[22],
                     fenwickFor=row[23],
                     fenwickAgainst=row[24],

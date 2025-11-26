@@ -94,7 +94,7 @@ class SkaterStats(BaseModel):
     shotsQualified: bool
     totals: 'SkaterTotals'
     shooting: Optional['SkaterShooting'] = None
-    onice: Optional['SkaterOnIce'] = None
+    onIce: Optional['SkaterOnIce'] = None
 
 
 class SkaterTotals(BaseModel):
