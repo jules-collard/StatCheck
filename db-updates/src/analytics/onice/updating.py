@@ -1,10 +1,11 @@
 from typing import List
 
 import requests
+import logfire
 import polars as pl
 from polars import col as c
 
-from src import BACKEND_URL
+from src.main import BACKEND_URL
 from src.models.shifts import ShiftBase, SplitShiftBase
 from .cleaning import clean_shift_events, add_faceoff_zone, add_score, add_strengths
 
@@ -64,5 +65,8 @@ def get_split_shifts(shifts: List[ShiftBase]):
     return [SplitShiftBase(**splitshift) for splitshift in splitshifts.to_dicts()]
 
 def post_split_shifts(gameID: int, splitshifts: List[SplitShiftBase]):
-    r = requests.post(f"{BACKEND_URL}/games/{gameID}/split-shifts", json=[spl.model_dump() for spl in splitshifts])
-    print(f"{gameID} Split-Shifts: {r.status_code}")
+    if len(splitshifts) > 0:
+        r = requests.post(f"{BACKEND_URL}/games/{gameID}/split-shifts", json=[spl.model_dump() for spl in splitshifts])
+        logfire.info(f"{gameID} Split-Shifts: {r.status_code}", table='split_shifts', response_code=r.status_code)
+    else:
+        logfire.warn(f"No Split-Shifts for Game {gameID}", table='split_shifts')
