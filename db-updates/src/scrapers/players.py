@@ -1,7 +1,8 @@
 import requests
+import logfire
 
-from ..models.players import PlayerBase, AwardBase
-from .. import BACKEND_URL
+from src.models.players import PlayerBase, AwardBase
+from src.main import BACKEND_URL, get_log_level
 
 def scrape_player(playerID: int) -> PlayerBase:
     url = f"https://api-web.nhle.com/v1/player/{playerID}/landing"
@@ -37,14 +38,15 @@ def scrape_player(playerID: int) -> PlayerBase:
 
 def post_player(player: PlayerBase):
     r = requests.post(f"{BACKEND_URL}/players/", json=player.model_dump())
-    print(f"{player.firstName} {player.lastName}: {r.status_code}")
-    if r.status_code != 201:
-        print(r.json())
+    logfire.log(get_log_level(r.status_code), f"POST Player {player.firstName} {player.lastName} {player.id}: {r.status_code}",
+                attributes=dict(table='players', response_code=r.status_code))
 
 def put_player(player: PlayerBase):
     r = requests.put(f"{BACKEND_URL}/players/", json=player.model_dump())
-    print(r.status_code)
+    logfire.log(get_log_level(r.status_code), f"PUT Player {player.firstName} {player.lastName} {player.id}: {r.status_code}",
+                attributes=dict(table='players', response_code=r.status_code))
 
 def delete_player(id: int):
     r = requests.delete(f"{BACKEND_URL}/players/{id}")
-    print(r.status_code)
+    logfire.log(get_log_level(r.status_code), f"DELETE Player {id}: {r.status_code}",
+                table='players', response_code=r.status_code)
