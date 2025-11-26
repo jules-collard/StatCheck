@@ -3,8 +3,9 @@ from datetime import datetime, timedelta
 
 import click
 import requests
+import logfire
 
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 from src.scrapers.games import scrape_schedule, post_game
 from src.scrapers.appearances import scrape_appearances, post_appearances
 from src.scrapers.events import scrape_pbp, post_pbp
@@ -34,6 +35,7 @@ def import_game(game: GameBase):
 
 @daily.command('import-gameday')
 @click.option('-d', '--date', default=(datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'), type=str)
+@logfire.instrument('Importing Games on {date=}')
 def import_games_date(date: str):
     games: List[GameBase] = scrape_schedule(date)
     for game in games:
