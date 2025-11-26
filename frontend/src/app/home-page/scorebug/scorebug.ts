@@ -12,7 +12,7 @@ export class Scorebug {
 
   scoreShow = computed(() => {
     switch (this.gameDetails().gameState) {
-      case 'FUT': return [this.gameDetails().homeTeam.abbrev, this.gameDetails().awayTeam.abbrev]
+      case 'FUT': case 'PRE': return [0, 0]
       default: return [this.gameDetails().homeTeam.score, this.gameDetails().awayTeam.score]
     }
   })
@@ -21,14 +21,6 @@ export class Scorebug {
     switch (this.gameDetails().gameState) {
       case 'FUT': return [this.gameDetails().homeTeam.record, this.gameDetails().awayTeam.record]
       default: return [`SOG: ${this.gameDetails().homeTeam.sog}`, `SOG: ${this.gameDetails().awayTeam.sog}`]
-    }
-  })
-
-  timeShow = computed(() => {
-    switch (this.gameDetails().gameState) {
-      case 'LIVE': case 'CRIT': return this.gameDetails().clock?.timeRemaining;
-      case 'OVER': case 'FINAL': case 'OFF': return this.gameDetails().gameOutcome?.lastPeriodType === 'REG' ? 'FINAL' : `FINAL (${this.gameDetails().gameOutcome?.lastPeriodType})`
-      default: return `${this.gameDetails().startTimeEastern} ET`;
     }
   })
 
