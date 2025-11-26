@@ -26,7 +26,8 @@ export class SkaterLeaderboardPage {
   private listService = inject(PlayerListService<SkaterLeaderboardItem>);
   private sortService = inject(TableSortService<SkaterLeaderboardItem>);
 
-  shootingTab = signal<boolean>(false)
+  currentTab = signal<'totals' | 'shooting' | 'onice'>('totals')
+  shootingTab = computed<boolean>(() => this.currentTab() === 'shooting')
   
   // Leaderboard properties
   season = routeBinding.required<number>();
@@ -41,7 +42,7 @@ export class SkaterLeaderboardPage {
   config = computed<ListConfig>(() => {
     const config: ListConfig = {
       type: 'leaderboard',
-      itemsPerPage: 12,
+      itemsPerPage: 15,
       leaderboardConfig: {
         season: this.season(),
         playerType: this.playerType(),
