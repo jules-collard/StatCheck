@@ -53,6 +53,8 @@ def import_games_date_range(start: str, end: str):
         for game in games:
             import_game(game)
         start_date += timedelta(days=1)
+    r = requests.get(f"{BACKEND_URL}/admin/refresh-views")
+    logfire.info(f'REFRESHED VIEWS: {r.status_code}', response_code=r.status_code)
 
 @daily.command('import-game')
 @click.option('-i', '--id', type=int)

@@ -8,8 +8,10 @@ from app.core.config import app_config
 app = FastAPI()
 
 if app_config.environment == 'prod':
-    logfire.configure(environment=app_config.environment)
-    logfire.instrument_fastapi(app)
+    logfire.configure(environment=app_config.environment,
+                      service_name='backend')
+    logfire.instrument_fastapi(app,
+                               excluded_urls='^/events')
 if app_config.environment == 'dev':
     origins = [
         'http://localhost:8080',

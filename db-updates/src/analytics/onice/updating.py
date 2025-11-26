@@ -50,6 +50,8 @@ def calculate_shift_data(event_data: pl.DataFrame) -> pl.DataFrame:
     return q
 
 def get_split_shifts(shifts: List[ShiftBase]):
+    if len(shifts) == 0:
+        return []
     all_events = []
     for shift in shifts:
         events = get_shift_events(shift)
