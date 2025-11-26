@@ -1,13 +1,13 @@
-<div class="grid grid-cols-2 auto-rows-[10dvh]">
+<div class="grid grid-cols-2 auto-rows-[10dvh] gap-2">
     <!-- <p class="text-2xl text-center font-extrabold">Latest Scores</p> -->
      <div class="join justify-self-center pt-4">
-        <button class="join-item btn" (click)="moveDay(-1)">
+        <button class="join-item btn shadow-md" (click)="moveDay(-1)">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <button class="join-item btn">
+        <button class="join-item btn shadow-md">
             {{dateString()}}
         </button>
-        <button class="join-item btn" (click)="moveDay(1)">
+        <button class="join-item btn shadow-md" (click)="moveDay(1)">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
      </div>
