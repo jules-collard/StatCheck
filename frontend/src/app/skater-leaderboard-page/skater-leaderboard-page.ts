@@ -41,7 +41,7 @@ export class SkaterLeaderboardPage {
   config = computed<ListConfig>(() => {
     const config: ListConfig = {
       type: 'leaderboard',
-      itemsPerPage: 16,
+      itemsPerPage: 12,
       leaderboardConfig: {
         season: this.season(),
         playerType: this.playerType(),
