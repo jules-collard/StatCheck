@@ -8,7 +8,7 @@ from app.services.live_service import LiveService
 
 router = APIRouter(prefix='/standings')
 
-@router.get('/', status_code=status.HTTP_200_OK)
+@router.get('', status_code=status.HTTP_200_OK)
 async def get_standings(
     session: AsyncSession = Depends(get_session),
     http_session: ClientSession = Depends(get_http_session)
