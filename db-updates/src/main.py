@@ -9,7 +9,7 @@ ENVIRONMENT = os.getenv('ENVIRONMENT')
 BACKEND_URL = os.getenv('BACKEND_URL')
 LOGFIRE_TOKEN = os.getenv('LOGFIRE_TOKEN')
 
-logfire.configure(environment=ENVIRONMENT)
+logfire.configure(environment=ENVIRONMENT, service_name='updates')
 
 def get_log_level(status_code: int):
     if status_code >= 400 and status_code < 500:
