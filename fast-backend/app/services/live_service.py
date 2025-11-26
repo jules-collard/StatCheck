@@ -33,7 +33,7 @@ class LiveService:
         
     async def get_standings(self):
         try:
-            data = await fetch(self.http_session, 'https://api-web.nhle.com/v1/standings/now')
+            data = await fetch(self.http_session, 'http://api-web.nhle.com/v1/standings/now')
             standings = data.get('standings')
             for team in standings:
                 team['teamAbbrev'] = team.get('teamAbbrev').get('default')
