@@ -1,31 +1,27 @@
 <div class="grid grid-cols-4 auto-rows-[6.5dvh] gap-2">
-    <div class="justify-self-left">
-        <select class="select select-lg min-w-full">
-            <option disabled selected>{{season() | season}}</option>
-            @for (season of seasonsList; track season) {
-                <option (click)="navigateSeason(season)">{{season | season}}</option>
-            }
-        </select>
-    </div>
-    <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto">
-        <div class="tabs tabs-border tabs-lg">
-            <input type="radio" name="leaderboard_tabs" class="tab" checked="checked" aria-label="Totals" (click)="this.shootingTab.set(false)"/>
-            <div class="tab-content overflow-x-auto overflow-y-auto">
-                <app-skater-table [skaters]="leaderboard()"/>
-            </div>
-            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" (click)="this.shootingTab.set(true)" />
-            <div class="tab-content overflow-x-auto overflow-y-auto">
-                <app-shooting-table [skaters]="leaderboard()"/>
-            </div>
-            <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" (click)="this.shootingTab.set(false)"/>
-            <div class="tab-content overflow-x-auto overflow-y-auto">
-                <app-on-ice-table [skaters]="leaderboard()"/>
-            </div>
-        </div>
-    </div>
-    <div class="join w-full">
+    <select class="select select-lg select-primary min-w-full">
+        <option disabled selected>{{season() | season}}</option>
+        @for (season of seasonsList; track season) {
+            <option (click)="navigateSeason(season)">{{season | season}}</option>
+        }
+    </select>
+    <div class="join w-full col-1 row-2">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="gameType.set(2)">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Playoffs" (click)="gameType.set(3)"/>
+    </div>
+    <div class="tabs tabs-border tabs-lg col-2 row-1">
+        <input type="radio" name="leaderboard_tabs" class="tab" checked="checked" aria-label="Totals" (click)="this.currentTab.set('totals')"/>
+        <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" (click)="this.currentTab.set('shooting')" />
+        <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" (click)="this.currentTab.set('onice')"/>
+    </div>
+    <div class="rounded-box col-span-3 row-span-10 bg-base-200 shadow-md overflow-x-auto">
+        @if (currentTab() === 'totals') {
+            <app-skater-table [skaters]="leaderboard()"/>
+        } @else if (currentTab() === 'shooting') {
+            <app-shooting-table [skaters]="leaderboard()"/>
+        } @else if (currentTab() === 'onice') {
+            <app-on-ice-table [skaters]="leaderboard()"/>
+        }
     </div>
     <div class="row-start-3 row-end-11 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: true, forward: true}"/></div>
     <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
