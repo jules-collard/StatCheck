@@ -27,7 +27,7 @@ def scrape_schedule(date: str):
         game['lastPeriodType'] = game.pop('gameOutcome', {}).pop('lastPeriodType', None)
         game['gameDate'] = date
 
-    games = [game for game in games if game.get('gameState', None) == 'OFF' and game.get('gameScheduleState', None) == 'OK']
+    games = [game for game in games if game.get('gameState', None) == 'OFF' and game.get('gameScheduleState', None) == 'OK' and game.get('gameType', 2) in [2,3]]
     
     return [GameBase(**game) for game in games]
 
