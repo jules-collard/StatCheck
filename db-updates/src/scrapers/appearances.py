@@ -1,4 +1,5 @@
 from typing import List, Tuple
+import time
 
 import requests
 import logfire
@@ -65,6 +66,9 @@ def post_appearances(gameID: int, skaters: List[SkaterAppearanceBase], goalies: 
     for id in new_ids:
         player = scrape_player(id)
         post_player(player)
+
+    if len(new_ids) > 0:
+        time.sleep(2)
 
     skater_r = requests.post(f"{BACKEND_URL}/games/{gameID}/skater-apps", json=[skater.model_dump() for skater in skaters])
     goalie_r = requests.post(f"{BACKEND_URL}/games/{gameID}/goalie-apps", json=[goalie.model_dump() for goalie in goalies])
