@@ -23,7 +23,7 @@ def get_shift_events(shift: ShiftBase):
 
 def calculate_shift_data(event_data: pl.DataFrame) -> pl.DataFrame:
     q = (
-        event_data
+        event_data.lazy()
         .group_by('teamID', 'playerID', 'gameID', 'shiftID', 'strengthState', 'period', 'split')
         .agg(
             ((c('typeCode') == 505) & c('forPlayer')).sum().alias('goalsFor'),
@@ -47,7 +47,7 @@ def calculate_shift_data(event_data: pl.DataFrame) -> pl.DataFrame:
         .unnest('strengthState')
         .filter(c('duration') > 0)
     )
-    return q
+    return q.collect()
 
 def get_split_shifts(shifts: List[ShiftBase]):
     if len(shifts) == 0:
