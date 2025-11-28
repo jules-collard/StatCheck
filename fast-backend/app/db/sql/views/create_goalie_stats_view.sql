@@ -66,4 +66,5 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
     LEFT JOIN advanced ON totals."season" = advanced."season" AND totals."gameType" = advanced."gameType" AND totals."playerID" = advanced."goalieInNetID"
     LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID" AND totals."season" = max_games."season" AND totals."gameType" = max_games."gameType"
     LEFT JOIN players ON totals."playerID" = players."id"
-    WHERE totals."gamesPlayed" > 0;
+    WHERE totals."gamesPlayed" > 0
+    ORDER BY season ASC;
