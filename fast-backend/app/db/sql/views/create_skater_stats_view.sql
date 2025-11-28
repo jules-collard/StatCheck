@@ -49,13 +49,14 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS skater_stats AS
         WHERE "attackingSkaters" = "defendingSkaters"
         GROUP BY games."season", games."gameType", "playerID"
     ), max_games AS (
-    SELECT
-        teams."id" AS "teamID",
-        games."season",
-        COUNT(games."id") AS "games"
-    FROM teams
-    LEFT JOIN games ON teams."id" = games."homeTeamID" OR teams."id" = games."awayTeamID"
-    GROUP BY games."season", teams."id"
+        SELECT
+            teams."id" AS "teamID",
+            games."season",
+            games."gameType",
+            COUNT(games."id") AS "games"
+        FROM teams
+        LEFT JOIN games ON teams."id" = games."homeTeamID" OR teams."id" = games."awayTeamID"
+        GROUP BY games."season", games."gameType", teams."id"
     )
     SELECT
         totals."season",
@@ -93,5 +94,5 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS skater_stats AS
     FROM totals
     LEFT JOIN shooting ON totals."season" = shooting."season" AND totals."gameType" = shooting."gameType" AND totals."playerID" = shooting."playerID"
     LEFT JOIN onice ON totals."season" = onice."season" AND totals."gameType" = onice."gameType" AND totals."playerID" = onice."playerID"
-    LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID"
+    LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID" AND totals."season" = max_games."season" AND totals."gameType" = max_games."gameType"
     LEFT JOIN players ON totals."playerID" = players."id";
