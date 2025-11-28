@@ -33,10 +33,11 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
         SELECT
             teams."id" AS "teamID",
             games."season",
+            games."gameType",
             COUNT(games."id") AS "games"
         FROM teams
         LEFT JOIN games ON teams."id" = games."homeTeamID" OR teams."id" = games."awayTeamID"
-        GROUP BY games."season", teams."id"
+        GROUP BY games."season", games."gameType", teams."id"
     )
     SELECT
         totals."season",
@@ -46,7 +47,9 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
         players."lastName",
         players."isActive",
         totals."teams",
-        CASE WHEN totals."gamesPlayed"::NUMERIC >= (0.3125 * max_games."games"::NUMERIC) THEN TRUE ELSE FALSE END AS "qualified",
+        CASE WHEN
+            (totals."gamesPlayed"::NUMERIC >= (0.3125 * max_games."games"::NUMERIC) AND totals."gameType" = 2)
+            OR (totals."gamesPlayed" >= 5 AND totals."gameType" = 3) THEN TRUE ELSE FALSE END AS "qualified",
         totals."gamesPlayed",
         totals."gamesStarted",
         totals."wins",
@@ -61,6 +64,6 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS goalie_stats AS
         advanced."fenwickAgainst"
     FROM totals 
     LEFT JOIN advanced ON totals."season" = advanced."season" AND totals."gameType" = advanced."gameType" AND totals."playerID" = advanced."goalieInNetID"
-    LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID"
+    LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID" AND totals."season" = max_games."season" AND totals."gameType" = max_games."gameType"
     LEFT JOIN players ON totals."playerID" = players."id"
     WHERE totals."gamesPlayed" > 0;
