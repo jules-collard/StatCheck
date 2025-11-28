@@ -67,8 +67,12 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS skater_stats AS
         players."position",
         players."isActive",
         totals."teams",
-        CASE WHEN totals."gamesPlayed"::NUMERIC >= (0.3125 * max_games."games"::NUMERIC) THEN TRUE ELSE FALSE END AS "qualified",
-        CASE WHEN totals."sog"::NUMERIC >= (1.5 * max_games."games"::NUMERIC) THEN TRUE ELSE FALSE END AS "shotsQualified",
+        CASE WHEN 
+            (totals."gamesPlayed"::NUMERIC >= (0.3125 * max_games."games"::NUMERIC) AND totals."gameType" = 2)
+            OR (totals."gamesPlayed" >= 5 AND totals."gameType" = 3) THEN TRUE ELSE FALSE END AS "qualified",
+        CASE WHEN
+            (totals."sog"::NUMERIC >= (1.5 * max_games."games"::NUMERIC) AND totals."gameType" = 2)
+            OR (totals."sog" >= 15 AND totals."gameType" = 3) THEN TRUE ELSE FALSE END AS "shotsQualified",
         totals."gamesPlayed",
         totals."goals",
         totals."assists",
