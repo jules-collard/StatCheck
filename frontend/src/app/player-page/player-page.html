@@ -14,7 +14,7 @@
         <div class="tabs tabs-border tabs-lg">
             <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
             <div class="tab-content">
-                @if (!stats()) {
+                @if (!stats() || !playerData()) {
                     <span class="loading loading-spinner loading-lg justify-self-center"></span>
                 } @else if (playerData()!.position === 'G'){
                     <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
