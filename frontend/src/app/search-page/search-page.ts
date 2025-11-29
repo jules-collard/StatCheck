@@ -16,7 +16,7 @@ import { PlayerListButton } from "../shared/player-list/player-list-button/playe
   providers: [PlayerListService, TableSortService]
 })
 export class SearchPage {
-  private listService = inject(PlayerListService<PlayerListItem>);
+  listService = inject(PlayerListService<PlayerListItem>);
   private router = inject(Router);
 
   q = inputBinding.required<string | undefined>();

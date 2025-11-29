@@ -28,7 +28,7 @@ export class GoalieLeaderboardPage {
   }
   
   // Leaderboard Setup
-  private listService = inject(PlayerListService<GoalieLeaderboardItem>);
+  listService = inject(PlayerListService<GoalieLeaderboardItem>);
 
   season = routeBinding.required<number>();
   gameType = signal<2|3>(2);

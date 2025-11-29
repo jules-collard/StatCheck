@@ -2,22 +2,28 @@
     <div class="col-start-1 row-start-3 pl-4 pr-4">
         <app-player-filter [searchParam]="searchParam()"/>
     </div>
-    <div class="col-start-2 col-end-4 row-start-1 row-end-11">
-        @if (playersToList()) {
-            <ul class="list rounded-box shadow-md bg-base-200 border border-secondary max-h-[81dvh] overflow-y-auto">
-                @for (player of playersToList(); track player.id) {
-                    <li class="list-row hover:bg-primary-content hover:cursor-pointer" (click)=onSelectListItem(player.id)>
-                        <div><img class="size-10 rounded-box" [src]="player.headshot"></div>
-                        <div class="list-col-grow">
-                            <div class="text-sm">{{player.fullName}}</div>
-                            <div class="text-sm font-semibold">{{player.position | position}} | {{player.isActive ? player.teamTriCode ?? 'FA' : 'Retired'}}</div>
-                        </div>
-                    </li>
-                }
-            </ul>
-        }
-    </div>
-    <div class="col-start-2 col-end-4 row-12 justify-self-center">
-        <app-player-list-button/>
-    </div>
+    @if (listService.playerListResource.hasValue()) {
+        <div class="col-start-2 col-end-4 row-start-1 row-end-11">
+            @if (playersToList() && playersToList().length > 0) {
+                <ul class="list rounded-box shadow-md bg-base-200 border border-secondary max-h-[81dvh] overflow-y-auto">
+                    @for (player of playersToList(); track player.id) {
+                        <li class="list-row hover:bg-primary-content hover:cursor-pointer" (click)=onSelectListItem(player.id)>
+                            <div><img class="size-10 rounded-box" [src]="player.headshot"></div>
+                            <div class="list-col-grow">
+                                <div class="text-sm">{{player.fullName}}</div>
+                                <div class="text-sm font-semibold">{{player.position | position}} | {{player.isActive ? player.teamTriCode ?? 'FA' : 'Retired'}}</div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    } @else {
+        <span class="loading loading-spinner loading-xl justify-self-center row-5"></span>
+    }
+    @if (playersToList() && playersToList().length > 0) {
+        <div class="col-start-2 col-end-4 row-12 justify-self-center">
+            <app-player-list-button/>
+        </div>
+    }
 </div>

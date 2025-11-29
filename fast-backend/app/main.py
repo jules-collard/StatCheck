@@ -13,15 +13,9 @@ if app_config.environment == 'prod':
     logfire.instrument_fastapi(app,
                                excluded_urls='^/events')
 if app_config.environment == 'dev':
-    origins = [
-        'http://localhost:8080',
-        'https://localhost:8080',
-        'http://localhost:4200',
-        'https://localhost:4200'
-    ]
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origins=['*'],
         allow_methods=["GET"],
         allow_headers=["*"],
     )

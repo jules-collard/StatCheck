@@ -7,7 +7,11 @@
             }
         </select>
     </div>
-    <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto"><app-goalie-table [goalies]="goalies()"/></div>
+    @if (listService.playerListResource.hasValue()) {
+        <div class="rounded-box col-span-3 row-span-11 bg-base-200 shadow-md overflow-x-auto"><app-goalie-table [goalies]="goalies()"/></div>
+    } @else {
+        <span class="loading loading-spinner loading-xl justify-self-center row-5 col-3"></span>
+    }
     <div class="join w-full">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="gameType.set(2)">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Playoffs" (click)="gameType.set(3)"/>
