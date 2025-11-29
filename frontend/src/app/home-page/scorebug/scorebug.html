@@ -4,7 +4,7 @@
             <div class="stat-value text-base">{{gameDetails().awayTeam.abbrev}}</div>
             <div class="stat-desc">{{gameDetails().awayTeam.record}}</div>
         } @else {
-            <div class="stat-title">{{gameDetails().awayTeam.abbrev}}</div>
+            <div class="stat-title text-lg font-semibold">{{gameDetails().awayTeam.abbrev}}</div>
             <div class="stat-value">{{gameDetails().awayTeam.score}}</div>
             <div class="stat-desc">SOG: {{gameDetails().awayTeam.sog}}</div>
         }
@@ -14,14 +14,14 @@
             <div class="stat-value text-base">{{gameDetails().homeTeam.abbrev}}</div>
             <div class="stat-desc">{{gameDetails().homeTeam.record}}</div>
         } @else {
-            <div class="stat-title">{{gameDetails().homeTeam.abbrev}}</div>
+            <div class="stat-title text-lg font-semibold">{{gameDetails().homeTeam.abbrev}}</div>
             <div class="stat-value">{{gameDetails().homeTeam.score}}</div>
             <div class="stat-desc">SOG: {{gameDetails().homeTeam.sog}}</div>
         }
     </div>
     <div class="stat place-items-center">
         @if (gameDetails().gameState === 'LIVE' || gameDetails().gameState === 'CRIT') {
-            <div class="stat-title text-lg">
+            <div class="stat-title text-lg font-semibold">
                 @if (gameDetails().clock?.inIntermission) {
                     END {{gameDetails().periodDescriptor?.number}}
                 } @else {
