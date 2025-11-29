@@ -20,11 +20,11 @@
             <span class="loading loading-spinner loading-xl"></span>
         }
     </div>
-    <div class="rounded-box bg-base-200 col-2 row-start-1 row-end-9 overflow-auto border border-secondary">
-        @if (standingsResource.hasValue()) {
+    @if (standingsResource.hasValue()) {
+        <div class="rounded-box bg-base-200 col-2 row-start-1 row-end-9 overflow-auto border border-secondary">
             <app-standings [teams]="standingsResource.value()"/>  
+        </div>
         } @else {
-            <span class="loading loading-spinner loading-xl"></span>
+            <span class="loading loading-spinner loading-xl justify-self-center"></span>
         }
-    </div>
 </div>
