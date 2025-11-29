@@ -1,4 +1,4 @@
-<div class="grid grid-cols-2 auto-rows-[10dvh] gap-2">
+<div class="grid sm:grid-cols-1 md:grid-cols-2 auto-rows-[10dvh] gap-2">
     <!-- <p class="text-2xl text-center font-extrabold">Latest Scores</p> -->
      <div class="join justify-self-center pt-4">
         <button class="join-item btn shadow-md" (click)="moveDay(-1)">
@@ -11,7 +11,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
      </div>
-    <div class="grid grid-cols-2 col-1 gap-2 justify-self-center">
+    <div class="grid sm: grid-cols-1 lg:grid-cols-2 col-1 gap-2 justify-self-center">
         @if (scoresResource.hasValue()) {
             @for (game of scoresResource.value(); track game.id) {
                 <app-scorebug [gameDetails]="game"/>
@@ -20,7 +20,7 @@
             <span class="loading loading-spinner loading-xl"></span>
         }
     </div>
-    <div class="rounded-box bg-base-200 col-2 row-start-1 row-end-10 overflow-auto border border-secondary">
+    <div class="rounded-box bg-base-200 col-2 row-start-1 row-end-9 overflow-auto border border-secondary">
         @if (standingsResource.hasValue()) {
             <app-standings [teams]="standingsResource.value()"/>  
         } @else {
