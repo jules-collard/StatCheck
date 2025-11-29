@@ -23,7 +23,7 @@ export class SkaterLeaderboardPage {
   router = inject(Router)
   globalConfig = inject(GlobalConfigService);
 
-  private listService = inject(PlayerListService<SkaterLeaderboardItem>);
+  listService = inject(PlayerListService<SkaterLeaderboardItem>);
   private sortService = inject(TableSortService<SkaterLeaderboardItem>);
 
   currentTab = signal<'totals' | 'shooting' | 'onice'>('totals')

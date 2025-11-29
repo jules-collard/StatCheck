@@ -27,7 +27,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
 
     private listConfig = signal<ListConfig | null>(null);
 
-    private playerListResource = httpResource<T[]>(() => {
+    playerListResource = httpResource<T[]>(() => {
         if (this.listConfig()) {
             switch (this.listConfig()!.type) {
                 case 'search':

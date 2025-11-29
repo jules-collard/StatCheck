@@ -35,6 +35,11 @@ export class HomePage {
   }
 
   moveDay(diff: number) {
-    this.date.set(this.addDays(this.date(), diff))
+    this.date.set(this.addDays(this.date(), diff));
+  }
+
+  today() {
+    const day = new Date();
+    this.date.set(day);
   }
 }

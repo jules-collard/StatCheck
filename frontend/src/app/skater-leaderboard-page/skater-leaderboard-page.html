@@ -14,15 +14,19 @@
         <input type="radio" name="leaderboard_tabs" class="tab" aria-label="Shooting" (click)="this.currentTab.set('shooting')" />
         <input type="radio" name="leaderboard_tabs" class="tab" aria-label="On-Ice" (click)="this.currentTab.set('onice')"/>
     </div>
-    <div class="rounded-box col-span-3 row-span-10 bg-base-200 shadow-md overflow-x-auto">
-        @if (currentTab() === 'totals') {
-            <app-skater-table [skaters]="leaderboard()"/>
-        } @else if (currentTab() === 'shooting') {
-            <app-shooting-table [skaters]="leaderboard()"/>
-        } @else if (currentTab() === 'onice') {
-            <app-on-ice-table [skaters]="leaderboard()"/>
-        }
-    </div>
-    <div class="row-start-3 row-end-11 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: true, forward: true}"/></div>
+    @if (listService.playerListResource.hasValue()) {
+        <div class="rounded-box col-span-3 row-span-10 bg-base-200 shadow-md overflow-x-auto">
+            @if (currentTab() === 'totals') {
+                <app-skater-table [skaters]="leaderboard()"/>
+            } @else if (currentTab() === 'shooting') {
+                <app-shooting-table [skaters]="leaderboard()"/>
+            } @else if (currentTab() === 'onice') {
+                <app-on-ice-table [skaters]="leaderboard()"/>
+            }
+        </div>
+    } @else {
+        <span class="loading loading-spinner loading-xl justify-self-center row-5 col-3"></span>
+    }
+    <div class="col-1 row-start-3 row-end-11 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: true, forward: true}"/></div>
     <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
 </div>
