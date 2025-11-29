@@ -11,7 +11,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
      </div>
-    <div class="grid sm: grid-cols-1 lg:grid-cols-2 col-1 gap-2 justify-self-center">
+    <div class="grid sm:grid-cols-1 lg:grid-cols-2 col-1 gap-2 justify-self-center">
         @if (scoresResource.hasValue()) {
             @for (game of scoresResource.value(); track game.id) {
                 <app-scorebug [gameDetails]="game"/>
@@ -24,7 +24,7 @@
         <div class="rounded-box bg-base-200 col-2 row-start-1 row-end-9 overflow-auto border border-secondary">
             <app-standings [teams]="standingsResource.value()"/>  
         </div>
-        } @else {
-            <span class="loading loading-spinner loading-xl justify-self-center"></span>
-        }
+    } @else {
+        <span class="loading loading-spinner loading-xl justify-self-center"></span>
+    }
 </div>

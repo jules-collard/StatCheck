@@ -2,7 +2,7 @@
     <div class="col-start-1 row-start-3 pl-4 pr-4">
         <app-player-filter [searchParam]="searchParam()"/>
     </div>
-    @if (listService.playerListResource.hasValue()) {    
+    @if (listService.playerListResource.hasValue()) {
         <div class="col-start-2 col-end-4 row-start-1 row-end-11">
             @if (playersToList() && playersToList().length > 0) {
                 <ul class="list rounded-box shadow-md bg-base-200 border border-secondary max-h-[81dvh] overflow-y-auto">
@@ -21,7 +21,7 @@
     } @else {
         <span class="loading loading-spinner loading-xl justify-self-center row-5"></span>
     }
-    @if (playersToList().length > 0) {
+    @if (playersToList() && playersToList().length > 0) {
         <div class="col-start-2 col-end-4 row-12 justify-self-center">
             <app-player-list-button/>
         </div>
