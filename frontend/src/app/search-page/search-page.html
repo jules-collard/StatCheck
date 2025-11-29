@@ -4,7 +4,7 @@
     </div>
     @if (listService.playerListResource.hasValue()) {    
         <div class="col-start-2 col-end-4 row-start-1 row-end-11">
-            @if (playersToList()) {
+            @if (playersToList() && playersToList().length > 0) {
                 <ul class="list rounded-box shadow-md bg-base-200 border border-secondary max-h-[81dvh] overflow-y-auto">
                     @for (player of playersToList(); track player.id) {
                         <li class="list-row hover:bg-primary-content hover:cursor-pointer" (click)=onSelectListItem(player.id)>
@@ -21,7 +21,9 @@
     } @else {
         <span class="loading loading-spinner loading-xl justify-self-center row-5"></span>
     }
-    <div class="col-start-2 col-end-4 row-12 justify-self-center">
-        <app-player-list-button/>
-    </div>
+    @if (playersToList().length > 0) {
+        <div class="col-start-2 col-end-4 row-12 justify-self-center">
+            <app-player-list-button/>
+        </div>
+    }
 </div>
