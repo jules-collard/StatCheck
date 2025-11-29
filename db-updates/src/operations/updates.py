@@ -13,7 +13,7 @@ def updates():
 
 @updates.command('fix-game')
 @click.option('-i', '--id', multiple=True, type=int)
-@click.option('--splitshifts/no-splitshifts', default=True)
+@click.option('--splitshifts/--no-splitshifts', default=True)
 def fix_games(id: tuple[int], splitshifts: bool):
     for i in id:
         with logfire.span(f"Fixing Game {i}"):
