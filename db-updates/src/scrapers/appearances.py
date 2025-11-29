@@ -1,8 +1,10 @@
 from typing import List, Tuple
+import time
 
 import requests
+import logfire
 
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 from src.models.appearances import GoalieAppearanceBase, SkaterAppearanceBase
 from src.scrapers.players import scrape_player, post_player
 
@@ -65,8 +67,11 @@ def post_appearances(gameID: int, skaters: List[SkaterAppearanceBase], goalies: 
         player = scrape_player(id)
         post_player(player)
 
+    if len(new_ids) > 0:
+        time.sleep(2)
+
     skater_r = requests.post(f"{BACKEND_URL}/games/{gameID}/skater-apps", json=[skater.model_dump() for skater in skaters])
     goalie_r = requests.post(f"{BACKEND_URL}/games/{gameID}/goalie-apps", json=[goalie.model_dump() for goalie in goalies])
-    print(f"{gameID} Skaters: {skater_r.status_code}")
-    print(f"{gameID} Goalies: {goalie_r.status_code}")
+    logfire.info(f"{gameID} Skater Appearances: {skater_r.status_code}", table='skater_appearances', response_code=skater_r.status_code)
+    logfire.info(f"{gameID} Goalie Appearances: {goalie_r.status_code}", table='goalie_appearances', response_code=goalie_r.status_code)
     

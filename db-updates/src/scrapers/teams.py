@@ -1,9 +1,10 @@
 from typing import List
 
 import requests
+import logfire
 
 from src.models.teams import TeamBase
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 
 def scrape_teams() -> List[TeamBase]:
     url = "https://api.nhle.com/stats/rest/en/team"
@@ -19,14 +20,8 @@ def scrape_teams() -> List[TeamBase]:
 def post_teams(teams: List[TeamBase]):
     for team in teams:
         r = requests.post(f"{BACKEND_URL}/teams/", json=team.model_dump())
-        print(f"Team {team.id}: {r.status_code}")
+        logfire.info(f"Team {team.triCode} {team.id}: {r.status_code}", table='teams', response_code=r.status_code)
 
 def delete_team(id: int):
     r = requests.delete(f"{BACKEND_URL}/teams/{id}")
-    print(r.status_code)
-
-
-if __name__ == '__main__':
-    teams = scrape_teams()
-    for team in teams:
-        print(team.model_dump())
+    logfire.info(f"DELETE Team {id}: {r.status_code}", table='teams', response_code=r.status_code)

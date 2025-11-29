@@ -1,7 +1,8 @@
 import requests
+import logfire
 
-from .. import BACKEND_URL
-from ..models.games import GameBase
+from src.main import BACKEND_URL
+from src.models.games import GameBase
 
 def scrape_schedule(date: str):
     # date: YYYY-MM-DD
@@ -26,14 +27,14 @@ def scrape_schedule(date: str):
         game['lastPeriodType'] = game.pop('gameOutcome', {}).pop('lastPeriodType', None)
         game['gameDate'] = date
 
-    games = [game for game in games if game.get('gameState', None) == 'OFF' and game.get('gameScheduleState', None) == 'OK']
+    games = [game for game in games if game.get('gameState', None) == 'OFF' and game.get('gameScheduleState', None) == 'OK' and game.get('gameType', 2) in [2,3]]
     
     return [GameBase(**game) for game in games]
 
 def post_game(game: GameBase):
     r = requests.post(f"{BACKEND_URL}/games/", json=game.model_dump())
-    print(f"Game {game.id}: {r.status_code}")
+    logfire.info(f"Game {game.id}: {r.status_code}", table='games', response_code=r.status_code)
 
 def delete_game(id: int):
     r = requests.delete(f"{BACKEND_URL}/games/{id}")
-    print(r.status_code)
+    logfire.info(f"DELETING Game {id}", table='games', response_code=r.status_code)

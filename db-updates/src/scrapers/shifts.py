@@ -1,10 +1,11 @@
 from typing import List
 
 import requests
+import logfire
 import polars as pl
 from polars import col as c
 
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 from src.models.shifts import ShiftBase
 
 def scrape_shifts(gameID: int):
@@ -20,7 +21,11 @@ def scrape_shifts(gameID: int):
     
     shifts = (shifts
               .rename({'playerId':'playerID', 'gameId':'gameID', 'teamId':'teamID'})
-              .filter(c('detailCode') == 0, c('typeCode') == 517)
+              .filter(c('detailCode') == 0,
+                      c('typeCode') == 517,
+                      c('startTime') != '',
+                      c('endTime') != '',
+                      c('duration') != '00:00')
               .with_columns(
                   c('duration').str.split(':').alias('durationList'),
                   c('startTime').str.split(':').alias('startTimeList'),
@@ -37,5 +42,8 @@ def scrape_shifts(gameID: int):
 
 def post_shifts(gameID: int, shifts: List[ShiftBase]):
     data = [shift.model_dump() for shift in shifts]
-    r = requests.post(f"{BACKEND_URL}/games/{gameID}/shifts", json=data)
-    print(f"{gameID} Shifts: {r.status_code}")
+    if len(data) > 0:
+        r = requests.post(f"{BACKEND_URL}/games/{gameID}/shifts", json=data)
+        logfire.info(f"{gameID} Shifts: {r.status_code}", table='shifts', response_code=r.status_code)
+    else:
+        logfire.warn(f"No Shifts for Game {gameID}", table='shifts')

@@ -1,10 +1,12 @@
 from typing import List
 from datetime import datetime, timedelta
+import time
 
 import click
 import requests
+import logfire
 
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 from src.scrapers.games import scrape_schedule, post_game
 from src.scrapers.appearances import scrape_appearances, post_appearances
 from src.scrapers.events import scrape_pbp, post_pbp
@@ -19,6 +21,7 @@ def daily():
 
 def import_game(game: GameBase):
     post_game(game)
+    time.sleep(0.1)
 
     skater_apps, goalie_apps = scrape_appearances(game.id)
     post_appearances(game.id, skater_apps, goalie_apps)
@@ -34,6 +37,7 @@ def import_game(game: GameBase):
 
 @daily.command('import-gameday')
 @click.option('-d', '--date', default=(datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'), type=str)
+@logfire.instrument('Importing Games on {date=}')
 def import_games_date(date: str):
     games: List[GameBase] = scrape_schedule(date)
     for game in games:
@@ -43,14 +47,19 @@ def import_games_date(date: str):
 @daily.command('import-daterange')
 @click.argument('start', type=str)
 @click.argument('end', type=str)
+@logfire.instrument('Importing Games from {start=} to {end=}')
 def import_games_date_range(start: str, end: str):
     start_date = datetime.strptime(start, '%Y-%m-%d')
     end_date = datetime.strptime(end, '%Y-%m-%d')
     while start_date <= end_date:
         games: List[GameBase] = scrape_schedule(start_date.strftime('%Y-%m-%d'))
-        for game in games:
-            import_game(game)
+        with logfire.span(f'Date: {start_date.date()}'):
+            for game in games:
+                import_game(game)
         start_date += timedelta(days=1)
+    
+    r = requests.get(f"{BACKEND_URL}/admin/refresh-views")
+    logfire.info(f'REFRESHED VIEWS: {r.status_code}', response_code=r.status_code)
 
 @daily.command('import-game')
 @click.option('-i', '--id', type=int)

@@ -6,7 +6,11 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "click>=8.3.1",
+    "logfire>=4.15.1",
     "numpy>=2.3.5",
+    "opentelemetry-instrumentation-requests>=0.59b0",
+    "opentelemetry-instrumentation-sqlite3>=0.59b0",
+    "opentelemetry-instrumentation-urllib>=0.59b0",
     "pandas>=2.3.3",
     "polars>=1.35.1",
     "pyarrow>=22.0.0",

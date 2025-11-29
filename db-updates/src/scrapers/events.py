@@ -1,10 +1,11 @@
 from typing import List
 
 import requests
+import logfire
 import polars as pl
 from polars import col as c
 
-from .. import BACKEND_URL
+from src.main import BACKEND_URL
 from src.models.events import EventBase
 from src.analytics.xg.fitting import fit_xg
 
@@ -111,12 +112,12 @@ def post_event_types():
         {'typeCode': 537, 'typeDescKey': 'failed-shot-attempt'}
     ]
     r = requests.post(f"{BACKEND_URL}/games/event-types", json=event_type_dicts)
-    print(r.status_code)
+    logfire.info(f'Event Types: {r.status_code}')
 
 def post_pbp(gameID: int, events: List[EventBase]):
     pbp_dicts = [event.model_dump() for event in events]
     r = requests.post(f"{BACKEND_URL}/games/{gameID}/events", json=pbp_dicts)
-    print(f"{gameID} Events: {r.status_code}")
+    logfire.info(f"{gameID} Events: {r.status_code}", table='events', response_code=r.status_code)
 
 def patch_xg(gameID: int):
     game_info = requests.get(f"{BACKEND_URL}/games/{gameID}").json()
@@ -138,7 +139,4 @@ def patch_xg(gameID: int):
     data = data.pipe(fit_xg, join=False)
     xg_data = data.to_dicts()
     r = requests.patch(f"{BACKEND_URL}/events", json=xg_data)
-    print(f"Game {gameID} XG: {r.status_code}")
-
-if __name__ == '__main__':
-    patch_xg(2025020266)
+    logfire.info(f"XG Update Game {gameID}: {r.status_code}", table='events', response_code=r.status_code)

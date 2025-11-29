@@ -1,11 +1,35 @@
 import click
+import logfire
 
-from src.scrapers.events import patch_xg
+from src.scrapers.events import scrape_pbp, post_pbp, patch_xg
+from src.scrapers.appearances import scrape_appearances, post_appearances
+from src.scrapers.shifts import scrape_shifts, post_shifts
+from src.analytics.onice.updating import get_split_shifts, post_split_shifts
 
 @click.group()
 def updates():
     """Statcheck DB Updates CLI"""
     pass
+
+@updates.command('fix-game')
+@click.option('-i', '--id', multiple=True, type=int)
+@click.option('--splitshifts/--no-splitshifts', default=True)
+def fix_games(id: tuple[int], splitshifts: bool):
+    for i in id:
+        with logfire.span(f"Fixing Game {i}"):
+            skater_apps, goalie_apps = scrape_appearances(i)
+            post_appearances(i, skater_apps, goalie_apps)
+
+            pbp = scrape_pbp(i, neutralSite=False)
+            post_pbp(i, pbp)
+
+            shifts = scrape_shifts(i)
+            post_shifts(i, shifts)
+
+            if splitshifts:
+                split_shifts = get_split_shifts(shifts)
+                post_split_shifts(i, split_shifts)
+
 
 @updates.command('patch-xg')
 @click.option('-i', '--id', type=int)

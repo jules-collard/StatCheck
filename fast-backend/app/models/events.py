@@ -74,10 +74,10 @@ class EventRead(BaseModel):
 class EventReadShift(BaseModel):
     period: int
     timeInPeriodSec: int
-    awayGoalie: int
-    awaySkaters: int
-    homeGoalie: int
-    homeSkaters: int
+    awayGoalie: Optional[int]
+    awaySkaters: Optional[int]
+    homeGoalie: Optional[int]
+    homeSkaters: Optional[int]
     typeCode: int
     xStd: Optional[int]
     homeScore: int
