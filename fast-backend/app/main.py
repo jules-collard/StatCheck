@@ -11,11 +11,11 @@ if app_config.environment == 'prod':
     logfire.configure(environment=app_config.environment,
                       service_name='backend')
     logfire.instrument_fastapi(app,
-                               excluded_urls='^/events')
+                                excluded_urls='/events')
 if app_config.environment == 'dev':
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=['*'],
+        allow_origins=['http://localhost:4200', 'https://localhost:4200'],
         allow_methods=["GET"],
         allow_headers=["*"],
     )
