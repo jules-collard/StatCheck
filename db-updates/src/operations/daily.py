@@ -1,5 +1,6 @@
 from typing import List
 from datetime import datetime, timedelta
+import time
 
 import click
 import requests
@@ -20,6 +21,7 @@ def daily():
 
 def import_game(game: GameBase):
     post_game(game)
+    time.sleep(0.1)
 
     skater_apps, goalie_apps = scrape_appearances(game.id)
     post_appearances(game.id, skater_apps, goalie_apps)

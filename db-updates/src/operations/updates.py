@@ -13,9 +13,10 @@ def updates():
 
 @updates.command('fix-game')
 @click.option('-i', '--id', multiple=True, type=int)
-def fix_games(id: tuple[int]):
+@click.option('--splitshifts/--no-splitshifts', default=True)
+def fix_games(id: tuple[int], splitshifts: bool):
     for i in id:
-        with logfire.span(f"Fixing Game {id}"):
+        with logfire.span(f"Fixing Game {i}"):
             skater_apps, goalie_apps = scrape_appearances(i)
             post_appearances(i, skater_apps, goalie_apps)
 
@@ -25,8 +26,9 @@ def fix_games(id: tuple[int]):
             shifts = scrape_shifts(i)
             post_shifts(i, shifts)
 
-            split_shifts = get_split_shifts(shifts)
-            post_split_shifts(i, split_shifts)
+            if splitshifts:
+                split_shifts = get_split_shifts(shifts)
+                post_split_shifts(i, split_shifts)
 
 
 @updates.command('patch-xg')
