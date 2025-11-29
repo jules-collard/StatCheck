@@ -21,7 +21,11 @@ def scrape_shifts(gameID: int):
     
     shifts = (shifts
               .rename({'playerId':'playerID', 'gameId':'gameID', 'teamId':'teamID'})
-              .filter(c('detailCode') == 0, c('typeCode') == 517)
+              .filter(c('detailCode') == 0,
+                      c('typeCode') == 517,
+                      c('startTime') != '',
+                      c('endTime') != '',
+                      c('duration') != '00:00')
               .with_columns(
                   c('duration').str.split(':').alias('durationList'),
                   c('startTime').str.split(':').alias('startTimeList'),
