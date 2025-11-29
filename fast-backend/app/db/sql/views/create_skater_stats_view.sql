@@ -99,4 +99,5 @@ CREATE MATERIALIZED VIEW IF NOT EXISTS skater_stats AS
     LEFT JOIN shooting ON totals."season" = shooting."season" AND totals."gameType" = shooting."gameType" AND totals."playerID" = shooting."playerID"
     LEFT JOIN onice ON totals."season" = onice."season" AND totals."gameType" = onice."gameType" AND totals."playerID" = onice."playerID"
     LEFT JOIN max_games ON totals."teams"[array_upper(totals."teams", 1)] = max_games."teamID" AND totals."season" = max_games."season" AND totals."gameType" = max_games."gameType"
-    LEFT JOIN players ON totals."playerID" = players."id";
+    LEFT JOIN players ON totals."playerID" = players."id"
+    ORDER BY totals."season" ASC;

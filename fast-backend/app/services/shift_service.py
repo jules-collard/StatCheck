@@ -2,12 +2,16 @@ from typing import List
 
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, InterfaceError
 from sqlalchemy import select, insert
 from pydantic import ValidationError
 
 from app.db.schema import Shift, SplitShift
 from app.models.shifts import ShiftBase, SplitShiftBase
+
+def chunks(lst: List, n: int):
+    for i in range(0, len(lst), n):
+        yield lst[i:i+n]
 
 class ShiftService:
 
@@ -42,10 +46,14 @@ class ShiftService:
         except ValidationError as e:
             raise HTTPException(status.HTTP_500_INTERNAL_SERVER_ERROR, detail=e.json())
         
-    async def insert_split_shifts(self, gameID: int, splitshifts: List[SplitShiftBase]):
-        await self.check_split_shifts_exist(gameID)
+    async def insert_split_shifts(self, gameID: int, splitshifts: List[SplitShiftBase], check=True):
+        if check:
+            await self.check_split_shifts_exist(gameID)
         try:
-            stmt = insert(SplitShift).values([splitshift.model_dump() for splitshift in splitshifts])
-            await self.session.execute(stmt)
+            for sublist in list(chunks(splitshifts, 1200)): # Split up list into lists of max size 1200
+                stmt = insert(SplitShift).values([splitshift.model_dump() for splitshift in sublist])
+                await self.session.execute(stmt)
         except IntegrityError as e:
             raise HTTPException(status.HTTP_400_BAD_REQUEST, detail=str(e.orig))
+        except InterfaceError: 
+            raise HTTPException(status.HTTP_406_NOT_ACCEPTABLE, detail=f"Too many arguments: {len(splitshifts)}")
