@@ -10,6 +10,9 @@ from src.models.events import EventBase
 from src.analytics.xg.fitting import fit_xg
 
 def set_side_period(group: pl.DataFrame):
+    if 'homeTeamDefendingSide' not in group.columns:
+        group = group.with_columns(homeTeamDefendingSide=None)
+
     if group.select('homeTeamDefendingSide').to_series().is_null().any():
         ozone_events_home = group.filter(
             c('zoneCode') == 'O',
