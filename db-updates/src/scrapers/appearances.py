@@ -20,6 +20,8 @@ def scrape_appearances(gameID: int) -> Tuple[List[SkaterAppearanceBase], List[Go
 
     for team, teamID in teamIDs.items():
         for player in response["playerByGameStats"][team]["forwards"] + response["playerByGameStats"][team]["defense"]:
+            if player['position'] == 'G':
+                continue
             skater_appearances.append(SkaterAppearanceBase(
                 playerID=player['playerId'],
                 teamID=teamID,
