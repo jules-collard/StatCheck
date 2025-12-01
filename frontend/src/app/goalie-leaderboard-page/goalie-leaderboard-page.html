@@ -1,6 +1,6 @@
 <div class="grid grid-cols-4 auto-rows-[6.5dvh] gap-2">
     <div class="justify-self-left">
-        <select class="select select-lg min-w-full">
+        <select class="select select-lg min-w-full col-1 row-1">
             <option disabled selected>{{season() | season}}</option>
             @for (season of seasonsList; track season) {
                 <option (click)="navigateSeason(season)">{{season | season}}</option>
@@ -12,10 +12,12 @@
     } @else {
         <span class="loading loading-spinner loading-xl justify-self-center row-5 col-3"></span>
     }
-    <div class="join w-full">
+    <div class="join w-full col-1 row-2">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="gameType.set(2)">
         <input class="join-item btn btn-md" type="radio" name="reg_post" aria-label="Playoffs" (click)="gameType.set(3)"/>
     </div>
     <div class="row-start-3 row-end-10 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: false, forward: false}"/></div>
-    <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
+    @if (listService.playerListResource.hasValue()) {
+        <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
+    }
 </div>

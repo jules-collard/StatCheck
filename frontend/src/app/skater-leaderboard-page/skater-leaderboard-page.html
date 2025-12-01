@@ -28,5 +28,7 @@
         <span class="loading loading-spinner loading-xl justify-self-center row-5 col-3"></span>
     }
     <div class="col-1 row-start-3 row-end-11 pl-4 pr-4"><app-player-filter [positionOptions]="{goalie: false, defenseman: true, forward: true}"/></div>
-    <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
+    @if (listService.playerListResource.hasValue()) {
+        <div class="row-12 col-3 justify-self-center self-center"><app-player-list-button/></div>
+    }
 </div>

@@ -1,48 +1,46 @@
 <div class="grid grid-cols-6 auto-rows-[6.5dvh] gap-2">
-    <div class="col-1 row-start-1 row-end-11">
         @if (!playerData()) {
-            <span class="loading loading-spinner loading-lg justify-self-center"></span>
+            <div class="col-1 row-4 justify-self-center">
+                <span class="loading loading-spinner loading-lg justify-self-center"></span>
+            </div>
         } @else {
-            <app-player-details [playerData]="playerData()!"/>
+            <div class="col-1 row-start-1 row-end-11 justify-self-center">
+                <app-player-details [playerData]="playerData()!"/>
+            </div>
         }
-    </div>
     <div class="join row-1 col-2">
         <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Regular Season" checked="checked" (click)="selectRegular()">
         <input class="join-item btn btn-lg" type="radio" name="reg_post" aria-label="Playoffs" (click)="selectPlayoffs()"/>
     </div>
-    <div class="col-start-2 col-end-6 row-start-2 row-end-10 rounded-box bg-base-200 shadow-md">
-        <div class="tabs tabs-border tabs-lg">
-            <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
-            <div class="tab-content">
-                @if (!stats() || !playerData()) {
-                    <span class="loading loading-spinner loading-lg justify-self-center"></span>
-                } @else if (playerData()!.position === 'G'){
-                    <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
+    @if (stats() && playerData()) {
+            <div class="col-start-2 col-end-6 row-start-2 row-end-10 rounded-box bg-base-200 shadow-md">
+            <div class="tabs tabs-border tabs-lg">
+                <input type="radio" name="reg_season_tabs" class="tab" checked="checked" aria-label="Totals" />
+                <div class="tab-content">
+                    @if (playerData()!.position === 'G'){
+                        <app-goalie-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
+                    } @else {
+                        <app-skater-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
+                    }
+                </div>
+                @if (playerData()?.position !== 'G') {
+                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
+                    <div class="tab-content">
+                        <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
+                    </div>
+                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
+                    <div class="tab-content">
+                        <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
+                    </div>
                 } @else {
-                    <app-skater-totals-table [seasonStats]="$any(stats()!)" [awards]="awards()"/>
+                    <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
+                    <div class="tab-content">
+                        <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
+                    </div>                    
                 }
             </div>
-            @if (playerData()?.position !== 'G') {
-                <input type="radio" name="reg_season_tabs" class="tab" aria-label="Shooting" />
-                <div class="tab-content">
-                    @if (stats()) {
-                        <app-skater-analytics-table [seasonStats]="$any(stats()!)"/>
-                    }
-                </div>
-                <input type="radio" name="reg_season_tabs" class="tab" aria-label="On-Ice" />
-                <div class="tab-content">
-                    @if (stats()) {
-                        <app-skater-onice-table [seasonStats]="$any(stats()!)"/>
-                    }
-                </div>
-            } @else {
-                <input type="radio" name="reg_season_tabs" class="tab" aria-label="Advanced" />
-                <div class="tab-content">
-                    @if (stats()) {
-                        <app-goalie-advanced-table [seasonStats]="$any(stats()!)"/>
-                    }
-                </div>                    
-            }
         </div>
-    </div>
+        } @else {
+            <span class="loading loading-spinner loading-lg row-4 col-4"></span>
+        }
 </div>
