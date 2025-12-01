@@ -47,7 +47,7 @@ export class PlayerListService<T extends PlayerListItem | SkaterLeaderboardItem 
                 switch (this.listConfig()!.type) {
                     case 'search':
                         return (
-                            player.fullName.toLowerCase().includes(this.filterParams().nameToSearch)
+                            player.fullName.toLowerCase().includes(this.filterParams().nameToSearch.toLowerCase())
                             && (this.filterParams().active === player.isActive || this.filterParams().retired === !player.isActive)
                             && (this.positionsToShow().includes(player.position))
                             && (this.filterParams().team === 'All' ? true : this.filterParams().team === (player as PlayerListItem).teamTriCode)
