@@ -16,9 +16,10 @@ def scrape_shifts(gameID: int):
     response = response.json()
 
     shifts: pl.DataFrame = pl.json_normalize(response.get('data', {}), infer_schema_length=None)
-    if shifts.is_empty():
+    if shifts.is_empty() or shifts.height < 10:
         return []
-    
+    print(shifts.select(c('duration')))
+
     shifts = (shifts
               .rename({'playerId':'playerID', 'gameId':'gameID', 'teamId':'teamID'})
               .filter(c('detailCode') == 0,
@@ -47,3 +48,6 @@ def post_shifts(gameID: int, shifts: List[ShiftBase]):
         logfire.info(f"{gameID} Shifts: {r.status_code}", table='shifts', response_code=r.status_code)
     else:
         logfire.warn(f"No Shifts for Game {gameID}", table='shifts')
+
+if __name__ == '__main__':
+    scrape_shifts(2013020971)
