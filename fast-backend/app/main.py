@@ -15,7 +15,7 @@ if app_config.environment == 'prod':
 if app_config.environment == 'dev':
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=['http://localhost:4200', 'https://localhost:4200'],
+        allow_origins=['http://localhost:8080', 'https://localhost:8080'],
         allow_methods=["GET"],
         allow_headers=["*"],
     )
