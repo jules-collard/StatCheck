@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.main import check_credentials
+from app.core.security import check_credentials
 from app.db.database import get_session
 from app.models.teams import TeamBase
 from app.services.team_service import TeamService

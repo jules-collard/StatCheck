@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.main import check_credentials
+from app.core.security import check_credentials
 from app.db.database import get_session
 from app.services.admin_service import AdminService
 

@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.main import check_credentials
+from app.core.security import check_credentials
 from app.db.database import get_session
 from app.services.event_service import EventService
 from app.models.events import EventPatchXG, EventReadShift
