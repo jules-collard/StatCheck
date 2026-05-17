@@ -10,10 +10,12 @@ class Config(BaseSettings):
     app_name: str = "StatcheckAPI"
     environment: Literal["dev", "prod"] = "dev"
     debug: bool = False
-    db_host: str = ""
-    db_user: str = ""
-    db_password: str = ""
-    db_name: str = ""
+    username: str
+    password: str
+    db_host: str
+    db_user: str
+    db_password: str
+    db_name: str
 
     @property
     def db_url(self):

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Response, Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.main import check_credentials
 from app.db.database import get_session
 from app.models.players import PlayerBase
 from app.services.player_service import PlayerService
@@ -46,7 +47,7 @@ async def get_all_list_items(
     service = PlayerService(session)
     return await service.get_all_list_items()
     
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_player(
     player: PlayerBase,
     session: AsyncSession = Depends(get_session)
@@ -57,7 +58,7 @@ async def post_player(
     
     return await service.insert_player(player)
 
-@router.put('/', status_code=status.HTTP_200_OK)
+@router.put('/', status_code=status.HTTP_200_OK, dependencies=[Depends(check_credentials)])
 async def put_player(
     player: PlayerBase,
     response: Response,
@@ -70,7 +71,7 @@ async def put_player(
     else:
         return await service.upsert_player(player)
 
-@router.delete('/{id}', status_code=status.HTTP_200_OK)
+@router.delete('/{id}', status_code=status.HTTP_200_OK, dependencies=[Depends(check_credentials)])
 async def delete_player(
     id: int,
     session: AsyncSession = Depends(get_session),

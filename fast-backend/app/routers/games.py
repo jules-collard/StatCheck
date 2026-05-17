@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.main import check_credentials
 from app.db.database import get_session
 from app.models.games import GameBase
 from app.models.events import EventTypeBase, EventBase
@@ -23,7 +24,7 @@ async def get_game(
     service = GameService(session)
     return await service.get_game(id)
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_game(
     game: GameBase,
     session: AsyncSession = Depends(get_session)
@@ -33,7 +34,7 @@ async def post_game(
         raise HTTPException(status.HTTP_409_CONFLICT, detail='Game already exists')
     return service.add_game(game)
 
-@router.delete('/{id}', status_code=status.HTTP_200_OK)
+@router.delete('/{id}', status_code=status.HTTP_200_OK, dependencies=[Depends(check_credentials)])
 async def delete_game(
     id: int,
     session: AsyncSession = Depends(get_session)
@@ -41,7 +42,7 @@ async def delete_game(
     service = GameService(session)
     return await service.delete_game(id)
 
-@router.post('/event-types', status_code=status.HTTP_201_CREATED)
+@router.post('/event-types', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_event_types(
     event_types: List[EventTypeBase],
     session: AsyncSession = Depends(get_session)
@@ -49,7 +50,7 @@ async def post_event_types(
     service = EventService(session)
     return service.add_event_types(event_types)
 
-@router.post('/{id}/events', status_code=status.HTTP_201_CREATED)
+@router.post('/{id}/events', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_game_events(
     id: int,
     events: List[EventBase],
@@ -66,7 +67,7 @@ async def get_game_events(
     service = EventService(session)
     return await service.get_events(id)
 
-@router.post('/{id}/skater-apps', status_code=status.HTTP_201_CREATED)
+@router.post('/{id}/skater-apps', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_skater_appearances(
     id: int,
     apps: List[SkaterAppearanceBase],
@@ -75,7 +76,7 @@ async def post_skater_appearances(
     service = AppearanceService(session)
     return await service.insert_skater_appearances(id, apps)
 
-@router.post('/{id}/goalie-apps', status_code=status.HTTP_201_CREATED)
+@router.post('/{id}/goalie-apps', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_goalie_appearances(
     id: int,
     apps: List[GoalieAppearanceBase],
@@ -84,7 +85,7 @@ async def post_goalie_appearances(
     service = AppearanceService(session)
     return await service.insert_goalie_appearances(id, apps)
 
-@router.post('/{id}/shifts', status_code=status.HTTP_201_CREATED)
+@router.post('/{id}/shifts', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_shifts(
     id: int,
     shifts: List[ShiftBase],
@@ -101,7 +102,7 @@ async def get_game_shifts(
     service = ShiftService(session)
     return await service.get_shifts(id)
 
-@router.post('/{id}/split-shifts', status_code=status.HTTP_201_CREATED)
+@router.post('/{id}/split-shifts', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_split_shifts(
     id: int,
     splitshifts: List[SplitShiftBase],
