@@ -15,7 +15,7 @@ if app_config.environment == 'prod':
 if app_config.environment == 'dev':
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=['http://localhost:4200', 'https://localhost:4200'],
+        allow_origins=['http://localhost:8080', 'https://localhost:8080'],
         allow_methods=["GET"],
         allow_headers=["*"],
     )
@@ -37,6 +37,7 @@ app.include_router(events.router, prefix="/api")
 app.include_router(leaderboards.router, prefix="/api")
 app.include_router(scores.router, prefix="/api")
 app.include_router(standings.router, prefix="/api")
+
 
 @app.get("/")
 async def root():

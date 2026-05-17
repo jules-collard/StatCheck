@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.security import check_credentials
 from app.db.database import get_session
 from app.models.teams import TeamBase
 from app.services.team_service import TeamService
@@ -15,7 +16,7 @@ async def get_team(
     service = TeamService(session)
     return await service.get_team(id)
 
-@router.post('/', status_code=status.HTTP_201_CREATED)
+@router.post('/', status_code=status.HTTP_201_CREATED, dependencies=[Depends(check_credentials)])
 async def post_team(
     team: TeamBase,
     session: AsyncSession = Depends(get_session)
@@ -26,7 +27,7 @@ async def post_team(
     
     return await service.add_team(team)
 
-@router.put('/', status_code=status.HTTP_200_OK)
+@router.put('/', status_code=status.HTTP_200_OK, dependencies=[Depends(check_credentials)])
 async def put_team(
     team: TeamBase,
     response: Response,
@@ -39,7 +40,7 @@ async def put_team(
     else:
         return await service.get_team(team.id)
     
-@router.delete('/{id}', status_code=status.HTTP_200_OK)
+@router.delete('/{id}', status_code=status.HTTP_200_OK, dependencies=[Depends(check_credentials)])
 async def delete_team(
     id: int,
     session: AsyncSession = Depends(get_session)
